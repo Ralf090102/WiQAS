@@ -1,0 +1,41 @@
+# Core RAG & LLM
+ollama>=0.5.3
+langchain
+langchain-community
+langchain-ollama
+langchain-text-splitters
+sentence-transformers
+chromadb
+chardet
+rank_bm25
+numpy
+transformers
+accelerate
+
+# Document processing
+pypdf
+pandas
+openpyxl
+
+# Utilities
+tqdm
+rich
+psutil
+
+# Dev (Uncomment if needed)
+# pytest
+# pytest-asyncio
+# pytest-cov
+# black
+# ruff
+# pre-commit
+# typer
+
+# OCR (Uncomment if needed)
+# pytesseract
+# Pillow
+# easyocr
+
+# Nvidia GPU support (Uncomment if using Nvidia GPU ensure correct CUDA version)
+# torch>=2.7.1+cu121
+# torchvision>=0.22.0+cu121

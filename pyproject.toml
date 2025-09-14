@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "WiQAS"
+version = "0.1.0"
+description = "A Filipino-focused RAG LLM using Ollama"
+license = "MIT"
+
+[[project.authors]]
+name = "Andrea Santos"
+email = "andrea_li_santos@dlsu.edu.ph"
+
+[[project.authors]]
+name = "China Ortiz"
+email = "ma_china_ortiz@dlsu.edu.ph"
+
+[[project.authors]]
+name = "Ralf Hernandez"
+email = "ralf_hernandez@dlsu.edu.ph"
+
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+    "ollama",
+    "langchain",
+    "langchain-community",
+    "langchain-ollama",
+    "langchain-text-splitters",
+    "sentence-transformers",
+    "chromadb",
+    "chardet",
+    "rank_bm25",
+    "numpy",
+    "transformers",
+    "accelerate",
+    "pypdf",
+    "pandas",
+    "openpyxl",
+    "tqdm",
+    "rich",
+    "psutil",
+]
+
+[project.optional-dependencies]
+nvidia-gpu = [
+ "torch>=2.7.1+cu121",
+ "torchvision>=0.22.0+cu121",
+]
+
+media = [
+    "pytesseract",
+    "Pillow",
+    "easyocr",
+]
+
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "black",
+    "ruff",
+    "pre-commit",
+    "typer",
+]
+
+[tool.black]
+line-length = 128
+target-version = ['py313']
+
+[tool.ruff]
+line-length = 128
+target-version = "py313"
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    "test/"
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP"]
+ignore = ["E203"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--tb=short",
+    "--strict-markers",
+    "-v",
+    "--disable-warnings"
+]
+
+norecursedirs = [".git", ".venv", "__pycache__", "build", "dist", "*.egg", "frontend", "node_modules"]
+
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore:.*Using extra keyword arguments on.*Field.*:DeprecationWarning"
+]
+
+markers = [
+    "unit: marks tests as unit tests (fast, no external dependencies)",
+    "requires_ollama: marks tests that require Ollama to be running"
+]

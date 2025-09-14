@@ -1,0 +1,439 @@
+import os
+from dataclasses import asdict, dataclass, field
+from enum import Enum
+from typing import Any
+
+
+# ========== ENVIRONMENT VARIABLE HELPERS ==========
+def get_env_bool(key: str, default: bool = False) -> bool:
+    """Get boolean value from environment variable"""
+    value = os.getenv(key, "").lower()
+    if value in ("true", "1", "yes", "on"):
+        return True
+    elif value in ("false", "0", "no", "off"):
+        return False
+    return default
+
+
+def get_env_int(key: str, default: int = 0) -> int:
+    """Get integer value from environment variable"""
+    try:
+        return int(os.getenv(key, str(default)))
+    except (ValueError, TypeError):
+        return default
+
+
+def get_env_float(key: str, default: float = 0.0) -> float:
+    """Get float value from environment variable"""
+    try:
+        return float(os.getenv(key, str(default)))
+    except (ValueError, TypeError):
+        return default
+
+
+def get_env_str(key: str, default: str = "") -> str:
+    """Get string value from environment variable"""
+    return os.getenv(key, default)
+
+
+def get_env_enum(key: str, enum_class: type, default: Any) -> Any:
+    """Get enum value from environment variable"""
+    value = os.getenv(key, "").lower()
+    for enum_val in enum_class:
+        if enum_val.value.lower() == value:
+            return enum_val
+    return default
+
+
+# ========== ENUMS ==========
+class LogLevel(str, Enum):
+    """Logging levels"""
+
+    DEBUG = "debug"
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+
+
+class ChunkerType(str, Enum):
+    """Text chunking strategies"""
+
+    RECURSIVE = "recursive"
+    SEMANTIC = "semantic"
+    SMART = "smart"
+
+
+# ========== BASE CONFIGURATION CLASS ==========
+@dataclass
+class BaseConfig:
+    """Base configuration class"""
+
+    def model_dump(self) -> dict[str, Any]:
+        """Convert to dictionary"""
+        return asdict(self)
+
+    def validate(self) -> None:
+        """Validate configuration values"""
+        pass
+
+
+# ========== RAG CONFIGURATION ==========
+@dataclass
+class EmbeddingConfig(BaseConfig):
+    """Embedding model configuration"""
+
+    model: str = "nomic-embed-text"
+    batch_size: int = 32
+    timeout: int = 30
+    cache_embeddings: bool = True
+
+    @classmethod
+    def from_env(cls) -> "EmbeddingConfig":
+        """Load embedding configuration from environment variables"""
+        return cls(
+            model=get_env_str("WIQAS_EMBEDDING_MODEL", "nomic-embed-text"),
+            batch_size=get_env_int("WIQAS_EMBEDDING_BATCH_SIZE", 32),
+            timeout=get_env_int("WIQAS_EMBEDDING_TIMEOUT", 30),
+            cache_embeddings=get_env_bool("WIQAS_EMBEDDING_CACHE", True),
+        )
+
+
+@dataclass
+class ChunkingConfig(BaseConfig):
+    """Document chunking configuration"""
+
+    strategy: ChunkerType = ChunkerType.RECURSIVE
+    chunk_size: int = 128
+    chunk_overlap: int = 0
+    max_chunk_size: int = 128
+    min_chunk_size: int = 100
+
+    @classmethod
+    def from_env(cls) -> "ChunkingConfig":
+        """Load chunking configuration from environment variables"""
+        return cls(
+            strategy=get_env_enum("WIQAS_CHUNKING_STRATEGY", ChunkerType, ChunkerType.RECURSIVE),
+            chunk_size=get_env_int("WIQAS_CHUNK_SIZE", 128),
+            chunk_overlap=get_env_int("WIQAS_CHUNK_OVERLAP", 0),
+            max_chunk_size=get_env_int("WIQAS_MAX_CHUNK_SIZE", 128),
+            min_chunk_size=get_env_int("WIQAS_MIN_CHUNK_SIZE", 100),
+        )
+
+    def validate(self) -> None:
+        """Validate chunking configuration"""
+        if self.chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        if self.chunk_overlap < 0:
+            raise ValueError("chunk_overlap cannot be negative")
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError("chunk_overlap must be less than chunk_size")
+        if self.min_chunk_size <= 0:
+            raise ValueError("min_chunk_size must be positive")
+        if self.max_chunk_size < self.min_chunk_size:
+            raise ValueError("max_chunk_size must be >= min_chunk_size")
+        if self.chunk_size > self.max_chunk_size:
+            raise ValueError("chunk_size must be <= max_chunk_size")
+
+
+@dataclass
+class RetrievalConfig(BaseConfig):
+    """Document retrieval configuration"""
+
+    default_k: int = 5
+    max_k: int = 20
+    similarity_threshold: float = 0.425
+    enable_reranking: bool = True
+
+    enable_hybrid_search: bool = True
+    semantic_weight: float = 0.7
+    keyword_weight: float = 0.3
+
+    # MMR (Maximal Marginal Relevance)
+    enable_mmr: bool = True
+    mmr_diversity_bias: float = 0.5
+    mmr_fetch_k: int = 20
+    mmr_threshold: float = 0.6
+
+    @classmethod
+    def from_env(cls) -> "RetrievalConfig":
+        """Load retrieval configuration from environment variables"""
+        return cls(
+            default_k=get_env_int("WIQAS_RETRIEVAL_DEFAULT_K", 5),
+            max_k=get_env_int("WIQAS_RETRIEVAL_MAX_K", 20),
+            similarity_threshold=get_env_float("WIQAS_RETRIEVAL_SIMILARITY_THRESHOLD", 0.425),
+            enable_reranking=get_env_bool("WIQAS_RETRIEVAL_ENABLE_RERANKING", True),
+            enable_hybrid_search=get_env_bool("WIQAS_RETRIEVAL_ENABLE_HYBRID_SEARCH", True),
+            semantic_weight=get_env_float("WIQAS_RETRIEVAL_SEMANTIC_WEIGHT", 0.7),
+            keyword_weight=get_env_float("WIQAS_RETRIEVAL_KEYWORD_WEIGHT", 0.3),
+            enable_mmr=get_env_bool("WIQAS_RETRIEVAL_ENABLE_MMR", True),
+            mmr_diversity_bias=get_env_float("WIQAS_RETRIEVAL_MMR_DIVERSITY_BIAS", 0.5),
+            mmr_fetch_k=get_env_int("WIQAS_RETRIEVAL_MMR_FETCH_K", 20),
+            mmr_threshold=get_env_float("WIQAS_RETRIEVAL_MMR_THRESHOLD", 0.6),
+        )
+
+    def validate(self) -> None:
+        """Validate retrieval configuration"""
+        if self.default_k <= 0:
+            raise ValueError("default_k must be positive")
+        if self.max_k < self.default_k:
+            raise ValueError("max_k must be >= default_k")
+        if not 0.0 <= self.similarity_threshold <= 1.0:
+            raise ValueError("similarity_threshold must be between 0.0 and 1.0")
+        if self.enable_hybrid_search:
+            if not 0.0 <= self.semantic_weight <= 1.0:
+                raise ValueError("semantic_weight must be between 0.0 and 1.0")
+            if not 0.0 <= self.keyword_weight <= 1.0:
+                raise ValueError("keyword_weight must be between 0.0 and 1.0")
+            if abs(self.semantic_weight + self.keyword_weight - 1.0) > 0.001:
+                raise ValueError("semantic_weight + keyword_weight must equal 1.0")
+        if self.enable_mmr:
+            if not 0.0 <= self.mmr_diversity_bias <= 1.0:
+                raise ValueError("mmr_diversity_bias must be between 0.0 and 1.0")
+            if self.mmr_fetch_k < self.default_k:
+                raise ValueError("mmr_fetch_k must be >= default_k")
+
+
+@dataclass
+class LLMConfig(BaseConfig):
+    """Large Language Model configuration"""
+
+    model: str = "mistral:latest"
+    base_url: str = "http://localhost:11434"
+    timeout: int = 30
+
+    # Generation parameters
+    temperature: float = 0.7
+    top_p: float = 0.9
+    max_tokens: int | None = None
+
+    # RAG prompt
+    system_prompt: str = (
+        "You are Orion, a helpful AI assistant with access to a knowledge base. "
+        "Use the provided context to answer questions accurately and cite sources when appropriate."
+    )
+
+    @classmethod
+    def from_env(cls) -> "LLMConfig":
+        """Load LLM configuration from environment variables"""
+        max_tokens_str = get_env_str("WIQAS_LLM_MAX_TOKENS", "")
+        max_tokens = int(max_tokens_str) if max_tokens_str.isdigit() else None
+
+        return cls(
+            model=get_env_str("WIQAS_LLM_MODEL", "mistral:latest"),
+            base_url=get_env_str("WIQAS_LLM_BASE_URL", "http://localhost:11434"),
+            timeout=get_env_int("WIQAS_LLM_TIMEOUT", 30),
+            temperature=get_env_float("WIQAS_LLM_TEMPERATURE", 0.7),
+            top_p=get_env_float("WIQAS_LLM_TOP_P", 0.9),
+            max_tokens=max_tokens,
+            system_prompt=get_env_str(
+                "WIQAS_LLM_SYSTEM_PROMPT",
+                "You are Orion, a helpful AI assistant with access to a knowledge base. "
+                "Use the provided context to answer questions accurately and cite sources when appropriate.",
+            ),
+        )
+
+
+@dataclass
+class VectorStoreConfig(BaseConfig):
+    """Vector store configuration"""
+
+    index_type: str = "chroma"
+    persist_immediately: bool = True
+    embedding_dimension: int = 768
+    persist_directory: str = "./chroma-data"
+    distance_metric: str = "cosine"
+    use_gpu: bool = False
+    batch_size: int = 64
+
+    @classmethod
+    def from_env(cls) -> "VectorStoreConfig":
+        """Load vector store configuration from environment variables"""
+        return cls(
+            index_type=get_env_str("WIQAS_VECTORSTORE_INDEX_TYPE", "chroma"),
+            persist_immediately=get_env_bool("WIQAS_VECTORSTORE_PERSIST_IMMEDIATELY", True),
+            embedding_dimension=get_env_int("WIQAS_VECTORSTORE_EMBEDDING_DIMENSION", 768),
+            persist_directory=get_env_str("WIQAS_VECTORSTORE_PERSIST_DIRECTORY", "./chroma-data"),
+            distance_metric=get_env_str("WIQAS_VECTORSTORE_DISTANCE_METRIC", "cosine"),
+            use_gpu=get_env_bool("WIQAS_VECTORSTORE_USE_GPU", False),
+            batch_size=get_env_int("WIQAS_VECTORSTORE_BATCH_SIZE", 64),
+        )
+
+
+# ========== MAIN RAG CONFIGURATION ==========
+@dataclass
+class RAGConfig(BaseConfig):
+    """Complete RAG pipeline configuration"""
+
+    embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
+    chunking: ChunkingConfig = field(default_factory=ChunkingConfig)
+    retrieval: RetrievalConfig = field(default_factory=RetrievalConfig)
+    llm: LLMConfig = field(default_factory=LLMConfig)
+    vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
+
+    @classmethod
+    def from_env(cls) -> "RAGConfig":
+        """Load RAG configuration from environment variables"""
+        return cls(
+            embedding=EmbeddingConfig.from_env(),
+            chunking=ChunkingConfig.from_env(),
+            retrieval=RetrievalConfig.from_env(),
+            llm=LLMConfig.from_env(),
+            vectorstore=VectorStoreConfig.from_env(),
+        )
+
+
+# ========== SYSTEM CONFIGURATION ==========
+@dataclass
+class StorageConfig(BaseConfig):
+    """Data storage configuration"""
+
+    data_directory: str = "./wiqas-data"
+    temp_directory: str = "./temp"
+
+    @classmethod
+    def from_env(cls) -> "StorageConfig":
+        """Load storage configuration from environment variables"""
+        return cls(
+            data_directory=get_env_str("WIQAS_STORAGE_DATA_DIRECTORY", "./wiqas-data"),
+            temp_directory=get_env_str("WIQAS_STORAGE_TEMP_DIRECTORY", "./temp"),
+        )
+
+
+@dataclass
+class SystemConfig(BaseConfig):
+    """System configuration"""
+
+    storage: StorageConfig = field(default_factory=StorageConfig)
+
+    # Ollama integration
+    require_ollama: bool = True
+    ollama_health_check: bool = True
+
+    @classmethod
+    def from_env(cls) -> "SystemConfig":
+        """Load system configuration from environment variables"""
+        return cls(
+            storage=StorageConfig.from_env(),
+            require_ollama=get_env_bool("WIQAS_SYSTEM_REQUIRE_OLLAMA", True),
+            ollama_health_check=get_env_bool("WIQAS_SYSTEM_OLLAMA_HEALTH_CHECK", True),
+        )
+
+
+# ========== GPU CONFIGURATION ==========
+@dataclass
+class GPUConfig(BaseConfig):
+    """GPU acceleration configuration"""
+
+    enabled: bool = True
+    auto_detect: bool = True
+    preferred_device: str = "auto"  # "auto", "cpu", "cuda:0"
+    fallback_to_cpu: bool = True
+
+    @classmethod
+    def from_env(cls) -> "GPUConfig":
+        """Load GPU configuration from environment variables"""
+        return cls(
+            enabled=get_env_bool("WIQAS_GPU_ENABLED", True),
+            auto_detect=get_env_bool("WIQAS_GPU_AUTO_DETECT", True),
+            preferred_device=get_env_str("WIQAS_GPU_PREFERRED_DEVICE", "auto"),
+            fallback_to_cpu=get_env_bool("WIQAS_GPU_FALLBACK_TO_CPU", True),
+        )
+
+
+# ========== LOGGING CONFIGURATION ==========
+@dataclass
+class LoggingConfig(BaseConfig):
+    """Logging configuration"""
+
+    level: LogLevel = LogLevel.INFO
+    log_to_file: bool = True
+    log_file_path: str = "./logs/wiqas.log"
+    log_to_console: bool = True
+    verbose: bool = False
+
+    @classmethod
+    def from_env(cls) -> "LoggingConfig":
+        """Load logging configuration from environment variables"""
+        return cls(
+            level=get_env_enum("WIQAS_LOGGING_LEVEL", LogLevel, LogLevel.INFO),
+            log_to_file=get_env_bool("WIQAS_LOGGING_LOG_TO_FILE", True),
+            log_file_path=get_env_str("WIQAS_LOGGING_LOG_FILE_PATH", "./logs/wiqas.log"),
+            log_to_console=get_env_bool("WIQAS_LOGGING_LOG_TO_CONSOLE", True),
+            verbose=get_env_bool("WIQAS_LOGGING_VERBOSE", False),
+        )
+
+
+# ========== MAIN CONFIGURATION CLASS ==========
+@dataclass
+class WiQASConfig(BaseConfig):
+    """Complete WiQAS configuration"""
+
+    rag: RAGConfig = field(default_factory=RAGConfig)
+    system: SystemConfig = field(default_factory=SystemConfig)
+    gpu: GPUConfig = field(default_factory=GPUConfig)
+    logging: LoggingConfig = field(default_factory=LoggingConfig)
+    version: str = "1.0.0"
+
+    @classmethod
+    def from_env(cls) -> "WiQASConfig":
+        """Load configuration from environment variables"""
+        config = cls(
+            rag=RAGConfig.from_env(),
+            system=SystemConfig.from_env(),
+            gpu=GPUConfig.from_env(),
+            logging=LoggingConfig.from_env(),
+            version=get_env_str("WIQAS_VERSION", "1.0.0"),
+        )
+        config.validate()
+        return config
+
+    def validate(self) -> None:
+        """Validate entire configuration"""
+        self.rag.chunking.validate()
+        self.rag.retrieval.validate()
+        # Add more validations as needed
+
+
+def get_config(from_env: bool = False) -> WiQASConfig:
+    """
+    Get a configuration instance.
+
+    Args:
+        from_env: If True, load configuration from environment variables.
+                 If False, use default values.
+
+    Returns:
+        WiQASConfig instance with specified settings
+
+    Example:
+        # Use default configuration
+        config = get_config()
+
+        # Load from environment variables
+        config = get_config(from_env=True)
+
+        # Or directly
+        config = WiQASConfig.from_env()
+
+    Environment Variables:
+        RAG Configuration:
+            WIQAS_EMBEDDING_MODEL="nomic-embed-text"
+            WIQAS_EMBEDDING_BATCH_SIZE=32
+            WIQAS_CHUNK_SIZE=128
+            WIQAS_CHUNK_OVERLAP=0
+            WIQAS_CHUNKING_STRATEGY="recursive"
+            WIQAS_LLM_MODEL="mistral:latest"
+            WIQAS_LLM_BASE_URL="http://localhost:11434"
+            WIQAS_LLM_TEMPERATURE=0.7
+            WIQAS_VECTORSTORE_PERSIST_DIRECTORY="./chroma-data"
+            WIQAS_RETRIEVAL_DEFAULT_K=5
+
+        System Configuration:
+            WIQAS_STORAGE_DATA_DIRECTORY="./wiqas-data"
+            WIQAS_SYSTEM_REQUIRE_OLLAMA=true
+            WIQAS_GPU_ENABLED=true
+            WIQAS_LOGGING_LEVEL="info"
+    """
+    if from_env:
+        return WiQASConfig.from_env()
+    return WiQASConfig()

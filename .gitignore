@@ -1,0 +1,94 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# VSCode
+.vscode/
+
+# Logs & temp files
+*.log
+*.tmp
+*.temp
+*.swp
+.DS_Store
+
+# ChromaDB
+chromadb/
+*.chroma
+*.chroma-lock
+*.chroma-log
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Test artifacts
+coverage.xml
+htmlcov/
+.pytest_cache/
+test-results/
+
+# Local data
+data/
+*.db
+*.sqlite
+
+# OS-specific
+Thumbs.db
+
+# Ollama model cache
+~/.ollama/
+
+# Temporary scratch or dump files
+*.dump
+
+# Demos
+demos/
+
+# Utility scripts (exclude from CI)
+check_*.py
+verify_*.py
+setup_*.py
+test_run_*.py
+
+# Test results
+test-results/
+.coverage
+.pytest_cache/
+htmlcov/
+
+# OCR temporary files
+*.tesseract.tmp
+ocr_temp/
+temp_ocr/
+
+# Document processing cache
+.document_cache/
+.embeddings_cache/
+.processing_cache/
+
+# Media processing temporary files
+*.pdf.tmp
+*.docx.tmp
+temp_images/
+extracted_images/
+
+# Development and debugging
+debug_output/
+*.debug
+*.trace
+profiling_results/
+
+# IDE specific
+.idea/
+*.sublime-*
+*.code-workspace
