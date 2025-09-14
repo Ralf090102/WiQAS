@@ -45,8 +45,8 @@ email = "ralf_hernandez@dlsu.edu.ph"
 
 [project.optional-dependencies]
 nvidia-gpu = [
- "torch>=2.7.1+cu121",
- "torchvision>=0.22.0+cu121",
+ "torch>=2.7.1",
+ "torchvision>=0.22.0",
 ]
 
 media = [
