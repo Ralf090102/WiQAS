@@ -9,27 +9,30 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: 3.13
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install .[nvidia-gpu,media,dev]
-          pip install pytest
+          pip install -e .
+          pip install -e .[dev]
 
       - name: Run Ruff
-        run: ruff .
+        run: ruff check .
 
       - name: Run Black
         run: black --check .
 
       - name: Run Tests
-        run: pytest
+        run: pytest -v

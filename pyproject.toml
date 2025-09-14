@@ -7,6 +7,8 @@ name = "WiQAS"
 version = "0.1.0"
 description = "A Filipino-focused RAG LLM using Ollama"
 license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
 
 [[project.authors]]
 name = "Andrea Santos"
@@ -19,9 +21,6 @@ email = "ma_china_ortiz@dlsu.edu.ph"
 [[project.authors]]
 name = "Ralf Hernandez"
 email = "ralf_hernandez@dlsu.edu.ph"
-
-readme = "README.md"
-requires-python = ">=3.13"
 
 dependencies = [
     "ollama",
@@ -68,11 +67,11 @@ dev = [
 
 [tool.black]
 line-length = 128
-target-version = ['py313']
+target-version = ['py312']
 
 [tool.ruff]
 line-length = 128
-target-version = "py313"
+target-version = "py312"
 exclude = [
     ".git",
     "__pycache__",
