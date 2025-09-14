@@ -521,11 +521,7 @@ async def async_progress_task(description: str = "Processing"):
         raise
 
 
-async def run_with_timeout(
-    coro: Awaitable, 
-    timeout: float, 
-    description: str = "Operation"
-) -> Optional[any]:
+async def run_with_timeout(coro: Awaitable, timeout: float, description: str = "Operation") -> any | None:
     """
     Run an async function with timeout.
 
