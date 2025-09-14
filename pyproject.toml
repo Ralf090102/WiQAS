@@ -10,18 +10,6 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.12"
 
-[[project.authors]]
-name = "Andrea Santos"
-email = "andrea_li_santos@dlsu.edu.ph"
-
-[[project.authors]]
-name = "China Ortiz"
-email = "ma_china_ortiz@dlsu.edu.ph"
-
-[[project.authors]]
-name = "Ralf Hernandez"
-email = "ralf_hernandez@dlsu.edu.ph"
-
 dependencies = [
     "ollama",
     "langchain",
@@ -42,6 +30,18 @@ dependencies = [
     "rich",
     "psutil",
 ]
+
+[[project.authors]]
+name = "Andrea Santos"
+email = "andrea_li_santos@dlsu.edu.ph"
+
+[[project.authors]]
+name = "China Ortiz"
+email = "ma_china_ortiz@dlsu.edu.ph"
+
+[[project.authors]]
+name = "Ralf Hernandez"
+email = "ralf_hernandez@dlsu.edu.ph"
 
 [project.optional-dependencies]
 nvidia-gpu = [
