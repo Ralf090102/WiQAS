@@ -78,7 +78,8 @@ exclude = [
     "build",
     "dist",
     ".venv",
-    "test/"
+    "test/",
+    "set_dependencies.py"
 ]
 
 [tool.ruff.lint]
@@ -107,5 +108,6 @@ filterwarnings = [
 
 markers = [
     "unit: marks tests as unit tests (fast, no external dependencies)",
+    "integration: marks tests that are integrated (slow)",
     "requires_ollama: marks tests that require Ollama to be running"
 ]

@@ -7,12 +7,34 @@ on:
     branches: ["main", "dev", "experimental"]
 
 jobs:
-  test:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Run Ruff
+        run: ruff check .
+
+      - name: Run Black
+        run: black --check .
+
+  unit-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.12", "3.13"]
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,11 +50,38 @@ jobs:
           pip install -e .
           pip install -e .[dev]
 
-      - name: Run Ruff
-        run: ruff check .
+      - name: Run Unit Tests
+        run: pytest -v -m "unit or not (integration or requires_ollama)" --tb=short
 
-      - name: Run Black
-        run: black --check .
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: [lint, unit-tests]
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Run Tests
-        run: pytest -v
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install -e .[dev]
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.ai/install.sh | sh
+          ollama serve &
+          sleep 10
+          # Pull a small model for testing
+          ollama pull mistral:7b
+
+      - name: Run Integration Tests
+        run: pytest -v -m "integration or requires_ollama" --tb=short

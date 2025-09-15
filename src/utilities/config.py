@@ -82,7 +82,7 @@ class BaseConfig:
 class EmbeddingConfig(BaseConfig):
     """Embedding model configuration"""
 
-    model: str = "nomic-embed-text"
+    model: str = "BAAI/bge-m3"  # BGE-M3 for multilingual Filipino content
     batch_size: int = 32
     timeout: int = 30
     cache_embeddings: bool = True
@@ -91,7 +91,7 @@ class EmbeddingConfig(BaseConfig):
     def from_env(cls) -> "EmbeddingConfig":
         """Load embedding configuration from environment variables"""
         return cls(
-            model=get_env_str("WIQAS_EMBEDDING_MODEL", "nomic-embed-text"),
+            model=get_env_str("WIQAS_EMBEDDING_MODEL", "BAAI/bge-m3"),
             batch_size=get_env_int("WIQAS_EMBEDDING_BATCH_SIZE", 32),
             timeout=get_env_int("WIQAS_EMBEDDING_TIMEOUT", 30),
             cache_embeddings=get_env_bool("WIQAS_EMBEDDING_CACHE", True),
@@ -141,7 +141,7 @@ class RetrievalConfig(BaseConfig):
 
     default_k: int = 5
     max_k: int = 20
-    similarity_threshold: float = 0.425
+    similarity_threshold: float = 0.2
     enable_reranking: bool = True
 
     enable_hybrid_search: bool = True
@@ -152,7 +152,7 @@ class RetrievalConfig(BaseConfig):
     enable_mmr: bool = True
     mmr_diversity_bias: float = 0.5
     mmr_fetch_k: int = 20
-    mmr_threshold: float = 0.6
+    mmr_threshold: float = 0.475
 
     @classmethod
     def from_env(cls) -> "RetrievalConfig":
@@ -160,7 +160,7 @@ class RetrievalConfig(BaseConfig):
         return cls(
             default_k=get_env_int("WIQAS_RETRIEVAL_DEFAULT_K", 5),
             max_k=get_env_int("WIQAS_RETRIEVAL_MAX_K", 20),
-            similarity_threshold=get_env_float("WIQAS_RETRIEVAL_SIMILARITY_THRESHOLD", 0.425),
+            similarity_threshold=get_env_float("WIQAS_RETRIEVAL_SIMILARITY_THRESHOLD", 0.2),
             enable_reranking=get_env_bool("WIQAS_RETRIEVAL_ENABLE_RERANKING", True),
             enable_hybrid_search=get_env_bool("WIQAS_RETRIEVAL_ENABLE_HYBRID_SEARCH", True),
             semantic_weight=get_env_float("WIQAS_RETRIEVAL_SEMANTIC_WEIGHT", 0.7),
@@ -194,12 +194,93 @@ class RetrievalConfig(BaseConfig):
 
 
 @dataclass
+class RerankerConfig(BaseConfig):
+    """Document reranking configuration"""
+
+    model: str = "BAAI/bge-reranker-v2-m3"
+    batch_size: int = 16
+    timeout: int = 30
+    top_k: int = 10
+    score_threshold: float = 0.5
+    enable_cultural_boost: bool = True
+    cultural_boost_factor: float = 1.2
+
+    # LLM-based cultural content analysis
+    use_llm_cultural_analysis: bool = True
+    llm_model: str = "mistral:latest"
+    llm_base_url: str = "http://localhost:11434"
+    llm_timeout: int = 90
+    llm_temperature: float = 0.1
+
+    # Cultural analysis thresholds
+    cultural_confidence_threshold: float = 0.6
+    high_confidence_threshold: float = 0.8
+    low_confidence_boost: float = 1.1
+    high_confidence_boost: float = 1.5
+
+    # Caching and batch processing
+    cache_cultural_analysis: bool = True
+    cultural_cache_ttl: int = 7200
+    batch_analysis_size: int = 5
+    enable_batch_processing: bool = True
+
+    @classmethod
+    def from_env(cls) -> "RerankerConfig":
+        """Load reranker configuration from environment variables"""
+        return cls(
+            model=get_env_str("WIQAS_RERANKER_MODEL", "BAAI/bge-reranker-v2-m3"),
+            batch_size=get_env_int("WIQAS_RERANKER_BATCH_SIZE", 16),
+            timeout=get_env_int("WIQAS_RERANKER_TIMEOUT", 30),
+            top_k=get_env_int("WIQAS_RERANKER_TOP_K", 10),
+            score_threshold=get_env_float("WIQAS_RERANKER_SCORE_THRESHOLD", 0.5),
+            enable_cultural_boost=get_env_bool("WIQAS_RERANKER_ENABLE_CULTURAL_BOOST", True),
+            cultural_boost_factor=get_env_float("WIQAS_RERANKER_CULTURAL_BOOST_FACTOR", 1.2),
+            use_llm_cultural_analysis=get_env_bool("WIQAS_RERANKER_USE_LLM_CULTURAL_ANALYSIS", True),
+            llm_model=get_env_str("WIQAS_RERANKER_LLM_MODEL", "mistral:latest"),
+            llm_base_url=get_env_str("WIQAS_RERANKER_LLM_BASE_URL", "http://localhost:11434"),
+            llm_timeout=get_env_int("WIQAS_RERANKER_LLM_TIMEOUT", 90),
+            llm_temperature=get_env_float("WIQAS_RERANKER_LLM_TEMPERATURE", 0.1),
+            cultural_confidence_threshold=get_env_float("WIQAS_RERANKER_CULTURAL_CONFIDENCE_THRESHOLD", 0.6),
+            high_confidence_threshold=get_env_float("WIQAS_RERANKER_HIGH_CONFIDENCE_THRESHOLD", 0.8),
+            low_confidence_boost=get_env_float("WIQAS_RERANKER_LOW_CONFIDENCE_BOOST", 1.1),
+            high_confidence_boost=get_env_float("WIQAS_RERANKER_HIGH_CONFIDENCE_BOOST", 1.5),
+            cache_cultural_analysis=get_env_bool("WIQAS_RERANKER_CACHE_CULTURAL_ANALYSIS", True),
+            cultural_cache_ttl=get_env_int("WIQAS_RERANKER_CULTURAL_CACHE_TTL", 7200),
+            batch_analysis_size=get_env_int("WIQAS_RERANKER_BATCH_ANALYSIS_SIZE", 5),
+            enable_batch_processing=get_env_bool("WIQAS_RERANKER_ENABLE_BATCH_PROCESSING", True),
+        )
+
+    def validate(self) -> None:
+        """Validate reranker configuration"""
+        if self.batch_size <= 0:
+            raise ValueError("batch_size must be positive")
+        if self.top_k <= 0:
+            raise ValueError("top_k must be positive")
+        if not 0.0 <= self.score_threshold <= 1.0:
+            raise ValueError("score_threshold must be between 0.0 and 1.0")
+        if self.cultural_boost_factor < 0.0:
+            raise ValueError("cultural_boost_factor must be non-negative")
+        if self.llm_timeout <= 0:
+            raise ValueError("llm_timeout must be positive")
+        if not 0.0 <= self.cultural_confidence_threshold <= 1.0:
+            raise ValueError("cultural_confidence_threshold must be between 0.0 and 1.0")
+        if not 0.0 <= self.high_confidence_threshold <= 1.0:
+            raise ValueError("high_confidence_threshold must be between 0.0 and 1.0")
+        if self.cultural_confidence_threshold > self.high_confidence_threshold:
+            raise ValueError("cultural_confidence_threshold must be <= high_confidence_threshold")
+        if self.batch_analysis_size <= 0:
+            raise ValueError("batch_analysis_size must be positive")
+        if self.cultural_cache_ttl <= 0:
+            raise ValueError("cultural_cache_ttl must be positive")
+
+
+@dataclass
 class LLMConfig(BaseConfig):
     """Large Language Model configuration"""
 
     model: str = "mistral:latest"
     base_url: str = "http://localhost:11434"
-    timeout: int = 30
+    timeout: int = 90
 
     # Generation parameters
     temperature: float = 0.7
@@ -221,7 +302,7 @@ class LLMConfig(BaseConfig):
         return cls(
             model=get_env_str("WIQAS_LLM_MODEL", "mistral:latest"),
             base_url=get_env_str("WIQAS_LLM_BASE_URL", "http://localhost:11434"),
-            timeout=get_env_int("WIQAS_LLM_TIMEOUT", 30),
+            timeout=get_env_int("WIQAS_LLM_TIMEOUT", 90),
             temperature=get_env_float("WIQAS_LLM_TEMPERATURE", 0.7),
             top_p=get_env_float("WIQAS_LLM_TOP_P", 0.9),
             max_tokens=max_tokens,
@@ -239,8 +320,7 @@ class VectorStoreConfig(BaseConfig):
 
     index_type: str = "chroma"
     persist_immediately: bool = True
-    embedding_dimension: int = 768
-    persist_directory: str = "./chroma-data"
+    persist_directory: str = "./data/chroma-data"
     distance_metric: str = "cosine"
     use_gpu: bool = False
     batch_size: int = 64
@@ -251,8 +331,7 @@ class VectorStoreConfig(BaseConfig):
         return cls(
             index_type=get_env_str("WIQAS_VECTORSTORE_INDEX_TYPE", "chroma"),
             persist_immediately=get_env_bool("WIQAS_VECTORSTORE_PERSIST_IMMEDIATELY", True),
-            embedding_dimension=get_env_int("WIQAS_VECTORSTORE_EMBEDDING_DIMENSION", 768),
-            persist_directory=get_env_str("WIQAS_VECTORSTORE_PERSIST_DIRECTORY", "./chroma-data"),
+            persist_directory=get_env_str("WIQAS_VECTORSTORE_PERSIST_DIRECTORY", "./data/chroma-data"),
             distance_metric=get_env_str("WIQAS_VECTORSTORE_DISTANCE_METRIC", "cosine"),
             use_gpu=get_env_bool("WIQAS_VECTORSTORE_USE_GPU", False),
             batch_size=get_env_int("WIQAS_VECTORSTORE_BATCH_SIZE", 64),
@@ -267,6 +346,7 @@ class RAGConfig(BaseConfig):
     embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
     chunking: ChunkingConfig = field(default_factory=ChunkingConfig)
     retrieval: RetrievalConfig = field(default_factory=RetrievalConfig)
+    reranker: RerankerConfig = field(default_factory=RerankerConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
 
@@ -277,6 +357,7 @@ class RAGConfig(BaseConfig):
             embedding=EmbeddingConfig.from_env(),
             chunking=ChunkingConfig.from_env(),
             retrieval=RetrievalConfig.from_env(),
+            reranker=RerankerConfig.from_env(),
             llm=LLMConfig.from_env(),
             vectorstore=VectorStoreConfig.from_env(),
         )
@@ -425,7 +506,7 @@ def get_config(from_env: bool = False) -> WiQASConfig:
             WIQAS_LLM_MODEL="mistral:latest"
             WIQAS_LLM_BASE_URL="http://localhost:11434"
             WIQAS_LLM_TEMPERATURE=0.7
-            WIQAS_VECTORSTORE_PERSIST_DIRECTORY="./chroma-data"
+            WIQAS_VECTORSTORE_PERSIST_DIRECTORY="./data/chroma-data"
             WIQAS_RETRIEVAL_DEFAULT_K=5
 
         System Configuration:

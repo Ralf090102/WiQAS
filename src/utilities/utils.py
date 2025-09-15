@@ -7,7 +7,7 @@ from collections.abc import Awaitable
 from contextlib import asynccontextmanager, contextmanager
 from functools import wraps
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -521,7 +521,7 @@ async def async_progress_task(description: str = "Processing"):
         raise
 
 
-async def run_with_timeout(coro: Awaitable, timeout: float, description: str = "Operation") -> any | None:
+async def run_with_timeout(coro: Awaitable, timeout: float, description: str = "Operation") -> Any | None:
     """
     Run an async function with timeout.
 
