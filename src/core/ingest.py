@@ -228,8 +228,8 @@ class TextPreprocessor:
         # Remove excessive whitespace and normalize line endings
         text = re.sub(r"\s+", " ", text.strip())
 
-        # Remove special characters
-        text = re.sub(r"[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ]", "", text)
+        # Remove problematic characters but keep basic punctuation and accented characters
+        text = re.sub(r"[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\]", "", text)
 
         # Normalize common text patterns
         text = re.sub(r"\.{2,}", "...", text)
@@ -242,7 +242,7 @@ class TextPreprocessor:
 
         # Normalize quotes
         text = re.sub(r'[""]', '"', text)
-        text = re.sub(r"[" "]", "'", text)
+        text = re.sub(r"[''']", "'", text)
 
         return text.strip()
 
