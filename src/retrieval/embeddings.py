@@ -106,6 +106,11 @@ class EmbeddingManager:
         try:
             self.model = SentenceTransformer(model_name, device=self.device)
 
+            # Set maximum sequence length for BGE-M3 (supports up to 8192 tokens)
+            if hasattr(self.model, "max_seq_length"):
+                self.model.max_seq_length = 8192
+                log_info(f"Set BGE-M3 max sequence length to {self.model.max_seq_length}", config=self.config)
+
             # Set to evaluation mode
             self.model.eval()
 
@@ -226,7 +231,9 @@ class EmbeddingManager:
             # Generate embedding
             if isinstance(self.model, SentenceTransformer):
                 with torch.no_grad():
-                    embedding = self.model.encode(text, convert_to_tensor=False, normalize_embeddings=True)
+                    embedding = self.model.encode(
+                        text, convert_to_tensor=False, normalize_embeddings=True, show_progress_bar=False
+                    )
                     if isinstance(embedding, np.ndarray):
                         embedding = embedding.tolist()
 
@@ -289,8 +296,13 @@ class EmbeddingManager:
 
                 if isinstance(self.model, SentenceTransformer):
                     with torch.no_grad():
+                        # For BGE-M3, add explicit truncation and show_progress_bar
                         batch_embeddings = self.model.encode(
-                            batch_texts, convert_to_tensor=False, normalize_embeddings=True, batch_size=len(batch_texts)
+                            batch_texts,
+                            convert_to_tensor=False,
+                            normalize_embeddings=True,
+                            batch_size=len(batch_texts),
+                            show_progress_bar=False,
                         )
 
                         if isinstance(batch_embeddings, np.ndarray):
