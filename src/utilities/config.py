@@ -83,7 +83,7 @@ class EmbeddingConfig(BaseConfig):
     """Embedding model configuration"""
 
     model: str = "BAAI/bge-m3"
-    batch_size: int = 16
+    batch_size: int = 32
     timeout: int = 30
     cache_embeddings: bool = True
 
@@ -92,7 +92,7 @@ class EmbeddingConfig(BaseConfig):
         """Load embedding configuration from environment variables"""
         return cls(
             model=get_env_str("WIQAS_EMBEDDING_MODEL", "BAAI/bge-m3"),
-            batch_size=get_env_int("WIQAS_EMBEDDING_BATCH_SIZE", 16),
+            batch_size=get_env_int("WIQAS_EMBEDDING_BATCH_SIZE", 32),
             timeout=get_env_int("WIQAS_EMBEDDING_TIMEOUT", 30),
             cache_embeddings=get_env_bool("WIQAS_EMBEDDING_CACHE", True),
         )

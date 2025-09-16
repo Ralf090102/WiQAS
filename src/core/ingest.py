@@ -360,9 +360,8 @@ class VectorStoreManager:
             batch_size = self.embedding_config.batch_size
             log_info(
                 f"""
-                Generating embeddings for {len(texts)}
-                documents using {self.embedding_config.model}
-                (batch size: {batch_size})
+                Generating embeddings for {len(texts)} documents using
+                {self.embedding_config.model} (batch size: {batch_size})
                 """,
                 self.config,
             )
@@ -376,11 +375,35 @@ class VectorStoreManager:
                 batch_embeddings = self.embedding_manager.encode_batch(batch_texts)
                 all_embeddings.extend(batch_embeddings)
 
-            # Add to collection with custom embeddings
-            self.collection.add(ids=ids, documents=texts, metadatas=metadatas, embeddings=all_embeddings)
+            # Add to ChromaDB in batches to avoid max batch size limits
+            chroma_batch_size = 4096
+            total_added = 0
 
-            log_info(f"Added {len(documents)} documents to vector store with custom embeddings", self.config)
-            return len(documents)
+            log_info(f"Adding {len(texts)} documents to vector store in batches of {chroma_batch_size}", self.config)
+
+            for i in range(0, len(texts), chroma_batch_size):
+                batch_end = min(i + chroma_batch_size, len(texts))
+                batch_ids = ids[i:batch_end]
+                batch_texts = texts[i:batch_end]
+                batch_metadatas = metadatas[i:batch_end]
+                batch_embeddings = all_embeddings[i:batch_end]
+
+                log_debug(
+                    f"""
+                    Adding ChromaDB batch {i//chroma_batch_size + 1}/{(len(texts) + chroma_batch_size - 1)//chroma_batch_size}
+                    ({len(batch_ids)} documents)
+                    """,
+                    self.config,
+                )
+
+                self.collection.add(
+                    ids=batch_ids, documents=batch_texts, metadatas=batch_metadatas, embeddings=batch_embeddings
+                )
+
+                total_added += len(batch_ids)
+
+            log_info(f"Successfully added {total_added} documents to vector store with custom embeddings", self.config)
+            return total_added
 
         except Exception as e:
             log_error(f"Failed to add documents to vector store: {e}", self.config)

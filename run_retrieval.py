@@ -30,8 +30,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.reranker import RerankerManager
-from src.retrieval.search import HybridSearcher, SemanticSearcher
+from src.retrieval.search import SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
 from src.utilities.config import WiQASConfig
 
@@ -300,21 +299,40 @@ def search(
             stats = vector_store.get_collection_stats()
             progress.remove_task(task)
 
-            if stats.get("total_documents", 0) == 0:
+            doc_count = stats.get("document_count", 0)
+            print_info(f"Found {doc_count} documents in knowledge base")
+
+            if doc_count == 0:
                 print_warning("No documents found in knowledge base. Run 'ingest' first.")
                 raise typer.Exit(1)
 
-            print_info(f"Searching {stats['total_documents']} documents...")
+            print_info(f"Searching {doc_count} documents...")
 
             # Perform search
             task = progress.add_task("Searching...", total=None)
 
             if search_type == "semantic":
-                searcher = SemanticSearcher(vector_store, embedding_manager, config)
+                searcher = SemanticSearcher(embedding_manager, vector_store, config)
                 results = searcher.search(query, k=k)
             elif search_type == "hybrid":
-                searcher = HybridSearcher(vector_store, embedding_manager, config)
-                results = searcher.search(query, k=k)
+                # Create semantic and keyword searchers
+                semantic_searcher = SemanticSearcher(embedding_manager, vector_store, config)
+                from src.retrieval.search import HybridSearcher, KeywordSearcher
+
+                keyword_searcher = KeywordSearcher(config)
+
+                # Get documents from vector store for keyword indexing
+                all_results = semantic_searcher.search(query, k=doc_count)  # Get all documents
+                documents = [r.content for r in all_results]
+                document_ids = [r.document_id for r in all_results]
+                metadatas = [r.metadata for r in all_results]
+
+                # Index documents for keyword search
+                keyword_searcher.index_documents(documents, document_ids, metadatas)
+
+                # Create hybrid searcher and search
+                hybrid_searcher = HybridSearcher(semantic_searcher, keyword_searcher, config)
+                results = hybrid_searcher.search(query, k=k)
             else:
                 print_error(f"Unsupported search type: {search_type}")
                 raise typer.Exit(1)
@@ -324,25 +342,32 @@ def search(
             # Apply reranking if enabled
             if rerank and results:
                 task = progress.add_task("Reranking results...", total=None)
-                reranker = RerankerManager(config)
+                from src.retrieval.reranker import Document, RerankerManager
 
-                # Convert results to format expected by reranker
+                # Use the reranker config from the main config
+                reranker = RerankerManager(config.rag.reranker)
+
+                # Convert SearchResult objects to Document objects for reranking
                 docs_to_rerank = []
                 for result in results:
-                    docs_to_rerank.append({"content": result.content, "metadata": result.metadata, "score": result.score})
+                    doc = Document(
+                        content=result.content, metadata=result.metadata, score=result.score, doc_id=result.document_id
+                    )
+                    docs_to_rerank.append(doc)
 
-                reranked = reranker.rerank_documents(query, docs_to_rerank, cultural_boost=cultural_boost)
+                # Rerank documents
+                reranked_docs = reranker.rerank_documents(query, docs_to_rerank, top_k=k)
 
                 # Convert back to SearchResult objects
-                results = []
-                for doc in reranked:
-                    from src.retrieval.search import SearchResult
+                from src.retrieval.search import SearchResult
 
+                results = []
+                for doc in reranked_docs:
                     result = SearchResult(
-                        document_id=doc["metadata"].get("id", "unknown"),
-                        content=doc["content"],
-                        metadata=doc["metadata"],
-                        score=doc["score"],
+                        document_id=doc.doc_id,
+                        content=doc.content,
+                        metadata=doc.metadata,
+                        score=doc.score,
                         search_type=f"{search_type}_reranked",
                     )
                     results.append(result)
