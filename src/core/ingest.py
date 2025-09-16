@@ -226,24 +226,24 @@ class TextPreprocessor:
             return ""
 
         # Remove excessive whitespace and normalize line endings
-        text = re.sub(r'\s+', ' ', text.strip())
-        
+        text = re.sub(r"\s+", " ", text.strip())
+
         # Remove special characters
-        text = re.sub(r'[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ]', '', text)
-        
+        text = re.sub(r"[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ]", "", text)
+
         # Normalize common text patterns
-        text = re.sub(r'\.{2,}', '...', text)
-        text = re.sub(r'\?{2,}', '?', text)
-        text = re.sub(r'\!{2,}', '!', text)
-        
+        text = re.sub(r"\.{2,}", "...", text)
+        text = re.sub(r"\?{2,}", "?", text)
+        text = re.sub(r"\!{2,}", "!", text)
+
         # Remove redundant spaces around punctuation
-        text = re.sub(r'\s+([\.,:;!?])', r'\1', text)
-        text = re.sub(r'([\.,:;!?])\s+', r'\1 ', text)
-        
+        text = re.sub(r"\s+([\.,:;!?])", r"\1", text)
+        text = re.sub(r"([\.,:;!?])\s+", r"\1 ", text)
+
         # Normalize quotes
         text = re.sub(r'[""]', '"', text)
-        text = re.sub(r'['']', "'", text)
-        
+        text = re.sub(r"[" "]", "'", text)
+
         return text.strip()
 
     def calculate_similarity(self, text1: str, text2: str) -> float:
@@ -259,14 +259,14 @@ class TextPreprocessor:
         """
         if not text1 or not text2:
             return 0.0
-            
+
         # Normalize texts for comparison
         norm_text1 = self.normalize_text(text1).lower()
         norm_text2 = self.normalize_text(text2).lower()
-        
+
         if not norm_text1 or not norm_text2:
             return 0.0
-            
+
         # Use sequence matcher for similarity
         matcher = SequenceMatcher(None, norm_text1, norm_text2)
         return matcher.ratio()
@@ -297,15 +297,15 @@ class TextPreprocessor:
         """
         if not text or not text.strip():
             return False
-            
+
         # Check minimum length
         if len(text.strip()) < self.min_text_length:
             return False
-            
-        meaningful_chars = re.sub(r'[^\w\s]', '', text)
+
+        meaningful_chars = re.sub(r"[^\w\s]", "", text)
         if len(meaningful_chars.strip()) < self.min_text_length * 0.7:
             return False
-            
+
         return True
 
     def deduplicate_documents(self, documents: list[Document]) -> list[Document]:
@@ -331,21 +331,21 @@ class TextPreprocessor:
 
         for doc in documents:
             processed_count += 1
-            
+
             # Normalize the text content
             normalized_content = self.normalize_text(doc.page_content)
-            
+
             if not self.is_valid_text(normalized_content):
-                log_debug(f"Skipping invalid text (too short or low quality)", self.config)
+                log_debug("Skipping invalid text (too short or low quality)", self.config)
                 continue
-            
+
             # Check for exact duplicates using hash
-            content_hash = hashlib.md5(normalized_content.encode('utf-8')).hexdigest()
+            content_hash = hashlib.md5(normalized_content.encode("utf-8")).hexdigest()
             if content_hash in seen_hashes:
                 duplicate_count += 1
-                log_debug(f"Skipping exact duplicate document", self.config)
+                log_debug("Skipping exact duplicate document", self.config)
                 continue
-            
+
             is_similar = False
             # Check against last 10 documents for performance
             for existing_doc in unique_documents[-10:]:
@@ -354,7 +354,7 @@ class TextPreprocessor:
                     similar_count += 1
                     log_debug(f"Skipping similar document (similarity > {self.similarity_threshold})", self.config)
                     break
-            
+
             if not is_similar:
                 # Update document with normalized content
                 doc.page_content = normalized_content
@@ -369,7 +369,7 @@ class TextPreprocessor:
             f"Deduplication complete: {len(unique_documents)}/{len(documents)} documents kept "
             f"(removed {duplicate_count} exact duplicates, {similar_count} similar, "
             f"{removed_count - duplicate_count - similar_count} invalid)",
-            self.config
+            self.config,
         )
 
         return unique_documents

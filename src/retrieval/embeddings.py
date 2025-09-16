@@ -85,7 +85,12 @@ class EmbeddingManager:
             if "bge-m3" in model_name.lower() or model_name == "BAAI/bge-m3":
                 self._load_bge_m3_model(model_name)
             else:
-                raise ValueError(f"Unsupported embedding model: {model_name}. WiQAS requires BGE-M3 for optimal Filipino cultural content understanding.")
+                raise ValueError(
+                    f"""
+                    Unsupported embedding model: {model_name}.
+                    WiQAS requires BGE-M3 for optimal Filipino cultural content understanding.
+                    """
+                )
 
             log_success(f"Successfully loaded model: {model_name}", config=self.config)
 
@@ -184,9 +189,7 @@ class EmbeddingManager:
         try:
             # Generate embedding using BGE-M3 (SentenceTransformer)
             with torch.no_grad():
-                embedding = self.model.encode(
-                    text, convert_to_tensor=False, normalize_embeddings=True, show_progress_bar=False
-                )
+                embedding = self.model.encode(text, convert_to_tensor=False, normalize_embeddings=True, show_progress_bar=False)
                 if isinstance(embedding, np.ndarray):
                     embedding = embedding.tolist()
 

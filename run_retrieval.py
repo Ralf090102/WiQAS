@@ -30,9 +30,9 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.search import SemanticSearcher, MMRSearcher
-from src.retrieval.vector_store import ChromaVectorStore
 from src.retrieval.reranker import Document
+from src.retrieval.search import MMRSearcher, SemanticSearcher
+from src.retrieval.vector_store import ChromaVectorStore
 from src.utilities.config import WiQASConfig
 
 # Initialize CLI app and console
@@ -350,11 +350,12 @@ def search(
                 from src.retrieval.reranker import RerankerManager
 
                 reranker_config = config.rag.reranker
-                
+
                 # Override LLM analysis setting if specified
                 if not llm_analysis:
                     # Create a copy of the config with LLM analysis disabled
                     from dataclasses import replace
+
                     reranker_config = replace(reranker_config, use_llm_cultural_analysis=False, score_threshold=0.0)
 
                 reranker = RerankerManager(reranker_config)
@@ -389,13 +390,13 @@ def search(
             # Apply MMR diversity search after reranking if enabled
             if mmr and results and len(results) > 1:
                 task = progress.add_task("Applying MMR diversity search...", total=None)
-                
+
                 # Initialize MMR searcher
                 mmr_searcher = MMRSearcher(embedding_manager, config)
-                
+
                 # Apply MMR to get diverse subset
                 mmr_results = mmr_searcher.search(query, candidate_results=results, k=k)
-                
+
                 # Update search_type to indicate MMR was applied
                 for result in mmr_results:
                     current_search_type = f"{search_type}"
@@ -403,7 +404,7 @@ def search(
                         current_search_type += "_reranked"
                     current_search_type += "_mmr"
                     result.search_type = current_search_type
-                
+
                 results = mmr_results
                 progress.remove_task(task)
 
