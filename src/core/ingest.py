@@ -14,9 +14,11 @@ to searchable vector embeddings stored in ChromaDB.
 """
 
 import hashlib
+import re
 import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
@@ -27,11 +29,8 @@ from langchain.schema import Document
 
 # Document loaders
 from langchain_community.document_loaders import (
-    CSVLoader,
     PyPDFLoader,
     TextLoader,
-    UnstructuredExcelLoader,
-    UnstructuredWordDocumentLoader,
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from tqdm import tqdm
@@ -46,21 +45,11 @@ from src.utilities.utils import ensure_config, log_debug, log_error, log_info, l
 SUPPORTED_EXTENSIONS = {
     ".pdf": "PDF Document",
     ".txt": "Text File",
-    ".csv": "CSV File",
-    ".docx": "Word Document",
-    ".doc": "Word Document",
-    ".xlsx": "Excel Spreadsheet",
-    ".xls": "Excel Spreadsheet",
 }
 
 DOCUMENT_LOADERS = {
     ".pdf": PyPDFLoader,
     ".txt": TextLoader,
-    ".csv": CSVLoader,
-    ".docx": UnstructuredWordDocumentLoader,
-    ".doc": UnstructuredWordDocumentLoader,
-    ".xlsx": UnstructuredExcelLoader,
-    ".xls": UnstructuredExcelLoader,
 }
 
 
@@ -169,11 +158,7 @@ class DocumentProcessor:
         loader_class = DOCUMENT_LOADERS[file_ext]
 
         try:
-            if file_ext == ".csv":
-                loader = loader_class(str(file_path), encoding="utf-8")
-            else:
-                loader = loader_class(str(file_path))
-
+            loader = loader_class(str(file_path))
             documents = loader.load()
 
             # Add file metadata to each document
@@ -216,6 +201,203 @@ class DocumentProcessor:
             ingestion_timestamp="",
             source_directory=str(file_path.parent),
         )
+
+
+# ========== TEXT PREPROCESSING ==========
+class TextPreprocessor:
+    """Handles text normalization and deduplication"""
+
+    def __init__(self, config: WiQASConfig | None = None):
+        self.config = ensure_config(config)
+        self.similarity_threshold = self.config.rag.preprocessing.similarity_threshold
+        self.min_text_length = self.config.rag.preprocessing.min_text_length
+
+    def normalize_text(self, text: str) -> str:
+        """
+        Normalize text by cleaning and standardizing format.
+
+        Args:
+            text: Raw text to normalize
+
+        Returns:
+            Normalized text
+        """
+        if not text or not text.strip():
+            return ""
+
+        # Remove excessive whitespace and normalize line endings
+        text = re.sub(r"\s+", " ", text.strip())
+
+        # Remove problematic characters but keep basic punctuation and accented characters
+        text = re.sub(r"[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\]", "", text)
+
+        # Normalize common text patterns
+        text = re.sub(r"\.{2,}", "...", text)
+        text = re.sub(r"\?{2,}", "?", text)
+        text = re.sub(r"\!{2,}", "!", text)
+
+        # Remove redundant spaces around punctuation
+        text = re.sub(r"\s+([\.,:;!?])", r"\1", text)
+        text = re.sub(r"([\.,:;!?])\s+", r"\1 ", text)
+
+        # Normalize quotes
+        text = re.sub(r'[""]', '"', text)
+        text = re.sub(r"[''']", "'", text)
+
+        return text.strip()
+
+    def calculate_similarity(self, text1: str, text2: str) -> float:
+        """
+        Calculate similarity between two texts using sequence matching.
+
+        Args:
+            text1: First text
+            text2: Second text
+
+        Returns:
+            Similarity score between 0.0 and 1.0
+        """
+        if not text1 or not text2:
+            return 0.0
+
+        # Normalize texts for comparison
+        norm_text1 = self.normalize_text(text1).lower()
+        norm_text2 = self.normalize_text(text2).lower()
+
+        if not norm_text1 or not norm_text2:
+            return 0.0
+
+        # Use sequence matcher for similarity
+        matcher = SequenceMatcher(None, norm_text1, norm_text2)
+        return matcher.ratio()
+
+    def is_similar_content(self, text1: str, text2: str) -> bool:
+        """
+        Check if two texts are similar enough to be considered duplicates.
+
+        Args:
+            text1: First text
+            text2: Second text
+
+        Returns:
+            True if texts are similar, False otherwise
+        """
+        similarity = self.calculate_similarity(text1, text2)
+        return similarity >= self.similarity_threshold
+
+    def is_valid_text(self, text: str) -> bool:
+        """
+        Check if text meets minimum quality requirements.
+
+        Args:
+            text: Text to validate
+
+        Returns:
+            True if text is valid, False otherwise
+        """
+        if not text or not text.strip():
+            return False
+
+        # Check minimum length
+        if len(text.strip()) < self.min_text_length:
+            return False
+
+        meaningful_chars = re.sub(r"[^\w\s]", "", text)
+        if len(meaningful_chars.strip()) < self.min_text_length * 0.7:
+            return False
+
+        return True
+
+    def deduplicate_documents(self, documents: list[Document]) -> list[Document]:
+        """
+        Remove duplicate and similar documents from a list.
+
+        Args:
+            documents: List of documents to deduplicate
+
+        Returns:
+            List of deduplicated documents
+        """
+        if not documents:
+            return documents
+
+        unique_documents = []
+        seen_hashes = set()
+        processed_count = 0
+        duplicate_count = 0
+        similar_count = 0
+
+        log_info(f"Starting deduplication of {len(documents)} documents", self.config)
+
+        for doc in documents:
+            processed_count += 1
+
+            # Normalize the text content
+            normalized_content = self.normalize_text(doc.page_content)
+
+            if not self.is_valid_text(normalized_content):
+                log_debug("Skipping invalid text (too short or low quality)", self.config)
+                continue
+
+            # Check for exact duplicates using hash
+            content_hash = hashlib.md5(normalized_content.encode("utf-8")).hexdigest()
+            if content_hash in seen_hashes:
+                duplicate_count += 1
+                log_debug("Skipping exact duplicate document", self.config)
+                continue
+
+            is_similar = False
+            # Check against last 10 documents for performance
+            for existing_doc in unique_documents[-10:]:
+                if self.is_similar_content(normalized_content, existing_doc.page_content):
+                    is_similar = True
+                    similar_count += 1
+                    log_debug(f"Skipping similar document (similarity > {self.similarity_threshold})", self.config)
+                    break
+
+            if not is_similar:
+                # Update document with normalized content
+                doc.page_content = normalized_content
+                unique_documents.append(doc)
+                seen_hashes.add(content_hash)
+
+            if processed_count % 100 == 0:
+                log_debug(f"Processed {processed_count}/{len(documents)} documents", self.config)
+
+        removed_count = len(documents) - len(unique_documents)
+        log_info(
+            f"Deduplication complete: {len(unique_documents)}/{len(documents)} documents kept "
+            f"(removed {duplicate_count} exact duplicates, {similar_count} similar, "
+            f"{removed_count - duplicate_count - similar_count} invalid)",
+            self.config,
+        )
+
+        return unique_documents
+
+    def preprocess_documents(self, documents: list[Document]) -> list[Document]:
+        """
+        Complete preprocessing pipeline: normalize and deduplicate.
+
+        Args:
+            documents: List of documents to preprocess
+
+        Returns:
+            List of preprocessed documents
+        """
+        if not documents:
+            return documents
+
+        log_info(f"Starting text preprocessing for {len(documents)} documents", self.config)
+
+        # Normalize
+        for doc in documents:
+            doc.page_content = self.normalize_text(doc.page_content)
+
+        # Deduplicate
+        unique_documents = self.deduplicate_documents(documents)
+
+        log_info(f"Text preprocessing complete: {len(unique_documents)} documents ready for chunking", self.config)
+        return unique_documents
 
 
 # ========== TEXT CHUNKING ==========
@@ -444,11 +626,12 @@ class DocumentIngestor:
     def __init__(self, config: WiQASConfig | None = None):
         self.config = ensure_config(config)
         self.processor = DocumentProcessor(config)
+        self.preprocessor = TextPreprocessor(config)
         self.chunker = TextChunker(config)
         self.vector_store = VectorStoreManager(config)
 
         # Setup knowledge base directory
-        self.knowledge_base_path = Path("data/knowledge_base")
+        self.knowledge_base_path = Path(self.config.system.storage.knowledge_base_directory)
         self.knowledge_base_path.mkdir(parents=True, exist_ok=True)
 
     def ingest_file(self, file_path: str | Path) -> tuple[bool, DocumentMetadata, list[str]]:
@@ -471,7 +654,12 @@ class DocumentIngestor:
             documents = self.processor.load_document(file_path)
             metadata.total_documents = len(documents)
 
-            chunks = self.chunker.chunk_documents(documents)
+            # Preprocess documents (normalize and deduplicate)
+            preprocessed_documents = self.preprocessor.preprocess_documents(documents)
+            log_info(f"Preprocessed documents: {len(documents)} -> {len(preprocessed_documents)}", self.config)
+
+            # Chunk preprocessed documents
+            chunks = self.chunker.chunk_documents(preprocessed_documents)
             metadata.chunk_count = len(chunks)
 
             # Add to vector store
@@ -624,6 +812,12 @@ class DocumentIngestor:
             "knowledge_base_path": str(self.knowledge_base_path),
             "vector_store": vector_stats,
             "supported_formats": list(SUPPORTED_EXTENSIONS.keys()),
+            "preprocessing": {
+                "text_normalization": self.config.rag.preprocessing.enable_normalization,
+                "deduplication": self.config.rag.preprocessing.enable_deduplication,
+                "similarity_threshold": self.config.rag.preprocessing.similarity_threshold,
+                "min_text_length": self.config.rag.preprocessing.min_text_length,
+            },
             "chunking_strategy": self.config.rag.chunking.strategy.value,
             "chunk_size": self.config.rag.chunking.chunk_size,
             "embedding_model": self.config.rag.embedding.model,

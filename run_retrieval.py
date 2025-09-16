@@ -30,7 +30,8 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.search import SemanticSearcher
+from src.retrieval.reranker import Document
+from src.retrieval.search import MMRSearcher, SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
 from src.utilities.config import WiQASConfig
 
@@ -122,7 +123,7 @@ def check_system_health(config: WiQASConfig) -> dict[str, Any]:
 
     # Check knowledge base directory
     try:
-        kb_path = Path("data/knowledge_base")
+        kb_path = Path(config.system.storage.knowledge_base_directory)
         health["knowledge_base"] = kb_path.exists()
         if health["knowledge_base"]:
             files = list(kb_path.rglob("*"))
@@ -268,7 +269,9 @@ def search(
     k: int = typer.Option(5, "--results", "-k", help="Number of results to return"),
     search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic, hybrid, or keyword"),
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable reranking"),
+    mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search after reranking"),
     cultural_boost: bool = typer.Option(True, "--cultural/--no-cultural", help="Enable cultural content boosting"),
+    llm_analysis: bool = typer.Option(True, "--llm-analysis/--no-llm-analysis", help="Enable LLM-based cultural analysis"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
     json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
 ):
@@ -281,7 +284,9 @@ def search(
     print_info(f"Search type: {search_type}")
     print_info(f"Results: {k}")
     print_info(f"Reranking: {rerank}")
+    print_info(f"MMR diversity: {mmr}")
     print_info(f"Cultural boost: {cultural_boost}")
+    print_info(f"LLM analysis: {llm_analysis}")
 
     try:
         # Initialize components
@@ -342,10 +347,18 @@ def search(
             # Apply reranking if enabled
             if rerank and results:
                 task = progress.add_task("Reranking results...", total=None)
-                from src.retrieval.reranker import Document, RerankerManager
+                from src.retrieval.reranker import RerankerManager
 
-                # Use the reranker config from the main config
-                reranker = RerankerManager(config.rag.reranker)
+                reranker_config = config.rag.reranker
+
+                # Override LLM analysis setting if specified
+                if not llm_analysis:
+                    # Create a copy of the config with LLM analysis disabled
+                    from dataclasses import replace
+
+                    reranker_config = replace(reranker_config, use_llm_cultural_analysis=False, score_threshold=0.0)
+
+                reranker = RerankerManager(reranker_config)
 
                 # Convert SearchResult objects to Document objects for reranking
                 docs_to_rerank = []
@@ -374,13 +387,36 @@ def search(
 
                 progress.remove_task(task)
 
+            # Apply MMR diversity search after reranking if enabled
+            if mmr and results and len(results) > 1:
+                task = progress.add_task("Applying MMR diversity search...", total=None)
+
+                # Initialize MMR searcher
+                mmr_searcher = MMRSearcher(embedding_manager, config)
+
+                # Apply MMR to get diverse subset
+                mmr_results = mmr_searcher.search(query, candidate_results=results, k=k)
+
+                # Update search_type to indicate MMR was applied
+                for result in mmr_results:
+                    current_search_type = f"{search_type}"
+                    if rerank:
+                        current_search_type += "_reranked"
+                    current_search_type += "_mmr"
+                    result.search_type = current_search_type
+
+                results = mmr_results
+                progress.remove_task(task)
+
         # Display results
         if json_output:
             output = {
                 "query": query,
                 "search_type": search_type,
                 "reranked": rerank,
+                "mmr_applied": mmr,
                 "cultural_boost": cultural_boost,
+                "llm_analysis": llm_analysis,
                 "total_results": len(results),
                 "results": [result.to_dict() for result in results],
             }
@@ -545,6 +581,15 @@ def config(
                     "Batch Size": str(config.rag.embedding.batch_size),
                     "Cache Embeddings": str(config.rag.embedding.cache_embeddings),
                     "Timeout": f"{config.rag.embedding.timeout}s",
+                },
+            ),
+            (
+                "Preprocessing Configuration",
+                {
+                    "Text Normalization": str(config.rag.preprocessing.enable_normalization),
+                    "Deduplication": str(config.rag.preprocessing.enable_deduplication),
+                    "Similarity Threshold": str(config.rag.preprocessing.similarity_threshold),
+                    "Min Text Length": str(config.rag.preprocessing.min_text_length),
                 },
             ),
             (
