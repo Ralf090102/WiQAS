@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, Optional
 import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
-from transformers import AutoModel, AutoTokenizer
 
 from src.utilities.utils import (
     ensure_config,
@@ -83,23 +82,16 @@ class EmbeddingManager:
         try:
             log_info(f"Loading embedding model: {model_name}", config=self.config)
 
-            # BGE-M3
             if "bge-m3" in model_name.lower() or model_name == "BAAI/bge-m3":
                 self._load_bge_m3_model(model_name)
-
-            # Other sentence-transformers models
-            elif model_name in ["nomic-embed-text", "all-MiniLM-L6-v2", "all-mpnet-base-v2"]:
-                self._load_sentence_transformer(model_name)
-
-            # Generic Hugging Face model
             else:
-                self._load_huggingface_model(model_name)
+                raise ValueError(f"Unsupported embedding model: {model_name}. WiQAS requires BGE-M3 for optimal Filipino cultural content understanding.")
 
             log_success(f"Successfully loaded model: {model_name}", config=self.config)
 
         except Exception as e:
             log_error(f"Failed to load embedding model {model_name}: {e}", config=self.config)
-            self._fallback_model()
+            raise RuntimeError(f"BGE-M3 model failed to load. This is required for WiQAS functionality: {e}")
 
     def _load_bge_m3_model(self, model_name: str = "BAAI/bge-m3") -> None:
         """Load BGE-M3 model with optimized settings."""
@@ -119,44 +111,6 @@ class EmbeddingManager:
         except Exception as e:
             log_error(f"Failed to load BGE-M3: {e}", config=self.config)
             raise
-
-    def _load_sentence_transformer(self, model_name: str) -> None:
-        """Load a sentence-transformers model."""
-        try:
-            self.model = SentenceTransformer(model_name, device=self.device)
-            self.model.eval()
-
-        except Exception as e:
-            log_error(f"Failed to load sentence-transformer {model_name}: {e}", config=self.config)
-            raise
-
-    def _load_huggingface_model(self, model_name: str) -> None:
-        """Load a generic Hugging Face model."""
-        try:
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.model = AutoModel.from_pretrained(model_name).to(self.device)
-            self.model.eval()
-
-        except Exception as e:
-            log_error(f"Failed to load Hugging Face model {model_name}: {e}", config=self.config)
-            raise
-
-    def _fallback_model(self) -> None:
-        """Load a fallback model if primary model fails."""
-        fallback_models = ["all-MiniLM-L6-v2", "paraphrase-MiniLM-L6-v2"]
-
-        for fallback in fallback_models:
-            try:
-                log_warning(f"Trying fallback model: {fallback}", config=self.config)
-                self.model = SentenceTransformer(fallback, device=self.device)
-                self.model.eval()
-                log_success(f"Loaded fallback model: {fallback}", config=self.config)
-                return
-            except Exception as e:
-                log_warning(f"Fallback model {fallback} also failed: {e}", config=self.config)
-                continue
-
-        raise RuntimeError("All embedding models failed to load")
 
     def _get_cache_key(self, text: str) -> str:
         """Generate cache key for text."""
@@ -228,25 +182,12 @@ class EmbeddingManager:
             return cached_embedding
 
         try:
-            # Generate embedding
-            if isinstance(self.model, SentenceTransformer):
-                with torch.no_grad():
-                    embedding = self.model.encode(
-                        text, convert_to_tensor=False, normalize_embeddings=True, show_progress_bar=False
-                    )
-                    if isinstance(embedding, np.ndarray):
-                        embedding = embedding.tolist()
-
-            else:
-                # For generic Hugging Face models
-                with torch.no_grad():
-                    inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512).to(
-                        self.device
-                    )
-
-                    outputs = self.model(**inputs)
-                    # Mean pooling
-                    embedding = outputs.last_hidden_state.mean(dim=1).squeeze().cpu().numpy()
+            # Generate embedding using BGE-M3 (SentenceTransformer)
+            with torch.no_grad():
+                embedding = self.model.encode(
+                    text, convert_to_tensor=False, normalize_embeddings=True, show_progress_bar=False
+                )
+                if isinstance(embedding, np.ndarray):
                     embedding = embedding.tolist()
 
             self._save_to_cache(cache_key, embedding)
@@ -294,26 +235,20 @@ class EmbeddingManager:
 
                 log_debug(f"Processing batch {i//batch_size + 1} with {len(batch_texts)} texts", self.config)
 
-                if isinstance(self.model, SentenceTransformer):
-                    with torch.no_grad():
-                        # For BGE-M3, add explicit truncation and show_progress_bar
-                        batch_embeddings = self.model.encode(
-                            batch_texts,
-                            convert_to_tensor=False,
-                            normalize_embeddings=True,
-                            batch_size=len(batch_texts),
-                            show_progress_bar=False,
-                        )
+                # Generate embeddings using BGE-M3 (SentenceTransformer)
+                with torch.no_grad():
+                    batch_embeddings = self.model.encode(
+                        batch_texts,
+                        convert_to_tensor=False,
+                        normalize_embeddings=True,
+                        batch_size=len(batch_texts),
+                        show_progress_bar=False,
+                    )
 
-                        if isinstance(batch_embeddings, np.ndarray):
-                            batch_embeddings = batch_embeddings.tolist()
+                    if isinstance(batch_embeddings, np.ndarray):
+                        batch_embeddings = batch_embeddings.tolist()
 
-                        all_embeddings.extend(batch_embeddings)
-                else:
-                    # Process individual texts for generic models
-                    for text in batch_texts:
-                        embedding = self.encode_single(text)
-                        all_embeddings.append(embedding)
+                    all_embeddings.extend(batch_embeddings)
 
             result_embeddings = [[] for _ in texts]
             for i, embedding in enumerate(all_embeddings):
@@ -329,21 +264,17 @@ class EmbeddingManager:
 
     def get_embedding_dimension(self) -> int:
         """
-        Get the dimension of embeddings produced by the model.
+        Get the dimension of embeddings produced by the BGE-M3 model.
 
         Returns:
             Embedding dimension
         """
         try:
-            if isinstance(self.model, SentenceTransformer):
-                return self.model.get_sentence_embedding_dimension()
-            else:
-                test_embedding = self.encode_single("test")
-                return len(test_embedding) if test_embedding else 0
+            return self.model.get_sentence_embedding_dimension()
 
         except Exception as e:
             log_error(f"Failed to get embedding dimension: {e}", config=self.config)
-            return 768  # Default fallback
+            return 1024  # BGE-M3 default dimension
 
     def clear_cache(self) -> None:
         """Clear embedding cache."""

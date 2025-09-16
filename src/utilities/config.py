@@ -136,6 +136,33 @@ class ChunkingConfig(BaseConfig):
 
 
 @dataclass
+class PreprocessingConfig(BaseConfig):
+    """Text preprocessing configuration"""
+
+    similarity_threshold: float = 0.85
+    min_text_length: int = 50
+    enable_deduplication: bool = True
+    enable_normalization: bool = True
+
+    @classmethod
+    def from_env(cls) -> "PreprocessingConfig":
+        """Load preprocessing configuration from environment variables"""
+        return cls(
+            similarity_threshold=get_env_float("WIQAS_PREPROCESSING_SIMILARITY_THRESHOLD", 0.85),
+            min_text_length=get_env_int("WIQAS_PREPROCESSING_MIN_TEXT_LENGTH", 50),
+            enable_deduplication=get_env_bool("WIQAS_PREPROCESSING_ENABLE_DEDUPLICATION", True),
+            enable_normalization=get_env_bool("WIQAS_PREPROCESSING_ENABLE_NORMALIZATION", True),
+        )
+
+    def validate(self) -> None:
+        """Validate preprocessing configuration"""
+        if not 0.0 <= self.similarity_threshold <= 1.0:
+            raise ValueError("similarity_threshold must be between 0.0 and 1.0")
+        if self.min_text_length <= 0:
+            raise ValueError("min_text_length must be positive")
+
+
+@dataclass
 class RetrievalConfig(BaseConfig):
     """Document retrieval configuration"""
 
@@ -221,7 +248,7 @@ class RerankerConfig(BaseConfig):
     # Caching and batch processing
     cache_cultural_analysis: bool = True
     cultural_cache_ttl: int = 7200
-    batch_analysis_size: int = 5
+    batch_analysis_size: int = 10
     enable_batch_processing: bool = True
 
     @classmethod
@@ -246,7 +273,7 @@ class RerankerConfig(BaseConfig):
             high_confidence_boost=get_env_float("WIQAS_RERANKER_HIGH_CONFIDENCE_BOOST", 1.5),
             cache_cultural_analysis=get_env_bool("WIQAS_RERANKER_CACHE_CULTURAL_ANALYSIS", True),
             cultural_cache_ttl=get_env_int("WIQAS_RERANKER_CULTURAL_CACHE_TTL", 7200),
-            batch_analysis_size=get_env_int("WIQAS_RERANKER_BATCH_ANALYSIS_SIZE", 5),
+            batch_analysis_size=get_env_int("WIQAS_RERANKER_BATCH_ANALYSIS_SIZE", 10),
             enable_batch_processing=get_env_bool("WIQAS_RERANKER_ENABLE_BATCH_PROCESSING", True),
         )
 
@@ -344,6 +371,7 @@ class RAGConfig(BaseConfig):
     """Complete RAG pipeline configuration"""
 
     embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
+    preprocessing: PreprocessingConfig = field(default_factory=PreprocessingConfig)
     chunking: ChunkingConfig = field(default_factory=ChunkingConfig)
     retrieval: RetrievalConfig = field(default_factory=RetrievalConfig)
     reranker: RerankerConfig = field(default_factory=RerankerConfig)
@@ -355,6 +383,7 @@ class RAGConfig(BaseConfig):
         """Load RAG configuration from environment variables"""
         return cls(
             embedding=EmbeddingConfig.from_env(),
+            preprocessing=PreprocessingConfig.from_env(),
             chunking=ChunkingConfig.from_env(),
             retrieval=RetrievalConfig.from_env(),
             reranker=RerankerConfig.from_env(),
@@ -370,6 +399,7 @@ class StorageConfig(BaseConfig):
 
     data_directory: str = "./wiqas-data"
     temp_directory: str = "./temp"
+    knowledge_base_directory: str = "./data/knowledge_base"
 
     @classmethod
     def from_env(cls) -> "StorageConfig":
@@ -377,6 +407,7 @@ class StorageConfig(BaseConfig):
         return cls(
             data_directory=get_env_str("WIQAS_STORAGE_DATA_DIRECTORY", "./wiqas-data"),
             temp_directory=get_env_str("WIQAS_STORAGE_TEMP_DIRECTORY", "./temp"),
+            knowledge_base_directory=get_env_str("WIQAS_STORAGE_KNOWLEDGE_BASE_DIRECTORY", "./data/knowledge_base"),
         )
 
 
@@ -470,6 +501,7 @@ class WiQASConfig(BaseConfig):
 
     def validate(self) -> None:
         """Validate entire configuration"""
+        self.rag.preprocessing.validate()
         self.rag.chunking.validate()
         self.rag.retrieval.validate()
         # Add more validations as needed
