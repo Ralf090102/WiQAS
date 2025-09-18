@@ -38,6 +38,7 @@ from tqdm import tqdm
 from src.retrieval.embeddings import EmbeddingManager
 
 # Local imports
+from src.utilities.cohfie_json_loader import CohfieJsonLoader
 from src.utilities.config import ChunkerType, WiQASConfig
 from src.utilities.utils import ensure_config, log_debug, log_error, log_info, log_warning
 
@@ -45,11 +46,13 @@ from src.utilities.utils import ensure_config, log_debug, log_error, log_info, l
 SUPPORTED_EXTENSIONS = {
     ".pdf": "PDF Document",
     ".txt": "Text File",
+    ".json": "JSON File",
 }
 
 DOCUMENT_LOADERS = {
     ".pdf": PyPDFLoader,
     ".txt": TextLoader,
+    ".json": CohfieJsonLoader,
 }
 
 
@@ -152,6 +155,11 @@ class DocumentProcessor:
             raise FileNotFoundError(f"File not found: {file_path}")
 
         file_ext = file_path.suffix.lower()
+
+        # Treat files containing '.txt' in their name as .txt files
+        if file_ext not in SUPPORTED_EXTENSIONS and ".txt" in file_path.name.lower():
+            file_ext = ".txt"
+
         if file_ext not in SUPPORTED_EXTENSIONS:
             raise ValueError(f"Unsupported file type: {file_ext}")
 
@@ -777,12 +785,12 @@ class DocumentIngestor:
                 shutil.copy2(source_path, dest_file)
                 source_path = dest_file
             else:
-                # Directory - copy all files
-                for file_path in source_path.rglob("*"):
-                    if file_path.is_file() and file_path.suffix.lower() in SUPPORTED_EXTENSIONS:
-                        dest_file = self.knowledge_base_path / file_path.name
-                        shutil.copy2(file_path, dest_file)
-                source_path = self.knowledge_base_path
+                # Copy entire directory recursively
+                for file in source_path.rglob("*"):
+                    if file.is_file():
+                        dest = self.knowledge_base_path / file.relative_to(source_path)
+                        dest.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy(file, dest)
 
         # Ingest from knowledge base directory
         if source_path.is_file():
@@ -799,8 +807,7 @@ class DocumentIngestor:
                 stats.failed_files = 1
                 stats.errors.extend(errors)
         else:
-            # Directory ingestion
-            stats = self.ingest_directory(source_path)
+            stats = self.ingest_directory(source_path, recursive=True)
 
         return stats
 
