@@ -72,46 +72,63 @@ class CohfieJsonLoader:
         # Extract subfolder names as metadata
         subfolder_path = ".".join(self.file_path.parts[-7:-1])
 
-        if "books" in data:
-            metadata = BooksMetadata(
-                title=data.get("title"),
-                author=data.get("author"),
-                translated_by=data.get("translatedBy"),
-                year_published=data.get("yearPublished"),
-                text=data.get("text"),
-            )
-        elif "news_sites" in data:
-            metadata = NewsSitesMetadata(
-                text=data.get("text"),
-            )
-        elif "online_forums" in data:
-            metadata = OnlineForumsMetadata(
-                author=data.get("author"),
-                created_utc=data.get("created_utc"),
-                full_link=data.get("full_link"),
-                text=data.get("text"),
-                subreddit=data.get("subreddit"),
-                title=data.get("title"),
-                created=data.get("created"),
-            )
-        elif "social_media" in data:
-            metadata = SocialMediaMetadata(
-                text=data.get("text"),
-                year=data.get("year"),
-                month=data.get("month"),
-            )
-        elif "wikipedia" in data:
-            metadata = WikipediaMetadata(
-                date=data.get("date"),
-                title=data.get("title"),
-                text=data.get("text"),
-            )
+        documents = []
+
+        # Handle top-level list structure
+        if isinstance(data, list):
+            for item in data:
+                if not isinstance(item, dict):
+                    raise ValueError(f"Invalid item in JSON list: {item}")
+
+                # Determine metadata type for each item
+                if all(key in item for key in ["title", "author", "translatedBy", "yearPublished", "text"]):
+                    metadata = BooksMetadata(
+                        title=item.get("title"),
+                        author=item.get("author"),
+                        translated_by=item.get("translatedBy"),
+                        year_published=item.get("yearPublished"),
+                        text=item.get("text"),
+                    )
+                elif "text" in item and len(item) == 1:
+                    metadata = NewsSitesMetadata(
+                        text=item.get("text"),
+                    )
+                elif all(
+                    key in item for key in ["author", "created_utc", "full_link", "text", "subreddit", "title", "created"]
+                ):
+                    metadata = OnlineForumsMetadata(
+                        author=item.get("author"),
+                        created_utc=item.get("created_utc"),
+                        full_link=item.get("full_link"),
+                        text=item.get("text"),
+                        subreddit=item.get("subreddit"),
+                        title=item.get("title"),
+                        created=item.get("created"),
+                    )
+                elif all(key in item for key in ["text", "year", "month"]):
+                    metadata = SocialMediaMetadata(
+                        text=item.get("text"),
+                        year=item.get("year"),
+                        month=item.get("month"),
+                    )
+                elif all(key in item for key in ["date", "title", "text"]):
+                    metadata = WikipediaMetadata(
+                        date=item.get("date"),
+                        title=item.get("title"),
+                        text=item.get("text"),
+                    )
+                else:
+                    print(f"Unknown metadata type in JSON file: {self.file_path}")
+                    print(f"Top-level keys: {list(item.keys())}")
+                    raise ValueError("Unknown metadata type in JSON file")
+
+                document = Document(
+                    page_content=json.dumps(item),
+                    metadata={"subfolder_path": subfolder_path, "file_name": self.file_path.name, **metadata.__dict__},
+                )
+                documents.append(document)
+
         else:
-            raise ValueError("Unknown metadata type in JSON file")
+            raise ValueError(f"Unsupported JSON structure in file: {self.file_path}")
 
-        document = Document(
-            page_content=json.dumps(data),
-            metadata={"subfolder_path": subfolder_path, "file_name": self.file_path.name, **metadata.__dict__},
-        )
-
-        return [document]
+        return documents
