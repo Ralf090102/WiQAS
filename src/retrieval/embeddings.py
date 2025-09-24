@@ -258,7 +258,6 @@ class EmbeddingManager:
                 original_index = valid_indices[i]
                 result_embeddings[original_index] = embedding
 
-            log_success(f"Generated {len(all_embeddings)} embeddings", config=self.config)
             return result_embeddings
 
         except Exception as e:

@@ -103,20 +103,20 @@ class ChunkingConfig(BaseConfig):
     """Document chunking configuration"""
 
     strategy: ChunkerType = ChunkerType.RECURSIVE
-    chunk_size: int = 128
-    chunk_overlap: int = 0
-    max_chunk_size: int = 128
-    min_chunk_size: int = 100
+    chunk_size: int = 512
+    chunk_overlap: int = 256
+    max_chunk_size: int = 512
+    min_chunk_size: int = 256
 
     @classmethod
     def from_env(cls) -> "ChunkingConfig":
         """Load chunking configuration from environment variables"""
         return cls(
             strategy=get_env_enum("WIQAS_CHUNKING_STRATEGY", ChunkerType, ChunkerType.RECURSIVE),
-            chunk_size=get_env_int("WIQAS_CHUNK_SIZE", 128),
-            chunk_overlap=get_env_int("WIQAS_CHUNK_OVERLAP", 0),
-            max_chunk_size=get_env_int("WIQAS_MAX_CHUNK_SIZE", 128),
-            min_chunk_size=get_env_int("WIQAS_MIN_CHUNK_SIZE", 100),
+            chunk_size=get_env_int("WIQAS_CHUNK_SIZE", 512),
+            chunk_overlap=get_env_int("WIQAS_CHUNK_OVERLAP", 256),
+            max_chunk_size=get_env_int("WIQAS_MAX_CHUNK_SIZE", 512),
+            min_chunk_size=get_env_int("WIQAS_MIN_CHUNK_SIZE", 256),
         )
 
     def validate(self) -> None:

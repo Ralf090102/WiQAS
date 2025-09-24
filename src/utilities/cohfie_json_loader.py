@@ -122,9 +122,14 @@ class CohfieJsonLoader:
                     print(f"Top-level keys: {list(item.keys())}")
                     raise ValueError("Unknown metadata type in JSON file")
 
+                text_content = item.get("text", "")
+                
+                # Remove 'text' from metadata dict to avoid duplication
+                meta_dict = {k: v for k, v in metadata.__dict__.items() if k != "text"}
+                
                 document = Document(
-                    page_content=json.dumps(item),
-                    metadata={"subfolder_path": subfolder_path, "file_name": self.file_path.name, **metadata.__dict__},
+                    page_content=text_content,
+                    metadata={"subfolder_path": subfolder_path, "file_name": self.file_path.name, **meta_dict},
                 )
                 documents.append(document)
 

@@ -170,29 +170,21 @@ def ingest(
         # Initialize ingestor
         ingestor = DocumentIngestor(config)
 
-        with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console,
-        ) as progress:
-
-            if clear:
+        if clear:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console,
+            ) as progress:
                 task = progress.add_task("Clearing existing data...", total=None)
                 ingestor.vector_store.clear_collection()
                 progress.remove_task(task)
-                print_success("Cleared existing knowledge base")
+            print_success("Cleared existing knowledge base")
 
-            # Start ingestion
-            task = progress.add_task("Ingesting documents...", total=None)
-
-            if source_path.is_file():
-                # Single file
-                stats = ingestor.ingest_knowledge_base(source_path, clear_existing=False)
-            else:
-                # Directory
-                stats = ingestor.ingest_directory(source_path, recursive=recursive, max_workers=workers)
-
-            progress.remove_task(task)
+        if source_path.is_file():
+            stats = ingestor.ingest_knowledge_base(source_path, clear_existing=False)
+        else:
+            stats = ingestor.ingest_directory(source_path, recursive=recursive, max_workers=workers)
 
         # Display results
         console.print("\n[bold]Ingestion Results:[/bold]")
