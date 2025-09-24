@@ -343,6 +343,9 @@ class TextPreprocessor:
         # Remove control characters but keep most printable characters
         text = re.sub(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]", "", text)
 
+        # Remove leading numbers (verse/section numbers) from the beginning of text
+        text = re.sub(r"^\d+\s+", "", text)
+
         # Normalize common text patterns
         text = re.sub(r"\.{2,}", "...", text)
         text = re.sub(r"\?{2,}", "?", text)
@@ -930,6 +933,15 @@ class DocumentIngestor:
         for ext in SUPPORTED_EXTENSIONS.keys():
             files = list(directory_path.glob(f"{pattern}{ext}"))
             all_files.extend(files)
+
+        txt_like_files = []
+        for file_path in directory_path.glob(pattern):
+            if file_path.is_file() and ".txt" in file_path.name.lower():
+                # Only add if not already found by extension matching
+                if file_path not in all_files:
+                    txt_like_files.append(file_path)
+        
+        all_files.extend(txt_like_files)
 
         stats.total_files = len(all_files)
 

@@ -8,6 +8,8 @@ Supports ingestion, search, and system management operations.
 Usage:
     python run_retrieval.py ingest <path>           # Ingest documents
     python run_retrieval.py search <query>          # Search documents
+    python run_retrieval.py sources                 # List all sources
+    python run_retrieval.py sources --file <path>   # Show chunks from specific source
     python run_retrieval.py status                  # Show system status
     python run_retrieval.py clear                   # Clear knowledge base
     python run_retrieval.py config                  # Show configuration
@@ -452,6 +454,109 @@ def search(
 
 
 # ========== STATUS AND INFO COMMANDS ==========
+@app.command()
+def sources(
+    source_file: str = typer.Option(None, "--file", "-f", help="Show chunks from specific source file"),
+    json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
+    config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
+):
+    """List all sources in the knowledge base or show chunks from a specific source."""
+    print_header("Knowledge Base Sources")
+
+    config = WiQASConfig.from_env() if config_env else WiQASConfig()
+
+    try:
+        vector_store = ChromaVectorStore(config)
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console,
+        ) as progress:
+            
+            if source_file:
+                # Show chunks from specific source
+                task = progress.add_task(f"Loading chunks from {source_file}...", total=None)
+                chunks = vector_store.get_chunks_by_source(source_file)
+                progress.remove_task(task)
+
+                if json_output:
+                    output = {
+                        "source_file": source_file,
+                        "chunk_count": len(chunks),
+                        "chunks": chunks
+                    }
+                    console.print(json.dumps(output, indent=2))
+                else:
+                    if not chunks:
+                        print_warning(f"No chunks found for source: {source_file}")
+                        return
+
+                    console.print(f"\n[bold]Found {len(chunks)} chunks from: {source_file}[/bold]\n")
+
+                    for i, chunk in enumerate(chunks, 1):
+                        metadata = chunk["metadata"]
+                        chunk_idx = metadata.get("chunk_index", i-1) + 1
+                        chunk_total = metadata.get("chunk_total", len(chunks))
+                        
+                        console.print(f"[bold cyan]Chunk {chunk_idx}/{chunk_total}[/bold cyan] (ID: {chunk['id']})")
+                        
+                        # Content preview
+                        content = chunk["content"][:300] + "..." if len(chunk["content"]) > 300 else chunk["content"]
+                        console.print(Panel(content, border_style="dim"))
+                        console.print()
+
+            else:
+                # List all sources
+                task = progress.add_task("Loading sources...", total=None)
+                sources_list = vector_store.list_all_sources()
+                progress.remove_task(task)
+
+                if json_output:
+                    output = {
+                        "total_sources": len(sources_list),
+                        "sources": sources_list
+                    }
+                    console.print(json.dumps(output, indent=2))
+                else:
+                    if not sources_list:
+                        print_warning("No sources found in knowledge base")
+                        return
+
+                    console.print(f"\n[bold]Found {len(sources_list)} sources in knowledge base:[/bold]\n")
+
+                    # Create table for sources
+                    table = Table(show_header=True, header_style="bold magenta")
+                    table.add_column("File Name", style="cyan", min_width=20)
+                    table.add_column("Type", style="yellow", width=10)
+                    table.add_column("Chunks", style="green", width=8, justify="right")
+                    table.add_column("Source Path", style="dim", no_wrap=False)
+
+                    total_chunks = 0
+                    for source in sources_list:
+                        table.add_row(
+                            source["file_name"],
+                            source["file_type"],
+                            str(source["chunk_count"]),
+                            source["source_file"]
+                        )
+                        total_chunks += source["chunk_count"]
+
+                    console.print(table)
+                    
+                    # Summary
+                    console.print(f"\n[bold]Summary:[/bold]")
+                    console.print(f"  • Total sources: {len(sources_list)}")
+                    console.print(f"  • Total chunks: {total_chunks}")
+                    console.print(f"\n[dim]Use --file <source_path> to view chunks from a specific source[/dim]")
+
+        print_success("Sources listed successfully!")
+
+    except Exception as e:
+        print_error(f"Failed to list sources: {e}")
+        raise typer.Exit(1)
+
+
 @app.command()
 def status(
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),

@@ -269,6 +269,102 @@ class ChromaVectorStore:
             log_error(f"Failed to get collection stats: {e}", config=self.config)
             return {"document_count": 0, "error": str(e)}
 
+    def list_all_sources(self) -> list[dict[str, Any]]:
+        """
+        List all unique sources in the vector store with statistics.
+
+        Returns:
+            List of dictionaries containing source information:
+            - source_file: Original file path
+            - file_name: Just the filename
+            - file_type: Type of file (PDF, Text, etc.)
+            - chunk_count: Number of chunks from this source
+            - first_chunk_id: ID of the first chunk (for reference)
+        """
+        if self.collection is None:
+            self._get_or_create_collection()
+
+        try:
+            # Get all documents with metadata
+            all_data = self.collection.get(include=["metadatas", "ids"])
+            
+            if not all_data["metadatas"]:
+                log_info("No documents found in collection", config=self.config)
+                return []
+
+            # Group by source file
+            sources = {}
+            for i, metadata in enumerate(all_data["metadatas"]):
+                if not metadata:
+                    continue
+                    
+                source_file = metadata.get("source_file", "unknown")
+                file_name = metadata.get("file_name", "unknown")
+                file_type = metadata.get("file_type", "unknown")
+                doc_id = all_data["ids"][i] if i < len(all_data["ids"]) else f"doc_{i}"
+                
+                if source_file not in sources:
+                    sources[source_file] = {
+                        "source_file": source_file,
+                        "file_name": file_name,
+                        "file_type": file_type,
+                        "chunk_count": 0,
+                        "first_chunk_id": doc_id,
+                    }
+                
+                sources[source_file]["chunk_count"] += 1
+
+            # Convert to sorted list
+            source_list = list(sources.values())
+            source_list.sort(key=lambda x: x["file_name"].lower())
+            
+            log_info(f"Found {len(source_list)} unique sources", config=self.config)
+            return source_list
+
+        except Exception as e:
+            log_error(f"Failed to list sources: {e}", config=self.config)
+            return []
+
+    def get_chunks_by_source(self, source_file: str) -> list[dict[str, Any]]:
+        """
+        Get all chunks from a specific source file.
+
+        Args:
+            source_file: Path to the source file
+
+        Returns:
+            List of chunks with their content and metadata
+        """
+        if self.collection is None:
+            self._get_or_create_collection()
+
+        try:
+            # Query for documents from specific source
+            results = self.collection.get(
+                where={"source_file": source_file},
+                include=["documents", "metadatas", "ids"]
+            )
+
+            chunks = []
+            if results["ids"]:
+                for i in range(len(results["ids"])):
+                    chunk = {
+                        "id": results["ids"][i],
+                        "content": results["documents"][i] if i < len(results["documents"]) else "",
+                        "metadata": results["metadatas"][i] if i < len(results["metadatas"]) else {},
+                    }
+                    chunks.append(chunk)
+
+            # Sort by chunk_index if available
+            chunks.sort(key=lambda x: x["metadata"].get("chunk_index", 0))
+            
+            log_info(f"Found {len(chunks)} chunks for source: {source_file}", config=self.config)
+            return chunks
+
+        except Exception as e:
+            log_error(f"Failed to get chunks for source {source_file}: {e}", config=self.config)
+            return []
+
     def persist(self) -> bool:
         """
         Manually persist the collection to disk.
