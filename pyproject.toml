@@ -23,6 +23,7 @@ dependencies = [
     "numpy",
     "transformers",
     "accelerate",
+    "pymupdf",
     "pypdf",
     "pandas",
     "openpyxl",

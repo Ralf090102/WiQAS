@@ -35,12 +35,112 @@ from langchain_community.document_loaders import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from tqdm import tqdm
 
+try:
+    import fitz
+
+    PYMUPDF_AVAILABLE = True
+except ImportError:
+    PYMUPDF_AVAILABLE = False
+
 from src.retrieval.embeddings import EmbeddingManager
 
 # Local imports
 from src.utilities.cohfie_json_loader import CohfieJsonLoader
 from src.utilities.config import ChunkerType, WiQASConfig
 from src.utilities.utils import ensure_config, log_debug, log_error, log_info, log_warning
+
+
+# ========== CUSTOM DOCUMENT LOADERS ==========
+class PyMuPDFLoader:
+    """Custom PyMuPDF loader for better PDF text extraction"""
+
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def load(self) -> list[Document]:
+        """Load PDF using PyMuPDF with better text extraction"""
+        if not PYMUPDF_AVAILABLE:
+            raise ImportError("PyMuPDF (fitz) is not available. Please install: pip install pymupdf")
+
+        documents = []
+
+        try:
+            # Open PDF with PyMuPDF
+            pdf_document = fitz.open(self.file_path)
+
+            for page_num in range(len(pdf_document)):
+                page = pdf_document.load_page(page_num)
+
+                # Extract text with better spacing preservation
+                text = page.get_text("text")
+
+                # If text is empty or very short, try alternative extraction
+                if not text or len(text.strip()) < 50:
+                    # Try extracting text blocks for better formatting
+                    blocks = page.get_text("blocks")
+                    text_blocks = []
+                    for block in blocks:
+                        if len(block) >= 5 and block[4]:
+                            text_blocks.append(block[4])
+                    text = "\n".join(text_blocks)
+
+                if text.strip():
+                    doc = Document(
+                        page_content=text,
+                        metadata={"page": page_num + 1, "source": self.file_path, "extraction_method": "pymupdf"},
+                    )
+                    documents.append(doc)
+
+            pdf_document.close()
+
+        except Exception as e:
+            raise Exception(f"Failed to extract text with PyMuPDF: {e}")
+
+        return documents
+
+
+class SmartPDFLoader:
+    """Smart PDF loader that tries PyMuPDF first, falls back to PyPDF"""
+
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def load(self) -> list[Document]:
+        """Load PDF with PyMuPDF, fallback to PyPDF if needed"""
+        documents = []
+
+        if PYMUPDF_AVAILABLE:
+            try:
+                pymupdf_loader = PyMuPDFLoader(self.file_path)
+                documents = pymupdf_loader.load()
+
+                # Check if we got reasonable content
+                if documents and any(len(doc.page_content.strip()) > 50 for doc in documents):
+                    for doc in documents:
+                        doc.metadata["primary_extraction"] = "pymupdf"
+                    return documents
+                else:
+                    print(f"PyMuPDF extracted limited content, trying PyPDF fallback for {self.file_path}")
+
+            except Exception as e:
+                print(f"PyMuPDF failed for {self.file_path}: {e}, trying PyPDF fallback")
+
+        try:
+            pypdf_loader = PyPDFLoader(self.file_path)
+            documents = pypdf_loader.load()
+
+            for doc in documents:
+                doc.metadata["primary_extraction"] = "pypdf"
+                doc.metadata["fallback_reason"] = "pymupdf_unavailable" if not PYMUPDF_AVAILABLE else "pymupdf_failed"
+
+            return documents
+
+        except Exception as e:
+            raise Exception(f"Both PyMuPDF and PyPDF failed to extract from {self.file_path}. PyPDF error: {e}")
+
+    def __repr__(self):
+        return f"SmartPDFLoader(file_path='{self.file_path}')"
+
 
 # ========== SUPPORTED FILE TYPES ==========
 SUPPORTED_EXTENSIONS = {
@@ -50,7 +150,7 @@ SUPPORTED_EXTENSIONS = {
 }
 
 DOCUMENT_LOADERS = {
-    ".pdf": PyPDFLoader,
+    ".pdf": SmartPDFLoader,
     ".txt": TextLoader,
     ".json": CohfieJsonLoader,
 }
@@ -223,6 +323,7 @@ class TextPreprocessor:
     def normalize_text(self, text: str) -> str:
         """
         Normalize text by cleaning and standardizing format.
+        Includes intelligent word boundary detection for PDF text extraction issues.
 
         Args:
             text: Raw text to normalize
@@ -233,11 +334,14 @@ class TextPreprocessor:
         if not text or not text.strip():
             return ""
 
+        # Fix missing spaces
+        text = self._fix_missing_spaces(text)
+
         # Remove excessive whitespace and normalize line endings
         text = re.sub(r"\s+", " ", text.strip())
 
-        # Remove problematic characters but keep basic punctuation and accented characters
-        text = re.sub(r"[^\w\s\.\,\;\:\!\?\'\"\-\(\)\[\]\{\}\/\\]", "", text)
+        # Remove control characters but keep most printable characters
+        text = re.sub(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]", "", text)
 
         # Normalize common text patterns
         text = re.sub(r"\.{2,}", "...", text)
@@ -253,6 +357,57 @@ class TextPreprocessor:
         text = re.sub(r"[''']", "'", text)
 
         return text.strip()
+
+    def _fix_missing_spaces(self, text: str) -> str:
+        """
+        Fix missing spaces in PDF-extracted text using pattern recognition.
+
+        Args:
+            text: Text with potentially missing spaces
+
+        Returns:
+            Text with spaces added where appropriate
+        """
+        # Basic camelCase detection (lowercase followed by uppercase)
+        text = re.sub(r"([a-z])([A-Z])", r"\1 \2", text)
+
+        # Numbers and letters
+        text = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", text)
+        text = re.sub(r"(\d)([a-zA-Z])", r"\1 \2", text)
+
+        # Punctuation and letters
+        text = re.sub(r"([a-zA-Z])([\.,:;!?])", r"\1 \2", text)
+        text = re.sub(r"([\.,:;!?])([a-zA-Z])", r"\1 \2", text)
+
+        # Prepositions
+        text = re.sub(r"\bof([a-z]{3,})", r"of \1", text)
+        text = re.sub(r"\bin([a-z]{3,})", r"in \1", text)
+        text = re.sub(r"\bon([a-z]{3,})", r"on \1", text)
+        text = re.sub(r"\bto([a-z]{3,})", r"to \1", text)
+        text = re.sub(r"\bby([a-z]{3,})", r"by \1", text)
+        text = re.sub(r"\bat([a-z]{3,})", r"at \1", text)
+        text = re.sub(r"\bfor([a-z]{3,})", r"for \1", text)
+        text = re.sub(r"\bwith([a-z]{3,})", r"with \1", text)
+        text = re.sub(r"\bfrom([a-z]{3,})", r"from \1", text)
+        text = re.sub(r"\binto([a-z]{3,})", r"into \1", text)
+
+        # Articles/Conjunctions
+        text = re.sub(r"\bthe([a-z]{3,})", r"the \1", text)
+        text = re.sub(r"\band([a-z]{3,})", r"and \1", text)
+        text = re.sub(r"\bbut([a-z]{3,})", r"but \1", text)
+        text = re.sub(r"\bor([a-z]{3,})", r"or \1", text)
+
+        # Word endings
+        text = re.sub(r"\b(tion)([a-z]{2,})", r"\1 \2", text)
+        text = re.sub(r"\b(ness)([a-z]{2,})", r"\1 \2", text)
+        text = re.sub(r"\b(ment)([a-z]{2,})", r"\1 \2", text)
+        text = re.sub(r"\b(able)([a-z]{2,})", r"\1 \2", text)
+        text = re.sub(r"\b(ible)([a-z]{2,})", r"\1 \2", text)
+
+        # Clean up any double spaces created
+        text = re.sub(r"\s+", " ", text)
+
+        return text
 
     def calculate_similarity(self, text1: str, text2: str) -> float:
         """
@@ -437,7 +592,7 @@ class TextChunker:
             return self._chunk_recursive(documents)
 
     def _chunk_recursive(self, documents: list[Document]) -> list[Document]:
-        """Recursive character text splitting"""
+        """Recursive character text splitting with min_chunk_size enforcement"""
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=self.chunking_config.chunk_size,
             chunk_overlap=self.chunking_config.chunk_overlap,
@@ -445,9 +600,45 @@ class TextChunker:
             separators=["\n\n", "\n", "! ", "? ", ". ", " ", ""],
         )
 
+        min_chunk_size = getattr(self.chunking_config, "min_chunk_size", 0)
         chunked_docs = []
         for doc in documents:
             chunks = splitter.split_documents([doc])
+
+            # Merge small chunks if min_chunk_size is set
+            if min_chunk_size > 0 and len(chunks) > 1:
+                merged_chunks = []
+                buffer = ""
+                buffer_meta = None
+
+                for i, chunk in enumerate(chunks):
+                    text = chunk.page_content.strip()
+
+                    if not buffer:
+                        buffer = text
+                        buffer_meta = dict(chunk.metadata)
+                    else:
+                        # Add space between chunks only if needed
+                        if buffer and text:
+                            buffer += " " + text
+
+                    # Check if flushing buffer
+                    is_last_chunk = i == len(chunks) - 1
+                    buffer_size = len(buffer)
+
+                    if buffer_size >= min_chunk_size or is_last_chunk:
+                        if buffer.strip():
+                            buffer_clean = self._clean_chunk_boundaries(buffer)
+                            if buffer_clean:
+                                new_chunk = Document(page_content=buffer_clean, metadata=buffer_meta)
+                                merged_chunks.append(new_chunk)
+                        buffer = ""
+                        buffer_meta = None
+
+                chunks = merged_chunks if merged_chunks else chunks
+            else:
+                for chunk in chunks:
+                    chunk.page_content = self._clean_chunk_boundaries(chunk.page_content)
 
             # Add chunk-specific metadata
             for i, chunk in enumerate(chunks):
@@ -463,6 +654,31 @@ class TextChunker:
 
         log_debug(f"Recursive chunking: {len(documents)} docs -> {len(chunked_docs)} chunks", self.config)
         return chunked_docs
+
+    def _clean_chunk_boundaries(self, text: str) -> str:
+        """Clean chunk boundaries to start and end at word boundaries"""
+        if not text or not text.strip():
+            return ""
+
+        text = text.strip()
+
+        # Remove leading punctuation and ellipsis
+        text = re.sub(r"^[^\w\s]*", "", text)
+        text = re.sub(r"^\.\.\.+", "", text)
+
+        # Remove trailing incomplete words and ellipsis
+        text = re.sub(r"\s*\.\.\.+$", "", text)
+
+        # Remove leading fragments (single or two letter words that might be incomplete)
+        text = re.sub(r"^[a-z]{1,2}\b\s*", "", text)
+
+        # If text starts with lowercase, look for the next complete word
+        if text and text[0].islower():
+            word_match = re.search(r"\s+(\w+)", text)
+            if word_match:
+                text = text[word_match.start() + 1 :].strip()
+
+        return text.strip()
 
     def _chunk_semantic(self, documents: list[Document]) -> list[Document]:
         """Semantic-aware chunking (placeholder for future implementation)"""
