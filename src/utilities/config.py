@@ -335,7 +335,7 @@ class LLMConfig(BaseConfig):
             max_tokens=max_tokens,
             system_prompt=get_env_str(
                 "WIQAS_LLM_SYSTEM_PROMPT",
-                "You are Orion, a helpful AI assistant with access to a knowledge base. "
+                "You are WiQAS, a helpful AI assistant with access to a knowledge base. "
                 "Use the provided context to answer questions accurately and cite sources when appropriate.",
             ),
         )
