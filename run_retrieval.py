@@ -473,7 +473,7 @@ def sources(
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-            
+
             if source_file:
                 # Show chunks from specific source
                 task = progress.add_task(f"Loading chunks from {source_file}...", total=None)
@@ -481,11 +481,7 @@ def sources(
                 progress.remove_task(task)
 
                 if json_output:
-                    output = {
-                        "source_file": source_file,
-                        "chunk_count": len(chunks),
-                        "chunks": chunks
-                    }
+                    output = {"source_file": source_file, "chunk_count": len(chunks), "chunks": chunks}
                     console.print(json.dumps(output, indent=2))
                 else:
                     if not chunks:
@@ -496,11 +492,11 @@ def sources(
 
                     for i, chunk in enumerate(chunks, 1):
                         metadata = chunk["metadata"]
-                        chunk_idx = metadata.get("chunk_index", i-1) + 1
+                        chunk_idx = metadata.get("chunk_index", i - 1) + 1
                         chunk_total = metadata.get("chunk_total", len(chunks))
-                        
+
                         console.print(f"[bold cyan]Chunk {chunk_idx}/{chunk_total}[/bold cyan] (ID: {chunk['id']})")
-                        
+
                         # Content preview
                         content = chunk["content"][:300] + "..." if len(chunk["content"]) > 300 else chunk["content"]
                         console.print(Panel(content, border_style="dim"))
@@ -513,10 +509,7 @@ def sources(
                 progress.remove_task(task)
 
                 if json_output:
-                    output = {
-                        "total_sources": len(sources_list),
-                        "sources": sources_list
-                    }
+                    output = {"total_sources": len(sources_list), "sources": sources_list}
                     console.print(json.dumps(output, indent=2))
                 else:
                     if not sources_list:
@@ -535,20 +528,17 @@ def sources(
                     total_chunks = 0
                     for source in sources_list:
                         table.add_row(
-                            source["file_name"],
-                            source["file_type"],
-                            str(source["chunk_count"]),
-                            source["source_file"]
+                            source["file_name"], source["file_type"], str(source["chunk_count"]), source["source_file"]
                         )
                         total_chunks += source["chunk_count"]
 
                     console.print(table)
-                    
+
                     # Summary
-                    console.print(f"\n[bold]Summary:[/bold]")
+                    console.print("\n[bold]Summary:[/bold]")
                     console.print(f"  • Total sources: {len(sources_list)}")
                     console.print(f"  • Total chunks: {total_chunks}")
-                    console.print(f"\n[dim]Use --file <source_path> to view chunks from a specific source[/dim]")
+                    console.print("\n[dim]Use --file <source_path> to view chunks from a specific source[/dim]")
 
         print_success("Sources listed successfully!")
 

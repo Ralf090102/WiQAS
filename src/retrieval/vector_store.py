@@ -38,9 +38,10 @@ class ChromaVectorStore:
             config: WiQAS configuration object
         """
         self.config = ensure_config(config)
+        self.vectorstore_config = self.config.rag.vectorstore
         self.client = None
         self.collection = None
-        self._collection_name = "wiqas_knowledge_base"
+        self._collection_name = self.vectorstore_config.collection_name
 
         self._initialize_client()
 
@@ -48,7 +49,7 @@ class ChromaVectorStore:
         """Initialize Chroma client and ensure persistence directory exists."""
         try:
             # Create persistence directory if it doesn't exist
-            persist_dir = Path(self.config.rag.vectorstore.persist_directory)
+            persist_dir = Path(self.vectorstore_config.persist_directory)
             persist_dir.mkdir(parents=True, exist_ok=True)
 
             log_debug(f"Initializing Chroma client at: {persist_dir}", self.config)
@@ -84,7 +85,7 @@ class ChromaVectorStore:
                     metadata={
                         "description": "WiQAS Filipino cultural knowledge base",
                         "created_by": "WiQAS",
-                        "distance_metric": self.config.rag.vectorstore.distance_metric,
+                        "distance_metric": self.vectorstore_config.distance_metric,
                     },
                 )
                 log_success(f"Created new collection: {self._collection_name}", config=self.config)
@@ -137,7 +138,7 @@ class ChromaVectorStore:
             log_success(f"Added {len(documents)} documents to vector store", config=self.config)
 
             # Persist if configured
-            if self.config.rag.vectorstore.persist_immediately:
+            if self.vectorstore_config.persist_immediately:
                 self.persist()
 
             return True
@@ -237,7 +238,7 @@ class ChromaVectorStore:
             self.collection.delete(ids=ids)
             log_info(f"Deleted {len(ids)} documents from vector store", config=self.config)
 
-            if self.config.rag.vectorstore.persist_immediately:
+            if self.vectorstore_config.persist_immediately:
                 self.persist()
 
             return True
@@ -261,8 +262,8 @@ class ChromaVectorStore:
             return {
                 "document_count": count,
                 "collection_name": self._collection_name,
-                "persist_directory": self.config.rag.vectorstore.persist_directory,
-                "distance_metric": self.config.rag.vectorstore.distance_metric,
+                "persist_directory": self.vectorstore_config.persist_directory,
+                "distance_metric": self.vectorstore_config.distance_metric,
             }
 
         except Exception as e:
@@ -286,9 +287,9 @@ class ChromaVectorStore:
 
         try:
             # Get all documents with metadata
-            all_data = self.collection.get(include=["metadatas", "ids"])
-            
-            if not all_data["metadatas"]:
+            all_data = self.collection.get(include=["metadatas"])
+
+            if not all_data["metadatas"] or not all_data.get("ids"):
                 log_info("No documents found in collection", config=self.config)
                 return []
 
@@ -297,12 +298,12 @@ class ChromaVectorStore:
             for i, metadata in enumerate(all_data["metadatas"]):
                 if not metadata:
                     continue
-                    
+
                 source_file = metadata.get("source_file", "unknown")
                 file_name = metadata.get("file_name", "unknown")
                 file_type = metadata.get("file_type", "unknown")
                 doc_id = all_data["ids"][i] if i < len(all_data["ids"]) else f"doc_{i}"
-                
+
                 if source_file not in sources:
                     sources[source_file] = {
                         "source_file": source_file,
@@ -311,13 +312,13 @@ class ChromaVectorStore:
                         "chunk_count": 0,
                         "first_chunk_id": doc_id,
                     }
-                
+
                 sources[source_file]["chunk_count"] += 1
 
             # Convert to sorted list
             source_list = list(sources.values())
             source_list.sort(key=lambda x: x["file_name"].lower())
-            
+
             log_info(f"Found {len(source_list)} unique sources", config=self.config)
             return source_list
 
@@ -340,13 +341,10 @@ class ChromaVectorStore:
 
         try:
             # Query for documents from specific source
-            results = self.collection.get(
-                where={"source_file": source_file},
-                include=["documents", "metadatas", "ids"]
-            )
+            results = self.collection.get(where={"source_file": source_file}, include=["documents", "metadatas"])
 
             chunks = []
-            if results["ids"]:
+            if results.get("ids"):
                 for i in range(len(results["ids"])):
                     chunk = {
                         "id": results["ids"][i],
@@ -357,7 +355,7 @@ class ChromaVectorStore:
 
             # Sort by chunk_index if available
             chunks.sort(key=lambda x: x["metadata"].get("chunk_index", 0))
-            
+
             log_info(f"Found {len(chunks)} chunks for source: {source_file}", config=self.config)
             return chunks
 
@@ -412,7 +410,7 @@ class ChromaVectorStore:
 
     def __del__(self):
         """Cleanup when object is destroyed."""
-        if hasattr(self, "config") and self.config.rag.vectorstore.persist_immediately:
+        if hasattr(self, "vectorstore_config") and self.vectorstore_config.persist_immediately:
             try:
                 self.persist()
             except Exception:

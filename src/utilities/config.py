@@ -316,7 +316,7 @@ class LLMConfig(BaseConfig):
 
     # RAG prompt
     system_prompt: str = (
-        "You are Orion, a helpful AI assistant with access to a knowledge base. "
+        "You are WiQAS, a helpful AI assistant with access to a knowledge base. "
         "Use the provided context to answer questions accurately and cite sources when appropriate."
     )
 
@@ -346,6 +346,7 @@ class VectorStoreConfig(BaseConfig):
     """Vector store configuration"""
 
     index_type: str = "chroma"
+    collection_name: str = "wiqas_knowledge_base"
     persist_immediately: bool = True
     persist_directory: str = "./data/chroma-data"
     distance_metric: str = "cosine"
@@ -357,6 +358,7 @@ class VectorStoreConfig(BaseConfig):
         """Load vector store configuration from environment variables"""
         return cls(
             index_type=get_env_str("WIQAS_VECTORSTORE_INDEX_TYPE", "chroma"),
+            collection_name=get_env_str("WIQAS_VECTORSTORE_COLLECTION_NAME", "wiqas_knowledge_base"),
             persist_immediately=get_env_bool("WIQAS_VECTORSTORE_PERSIST_IMMEDIATELY", True),
             persist_directory=get_env_str("WIQAS_VECTORSTORE_PERSIST_DIRECTORY", "./data/chroma-data"),
             distance_metric=get_env_str("WIQAS_VECTORSTORE_DISTANCE_METRIC", "cosine"),
@@ -528,7 +530,7 @@ def get_config(from_env: bool = False) -> WiQASConfig:
         # Or directly
         config = WiQASConfig.from_env()
 
-    Environment Variables:
+        Environment Variables:
         RAG Configuration:
             WIQAS_EMBEDDING_MODEL="nomic-embed-text"
             WIQAS_EMBEDDING_BATCH_SIZE=32
@@ -538,10 +540,9 @@ def get_config(from_env: bool = False) -> WiQASConfig:
             WIQAS_LLM_MODEL="mistral:latest"
             WIQAS_LLM_BASE_URL="http://localhost:11434"
             WIQAS_LLM_TEMPERATURE=0.7
+            WIQAS_VECTORSTORE_COLLECTION_NAME="wiqas_knowledge_base"
             WIQAS_VECTORSTORE_PERSIST_DIRECTORY="./data/chroma-data"
-            WIQAS_RETRIEVAL_DEFAULT_K=5
-
-        System Configuration:
+            WIQAS_RETRIEVAL_DEFAULT_K=5        System Configuration:
             WIQAS_STORAGE_DATA_DIRECTORY="./wiqas-data"
             WIQAS_SYSTEM_REQUIRE_OLLAMA=true
             WIQAS_GPU_ENABLED=true

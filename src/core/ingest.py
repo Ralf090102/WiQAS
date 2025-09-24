@@ -940,7 +940,7 @@ class DocumentIngestor:
                 # Only add if not already found by extension matching
                 if file_path not in all_files:
                     txt_like_files.append(file_path)
-        
+
         all_files.extend(txt_like_files)
 
         stats.total_files = len(all_files)
