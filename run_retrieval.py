@@ -32,8 +32,6 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.reranker import Document
-from src.retrieval.search import MMRSearcher, SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
 from src.utilities.config import WiQASConfig
 
@@ -261,192 +259,55 @@ def clear(
 def search(
     query: str = typer.Argument(..., help="Search query"),
     k: int = typer.Option(5, "--results", "-k", help="Number of results to return"),
-    search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic, hybrid, or keyword"),
+    search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic or hybrid"),
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable reranking"),
-    mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search after reranking"),
-    cultural_boost: bool = typer.Option(True, "--cultural/--no-cultural", help="Enable cultural content boosting"),
+    mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search"),
     llm_analysis: bool = typer.Option(True, "--llm-analysis/--no-llm-analysis", help="Enable LLM-based cultural analysis"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
-    json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
 ):
-    """Search the knowledge base."""
+    """Search the knowledge base using the WiQAS retrieval pipeline."""
     print_header("WiQAS Document Search")
-
-    config = WiQASConfig.from_env() if config_env else WiQASConfig()
 
     print_info(f"Query: {query}")
     print_info(f"Search type: {search_type}")
     print_info(f"Results: {k}")
     print_info(f"Reranking: {rerank}")
     print_info(f"MMR diversity: {mmr}")
-    print_info(f"Cultural boost: {cultural_boost}")
     print_info(f"LLM analysis: {llm_analysis}")
 
     try:
-        # Initialize components
-        vector_store = ChromaVectorStore(config)
-        embedding_manager = EmbeddingManager(config)
+        # Import the convenience function
+        from src.retrieval.retriever import query_knowledge_base
 
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-
-            # Check if we have documents
-            task = progress.add_task("Checking knowledge base...", total=None)
-            stats = vector_store.get_collection_stats()
+            task = progress.add_task("Searching knowledge base...", total=None)
+            
+            # Use the convenience function with all the options
+            result_text = query_knowledge_base(
+                query=query,
+                k=k,
+                search_type=search_type,
+                enable_reranking=rerank,
+                enable_mmr=mmr,
+                llm_analysis=llm_analysis
+            )
+            
             progress.remove_task(task)
 
-            doc_count = stats.get("document_count", 0)
-            print_info(f"Found {doc_count} documents in knowledge base")
-
-            if doc_count == 0:
-                print_warning("No documents found in knowledge base. Run 'ingest' first.")
-                raise typer.Exit(1)
-
-            print_info(f"Searching {doc_count} documents...")
-
-            # Perform search
-            task = progress.add_task("Searching...", total=None)
-
-            if search_type == "semantic":
-                searcher = SemanticSearcher(embedding_manager, vector_store, config)
-                results = searcher.search(query, k=k)
-            elif search_type == "hybrid":
-                # Create semantic and keyword searchers
-                semantic_searcher = SemanticSearcher(embedding_manager, vector_store, config)
-                from src.retrieval.search import HybridSearcher, KeywordSearcher
-
-                keyword_searcher = KeywordSearcher(config)
-
-                # Get documents from vector store for keyword indexing
-                all_results = semantic_searcher.search(query, k=doc_count)  # Get all documents
-                documents = [r.content for r in all_results]
-                document_ids = [r.document_id for r in all_results]
-                metadatas = [r.metadata for r in all_results]
-
-                # Index documents for keyword search
-                keyword_searcher.index_documents(documents, document_ids, metadatas)
-
-                # Create hybrid searcher and search
-                hybrid_searcher = HybridSearcher(semantic_searcher, keyword_searcher, config)
-                results = hybrid_searcher.search(query, k=k)
-            else:
-                print_error(f"Unsupported search type: {search_type}")
-                raise typer.Exit(1)
-
-            progress.remove_task(task)
-
-            # Apply reranking if enabled
-            if rerank and results:
-                task = progress.add_task("Reranking results...", total=None)
-                from src.retrieval.reranker import RerankerManager
-
-                reranker_config = config.rag.reranker
-
-                # Override LLM analysis setting if specified
-                if not llm_analysis:
-                    # Create a copy of the config with LLM analysis disabled
-                    from dataclasses import replace
-
-                    reranker_config = replace(reranker_config, use_llm_cultural_analysis=False, score_threshold=0.0)
-
-                reranker = RerankerManager(reranker_config)
-
-                # Convert SearchResult objects to Document objects for reranking
-                docs_to_rerank = []
-                for result in results:
-                    doc = Document(
-                        content=result.content, metadata=result.metadata, score=result.score, doc_id=result.document_id
-                    )
-                    docs_to_rerank.append(doc)
-
-                # Rerank documents
-                reranked_docs = reranker.rerank_documents(query, docs_to_rerank, top_k=k)
-
-                # Convert back to SearchResult objects
-                from src.retrieval.search import SearchResult
-
-                results = []
-                for doc in reranked_docs:
-                    result = SearchResult(
-                        document_id=doc.doc_id,
-                        content=doc.content,
-                        metadata=doc.metadata,
-                        score=doc.score,
-                        search_type=f"{search_type}_reranked",
-                    )
-                    results.append(result)
-
-                progress.remove_task(task)
-
-            # Apply MMR diversity search after reranking if enabled
-            if mmr and results and len(results) > 1:
-                task = progress.add_task("Applying MMR diversity search...", total=None)
-
-                # Initialize MMR searcher
-                mmr_searcher = MMRSearcher(embedding_manager, config)
-
-                # Apply MMR to get diverse subset
-                mmr_results = mmr_searcher.search(query, candidate_results=results, k=k)
-
-                # Update search_type to indicate MMR was applied
-                for result in mmr_results:
-                    current_search_type = f"{search_type}"
-                    if rerank:
-                        current_search_type += "_reranked"
-                    current_search_type += "_mmr"
-                    result.search_type = current_search_type
-
-                results = mmr_results
-                progress.remove_task(task)
-
-        # Display results
-        if json_output:
-            output = {
-                "query": query,
-                "search_type": search_type,
-                "reranked": rerank,
-                "mmr_applied": mmr,
-                "cultural_boost": cultural_boost,
-                "llm_analysis": llm_analysis,
-                "total_results": len(results),
-                "results": [result.to_dict() for result in results],
-            }
-            console.print(json.dumps(output, indent=2))
+        # Display the formatted results
+        console.print(result_text)
+        
+        # Check if results were found (simple check for success message)
+        if "No results found" not in result_text and "Error:" not in result_text:
+            print_success("Search completed successfully!")
+        elif "Error:" in result_text:
+            print_error("Search encountered an error")
         else:
-            if not results:
-                print_warning("No results found")
-                return
-
-            console.print(f"\n[bold]Found {len(results)} results:[/bold]")
-
-            for i, result in enumerate(results, 1):
-                console.print(f"\n[bold cyan]Result {i}[/bold cyan] (Score: {result.score:.4f})")
-
-                # Create a table for result details
-                table = Table(show_header=False, box=None, padding=(0, 1))
-                table.add_column("Field", style="yellow", width=12)
-                table.add_column("Value", style="white")
-
-                table.add_row("Source", result.metadata.get("source_file", "Unknown"))
-                table.add_row("Type", result.metadata.get("file_type", "Unknown"))
-
-                if "chunk_index" in result.metadata:
-                    table.add_row(
-                        "Chunk", f"{result.metadata['chunk_index'] + 1}/{result.metadata.get('chunk_total', 'Unknown')}"
-                    )
-
-                table.add_row("Search", result.search_type)
-
-                console.print(table)
-
-                # Content preview
-                content_preview = result.content[:500] + "..." if len(result.content) > 500 else result.content
-                console.print(Panel(content_preview, title="Content", border_style="dim"))
-
-        print_success(f"Search completed! Found {len(results)} results.")
+            print_warning("No results found for your query")
 
     except Exception as e:
         print_error(f"Search failed: {e}")
