@@ -365,7 +365,31 @@ class VectorStoreConfig(BaseConfig):
             use_gpu=get_env_bool("WIQAS_VECTORSTORE_USE_GPU", False),
             batch_size=get_env_int("WIQAS_VECTORSTORE_BATCH_SIZE", 64),
         )
+    
+@dataclass
+class AnswerGeneratorConfig(BaseConfig):
+    """Answer generation configuration"""
 
+    model: str = "gemma2:9b"
+    base_url: str = "http://localhost:11434"
+    timeout: int = 120
+
+    # init gen params
+    temperature: float = 0.7
+    top_p: float = 0.9
+    max_tokens: int | None = 1024
+
+    @classmethod
+    def from_env(cls) -> "AnswerGeneratorConfig":
+        """Load answer generator configuration from environment variables"""
+        return cls(
+            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
+            base_url = get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
+            timeout = get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
+            temperature = get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
+            top_p = get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
+            max_tokens = get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
+        )
 
 # ========== MAIN RAG CONFIGURATION ==========
 @dataclass
@@ -379,6 +403,7 @@ class RAGConfig(BaseConfig):
     reranker: RerankerConfig = field(default_factory=RerankerConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
+    generator: AnswerGeneratorConfig = field(default_factory=AnswerGeneratorConfig)
 
     @classmethod
     def from_env(cls) -> "RAGConfig":
@@ -391,6 +416,7 @@ class RAGConfig(BaseConfig):
             reranker=RerankerConfig.from_env(),
             llm=LLMConfig.from_env(),
             vectorstore=VectorStoreConfig.from_env(),
+            generator=AnswerGeneratorConfig.from_env(),
         )
 
 
