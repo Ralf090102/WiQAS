@@ -8,13 +8,39 @@ class ContextPreparer:
     def __init__(self, similarity_threshold: float = 0.7) -> None:
         self.similarity_threshold = similarity_threshold
 
-        def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
-            if isinstance(context, str):
-                text = " ".join(context.split())
-            else:
-                text = " ".join(context.get("text", "").split())
+    def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
+        if isinstance(context, str):
+            text = " ".join(context.split())
+            score = 0.0
+        else:
+            text = " ".join(context.get("text", "").split())
+            score = context.get("score", 0.0)
 
-            text = re.sub(r'\b(\w+)( \1){2,}\b', r'\1', text)
+        tokens = text.split()
+        out = []
+        i = 0
+        while i < len(tokens):
+            collapsed = False
+            for plen in range(4, 0, -1):
+                if i + plen * 2 > len(tokens):
+                    continue
+                phrase = tokens[i:i + plen]
+                j = i + plen
+                repeats = 1
+                while j + plen <= len(tokens) and tokens[j:j + plen] == phrase:
+                    repeats += 1
+                    j += plen
+                if repeats > 1:
+                    out.extend(phrase) 
+                    i = j
+                    collapsed = True
+                    break
+            if not collapsed:
+                out.append(tokens[i])
+                i += 1
+
+        text = " ".join(out)
+        return {"text": text, "score": score}
 
     def _are_similar(self, a: str, b: str) -> bool:
         ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
