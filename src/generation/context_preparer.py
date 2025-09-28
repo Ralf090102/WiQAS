@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Any, Dict, List, Union
 from difflib import SequenceMatcher
 
 import re
@@ -45,3 +45,13 @@ class ContextPreparer:
             if not duplicate_found:
                 unique.append(ctx)
         return unique
+    
+    def prepare(self, contexts: List[Dict[str, Any]]) -> List[str]:
+        cleaned = [self._clean_context(c) for c in contexts]
+        cleaned = [c for c in cleaned if c["text"]]  
+
+        deduplicated = self._deduplicate(cleaned)
+        return [c["text"] for c in deduplicated]
+    
+    def prepare_contexts(contexts: List[Dict[str, Any]]) -> List[str]:
+        return ContextPreparer().prepare(contexts)
