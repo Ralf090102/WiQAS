@@ -85,8 +85,16 @@ class WiQASGenerator:
         """
         # retrieve
         self.retriever._initialize_components()
-        raw_results = self.retriever._perform_search(query, k=k, search_type="hybrid")
-        contexts = [r.content for r in raw_results]
+        raw_results = self.retriever.query(query, k=k, enable_mmr=False, formatted=False)
+        contexts = [
+            {
+            "text": r.content,
+            "score": getattr(r, "score", 0.0),
+            "document_id": getattr(r, "document_id", None),
+            "source": r.metadata.get("source") if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None,
+            }
+            for r in raw_results
+        ]
 
         # prepare contexts
         prepared_contexts = self.context_preparer.prepare(contexts)
