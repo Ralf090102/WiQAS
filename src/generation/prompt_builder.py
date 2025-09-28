@@ -37,3 +37,6 @@ class PromptTemplate:
         if not self.context:
             return "No relevant documents found."
         return "\n\n".join([f"- {c}" for c in self.context])
+    
+    def build_query_section(self) -> str:
+        return f"User Question:\n{self.query}"
