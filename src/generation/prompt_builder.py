@@ -35,11 +35,12 @@ class PromptTemplate:
     """
     Defines the hierarchical structure for prompt construction.
 
-    Attributes:
-        query (str): The user question.
-        context (List[str]): Retrieved contexts relevant to the query.
-        query_type (str): Type of query (e.g., Factual, Analytical, Procedural).
-        language (str): Target language for the response (default: 'fil').
+    Template Sections:
+        - System Instructions: Core principles guiding the model's behavior.
+        - Context: Retrieved snippets formatted as bullet points.
+        - Query: The user's question.
+        - Guidelines: Response style instructions based on query type.
+        - Exemplars: Few-shot examples illustrating the desired QA style.   
     """
 
     def __init__(self, query: str, context: List[str], query_type: str = "Factual", language: str = "fil"):
