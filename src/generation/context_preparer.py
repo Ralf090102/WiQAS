@@ -25,3 +25,23 @@ class ContextPreparer:
         if len(shorter) > 10 and shorter.lower() in longer.lower():
             return True
         return False
+    
+    def _deduplicate(self, contexts: list[dict]) -> list[dict]:
+        unique = []
+        for ctx in contexts:
+            text, score = ctx["text"], ctx.get("score", 0.0)
+            duplicate_found = False
+            for kept in unique:
+                if self._are_similar(text, kept["text"]):
+                    duplicate_found = True
+                    # keep the better one
+                    if (score > kept.get("score", 0.0)) or (
+                        score == kept.get("score", 0.0)
+                        and len(text) > len(kept["text"])
+                    ):
+                        kept["text"] = text
+                        kept["score"] = score
+                    break
+            if not duplicate_found:
+                unique.append(ctx)
+        return unique
