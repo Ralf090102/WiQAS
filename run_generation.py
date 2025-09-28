@@ -3,7 +3,6 @@ import json
 import typer
 from rich.console import Console
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from src.utilities.config import WiQASConfig
 from src.generation.generator import WiQASGenerator
