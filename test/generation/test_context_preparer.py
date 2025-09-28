@@ -39,3 +39,13 @@ def test_context_preparer_tie_breaker_longer_vs_higher_score():
     result = prepare_contexts(contexts)
     assert len(result) == 1
     assert result[0] == "Karaoke is a popular pastime."
+
+def test_context_preparer_handles_non_similar_contexts():
+    contexts = [
+        {"text": "Bayanihan is a Filipino tradition.", "score": 0.8},
+        {"text": "Lechon is often served at fiestas.", "score": 0.7},
+    ]
+    result = prepare_contexts(contexts)
+    assert len(result) == 2
+    assert "Bayanihan is a Filipino tradition." in result
+    assert "Lechon is often served at fiestas." in result
