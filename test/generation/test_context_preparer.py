@@ -49,3 +49,11 @@ def test_context_preparer_handles_non_similar_contexts():
     assert len(result) == 2
     assert "Bayanihan is a Filipino tradition." in result
     assert "Lechon is often served at fiestas." in result
+
+def test_context_preparer_cleans_whitespace():
+    contexts = [
+        {"text": "   Filipino    culture \n is diverse. ", "score": 0.8},
+    ]
+    result = prepare_contexts(contexts)
+    assert len(result) == 1
+    assert result[0] == "Filipino culture is diverse."
