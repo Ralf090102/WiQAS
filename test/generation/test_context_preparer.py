@@ -21,3 +21,12 @@ def test_context_preparer_prefers_higher_score():
     kept = result[0]
     assert kept["text"] == "Ati-Atihan Festival is celebrated."
     assert kept["score"] == 0.9
+
+def test_context_preparer_prefers_longer_context():
+    contexts = [
+        {"text": "Karaoke is a popular pastime.", "score": 0.5},
+        {"text": "Karaoke is a popular pastime in the Philippines.", "score": 0.5},
+    ]
+    result = prepare_contexts(contexts)
+    assert len(result) == 1
+    assert result[0] == "Karaoke is a popular pastime in the Philippines."
