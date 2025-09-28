@@ -57,3 +57,10 @@ def test_context_preparer_cleans_whitespace():
     result = prepare_contexts(contexts)
     assert len(result) == 1
     assert result[0] == "Filipino culture is diverse."
+
+def test_context_preparer_removes_empty_after_cleaning():
+    contexts = [
+        {"text": "    \n   ", "score": 0.5},
+    ]
+    result = prepare_contexts(contexts)
+    assert len(result) == 0
