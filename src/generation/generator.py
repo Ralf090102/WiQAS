@@ -1,3 +1,5 @@
+from typing import Any
+
 from src.core.llm import generate_response
 from src.retrieval.retriever import WiQASRetriever
 from src.generation.context_preparer import ContextPreparer
@@ -23,3 +25,24 @@ class WiQASGenerator:
             temperature=self.answer_config.temperature,
             max_tokens=self.answer_config.max_tokens,
         )
+    
+    def generate(
+        self,
+        query: str,
+        k: int = 5,
+        query_type: str = "Factual",
+        show_contexts: bool = False,
+    ) -> dict[str, Any]:
+        
+        self.retriever._initialize_components()
+        raw_results = self.retriever._perform_search(query, k=k, search_type="hybrid")
+        contexts = [r.content for r in raw_results]
+        prepared_contexts = self.context_preparer.prepare(contexts)
+        prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
+        answer = self._call_model(prompt)
+
+        return {
+            "query": query,
+            "answer": answer,
+            "contexts": prepared_contexts if show_contexts else [],
+        }
