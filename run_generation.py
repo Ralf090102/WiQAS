@@ -1,3 +1,13 @@
+"""
+WiQAS Generation CLI Interface
+
+Run end-to-end generation: retrieval + LLM answer generation.
+
+Usage:
+    python run_generator.py "<your question>" 
+"""
+
+
 import json
 
 import typer
