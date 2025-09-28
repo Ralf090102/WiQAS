@@ -184,8 +184,6 @@ def test_context_preparer_cleans_repetitions():
     assert len(result) == 1, f"Expected 1 context, got {len(result)}"
     cleaned = result[0]
 
-    print("\n--- CLEANED CONTEXT ---\n", cleaned, "\n-----------------------")
-
     # unwanted repetitions must be gone
     assert "Sinigang na Sinigang na" not in cleaned, "bigram repetition still present"
     assert "Sinigang sa Sinigang sa" not in cleaned, "bigram repetition still present"
