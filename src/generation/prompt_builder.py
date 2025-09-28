@@ -40,3 +40,7 @@ class PromptTemplate:
     
     def build_query_section(self) -> str:
         return f"User Question:\n{self.query}"
+    
+    def build_guidelines(self) -> str:
+        guideline = FUNCTIONAL_GUIDELINES.get(self.query_type, FUNCTIONAL_GUIDELINES["Factual"])
+        return f"Response Guidelines:\n{guideline}\nCite sources. Be culturally sensitive."
