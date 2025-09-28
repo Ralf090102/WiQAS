@@ -97,7 +97,7 @@ class WiQASGenerator:
         ]
 
         # prepare contexts
-        prepared_contexts = self.context_preparer.prepare(contexts)
+        prepared_contexts = self.context_preparer.prepare(contexts, return_full=True)
       
         # build prompt
         prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
