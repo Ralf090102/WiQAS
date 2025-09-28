@@ -150,14 +150,14 @@ class ContextPreparer:
         deduplicated = self._deduplicate(cleaned)
         return [c["text"] for c in deduplicated]
     
-    def prepare_contexts(contexts: List[Dict[str, Any]]) -> List[str]:
-        """
-        Functional API: Clean and deduplicate contexts in one call.
+def prepare_contexts(contexts: List[Dict[str, Any]]) -> List[str]:
+    """
+    Functional API: Clean and deduplicate contexts in one call.
 
-        Args:
-            contexts: List of dicts with "text" and optional "score".
+    Args:
+        contexts: List of dicts with "text" and optional "score".
 
-        Returns:
-            List of cleaned, deduplicated context strings.
-        """
-        return ContextPreparer().prepare(contexts)
+    Returns:
+        List of cleaned, deduplicated context strings.
+    """
+    return ContextPreparer().prepare(contexts)
