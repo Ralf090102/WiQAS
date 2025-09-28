@@ -4,9 +4,8 @@ WiQAS Generation CLI Interface
 Run end-to-end generation: retrieval + LLM answer generation.
 
 Usage:
-    python run_generator.py "<your question>" 
+    python run_generator.py "<question>" 
 """
-
 
 import json
 
