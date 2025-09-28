@@ -73,3 +73,17 @@ class PromptTemplate:
 class PromptBuilder:
     def __init__(self, detect_language_fn: Optional[Callable] = None):
         self.detect_language_fn = detect_language_fn
+
+    def build_prompt(
+        self,
+        query: str,
+        context: List[str],
+        query_type: str = "Factual",
+        language: Optional[str] = None,
+    ) -> str:
+        if self.detect_language_fn and not language:
+            language = self.detect_language_fn(query)
+        language = language or "fil"
+
+        template = PromptTemplate(query=query, context=context, query_type=query_type, language=language)
+        return template.render()
