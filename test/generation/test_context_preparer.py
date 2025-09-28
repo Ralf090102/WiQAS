@@ -30,3 +30,12 @@ def test_context_preparer_prefers_longer_context():
     result = prepare_contexts(contexts)
     assert len(result) == 1
     assert result[0] == "Karaoke is a popular pastime in the Philippines."
+
+def test_context_preparer_tie_breaker_longer_vs_higher_score():
+    contexts = [
+        {"text": "Karaoke is a popular pastime.", "score": 0.9},
+        {"text": "Karaoke is a popular pastime in the Philippines.", "score": 0.5},
+    ]
+    result = prepare_contexts(contexts)
+    assert len(result) == 1
+    assert result[0] == "Karaoke is a popular pastime."
