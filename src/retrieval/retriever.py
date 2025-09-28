@@ -261,6 +261,7 @@ class WiQASRetriever:
         enable_reranking: bool = True,
         enable_mmr: bool = True,
         llm_analysis: bool = True,
+        formatted: bool = True,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -311,11 +312,13 @@ class WiQASRetriever:
                 results = self._apply_mmr(query_text, results, k=k)
                 log_info(f"MMR returned {len(results)} diverse results")
 
-            # Format and return results
-            formatted_results = self._format_results(results)
+            if formatted:
+                # Format and return results
+                return self._format_results(results)
+            
             log_info(f"Query completed successfully, returning {len(results)} results")
-
-            return formatted_results
+            
+            return results
 
         except ValueError as e:
             # User-facing errors (empty knowledge base, invalid search type)
