@@ -75,3 +75,33 @@ def test_context_preparer_mixed_duplicates_and_uniques():
     assert len(result) == 2
     assert "Jeepneys are a mode of transport." in result
     assert "Harana is a traditional serenade." in result
+
+def test_context_preparer_cleans_repetitions():
+    contexts = [
+        {
+            "text": (
+                "Ang sinigang ay isang. Mga uri ng sinigang "
+                "Sinigang na Sinigang na Sinigang na "
+                "Ayon sa pampaasim na sangkap "
+                "Sinigang sa Sinigang sa Sinigang sa "
+                "Mga sanggunian"
+            ),
+            "score": 0.8,
+        }
+    ]
+
+    result = prepare_contexts(contexts)
+    assert len(result) == 1, f"Expected 1 context, got {len(result)}"
+    cleaned = result[0]
+
+    print("\n--- CLEANED CONTEXT ---\n", cleaned, "\n-----------------------")
+
+    assert "Sinigang na Sinigang na" not in cleaned, "bigram repetition still present"
+    assert "Sinigang sa Sinigang sa" not in cleaned, "bigram repetition still present"
+
+    assert "Sinigang na" in cleaned, "collapsed too aggressively, lost 'Sinigang na'"
+    assert "Sinigang sa" in cleaned, "collapsed too aggressively, lost 'Sinigang sa'"
+
+    assert "Ang sinigang ay isang" in cleaned, "intro missing after cleaning"
+    assert "Mga uri ng sinigang" in cleaned, "section header missing"
+    assert "Mga sanggunian" in cleaned, "ending missing"
