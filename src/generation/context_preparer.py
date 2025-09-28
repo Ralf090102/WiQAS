@@ -10,6 +10,7 @@ class ContextPreparer:
         - Collapse repeated phrases (1–4 words repeated adjacently).
         - Deduplicate contexts by semantic similarity.
         - Resolve duplicates by preferring higher score or longer text.
+        - Preserve Metadata 
     """
 
     def __init__(self, similarity_threshold: float = 0.7) -> None:
@@ -72,8 +73,14 @@ class ContextPreparer:
                 out.append(tokens[i])
                 i += 1
 
-        text = " ".join(out)
-        return {"text": text, "score": score}
+        cleaned_text = " ".join(out)
+
+        return {
+            "text": cleaned_text,
+            "score": score,
+            "metadata": context.get("source", {}),
+            "document_id": context.get("document_id"),
+        }
 
     def _are_similar(self, a: str, b: str) -> bool:
         """
@@ -127,14 +134,13 @@ class ContextPreparer:
                         score == kept.get("score", 0.0)
                         and len(text) > len(kept["text"])
                     ):
-                        kept["text"] = text
-                        kept["score"] = score
+                        kept.update(ctx)
                     break
             if not duplicate_found:
                 unique.append(ctx)
         return unique
     
-    def prepare(self, contexts: List[Dict[str, Any]]) -> List[str]:
+    def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False) -> List[Union[str, Dict[str, Any]]]:
         """
         Clean and deduplicate contexts.
 
@@ -148,7 +154,7 @@ class ContextPreparer:
         cleaned = [c for c in cleaned if c["text"]]  
 
         deduplicated = self._deduplicate(cleaned)
-        return [c["text"] for c in deduplicated]
+        return deduplicated if return_full else [c["text"] for c in deduplicated]
     
 def prepare_contexts(contexts: List[Dict[str, Any]], return_scores: bool = False) -> List[Union[str, Dict[str, Any]]]:
     """
