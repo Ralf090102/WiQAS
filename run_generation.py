@@ -45,8 +45,21 @@ def ask(
     contexts = result.get("contexts", [])
 
     if show_contexts:
+        context_strings = []
+        for c in contexts:
+            if isinstance(c, dict):
+                text = c.get("text", "")
+                score = c.get("score", 0.0)
+                meta = c.get("metadata", {})
+                doc_id = c.get("document_id")
+                context_strings.append(
+                    f"[bold]{doc_id or ''} - {score}\n[/bold]\n{text}\n[dim]{meta}[/dim]"
+                )
+            else:
+                context_strings.append(str(c))
+
         console.print(Panel(
-            "\n\n".join(contexts),
+            "\n\n".join(context_strings),
             title=f"Retrieved Contexts (top {len(contexts)})",
             border_style="blue"
         ))
