@@ -8,6 +8,14 @@ FUNCTIONAL_GUIDELINES = {
     "Exploratory": "Deliver broad, contextual, and descriptive overviews. Provide background, key themes, and relevant connections without going too narrow or rigid."
 }
 
+EXEMPLARS = [
+    {
+        "question": "Ano ang paboritong kulay ni Emilio Aguinaldo?",
+        "context": "No relevant documents found.",
+        "answer": "Walang sapat na impormasyon sa mga dokumentong ito tungkol sa paboritong kulay ni Emilio Aguinaldo. (Source: Biographical Note on Emilio Aguinaldo)"
+    }
+]
+
 class PromptTemplate:
     def __init__(self, query: str, context: List[str], query_type: str = "Factual", language: str = "fil"):
         self.query = query
@@ -44,3 +52,11 @@ class PromptTemplate:
     def build_guidelines(self) -> str:
         guideline = FUNCTIONAL_GUIDELINES.get(self.query_type, FUNCTIONAL_GUIDELINES["Factual"])
         return f"Response Guidelines:\n{guideline}\nCite sources. Be culturally sensitive."
+
+    def build_exemplars(self) -> str:
+        exemplars_text = []
+        for ex in EXEMPLARS:
+            exemplars_text.append(
+                f"Q: {ex['question']}\nContext: {ex['context']}\nA: {ex['answer']}"
+            )
+        return "\n\n".join(exemplars_text)
