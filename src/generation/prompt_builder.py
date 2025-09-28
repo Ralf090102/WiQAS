@@ -1,4 +1,4 @@
-from typing import List
+from typing import Callable, List, Optional
 
 FUNCTIONAL_GUIDELINES = {
     "Factual": "Provide clear, concise, and accurate definitions, facts, or explanations. Focus on established knowledge and avoid unnecessary speculation.",
@@ -70,3 +70,6 @@ class PromptTemplate:
             f"Few-shot Exemplars:\n{self.build_exemplars()}"
         )
     
+class PromptBuilder:
+    def __init__(self, detect_language_fn: Optional[Callable] = None):
+        self.detect_language_fn = detect_language_fn
