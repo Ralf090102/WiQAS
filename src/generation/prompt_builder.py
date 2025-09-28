@@ -60,3 +60,13 @@ class PromptTemplate:
                 f"Q: {ex['question']}\nContext: {ex['context']}\nA: {ex['answer']}"
             )
         return "\n\n".join(exemplars_text)
+    
+    def render(self) -> str:
+        return (
+            f"System Instructions:\n{self.build_system_instructions()}\n\n"
+            f"Context:\n{self.build_context_section()}\n\n"
+            f"{self.build_query_section()}\n\n"
+            f"{self.build_guidelines()}\n\n"
+            f"Few-shot Exemplars:\n{self.build_exemplars()}"
+        )
+    
