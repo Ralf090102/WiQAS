@@ -32,3 +32,8 @@ class PromptTemplate:
                 "Remember: WiQAS is not a generic QA system—it is designed specifically to answer questions "
                 "about Filipino culture accurately, faithfully, and in context."
         )
+    
+    def build_context_section(self) -> str:
+        if not self.context:
+            return "No relevant documents found."
+        return "\n\n".join([f"- {c}" for c in self.context])
