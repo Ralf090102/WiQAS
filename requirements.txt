@@ -24,13 +24,13 @@ rich
 psutil
 
 # Dev (Uncomment if needed)
-# pytest
-# pytest-asyncio
-# pytest-cov
-# black
-# ruff
-# pre-commit
-# typer
+pytest
+pytest-asyncio
+pytest-cov
+black
+ruff
+pre-commit
+typer
 
 # OCR (Uncomment if needed)
 # pytesseract
