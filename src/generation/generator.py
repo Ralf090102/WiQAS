@@ -85,7 +85,7 @@ class WiQASGenerator:
         """
         # retrieve
         self.retriever._initialize_components()
-        raw_results = self.retriever.query(query, k=k, enable_mmr=False, formatted=False)
+        raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
         contexts = [
             {
             "text": r.content,

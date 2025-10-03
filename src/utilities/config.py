@@ -195,7 +195,7 @@ class RetrievalConfig(BaseConfig):
             enable_mmr=get_env_bool("WIQAS_RETRIEVAL_ENABLE_MMR", True),
             mmr_diversity_bias=get_env_float("WIQAS_RETRIEVAL_MMR_DIVERSITY_BIAS", 0.5),
             mmr_fetch_k=get_env_int("WIQAS_RETRIEVAL_MMR_FETCH_K", 20),
-            mmr_threshold=get_env_float("WIQAS_RETRIEVAL_MMR_THRESHOLD", 0.6),
+            mmr_threshold=get_env_float("WIQAS_RETRIEVAL_MMR_THRESHOLD", 0.475),
         )
 
     def validate(self) -> None:
@@ -370,7 +370,7 @@ class VectorStoreConfig(BaseConfig):
 class AnswerGeneratorConfig(BaseConfig):
     """Answer generation configuration"""
 
-    model: str = "gemma2:9b"
+    model: str = "mistral:latest"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
 
@@ -383,7 +383,7 @@ class AnswerGeneratorConfig(BaseConfig):
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
+            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "mistral:latest"),
             base_url = get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout = get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
             temperature = get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
