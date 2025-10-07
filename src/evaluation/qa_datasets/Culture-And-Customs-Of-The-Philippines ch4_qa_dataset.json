@@ -1,0 +1,317 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Culture-And-Customs-Of-The-Philippines ch4.pdf",
+    "total_chunks": 19,
+    "total_qa_pairs": 38,
+    "chunk_size": 4000,
+    "chunk_overlap": 800,
+    "question_level": "high",
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "What type of house is commonly found among rural farm families across the country?",
+      "answer": "sturdy houses",
+      "cultural_golden_answer": "sturdy houses that were well-adapted to local conditions and needs, reflecting Filipino ingenuity in creating housing solutions that harmonize with their environment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 77\n4 \nArchitecture and Housing \nACOUNTRY’S architecture tells much about its physical environment and climatic conditions, the role of the family, impact of religion on everyday life, general \nprosperity levels, and how individual families and the wider communities of town and nation fit together. Architecture in the Philippines also informs the perceptive \nobserver about the country’s history since there are functioning examples of architecture from each era in almost every town in the cou"
+    },
+    {
+      "question": "How does the country's architecture reflect its physical environment and cultural influences?",
+      "answer": "it informs the perceptive observer about the country's history and various historical styles and influences",
+      "cultural_golden_answer": "Philippine architecture is a rich tapestry of historical and cultural influences, with Spanish, American, and indigenous elements blending together to create a unique cultural identity that reflects the country's complex history and adaptation to its physical environment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 77\n4 \nArchitecture and Housing \nACOUNTRY’S architecture tells much about its physical environment and climatic conditions, the role of the family, impact of religion on everyday life, general \nprosperity levels, and how individual families and the wider communities of town and nation fit together. Architecture in the Philippines also informs the perceptive \nobserver about the country’s history since there are functioning examples of architecture from each era in almost every town in the cou"
+    },
+    {
+      "question": "What type of housing is traditionally used by lowland Filipinos?",
+      "answer": "bahay kubo",
+      "cultural_golden_answer": "The bahay kubo, a traditional Filipino house made from bamboo and other local materials, showcases the resourcefulness and adaptability of lowland Filipinos in addressing the challenges of tropical climate.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 78\nof pre­Hispanic housing is the impact of the geographical and climatic environment on both the design of the housing stock and the materials used in construction.  \nThe clearest example of the environment’s impact is found on the northern island group of the Batanes, where the Ivatan people build strong fortresslike limestone \nhouses that can withstand the fierce monsoons that annually ravage the northern Philippine coast. Other peoples have specialized housing needs, such as the seafari"
+    },
+    {
+      "question": "Why do some groups of people in the central Cordillera Mountains build their houses close to each other?",
+      "answer": "mutual protection",
+      "cultural_golden_answer": "Building homes together provides a sense of community and security for the mountain dwellers, reflecting the importance of solidarity and cooperation in Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 78\nof pre­Hispanic housing is the impact of the geographical and climatic environment on both the design of the housing stock and the materials used in construction.  \nThe clearest example of the environment’s impact is found on the northern island group of the Batanes, where the Ivatan people build strong fortresslike limestone \nhouses that can withstand the fierce monsoons that annually ravage the northern Philippine coast. Other peoples have specialized housing needs, such as the seafari"
+    },
+    {
+      "question": "What type of houses were typically built by lowland Filipinos?",
+      "answer": "Bahay kubo",
+      "cultural_golden_answer": "The bahay kubo, a traditional raised hut, is a significant part of Filipino architecture and culture, reflecting the importance of ventilation and airflow in tropical climates.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 79\nNative hut (bahay kubo ) being constructed. Courtesy of the Ambeth Ocampo Collection. \nthe raised bahay kubo uses the open area beneath the house for air circulation because the flooring is made of bamboo slats that allow the air to come up into the \nhouse after being cooled underneath away from the direct heat of the sun. Still more air is allowed into the house through large open window areas that can be closed \noff with a framed woven mat of flattened bamboo. \nThe roof of the bahay ku"
+    },
+    {
+      "question": "How did the Spanish influence Filipino architecture?",
+      "answer": "They built multilevel homes and government buildings out of stone",
+      "cultural_golden_answer": "The arrival of the Spanish led to the development of mestizo architecture, a blend of indigenous and European styles, which would later influence the design of traditional Filipino houses such as the bahay na bato.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 79\nNative hut (bahay kubo ) being constructed. Courtesy of the Ambeth Ocampo Collection. \nthe raised bahay kubo uses the open area beneath the house for air circulation because the flooring is made of bamboo slats that allow the air to come up into the \nhouse after being cooled underneath away from the direct heat of the sun. Still more air is allowed into the house through large open window areas that can be closed \noff with a framed woven mat of flattened bamboo. \nThe roof of the bahay ku"
+    },
+    {
+      "question": "What was a key objective of the Spanish colonizers in establishing towns in the Philippines?",
+      "answer": "To Christianize the native people",
+      "cultural_golden_answer": "The Spanish colonizers' goal to Christianize the native population reflects their attempt to impose their cultural and religious values on Filipino society, shaping the country's cultural identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 81\ngroup lived in large numbers. Whichever structural style was adopted, the Spanish­influenced homes were conspicuous in their use of room partitioning, grand \nmonumental staircases of up to two meters in width, and aesthetic additions such as iron grillwork, glass, or thinly sliced capiz shell sliding windows and the occasional \ntiled roof. The airiness of the Filipino home was retained by incorporating as many windows as possible and by the addition of a back porch area, both of which we"
+    },
+    {
+      "question": "What architectural style became prominent in housing during the post-war period?",
+      "answer": "Sprawling one-story and split-level homes of the wealthy",
+      "cultural_golden_answer": "The introduction of sprawling suburban developments, such as gated communities, marked a significant shift towards Western-style architecture in Filipino housing, influencing the way Filipinos live and interact with their environment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 81\ngroup lived in large numbers. Whichever structural style was adopted, the Spanish­influenced homes were conspicuous in their use of room partitioning, grand \nmonumental staircases of up to two meters in width, and aesthetic additions such as iron grillwork, glass, or thinly sliced capiz shell sliding windows and the occasional \ntiled roof. The airiness of the Filipino home was retained by incorporating as many windows as possible and by the addition of a back porch area, both of which we"
+    },
+    {
+      "question": "Who arrived in Cebu in 1565 and had a number of priests with him?",
+      "answer": "Miguel Lopez de Legaspi",
+      "cultural_golden_answer": "Miguel Lopez de Legaspi, who marked the beginning of Spanish colonization in the Philippines and brought Catholicism to the islands.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 82\ndowntown areas. Somewhat later, more up­scale developments appeared with guard posts to keep out unwanted visitors and curved streets with speed bumps to \nprevent the introduction of public transportation. The wealthiest of these subdivisions have their own churches and community centers and are near to shopping areas \nand restaurants, so the residents do not have to go far from home for their basic necessities and conveniences. \nAnother development has been the appearance of prestigious"
+    },
+    {
+      "question": "What is a notable feature of the colonial architecture in the Philippines?",
+      "answer": "The church was the most impressive structure on every town's plaza",
+      "cultural_golden_answer": "The church was not only a place of worship but also a symbol of power and authority, reflecting the close unity of church and state in 16th-century Spain.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 4,
+      "context": "Page 82\ndowntown areas. Somewhat later, more up­scale developments appeared with guard posts to keep out unwanted visitors and curved streets with speed bumps to \nprevent the introduction of public transportation. The wealthiest of these subdivisions have their own churches and community centers and are near to shopping areas \nand restaurants, so the residents do not have to go far from home for their basic necessities and conveniences. \nAnother development has been the appearance of prestigious"
+    },
+    {
+      "question": "What was the primary role of preaching according to the Council of Trent?",
+      "answer": "To emphasize reform and instruction",
+      "cultural_golden_answer": "To emphasize reform and instruction, reflecting the importance of faith in Filipino culture, where Catholicism has a significant presence.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 84\nin conformity with the reforms of the Council of Trent (1545–1563), which emphasized preaching’s central role for reform and instruction, so the architectural emphasis \nwas on the strategic and elevated placement of the altar and pulpit. The front entrance often had a very large main door that was only opened on special occasions, \nsuch as the town fiesta, while smaller doors on either side served for everyday use. Most of the building’s decorative detail was placed in the front to maxim"
+    },
+    {
+      "question": "What was the function of the bell tower?",
+      "answer": "To call people to mass, herald special events, and serve secular purposes",
+      "cultural_golden_answer": "The bell tower played a crucial role in alerting Filipinos to important events, such as town fiestas and enemy raids, highlighting its significance in communal life.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 84\nin conformity with the reforms of the Council of Trent (1545–1563), which emphasized preaching’s central role for reform and instruction, so the architectural emphasis \nwas on the strategic and elevated placement of the altar and pulpit. The front entrance often had a very large main door that was only opened on special occasions, \nsuch as the town fiesta, while smaller doors on either side served for everyday use. Most of the building’s decorative detail was placed in the front to maxim"
+    },
+    {
+      "question": "What style of architecture was adopted by a new generation of American-trained architects for the country's new church buildings after World War II?",
+      "answer": "new international styles",
+      "cultural_golden_answer": "new international styles, which marked a significant departure from traditional Philippine architecture and reflected the influence of American colonial rule on Filipino culture",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 85\ndefenses against bandits and moros, and some even became quite accomplished at the design and construction of military fortifications. The church and the convento \nwere also used as refuges during enemy raids or severe tropical storms and as storehouses for food and munitions. Since the construction of municipal halls was not a \ngreat priority, they were usually made of bamboo, making them unfit for many governmental activities. It even would not be unheard of for the convento to be used"
+    },
+    {
+      "question": "What event led to the destruction of many churches in the Philippines?",
+      "answer": "the country's liberation from Japanese occupation during World War II",
+      "cultural_golden_answer": "the country's liberation from Japanese occupation, which had a profound impact on Filipino society and culture, particularly with regards to the role of the church in Philippine life",
+      "cultural_relevance": 0.8,
+      "chunk_index": 6,
+      "context": "Page 85\ndefenses against bandits and moros, and some even became quite accomplished at the design and construction of military fortifications. The church and the convento \nwere also used as refuges during enemy raids or severe tropical storms and as storehouses for food and munitions. Since the construction of municipal halls was not a \ngreat priority, they were usually made of bamboo, making them unfit for many governmental activities. It even would not be unheard of for the convento to be used"
+    },
+    {
+      "question": "When was the Iglesia ni Cristo (INC) church started?",
+      "answer": "1914",
+      "cultural_golden_answer": "1914, marking the beginning of a significant indigenous Christian movement in the Philippines that has since become a major player in the country's religious landscape.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 86\nMain cathedral of the indigenous Christian church Iglesia ni Cristo. Courtesy of the Cultural Center of the Philippines Library Collection.  \nThe most interesting recent development in church architecture has come from the rapidly growing indigenous Christian church Iglesia ni Cristo (INC or Church of \nChrist), which was started by Felix Manalo in 1914. After the war and until today under Manalo’s son Erano, who now heads the church, the INC has pioneered a \ntruly stunning form of archit"
+    },
+    {
+      "question": "Who was responsible for pioneering a new form of architecture in the Iglesia ni Cristo (INC) church?",
+      "answer": "Felix Manalo and his son Erano",
+      "cultural_golden_answer": "Felix Manalo, the founder of the INC, and later his son Erano, who carried on his father's vision, demonstrating the importance of family leadership in shaping the architectural identity of a major Filipino Christian denomination.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 86\nMain cathedral of the indigenous Christian church Iglesia ni Cristo. Courtesy of the Cultural Center of the Philippines Library Collection.  \nThe most interesting recent development in church architecture has come from the rapidly growing indigenous Christian church Iglesia ni Cristo (INC or Church of \nChrist), which was started by Felix Manalo in 1914. After the war and until today under Manalo’s son Erano, who now heads the church, the INC has pioneered a \ntruly stunning form of archit"
+    },
+    {
+      "question": "What is a distinctive feature of mosques in the Philippines compared to those in the Middle East?",
+      "answer": "The minarets are lower, and sometimes absent, leaving the tower more decorative than functional.",
+      "cultural_golden_answer": "A result of the region's seismic activity, the modification highlights Filipino adaptability in building design.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 87\nples found on the Indonesian island of Bali or the pagodas typical of Japan or China. Over time and with direct influence from the Middle East, the style changed to the \nmore easily identifiable Islamic design of the onion­shaped, domed building with towers or minarets at the four corners. As a local modification, the top of the dome is \nfrequently decorated with a crescent and star ornament and sometimes carved designs representing mythic creatures. While easily identifiable as mosques,"
+    },
+    {
+      "question": "What is a significant role that mosques play in Filipino society?",
+      "answer": "They accommodate various activities such as schools, libraries, meeting rooms, conferences, and meetings.",
+      "cultural_golden_answer": "Mosques serve as cultural, social, and political hubs, reflecting the Philippines' Muslim community's contribution to the country's rich tapestry.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 87\nples found on the Indonesian island of Bali or the pagodas typical of Japan or China. Over time and with direct influence from the Middle East, the style changed to the \nmore easily identifiable Islamic design of the onion­shaped, domed building with towers or minarets at the four corners. As a local modification, the top of the dome is \nfrequently decorated with a crescent and star ornament and sometimes carved designs representing mythic creatures. While easily identifiable as mosques,"
+    },
+    {
+      "question": "What was the main purpose of the Intramuros?",
+      "answer": "the center for Spanish temporal and religious power",
+      "cultural_golden_answer": "Intramuros, also known as the 'area inside the walls', was a symbol of Spanish colonial rule in the Philippines, serving as the hub of government and religious authority.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 88\ntioning is the large mosque in Zamboanga City, located within sight of the Spanish Fort Pilar (first built in 1635, abandoned in 1663 and rebuilt in 1719) that played a \nkey role in gaining the submission of the southwestern Islamic islands to Iberian authority by the mid­nineteenth century.  \nPUBLIC SPACES AND PUBLIC BUILDINGS \nThe Spanish, built fortifications throughout the archipelago to protect their settlements from Dutch and British rivals as well as Chinese pirates from the north"
+    },
+    {
+      "question": "What became the official residence of Philippine presidents after 1935?",
+      "answer": "the Malacanang",
+      "cultural_golden_answer": "Malacanang, formerly known as the Bahay na Bato summer house, has a rich history in Philippine politics and has served as the seat of power for various leaders, including Ferdinand Marcos and Corazon Aquino.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 88\ntioning is the large mosque in Zamboanga City, located within sight of the Spanish Fort Pilar (first built in 1635, abandoned in 1663 and rebuilt in 1719) that played a \nkey role in gaining the submission of the southwestern Islamic islands to Iberian authority by the mid­nineteenth century.  \nPUBLIC SPACES AND PUBLIC BUILDINGS \nThe Spanish, built fortifications throughout the archipelago to protect their settlements from Dutch and British rivals as well as Chinese pirates from the north"
+    },
+    {
+      "question": "What was the primary reason for confining the Chinese to their de facto ghetto, the Parian?",
+      "answer": "a desire to keep the Chinese focused exclusively on the profitable trade",
+      "cultural_golden_answer": "a desire to keep the Chinese focused exclusively on the profitable trade, reflecting the colonial mindset of maintaining control over the lucrative galleon trade and preventing the Chinese from spreading throughout the islands and jeopardizing Spanish control.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 89\ncontained a number of charitable institutions, including two orphanages and four hospitals. One hospital each was reserved for Spaniards, Chinese, and lepers, with the \nfourth, the San Juan de Dios Hospital, being a charitable institution open to the public. Also within the walls were a number of schools, the oldest of which was the \nDominican institution the Universidad de Santo Tomas, founded in 1611. There were six other colleges in the Intramuros, but caution should be advised when r"
+    },
+    {
+      "question": "What was one of the main institutions that offered medical care and education to residents within the walled city?",
+      "answer": "the San Juan de Dios Hospital",
+      "cultural_golden_answer": "the San Juan de Dios Hospital, a charitable institution open to the public, symbolizing the Spanish colonial legacy of providing access to healthcare and education in the Philippines.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 89\ncontained a number of charitable institutions, including two orphanages and four hospitals. One hospital each was reserved for Spaniards, Chinese, and lepers, with the \nfourth, the San Juan de Dios Hospital, being a charitable institution open to the public. Also within the walls were a number of schools, the oldest of which was the \nDominican institution the Universidad de Santo Tomas, founded in 1611. There were six other colleges in the Intramuros, but caution should be advised when r"
+    },
+    {
+      "question": "Who was involved in breaking from Spanish architectural traditions and introducing a new official architectural style to Manila?",
+      "answer": "Arcadio Arellano",
+      "cultural_golden_answer": "Arcadio Arellano, a pioneering Filipino architect who played a crucial role in modernizing the country's architecture by incorporating Western styles while still respecting local traditions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 90\nBy the latter years of Spanish rule, Manila’s urban growth and activity had already extended beyond the walls of Intramuros as exemplified by the growth of the \nChinese commercial district and the transfer of the governor’s office and residence from the walled city to the Malacanang Palace. The advent of American rule \nhastened this trend and witnessed the introduction of a new official architectural style. As early as 1901, Governor William Howard Taft appointed Filipino architect \nArca"
+    },
+    {
+      "question": "What was the effect of American rule on Manila's urban growth and architectural style?",
+      "answer": "The introduction of a new official architectural style, which hastened the trend of extending beyond the walls of Intramuros.",
+      "cultural_golden_answer": "The arrival of American rule marked a significant shift in Manila's urban landscape, as Western styles and influences began to take hold, but Filipino architects like Arcadio Arellano continued to adapt and innovate within these new frameworks.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 90\nBy the latter years of Spanish rule, Manila’s urban growth and activity had already extended beyond the walls of Intramuros as exemplified by the growth of the \nChinese commercial district and the transfer of the governor’s office and residence from the walled city to the Malacanang Palace. The advent of American rule \nhastened this trend and witnessed the introduction of a new official architectural style. As early as 1901, Governor William Howard Taft appointed Filipino architect \nArca"
+    },
+    {
+      "question": "What was a significant change that occurred in the rural Philippines after the transfer of colonial rule from Spain to the United States?",
+      "answer": "The introduction of the doctrine of the separation of church and state, combined with the American desire to foster democracy.",
+      "cultural_golden_answer": "This marked a crucial shift in the Philippines' transition towards democracy and secularism, which had significant implications for Filipino society and governance. The introduction of democratic principles and institutions laid the groundwork for future political developments in the country.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 91\nChange accelerated in the rural Philippines after the transfer of colonial rule from Spain to the United States. The introduction of the doctrine of the separation of \nchurch and state, combined with the American desire to foster democracy in its new possession, shifted support from Catholic priests to new democratically elected \nmunicipal and provincial governments. In 1901, the American government in Manila created a national bureau that was charged with overseeing the construction of "
+    },
+    {
+      "question": "What type of buildings were constructed during the American colonial period to serve as local government facilities?",
+      "answer": "Two-story structures built in a neoclassical style with columns, porticoes, and vestibules.",
+      "cultural_golden_answer": "These structures, known as munisipyo halls, reflected the influence of American architectural styles on Filipino urban planning. The construction of these buildings marked an attempt to modernize and Westernize Filipino cities, which had significant cultural implications for the country's urban landscape.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 12,
+      "context": "Page 91\nChange accelerated in the rural Philippines after the transfer of colonial rule from Spain to the United States. The introduction of the doctrine of the separation of \nchurch and state, combined with the American desire to foster democracy in its new possession, shifted support from Catholic priests to new democratically elected \nmunicipal and provincial governments. In 1901, the American government in Manila created a national bureau that was charged with overseeing the construction of "
+    },
+    {
+      "question": "What type of schools were constructed during the American period?",
+      "answer": "Gabaldon-type schools",
+      "cultural_golden_answer": "The Gabaldon-type schools, designed to protect students from humidity and promote air circulation, reflect the American influence on Philippine education and architecture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 92\nwhile secondary and trade schools could be two stories. Most schools were raised about four feet off the ground to protect them from humidity and had high ceilings to \nallow hot air to rise and windows along the walls to ensure constant air circulation. Most schools were arranged longitudinally with a single row of rooms that opened \non to a porch so there would be no hot and stuffy central corridor between the classrooms. Construction of the Gabaldon­type schools continued until supplan"
+    },
+    {
+      "question": "What is a characteristic of modern public spaces in the Philippines?",
+      "answer": "The presence of large malls",
+      "cultural_golden_answer": "The proliferation of giant malls, such as the SM Mega Mall and the Ortigas Shangri-la Mall, has transformed the urban landscape of the Philippines, blending traditional marketplaces with modern conveniences.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 13,
+      "context": "Page 92\nwhile secondary and trade schools could be two stories. Most schools were raised about four feet off the ground to protect them from humidity and had high ceilings to \nallow hot air to rise and windows along the walls to ensure constant air circulation. Most schools were arranged longitudinally with a single row of rooms that opened \non to a porch so there would be no hot and stuffy central corridor between the classrooms. Construction of the Gabaldon­type schools continued until supplan"
+    },
+    {
+      "question": "When did the practice of a second burial within a church continue into?",
+      "answer": "the twentieth century",
+      "cultural_golden_answer": "The twentieth century, marking a continued emphasis in Filipino culture on honoring and providing for the deceased, despite the growing awareness of sanitation.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 93\nhas a number of features that remain constant, such as the square center court with its dirt floor to absorb the blood of the losing rooster, the surrounding arena seating, \nopen sides or wood louvers to allow for maximum ventilation, and a protective roof. Older cockpits are found within the town proper, while the newer sabungan are \nlocated outside of town. Due to its efficient seating arrangement, cockpits have also been used for political meetings and theatrical performances.12  \nBUR"
+    },
+    {
+      "question": "What type of burial grounds became well-designed parks for the well-to-do?",
+      "answer": "cemeteries",
+      "cultural_golden_answer": "Cemeteries, which in Filipino culture are not only places of remembrance but also spaces for aesthetic expression and communal identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 93\nhas a number of features that remain constant, such as the square center court with its dirt floor to absorb the blood of the losing rooster, the surrounding arena seating, \nopen sides or wood louvers to allow for maximum ventilation, and a protective roof. Older cockpits are found within the town proper, while the newer sabungan are \nlocated outside of town. Due to its efficient seating arrangement, cockpits have also been used for political meetings and theatrical performances.12  \nBUR"
+    },
+    {
+      "question": "Who is considered a particularly innovative architect who emerged and made his mark in Philippine architecture?",
+      "answer": "Leandro V. Locsin",
+      "cultural_golden_answer": "Leandro V. Locsin, a Filipino architect who used indigenous building concepts to evoke a sense of floating volume, showcasing the blending of international and local architectural traditions that is characteristic of modern Philippine design.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "Page 94\nCONTEMPORARY PHILIPPINE ARCHITECTS AND THEIR WORKS \nThe recent development of Philippine architecture has been greatly enhanced by Filipino architects who studied in the United States or Europe and subsequently \nintroduced new styling. During the American colonial period, these new architects worked for the emerging commercial elite of the era, and they were particularly taken \nwith the art deco styling of the Paris Ecole des Beaux­Arts. This stylistic influence can be seen in the 1928 s"
+    },
+    {
+      "question": "What style influenced the design of several buildings in Metro Manila's financial center?",
+      "answer": "international style",
+      "cultural_golden_answer": "The international style, which emphasizes clean lines and geometric abstraction, was incorporated into traditional Filipino architectural elements such as steep roofs with protective eaves by architects like Leandro V. Locsin, reflecting the country's unique blend of local and global influences.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 15,
+      "context": "Page 94\nCONTEMPORARY PHILIPPINE ARCHITECTS AND THEIR WORKS \nThe recent development of Philippine architecture has been greatly enhanced by Filipino architects who studied in the United States or Europe and subsequently \nintroduced new styling. During the American colonial period, these new architects worked for the emerging commercial elite of the era, and they were particularly taken \nwith the art deco styling of the Paris Ecole des Beaux­Arts. This stylistic influence can be seen in the 1928 s"
+    },
+    {
+      "question": "What architectural style is being adopted by the San Miguel Corporation?",
+      "answer": "Bahay na Bato",
+      "cultural_golden_answer": "The Bahay na Bato architectural style, reminiscent of traditional Filipino homes, is being incorporated into modern buildings such as the San Miguel Corporation's headquarters, reflecting the country's efforts to preserve its cultural heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 95\nHeadquarters of the San Miguel Corporation designed with a tier effect that mimics rice terraces. Courtesy of the Cultural Center of the \nPhilippines Library Collection. \nwooden panels reminiscent of the bahay na bato. Another example of the indigenous adoption of Philippine architecture is the San Miguel Corporation’s office, \ndesigned by the Manosa brothers, Manuel, Jose, and Francisco. The design of the building was inspired by the rice terraces of the central Cordillera and so has ti"
+    },
+    {
+      "question": "What is happening to many bahay na bato homes in the provinces?",
+      "answer": "They are being adopted by private foundations or declared national treasures",
+      "cultural_golden_answer": "Many bahay na bato homes in provinces like Pampanga, Ilocos Sur, and Negros Occidental are being preserved and protected through initiatives such as adoption by private foundations or declaration as national treasures, ensuring the continuation of traditional Filipino architecture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 95\nHeadquarters of the San Miguel Corporation designed with a tier effect that mimics rice terraces. Courtesy of the Cultural Center of the \nPhilippines Library Collection. \nwooden panels reminiscent of the bahay na bato. Another example of the indigenous adoption of Philippine architecture is the San Miguel Corporation’s office, \ndesigned by the Manosa brothers, Manuel, Jose, and Francisco. The design of the building was inspired by the rice terraces of the central Cordillera and so has ti"
+    },
+    {
+      "question": "Who wrote 'Arkitektura: An Essay on Philippine Ethnic Architecture'?",
+      "answer": "Maria Corazon C. Hila",
+      "cultural_golden_answer": "Maria Corazon C. Hila, a prominent figure in Filipino architecture who shed light on the country's ethnic architectural heritage",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "Page 96\nnew materials to transcend environmental limitations and serve the needs of an ever­evolving society, even as the past is preserved for a new generation.  \nNOTES \n1.   See Maria Corazon C. Hila, Arkitektura: An Essay on Philippine Ethnic Architecture  (Manila: Cultural Center of the Philippines, 1992).  \n2.   A detailed description of the  bahay kubo  and Spanish innovations is given by Regalado Trota Jose,  Arkitektura: An Essay on the Spanish Influence on Philippine Architecture  \n(Man"
+    },
+    {
+      "question": "What is the significance of the bahay kubo in Philippine culture?",
+      "answer": "The bahay kubo is a traditional Filipino dwelling that has been preserved for future generations.",
+      "cultural_golden_answer": "The bahay kubo, an iconic symbol of Filipino ingenuity and resourcefulness, represents the country's rich cultural heritage and its people's ability to adapt to their environment",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "Page 96\nnew materials to transcend environmental limitations and serve the needs of an ever­evolving society, even as the past is preserved for a new generation.  \nNOTES \n1.   See Maria Corazon C. Hila, Arkitektura: An Essay on Philippine Ethnic Architecture  (Manila: Cultural Center of the Philippines, 1992).  \n2.   A detailed description of the  bahay kubo  and Spanish innovations is given by Regalado Trota Jose,  Arkitektura: An Essay on the Spanish Influence on Philippine Architecture  \n(Man"
+    },
+    {
+      "question": "Who led the Philippine Revolution?",
+      "answer": "Emilio Aguinaldo",
+      "cultural_golden_answer": "Emilio Aguinaldo, who led the Philippine Revolution and established the First Philippine Republic in 1898, remains a significant figure in Filipino history, embodying the country's struggle for independence.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 98\nThis page intentionally left blank."
+    },
+    {
+      "question": "What was the primary objective of the revolution?",
+      "answer": "Independence from Spain",
+      "cultural_golden_answer": "The revolution aimed to achieve independence from Spanish colonial rule, a pivotal moment in Filipino history that has shaped the country's identity and resilience.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 98\nThis page intentionally left blank."
+    }
+  ]
+}

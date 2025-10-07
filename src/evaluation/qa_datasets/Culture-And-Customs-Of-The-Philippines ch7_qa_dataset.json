@@ -1,0 +1,525 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Culture-And-Customs-Of-The-Philippines ch7.pdf",
+    "total_chunks": 32,
+    "total_qa_pairs": 64,
+    "chunk_size": 4000,
+    "chunk_overlap": 800,
+    "question_level": "high",
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "What is a trademark of the Philippines?",
+      "answer": "The fiesta",
+      "cultural_golden_answer": "The fiesta, which embodies Filipino values such as warmth and hospitality, has become an integral part of the country's cultural identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 139\n7 \nFestivals, Theater, Film, Media, and Other Entertainment \nTHIS CHAPTER looks at a broad range of Philippine cultural productions beginning with a survey of its numerous festivals. These festive occasions are enjoyed by all \nFilipinos and have inherent social dimensions in addition to their celebration of the country’s religious life. Next, the origins and development of Philippine theater is \nexplored, including its indigenous forms and the foreign influences that have deepened this "
+    },
+    {
+      "question": "What is closely connected with the Philippine film industry?",
+      "answer": "Newspaper, radio, and television industries",
+      "cultural_golden_answer": "These industries perform many of the same functions as the film industry, reflecting the Philippines' rich tradition of storytelling through various forms of media.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 139\n7 \nFestivals, Theater, Film, Media, and Other Entertainment \nTHIS CHAPTER looks at a broad range of Philippine cultural productions beginning with a survey of its numerous festivals. These festive occasions are enjoyed by all \nFilipinos and have inherent social dimensions in addition to their celebration of the country’s religious life. Next, the origins and development of Philippine theater is \nexplored, including its indigenous forms and the foreign influences that have deepened this "
+    },
+    {
+      "question": "What is a significant form of Philippine theatrical tradition that originated from festivals?",
+      "answer": "Theatrical tradition",
+      "cultural_golden_answer": "Festivals gave birth to significant forms of the Philippines' theatrical tradition, reflecting the country's rich cultural heritage and blending of faith with celebration.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 140\nselves. The celebration of holidays usually has significance at deeper levels that includes agricultural life, religious devotion, societal values, and familial bonds. As well, \nthe country’s festivals gave birth to significant forms of the Philippine’s theatrical tradition, some of its music, and even aspects of its literature and art. The first­time \nvisitor to the Philippines is immediately aware that most of the country’s celebrations are religious or are at least heavily infused wi"
+    },
+    {
+      "question": "What event serves as an opportunity for the reaffirmation of commonly held societal values and the central importance of the family?",
+      "answer": "Festivals",
+      "cultural_golden_answer": "Festivals, such as the town fiesta, serve as a vital occasion for Filipino communities to come together, strengthen social bonds, and reassert their core values, highlighting the significance of familial ties and community cohesion in Philippine culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 140\nselves. The celebration of holidays usually has significance at deeper levels that includes agricultural life, religious devotion, societal values, and familial bonds. As well, \nthe country’s festivals gave birth to significant forms of the Philippine’s theatrical tradition, some of its music, and even aspects of its literature and art. The first­time \nvisitor to the Philippines is immediately aware that most of the country’s celebrations are religious or are at least heavily infused wi"
+    },
+    {
+      "question": "What is a key aspect of the Philippine fiesta?",
+      "answer": "A combination of religious and secular festivities",
+      "cultural_golden_answer": "The Philippine fiesta, also known as a town fiesta, is a vibrant celebration that combines the sacred with the secular, showcasing the country's rich cultural heritage and strong sense of community.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 141\nizes the true fiesta honoring the patron saint, including the processions, a novena (a nine day prayer devotion) and at least one mass. Meanwhile, a committee of \nprominent individuals is in charge of all the nonreligious festivities, which include a dance, a beauty contest to select the Queen and King of the fiesta, sporting contests \n(basketball tournaments and cockfights, pintakasi), raffles, dramas, speeches, commercial activities, and, perhaps, a carnival. Membership on these commi"
+    },
+    {
+      "question": "Why do Filipinos often return to their hometown for fiestas?",
+      "answer": "To reunite with families and maintain tight bonds",
+      "cultural_golden_answer": "The Filipino's deep-rooted sense of family and community is exemplified by the annual fiesta, which serves as a powerful catalyst for family reunions and strengthening social ties that transcend geographical boundaries.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 141\nizes the true fiesta honoring the patron saint, including the processions, a novena (a nine day prayer devotion) and at least one mass. Meanwhile, a committee of \nprominent individuals is in charge of all the nonreligious festivities, which include a dance, a beauty contest to select the Queen and King of the fiesta, sporting contests \n(basketball tournaments and cockfights, pintakasi), raffles, dramas, speeches, commercial activities, and, perhaps, a carnival. Membership on these commi"
+    },
+    {
+      "question": "What is a significant holiday emphasized in the Philippines?",
+      "answer": "Christmas",
+      "cultural_golden_answer": "Christmas, a central feature of religious devotion in the Philippines, reflects the country's unique blend of Christianity and indigenous traditions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 142\nand some particular holidays are emphasized more in the Philippines than other places. These variations and emphases are frequently related to the Filipino family and \nits involvement in ceremonial life. They are also related to the country’s agricultural life and sometimes show lingering pre­Christian elements, which give Philippine \nChristianity its folk dimension. \nChristmas is certainly a central feature of religious devotion and is celebrated in the Philippines as elsewhere with Sa"
+    },
+    {
+      "question": "What is a notable event during Lent in some Filipino towns?",
+      "answer": "Flagellants beating themselves as an act of penance",
+      "cultural_golden_answer": "The flagellant's rituals, although sometimes perceived as extreme, are rooted in the country's Catholic heritage and serve as a testament to its rich cultural traditions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 142\nand some particular holidays are emphasized more in the Philippines than other places. These variations and emphases are frequently related to the Filipino family and \nits involvement in ceremonial life. They are also related to the country’s agricultural life and sometimes show lingering pre­Christian elements, which give Philippine \nChristianity its folk dimension. \nChristmas is certainly a central feature of religious devotion and is celebrated in the Philippines as elsewhere with Sa"
+    },
+    {
+      "question": "What is one of the most important religious holidays for Filipinos?",
+      "answer": "All Saints' Day",
+      "cultural_golden_answer": "All Saints' Day, a significant national holiday in the Philippines where families honor their deceased loved ones, linking the living with the dead and fostering family reunions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 143\nconverted to Christianity but was put to death by his fellow Romans as a result. The men of the island’s towns make their own large and colorful masks of paper­mâché \nand vie for the honor of playing the part of Longinus in the annual festivity that is acted out before large and appreciative crowds.2  \nAnother religious holiday that holds especial meaning for the Filipino family is All Saints Day held on the first of November. This is a holiday to honor the memory of \nthe dead, especial"
+    },
+    {
+      "question": "What is an example of a festival that combines pre-Christian elements with Catholicism?",
+      "answer": "The Ati-Atihan festival in Kalibo, Aklan province",
+      "cultural_golden_answer": "The Ati-Atihan festival in Kalibo, Aklan province, which showcases the blend of indigenous and Spanish traditions, highlighting the unique cultural heritage of the Filipino people.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 143\nconverted to Christianity but was put to death by his fellow Romans as a result. The men of the island’s towns make their own large and colorful masks of paper­mâché \nand vie for the honor of playing the part of Longinus in the annual festivity that is acted out before large and appreciative crowds.2  \nAnother religious holiday that holds especial meaning for the Filipino family is All Saints Day held on the first of November. This is a holiday to honor the memory of \nthe dead, especial"
+    },
+    {
+      "question": "What is one of the celebrations related to agriculture, held in May?",
+      "answer": "The feast day of San Isidro",
+      "cultural_golden_answer": "The feast day of San Isidro, which honors the water buffalo, a symbol of subsistence agriculture and an important part of Philippine culture, especially for farmers who depend on it.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 144\nFlores de Mayo  celebration. Courtesy of the Cultural Center of the Philippines Library Collection. \ndesigns, garb themselves with all variety of wild costumes, and celebrate mardi gras style for almost a week.3 \n \nThere are still other religious festivities that seek to ensure immediate benefits for their celebrants, such as festivals related to agriculture, travel, and fertility. \nAgricultural celebrations are often held in May, a slack agricultural period when farmers are not as cons"
+    },
+    {
+      "question": "What is one of the main festivals celebrated in November?",
+      "answer": "The Penafrancia festival",
+      "cultural_golden_answer": "The Penafrancia festival, a significant celebration that has pre-Christian origins and highlights the importance of rivers in Philippine life, with its fluvial procession representing a connection to the country's rich cultural heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 144\nFlores de Mayo  celebration. Courtesy of the Cultural Center of the Philippines Library Collection. \ndesigns, garb themselves with all variety of wild costumes, and celebrate mardi gras style for almost a week.3 \n \nThere are still other religious festivities that seek to ensure immediate benefits for their celebrants, such as festivals related to agriculture, travel, and fertility. \nAgricultural celebrations are often held in May, a slack agricultural period when farmers are not as cons"
+    },
+    {
+      "question": "What is the significance of June 12th in the Philippines?",
+      "answer": "June 12",
+      "cultural_golden_answer": "Emilio Aguinaldo's declaration of independence from Spain, marking the country's true independence day as it was declared and fought for by the people, not given as a gift by a colonial power.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 146\nHouses in Lucban, Tayabas province decorated for the Pahiyas harvest festival with gourds, peppers, rice stalks, and, especially, the \nbrightly colored rice wafers, kiping, that are used to make chandeliers. Courtesy of the Bernie Cervantes Collection.\n\nPage 147\nAccompanying these ceremonies are sacrifices of animals, specific dances for the occasion and a canao, or feast, given by the wealthiest man in the community. \nIn contrast to the northern mountain people, the Muslim population o"
+    },
+    {
+      "question": "What is one way that Filipinos celebrate their independence from the United States?",
+      "answer": "July 4th",
+      "cultural_golden_answer": "Philippine-American Friendship Day, a celebration of the country's relationship with its former colonizer.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 146\nHouses in Lucban, Tayabas province decorated for the Pahiyas harvest festival with gourds, peppers, rice stalks, and, especially, the \nbrightly colored rice wafers, kiping, that are used to make chandeliers. Courtesy of the Bernie Cervantes Collection.\n\nPage 147\nAccompanying these ceremonies are sacrifices of animals, specific dances for the occasion and a canao, or feast, given by the wealthiest man in the community. \nIn contrast to the northern mountain people, the Muslim population o"
+    },
+    {
+      "question": "What is Bataan Day commemorated for?",
+      "answer": "the gruesome forced death march made by surrendered Philippine and American soldiers",
+      "cultural_golden_answer": "Bataan Day, a significant national holiday in the Philippines, commemorates the sacrifices of Filipino and American forces who defended the country against Japanese forces during World War II.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 148\nrifices that their soldiers and American forces made defending the country against the Japanese onslaught in World War II. Bataan Day is commemorated on April 9 \nwith a re­enactment of the gruesome forced death march made by the surrendered Philippine and American soldiers, and on May 6, the fall of the Bataan Peninsula’s \noffshore island bastion is acknowledged in ceremonies for the Battle of Corregidor. \nLike the official Independence Day, a number of other holidays celebrate the nati"
+    },
+    {
+      "question": "What is a key theme of Philippine theater throughout history?",
+      "answer": "self-expression and artistic creation",
+      "cultural_golden_answer": "Philippine theater has consistently served as an outlet for self-expression and artistic creation, reflecting the nation's rich cultural heritage and its ability to adapt to changing social and political contexts.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 7,
+      "context": "Page 148\nrifices that their soldiers and American forces made defending the country against the Japanese onslaught in World War II. Bataan Day is commemorated on April 9 \nwith a re­enactment of the gruesome forced death march made by the surrendered Philippine and American soldiers, and on May 6, the fall of the Bataan Peninsula’s \noffshore island bastion is acknowledged in ceremonies for the Battle of Corregidor. \nLike the official Independence Day, a number of other holidays celebrate the nati"
+    },
+    {
+      "question": "What was the primary function of theater before Spain's arrival?",
+      "answer": "The telling of stories and the passing on of community values",
+      "cultural_golden_answer": "The primary function of theater before Spain's arrival was to carry out the rituals of native priests and priestesses, passing on essential community values and ensuring a bountiful harvest, successful hunt, or prosperous afterlife.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 149\nOrigins and Spanish Influences \nBefore Spain’s arrival, indigenous Filipinos did not have a traditional theater with scripted dialogue and productions set in specially designed spaces. Rather, the \nfunction of theater, the telling of stories and the passing on of community values, was carried out by the rituals of native priests and priestesses and set to the \naccompaniment of indigenous music and dance as described in Chapter Eight. These ceremonies were proto­dramas, conducted to ensu"
+    },
+    {
+      "question": "What is one popular form of play introduced during the Spanish era?",
+      "answer": "The komedya, also known as moromoro plays",
+      "cultural_golden_answer": "The komedya, or moromoro plays, are a significant cultural contribution of the Spanish era in the Philippines, often featuring battles between Christian and Muslim adversaries and narrations about patron saints.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 8,
+      "context": "Page 149\nOrigins and Spanish Influences \nBefore Spain’s arrival, indigenous Filipinos did not have a traditional theater with scripted dialogue and productions set in specially designed spaces. Rather, the \nfunction of theater, the telling of stories and the passing on of community values, was carried out by the rituals of native priests and priestesses and set to the \naccompaniment of indigenous music and dance as described in Chapter Eight. These ceremonies were proto­dramas, conducted to ensu"
+    },
+    {
+      "question": "When was the first script for the pasyon written?",
+      "answer": "1703",
+      "cultural_golden_answer": "1703, marking a significant milestone in the development of Philippine literature and religious traditions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 150\nit is within the context of the annual performance through which religious and community values are transmitted and reaffirmed. Scripts for the pasyon were also an \nearly form of Philippine literature with the first written in 1703 by Gaspar de Belen. The story was later adapted to the country’s numerous regional dialects. Since the \npasyon is so pervasive, its message has had an impact that extends far beyond the strict confines of religion. While the Spanish friars sought to use this "
+    },
+    {
+      "question": "Who was a prominent proponent of secular theater in the Philippines?",
+      "answer": "Severino Reyes",
+      "cultural_golden_answer": "Severino Reyes, who played a pivotal role in introducing and promoting secular theater in the Philippines, paving the way for social commentary and cultural critique through art.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 150\nit is within the context of the annual performance through which religious and community values are transmitted and reaffirmed. Scripts for the pasyon were also an \nearly form of Philippine literature with the first written in 1703 by Gaspar de Belen. The story was later adapted to the country’s numerous regional dialects. Since the \npasyon is so pervasive, its message has had an impact that extends far beyond the strict confines of religion. While the Spanish friars sought to use this "
+    },
+    {
+      "question": "When did sarsuelas and drama play a significant role in carrying the patriotic message during the nationalist struggle?",
+      "answer": "During the nationalist struggle to overturn Spanish rule and resist the United States",
+      "cultural_golden_answer": "During the early 20th century, specifically during the Philippine Revolution against Spanish rule and later against American colonialism, sarsuelas and drama became powerful tools for conveying patriotic messages, reflecting the Filipino people's desire for independence and self-governance.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 151\nCast of the 1970s theatrical revival of the turn­of­the­century play Walang Sugat (Not Wounded ), an anti­American nationalist \nsarsuela. Courtesy of the Cultural Center of the Philippines Library Collection. \nembrace the secular enlightenment and loosen the tight bonds of ecclesiastical influence. This social­political edge to theater intensified during the nationalist struggle to \noverturn Spanish rule and resist the United States. Sarsuelas and drama were both used to carry the patri"
+    },
+    {
+      "question": "What type of play was 'Walang Sugat (Not Wounded)' by Severino Reyes?",
+      "answer": "An anti-American nationalist sarsuela",
+      "cultural_golden_answer": "A classic example of a Filipino sarsuela, 'Walang Sugat' embodies the country's struggle for independence and self-expression, showcasing the art form's ability to convey powerful social and political messages through music, dance, and drama.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 151\nCast of the 1970s theatrical revival of the turn­of­the­century play Walang Sugat (Not Wounded ), an anti­American nationalist \nsarsuela. Courtesy of the Cultural Center of the Philippines Library Collection. \nembrace the secular enlightenment and loosen the tight bonds of ecclesiastical influence. This social­political edge to theater intensified during the nationalist struggle to \noverturn Spanish rule and resist the United States. Sarsuelas and drama were both used to carry the patri"
+    },
+    {
+      "question": "What was introduced to the Philippines by American colonial rule?",
+      "answer": "The teaching of English through school plays",
+      "cultural_golden_answer": "The introduction of English as a medium for theater, which laid the foundation for a new generation of Filipino writers and performers who would shape the country's theatrical landscape.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 152\ndominance was undercut by the introduction of American vaudeville (or bodabil in Pilipino) with its combination of short dramatic skits, comedy sketches, chorus girls, \nand songs. Since most of the entertainment in bodabil shows was based on what was current in America, the increased popularity of stage shows limited the \ndevelopment of Philippine theater. It was first in bodabil that Filipino musicians and singers adopted and imitated popular American performers and thoroughly \nimplant"
+    },
+    {
+      "question": "Who were some key figures in developing a legitimate Philippine theater beyond touring sarsuela companies?",
+      "answer": "Wilfrido Ma. Guerrero, Alberto Florentino, and Severino Montano",
+      "cultural_golden_answer": "These pioneering writers and performers, led by Wilfrido Ma. Guerrero, Alberto Florentino, and Severino Montano, were instrumental in creating a new wave of Philippine theater that addressed domestic issues and reflected the country's unique cultural heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 152\ndominance was undercut by the introduction of American vaudeville (or bodabil in Pilipino) with its combination of short dramatic skits, comedy sketches, chorus girls, \nand songs. Since most of the entertainment in bodabil shows was based on what was current in America, the increased popularity of stage shows limited the \ndevelopment of Philippine theater. It was first in bodabil that Filipino musicians and singers adopted and imitated popular American performers and thoroughly \nimplant"
+    },
+    {
+      "question": "Who was a key leader in the movement to adapt Pilipino to modern theater and make it more accessible?",
+      "answer": "Rolando Tinio",
+      "cultural_golden_answer": "Rolando Tinio, who played a pivotal role in the shift from English to Pilipino in Philippine theater, reflecting the country's growing desire for cultural self-expression and independence.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 153\ntheless, since the scripts of these writers were in English, the nuances of which only a minority of the population could fully appreciate, their impact was limited to a \nsmall urban intelligentsia. The big break came in the 1960s as the growing nationalist movement began to offer a coherent critique of the relevance of a culture that \ndepended upon English for its language of cultural conceptualization and communication and the American model for its ideal form.  \nContemporary Philippi"
+    },
+    {
+      "question": "What was a significant change that occurred in contemporary Philippine Theater?",
+      "answer": "A shift away from English",
+      "cultural_golden_answer": "The transition to Pilipino as the primary language of Philippine theater, marking a significant cultural and linguistic shift towards national identity and expression.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 153\ntheless, since the scripts of these writers were in English, the nuances of which only a minority of the population could fully appreciate, their impact was limited to a \nsmall urban intelligentsia. The big break came in the 1960s as the growing nationalist movement began to offer a coherent critique of the relevance of a culture that \ndepended upon English for its language of cultural conceptualization and communication and the American model for its ideal form.  \nContemporary Philippi"
+    },
+    {
+      "question": "What was a significant development in Philippine theater during this period?",
+      "answer": "The revival of Philippine theater and the rise of new forms of theatrical expression",
+      "cultural_golden_answer": "The revival of Philippine theater, marked by a renewed focus on social and political themes, reflected the country's growing desire for self-expression and critique of societal issues, echoing the long-standing tradition of using art as a form of social commentary in Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 154\nswitch to Pilipino and the reinvigoration of the art actually increased interest in new forms of theatrical expression. Realism and psychological themes, which had already \nmade an impact on local stages, became even more prominent under the skilled pens of many new writers, including Rogelio Sicat, whose Moses, Moses (1969) was a \ndevastating critique of the administration of justice in the country; Rolando Tinio, who wrote A Life in the Slums (1976) which brought a social reality of t"
+    },
+    {
+      "question": "Which theater groups were formed during this period?",
+      "answer": "Gintong Silahis and Panday-Sining",
+      "cultural_golden_answer": "Gintong Silahis, founded in the early days of martial law, and Panday-Sining, which emerged later, represented the increasing number of community-based theater groups that sought to use their art as a tool for social change, reflecting the Filipino values of bayanihan (solidarity) and pakikisama (social harmony).",
+      "cultural_relevance": 0.8,
+      "chunk_index": 13,
+      "context": "Page 154\nswitch to Pilipino and the reinvigoration of the art actually increased interest in new forms of theatrical expression. Realism and psychological themes, which had already \nmade an impact on local stages, became even more prominent under the skilled pens of many new writers, including Rogelio Sicat, whose Moses, Moses (1969) was a \ndevastating critique of the administration of justice in the country; Rolando Tinio, who wrote A Life in the Slums (1976) which brought a social reality of t"
+    },
+    {
+      "question": "What type of plays were written by Filipino playwrights during Ferdinand Marcos's martial law regime?",
+      "answer": "plays that used a language of indirection to deliver their message",
+      "cultural_golden_answer": "plays that subtly conveyed dissent and critique through veiled references, reflecting the culture of restraint and survival under authoritarian rule in the Philippines",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 155\nAs early as 1962, Max Allanigue produced a moro­moro play, Prinsipe Rodante (Prince Rodante), that sought reconciliation between people of different faiths \nrather than featuring the religious conflict of the traditional play. Later in 1982, Nicanor Tiongson premiered his extremely successful Pilipinas Circa 1907 that used the \nsarsuela form to examine the modern theme of economic exploitation of Third World nations by the United States. Al Santos presented a new pasyon play, the \nSinak"
+    },
+    {
+      "question": "How did Philippine theater change after the end of Ferdinand Marcos's regime?",
+      "answer": "it transformed itself to focus on systemic problems of poverty and injustice",
+      "cultural_golden_answer": "it shifted its focus from resistance against a specific leader to addressing deeper, more enduring issues affecting the Filipino people, such as poverty and women's rights, reflecting the country's growing emphasis on social justice and human dignity",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 155\nAs early as 1962, Max Allanigue produced a moro­moro play, Prinsipe Rodante (Prince Rodante), that sought reconciliation between people of different faiths \nrather than featuring the religious conflict of the traditional play. Later in 1982, Nicanor Tiongson premiered his extremely successful Pilipinas Circa 1907 that used the \nsarsuela form to examine the modern theme of economic exploitation of Third World nations by the United States. Al Santos presented a new pasyon play, the \nSinak"
+    },
+    {
+      "question": "Who is the renowned composer mentioned in the passage?",
+      "answer": "Ruben Cayabyab",
+      "cultural_golden_answer": "The celebrated Filipino composer Ruben Cayabyab, who has contributed significantly to Philippine music and cultural heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "Page 156\ncomposer Ruben Cayabyab combined talents to “reinterpret and set to music for the Generation Y” the national hero’s story so it would be relevant to today’s youth. \nOther theatrical offerings included Lucien Letaba and Charley de la Pena’s 1995 play 1896, which was mounted by PETA and traveled beyond Manila thanks to \ntranslations into regional dialects such as Cebuano. The role played by the nation’s theatrical community in making the centennial a resounding success clearly shows \nthat"
+    },
+    {
+      "question": "What is the current state of the domestic film industry in the Philippines?",
+      "answer": "It produces between 90 to slightly over 130 films annually",
+      "cultural_golden_answer": "Despite facing challenges, the Philippine domestic film industry continues to thrive, with a significant number of films produced each year, reflecting the nation's rich cultural identity and creative spirit.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 15,
+      "context": "Page 156\ncomposer Ruben Cayabyab combined talents to “reinterpret and set to music for the Generation Y” the national hero’s story so it would be relevant to today’s youth. \nOther theatrical offerings included Lucien Letaba and Charley de la Pena’s 1995 play 1896, which was mounted by PETA and traveled beyond Manila thanks to \ntranslations into regional dialects such as Cebuano. The role played by the nation’s theatrical community in making the centennial a resounding success clearly shows \nthat"
+    },
+    {
+      "question": "When was the first short film made in the Philippines?",
+      "answer": "1909",
+      "cultural_golden_answer": "In 1909, Albert Yearsley made the first short film in the Philippines, marking a significant milestone in the country's film history.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 157\nShaky Start and Solid Growth \nMotion pictures were first brought to Manila in the nineteenth century by enterprising foreigners who hoped to develop a profitable theater business by supplementing \nlive acts with the new novelty. Later, when U.S. troops arrived in 1898, they brought along a cameraman to make a film record of the “glorious” expansion of the new \nAmerican empire. Private American companies were also quick to enter the new colony; including the Biograph Company that sent Ra"
+    },
+    {
+      "question": "Who is credited as the pioneer of the domestic Philippine film industry?",
+      "answer": "Jose Nepomuceno",
+      "cultural_golden_answer": "Jose Nepomuceno, a Filipino filmmaker, is considered the pioneer of the domestic Philippine film industry, having purchased the failing Rizalina Company's equipment in 1919 and made the first truly Filipino film, Dalagang Bukid.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 157\nShaky Start and Solid Growth \nMotion pictures were first brought to Manila in the nineteenth century by enterprising foreigners who hoped to develop a profitable theater business by supplementing \nlive acts with the new novelty. Later, when U.S. troops arrived in 1898, they brought along a cameraman to make a film record of the “glorious” expansion of the new \nAmerican empire. Private American companies were also quick to enter the new colony; including the Biograph Company that sent Ra"
+    },
+    {
+      "question": "What year did the American company Filippine Films found its production studio in Manila?",
+      "answer": "1933",
+      "cultural_golden_answer": "In 1933, the American company Filippine Films brought much-needed technology to the Philippines, revitalizing the local film industry and establishing a crucial milestone in Philippine cinema's development.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "Page 158\nby the imported American “talkies” that were drawing the crowds away from the silent Filipino films.  \nAmerican investors came to the rescue of a moribund Filipino film industry in the form of George Harris and Eddie Tait, who decided to invest in a production studio \nin Manila as part of their plan to make films for the budding Asian market. Their investment capital and equipment; the founding of their company, Filippine Films, in \n1933; and a business alliance with Nepomuceno brought "
+    },
+    {
+      "question": "What was the impact of Hollywood films on the Filipino intelligentsia?",
+      "answer": "They attracted the country's intelliigentsia, because English was the language of status",
+      "cultural_golden_answer": "Hollywood films had a profound effect on the Filipino intelligentsia, as they provided access to an idealized world of the American Dream in English, which was seen as the language of status and sophistication.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "Page 158\nby the imported American “talkies” that were drawing the crowds away from the silent Filipino films.  \nAmerican investors came to the rescue of a moribund Filipino film industry in the form of George Harris and Eddie Tait, who decided to invest in a production studio \nin Manila as part of their plan to make films for the budding Asian market. Their investment capital and equipment; the founding of their company, Filippine Films, in \n1933; and a business alliance with Nepomuceno brought "
+    },
+    {
+      "question": "What is a term coined by a movie director to refer to patrons of Filipino films?",
+      "answer": "bakya",
+      "cultural_golden_answer": "The term 'bakya' refers to the wooden clog slippers worn by poor Filipinos, highlighting the socio-economic status of the audience for early Filipino cinema.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 159\nto cater to the less educated poor Filipinos who made fewer artistic demands. This demographic reality stigmatized the audience and reinforced genre trends in the films \nproduced. It is said that the derogatory term bakya (Pilipino for the wooden clog slippers worn by the poor) for the patrons of Filipino films was coined in the 1950s \nby a movie director who was insulted that local audiences could not appreciate his artistry.19  \nSince its beginnings, the film industry has followed for"
+    },
+    {
+      "question": "What is a common plot motif in many Filipino melodramas?",
+      "answer": "the love triangle involving young lovers or married couples",
+      "cultural_golden_answer": "The love triangle, often complicated by class differences and family interference, is a staple of traditional Filipino melodrama, reflecting the country's values on romance, family, and social hierarchy.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 159\nto cater to the less educated poor Filipinos who made fewer artistic demands. This demographic reality stigmatized the audience and reinforced genre trends in the films \nproduced. It is said that the derogatory term bakya (Pilipino for the wooden clog slippers worn by the poor) for the patrons of Filipino films was coined in the 1950s \nby a movie director who was insulted that local audiences could not appreciate his artistry.19  \nSince its beginnings, the film industry has followed for"
+    },
+    {
+      "question": "What was one of the significant changes that occurred in Philippine films from the late 1940s to the early 1960s?",
+      "answer": "The appearance of some films in which disillusion over post-war Philippine political corruption and social conflict was clearly portrayed.",
+      "cultural_golden_answer": "A reflection of Filipino culture's growing awareness of social issues, such as corruption and inequality, which was a significant theme in the country's cinema during this period, highlighting the filmmakers' attempt to address pressing national concerns through their art.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "Page 160\nPhilippine films also have a bevy of “stars” who enjoy the adulation of their fans. Some actors play clearly identified roles, such as the kontrabida (anti­hero) or the \nbida (hero) in the melodrama and action genres, and it remains a common practice to match up young stars in romantic duos intended to heighten the interest of their \nfans who see them in film after film. Even former Philippine president Joseph Estrada was a major movie star long before entering politics. In his films, h"
+    },
+    {
+      "question": "Who was one of the major movie stars that became a politician?",
+      "answer": "Joseph Estrada",
+      "cultural_golden_answer": "The former Philippine president Joseph Estrada, who leveraged his popularity as an actor to win the presidency and even continued his 'honest avenging policeman' persona in office, demonstrating the strong connection between entertainment and politics in Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "Page 160\nPhilippine films also have a bevy of “stars” who enjoy the adulation of their fans. Some actors play clearly identified roles, such as the kontrabida (anti­hero) or the \nbida (hero) in the melodrama and action genres, and it remains a common practice to match up young stars in romantic duos intended to heighten the interest of their \nfans who see them in film after film. Even former Philippine president Joseph Estrada was a major movie star long before entering politics. In his films, h"
+    },
+    {
+      "question": "What was a significant development in the Filipino film industry during the era?",
+      "answer": "The decline and eventual demise of the major studios",
+      "cultural_golden_answer": "The decline and eventual demise of the major studios marked a significant shift towards the rise of independent companies, reflecting the cultural significance of self-sufficiency and resilience in the face of adversity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 20,
+      "context": "Page 161\nThe second major development of the era was the decline and eventual demise of the major studios. This situation was prompted by labor problems in the early \n1960s, which led to a number of major stars leaving the studios. The decline was accelerated by the deaths of some major studio heads, and eventually the only \nremaining major studio was Sampaguita Pictures. The way was clear for smaller independent companies to capture a bigger portion of the market and for fresh talent to \nemerge"
+    },
+    {
+      "question": "Who were some notable directors that helped redefine Filipino film during the 1970s and 1980s?",
+      "answer": "Ishmael Bernal, Lino Brocka",
+      "cultural_golden_answer": "Ishmael Bernal and Lino Brocka, often referred to as the 'masters' of Philippine cinema, pioneered a new generation of filmmakers who brought social commentary and artistic depth to Filipino films, embodying the country's growing nationalist sentiment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 20,
+      "context": "Page 161\nThe second major development of the era was the decline and eventual demise of the major studios. This situation was prompted by labor problems in the early \n1960s, which led to a number of major stars leaving the studios. The decline was accelerated by the deaths of some major studio heads, and eventually the only \nremaining major studio was Sampaguita Pictures. The way was clear for smaller independent companies to capture a bigger portion of the market and for fresh talent to \nemerge"
+    },
+    {
+      "question": "Which filmmaker explored the human spirit and the horror of war in Oro, Plata, Mata (Gold, Silver, Death, 1982)?",
+      "answer": "Peque Gallaga",
+      "cultural_golden_answer": "Peque Gallaga, a renowned Filipino filmmaker who explored the complexities of the human experience through his film Oro, Plata, Mata, which is considered operatic in its beauty and scope.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 21,
+      "context": "Page 162\nas Bernal’s first film Pagdating sa Dulo (At the Top, 1971), Brocka’s Maynila, sa mga Kuko ng Liwanag (Manila, In the Claws of Neon Lights, 1975) and \nJaguar (Guard, 1979), plus Mike de Leon’s Batch ’81 (1981) contained harsh social criticisms of an exploitative and authoritarian society in which the sympathetic \nlead characters are crushed. These films did not project the image desired by the government, but Manila audiences supported them with their box office patronage \ndespite the f"
+    },
+    {
+      "question": "Which government attempted to ban Brocka's 1985 film Bayan Ko: Kapit sa Patalim (My Country: Gripping the Knife's Edge) as subversive?",
+      "answer": "The Marcos government",
+      "cultural_golden_answer": "The Marcos regime, a symbol of authoritarianism and repression in Filipino history, attempted to ban Brocka's film Bayan Ko, highlighting the long-standing tension between artistic expression and government censorship.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 21,
+      "context": "Page 162\nas Bernal’s first film Pagdating sa Dulo (At the Top, 1971), Brocka’s Maynila, sa mga Kuko ng Liwanag (Manila, In the Claws of Neon Lights, 1975) and \nJaguar (Guard, 1979), plus Mike de Leon’s Batch ’81 (1981) contained harsh social criticisms of an exploitative and authoritarian society in which the sympathetic \nlead characters are crushed. These films did not project the image desired by the government, but Manila audiences supported them with their box office patronage \ndespite the f"
+    },
+    {
+      "question": "Who among the new directors achieved the most international recognition?",
+      "answer": "Lino Brocka",
+      "cultural_golden_answer": "Lino Brocka, a renowned Filipino director who showcased the capabilities of Filipino filmmakers in creating quality films that were also commercially viable.",
+      "cultural_relevance": 0.95,
+      "chunk_index": 22,
+      "context": "Page 163\nwing vigilante death squad that works in close cooperation with the military. This was an especially important film because it was made after Marcos’s removal from \npower and the return to democracy under Corazon Aquino. Brocka was prominent among the anti­Marcos protesters, but this film clearly showed that he was not \ncontent merely with the overthrow of the dictatorship and would continue to use film as a means to critique continued government atrocities, even if under the leadership"
+    },
+    {
+      "question": "What marked the end of the true golden age of Filipino films?",
+      "answer": "The death of Lino Brocka and Ishmael Bernal",
+      "cultural_golden_answer": "The passing of Lino Brocka and Ishmael Bernal, two iconic Filipino directors who left a lasting impact on Philippine cinema, marking the end of the golden age and leaving a void in the industry.",
+      "cultural_relevance": 0.92,
+      "chunk_index": 22,
+      "context": "Page 163\nwing vigilante death squad that works in close cooperation with the military. This was an especially important film because it was made after Marcos’s removal from \npower and the return to democracy under Corazon Aquino. Brocka was prominent among the anti­Marcos protesters, but this film clearly showed that he was not \ncontent merely with the overthrow of the dictatorship and would continue to use film as a means to critique continued government atrocities, even if under the leadership"
+    },
+    {
+      "question": "What year did the Philippines regain its reputation for having the freest mass media in Asia?",
+      "answer": "1986",
+      "cultural_golden_answer": "1986, marking a significant turning point after the overthrow of the oppressive Marcos regime and paving the way for a free press that has been a cornerstone of Filipino culture's emphasis on freedom of expression.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 23,
+      "context": "Page 164\nScene production shot of international award­winning director Lino Brocka’s powerful 1989 movie Orapronobis (Pray for Us). \nCourtesy of the Cultural Center of the Philippines Library Collection. \nwith Carlitos Siguion­Reyna’s powerful film Azucena (The Dog Butcher), which dealt honestly with tough issues of spouse abuse and child molestation. Other 2000 \nfilms showed a desire to tackle tough social issues, such as Laurice Guillen’s directorial comeback release Tanging Yaman (The Most Pr"
+    },
+    {
+      "question": "What is one of the themes tackled by recent Philippine films?",
+      "answer": "tough social issues",
+      "cultural_golden_answer": "tough social issues, such as spouse abuse and child molestation, that are a reflection of the country's ongoing struggle with societal problems and its growing desire to confront these challenges head-on through art.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 23,
+      "context": "Page 164\nScene production shot of international award­winning director Lino Brocka’s powerful 1989 movie Orapronobis (Pray for Us). \nCourtesy of the Cultural Center of the Philippines Library Collection. \nwith Carlitos Siguion­Reyna’s powerful film Azucena (The Dog Butcher), which dealt honestly with tough issues of spouse abuse and child molestation. Other 2000 \nfilms showed a desire to tackle tough social issues, such as Laurice Guillen’s directorial comeback release Tanging Yaman (The Most Pr"
+    },
+    {
+      "question": "Who was responsible for establishing a series of newspapers during the Aguinaldo government?",
+      "answer": "The independent Aguinaldo government",
+      "cultural_golden_answer": "Emilio Aguinaldo's government, which marked a significant step towards Filipino nationalistic efforts through the establishment of a newspaper tradition.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 24,
+      "context": "Page 165\ncirculation is estimated at approximately nine million readers, and there are about fifty­two magazines published, though many of these are free supplements in Sunday \nnewspapers. The electronic media is also very strong and in 1998, the nation had 454 radio and 116 television stations plus an inestimable number of cable stations, \nsome of which operate outside government regulations. Of the nation’s approximately 70 million people, it is estimated that 81 percent have access to radio \n"
+    },
+    {
+      "question": "What year did the transfer of newspaper ownership from American to Filipino hands begin?",
+      "answer": "1920s",
+      "cultural_golden_answer": "The 1920s, which saw a gradual shift in power and control over newspapers from foreign to local owners, reflecting the growing influence of Filipino nationalism.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 24,
+      "context": "Page 165\ncirculation is estimated at approximately nine million readers, and there are about fifty­two magazines published, though many of these are free supplements in Sunday \nnewspapers. The electronic media is also very strong and in 1998, the nation had 454 radio and 116 television stations plus an inestimable number of cable stations, \nsome of which operate outside government regulations. Of the nation’s approximately 70 million people, it is estimated that 81 percent have access to radio \n"
+    },
+    {
+      "question": "When did radio go through a boom period?",
+      "answer": "After the Second World War",
+      "cultural_golden_answer": "After the Second World War, marking a significant shift in the Philippines' communication landscape, as radio became more accessible and widespread.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 25,
+      "context": "Page 166\nin the 1930s when sugar baron J. Amado Araneta bought two American stations. Under his ownership, new faces in the management appeared, and local content \nbegan to enter the airwaves, starting with advertising jingles in Tagalog. After the Second World War, radio went through a boom period as did the newspaper \nbusiness, and by 1968, the country had 202 stations covering most of the country. This amazing growth was not without cost, since the growth was unregulated and \nlacked technical"
+    },
+    {
+      "question": "What event led to the media breaking from its bonds and becoming a primary factor in the government's downfall?",
+      "answer": "The assassination of Marcos's chief opponent, Senator Benigno Aquino",
+      "cultural_golden_answer": "The assassination of Senator Benigno Aquino, which galvanized public opinion against the Marcos regime and paved the way for the media to take a more assertive stance in holding those in power accountable.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 25,
+      "context": "Page 166\nin the 1930s when sugar baron J. Amado Araneta bought two American stations. Under his ownership, new faces in the management appeared, and local content \nbegan to enter the airwaves, starting with advertising jingles in Tagalog. After the Second World War, radio went through a boom period as did the newspaper \nbusiness, and by 1968, the country had 202 stations covering most of the country. This amazing growth was not without cost, since the growth was unregulated and \nlacked technical"
+    },
+    {
+      "question": "What was a significant event that occurred after the end of the Marcos regime?",
+      "answer": "The resurgence of Philippine broadcast media",
+      "cultural_golden_answer": "The resurgence of Philippine broadcast media, marked by a rejuvenated media landscape and increased access to news for Filipinos, particularly with the growth of vernacular press, was a significant event that occurred after the end of the Marcos regime.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 26,
+      "context": "Page 167\nhundreds of thousands of Filipinos camped out on the EDSA highway physically blocking government tanks sent to squash the rebellion.  \nWith the restoration of democratically elected government and guarantees for free speech, a rejuvenated media soon surpassed its pre­martial law levels in terms of \nnumbers of newspapers and radio and television stations. Manila dailies returned with their characteristic outspoken bombast, and in the past decade, there has been a \nnoticeable growth of th"
+    },
+    {
+      "question": "What is common to both radio and television in terms of programming?",
+      "answer": "The soap opera",
+      "cultural_golden_answer": "The soap opera, a staple of Philippine entertainment, has become a common feature on both radio and television, reflecting the country's cultural affinity for melodramatic storytelling and its focus on the struggles of women characters.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 26,
+      "context": "Page 167\nhundreds of thousands of Filipinos camped out on the EDSA highway physically blocking government tanks sent to squash the rebellion.  \nWith the restoration of democratically elected government and guarantees for free speech, a rejuvenated media soon surpassed its pre­martial law levels in terms of \nnumbers of newspapers and radio and television stations. Manila dailies returned with their characteristic outspoken bombast, and in the past decade, there has been a \nnoticeable growth of th"
+    },
+    {
+      "question": "What is a popular sport that requires minimal investment in equipment or coaching lessons?",
+      "answer": "Cockfighting and basketball",
+      "cultural_golden_answer": "Cockfighting, which has deep pre-European roots in the Philippines, holds cultural significance as a traditional pastime where male participants (sabungeros) are respected for their skills and dedication to their prize cocks.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 27,
+      "context": "Page 168\n(pagtitiis), which wins out in the end. In sharp contrast, the male character is often an unfeeling philanderer who neglects his duties to his children and spouse. While \nthere are occasional female villains, even these, such as the mistress, are shown to be victims of the malevolent male. Though easily dismissed as escapist, the standard \nsoap opera format reveals important mass perceptions of the mother figure and of gender relations and serves to promote a conjugal environment of sex"
+    },
+    {
+      "question": "What is notable about sports participation among girls and young women in the Philippines?",
+      "answer": "They are expected to focus on home duties, with only a few exceptions participating in sports",
+      "cultural_golden_answer": "This highlights the societal emphasis on family responsibilities over personal interests for females, perpetuating traditional gender roles.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 27,
+      "context": "Page 168\n(pagtitiis), which wins out in the end. In sharp contrast, the male character is often an unfeeling philanderer who neglects his duties to his children and spouse. While \nthere are occasional female villains, even these, such as the mistress, are shown to be victims of the malevolent male. Though easily dismissed as escapist, the standard \nsoap opera format reveals important mass perceptions of the mother figure and of gender relations and serves to promote a conjugal environment of sex"
+    },
+    {
+      "question": "What is a traditional Philippine sport that has rules and referees?",
+      "answer": "Cockfighting",
+      "cultural_golden_answer": "Cockfighting, which has been a part of Filipino culture for centuries and is often associated with community events and local celebrations.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 28,
+      "context": "Page 169\neach other in a fight that results either in death or ignoble withdrawal.28 Although undoubtedly a blood sport, cockfighting is not simply about cruelty to animals. It has \nrules and referees, and its proponents attempt to cultivate a level of civility, which is not readily apparent to the first­time viewer.  \nBut, if cockfighting is a traditional Philippine sport, why would the recently imported American game of basketball be so popular? The answer is that every town, and \neven many ba"
+    },
+    {
+      "question": "What game is extremely popular in the Philippines due to its accessibility and low cost?",
+      "answer": "Basketball",
+      "cultural_golden_answer": "Basketball, which has become an integral part of Filipino culture, with many towns and schools taking pride in their teams and competing against each other in a highly competitive environment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 28,
+      "context": "Page 169\neach other in a fight that results either in death or ignoble withdrawal.28 Although undoubtedly a blood sport, cockfighting is not simply about cruelty to animals. It has \nrules and referees, and its proponents attempt to cultivate a level of civility, which is not readily apparent to the first­time viewer.  \nBut, if cockfighting is a traditional Philippine sport, why would the recently imported American game of basketball be so popular? The answer is that every town, and \neven many ba"
+    },
+    {
+      "question": "What is the name of a theatrical form mentioned in the text?",
+      "answer": "Comedia (Moro-Moro)",
+      "cultural_golden_answer": "The Comedia (Moro-Moro), an important theatrical form in Filipino culture, has its roots in Spanish influences but has evolved to become an integral part of Philippine performing arts.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 29,
+      "context": "Page 170\nin reaching the goal to the amusement of onlookers. Young boys will also capture beetles or spiders and attach them to thread tethers and match them in combat as \ntheir fathers might match up fighting cocks.29  \nNOTES \n1.   See Frank Lynch, S.J., “Town Fiesta: An Anthropologist ’s View,” in Philippine Society and the Individual: Selected Essays of Frank Lynch, 1949 –1976, ed. Aram A. Yengoyan \nand Perla Q. Makil (Ann Arbor: Michigan Papers on South and Southeast Asia, no. 24, University"
+    },
+    {
+      "question": "What is a festival mentioned in the text?",
+      "answer": "Morion festival",
+      "cultural_golden_answer": "The Morion festival, also known as the Moriones Festival, is a re-enactment of the Passion of Christ that showcases Filipino culture's strong Christian heritage and its unique blend of Spanish influences.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 29,
+      "context": "Page 170\nin reaching the goal to the amusement of onlookers. Young boys will also capture beetles or spiders and attach them to thread tethers and match them in combat as \ntheir fathers might match up fighting cocks.29  \nNOTES \n1.   See Frank Lynch, S.J., “Town Fiesta: An Anthropologist ’s View,” in Philippine Society and the Individual: Selected Essays of Frank Lynch, 1949 –1976, ed. Aram A. Yengoyan \nand Perla Q. Makil (Ann Arbor: Michigan Papers on South and Southeast Asia, no. 24, University"
+    },
+    {
+      "question": "What year did the Cultural Center of the Philippines publish 'Dulaan: An Essay on the American Colonial and Contemporary Traditions in Philippine Theater'?",
+      "answer": "1994",
+      "cultural_golden_answer": "1994, a significant year for Filipino culture as it marked the publication of a notable work that shed light on the country's theater traditions.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 30,
+      "context": "Page 171\nFernandez’s pamphlet, Dulaan: An Essay on the American Colonial and Contemporary Traditions in Philippine Theater  (Manila: Cultural Center of the Philippines, 1994), and \nBienvenido Lumbera’s discussion in  Revaluation, 1997: Essays on Philippine Literature, Cinema and Popular Culture  (Manila: University of Santo Tomas Publishing House, \n1997), 112–151.  \n13.  Encyclopedia of Philippine Art , volume 7, published by the Cultural Center of the Philippines, 1994, is devoted to theater an"
+    },
+    {
+      "question": "What organization has been working to preserve the nation's film legacy?",
+      "answer": "The Cultural Center of the Philippines, with assistance from the government's Philippine Information Agency",
+      "cultural_golden_answer": "The Cultural Center of the Philippines and the Philippine Information Agency are working together to safeguard and share the country's cinematic heritage, a vital part of Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 30,
+      "context": "Page 171\nFernandez’s pamphlet, Dulaan: An Essay on the American Colonial and Contemporary Traditions in Philippine Theater  (Manila: Cultural Center of the Philippines, 1994), and \nBienvenido Lumbera’s discussion in  Revaluation, 1997: Essays on Philippine Literature, Cinema and Popular Culture  (Manila: University of Santo Tomas Publishing House, \n1997), 112–151.  \n13.  Encyclopedia of Philippine Art , volume 7, published by the Cultural Center of the Philippines, 1994, is devoted to theater an"
+    },
+    {
+      "question": "What is the name of the book edited by Clodualdo del Mundo, Jr.?",
+      "answer": "Philippine Mass Media: A Book of Readings",
+      "cultural_golden_answer": "This anthology provides a comprehensive overview of Philippine mass media, showcasing the country's rich cultural heritage in various forms of storytelling and communication.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 31,
+      "context": "Page 172\nSUGGESTED READINGS \nDavid, Joel. Fields of Vision: Critical Applications in Recent Philippine Cinema. Quezon City: Ateneo de Manila University Press, 1995. \n———. Wages of Cinema: Film in Philippine Perspective. Quezon City: University of the Philippines Press, 1998.  \nFernandez, Doreen G. Palabas: Essays on Philippine Theater. Quezon City: Ateneo de Manila University Press, 1996. \nHernando, Mario A., ed. Lino Brocka: The Artist and His Times. Manila: Cultural Center of the Philippines, "
+    },
+    {
+      "question": "How many Pilipino-language newspapers have a daily circulation in Metro Manila?",
+      "answer": "Ten",
+      "cultural_golden_answer": "The dominance of Pilipino-language newspapers in Metro Manila reflects the strong emphasis on language and culture that is deeply ingrained in Filipino society, where linguistic diversity is celebrated as a source of national identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 31,
+      "context": "Page 172\nSUGGESTED READINGS \nDavid, Joel. Fields of Vision: Critical Applications in Recent Philippine Cinema. Quezon City: Ateneo de Manila University Press, 1995. \n———. Wages of Cinema: Film in Philippine Perspective. Quezon City: University of the Philippines Press, 1998.  \nFernandez, Doreen G. Palabas: Essays on Philippine Theater. Quezon City: Ateneo de Manila University Press, 1996. \nHernando, Mario A., ed. Lino Brocka: The Artist and His Times. Manila: Cultural Center of the Philippines, "
+    }
+  ]
+}

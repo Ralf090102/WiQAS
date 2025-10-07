@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Culture-And-Customs-Of-The-Philippines ch6.pdf",
+    "total_chunks": 18,
+    "total_qa_pairs": 36,
+    "chunk_size": 4000,
+    "chunk_overlap": 800,
+    "question_level": "high",
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "What is the basic family unit in Filipino society?",
+      "answer": "The husband, wife, and their children (biological and/or adopted)",
+      "cultural_golden_answer": "The husband, wife, and their children (biological and/or adopted), which reflects the importance of family ties and the extension of kinship to both sides of the family in Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 119\n6 \nMarriage, Family, and Gender \nTHE FILIPINO FAMILY plays a more central role in the lives of its members, and in the nation’s greater social and political life, than do families in many other \ncultures. To a significant degree the Filipino gains his or her sense of identity and self­worth from family membership despite the social impact of contemporary urban \nculture, which places increasing emphasis on the individual, and even in the face of sometimes competing friendships and associ"
+    },
+    {
+      "question": "What is unique about the Filipino kinship structure?",
+      "answer": "It is 'bilateral', meaning that one's relatives are calculated to include individuals from both the father's and the mother's families",
+      "cultural_golden_answer": "This bilateral family structure reflects the Filipino emphasis on respect for ancestors and extended family members, where relationships are not limited to just immediate relatives but extend to multiple generations and even those related through marriage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 119\n6 \nMarriage, Family, and Gender \nTHE FILIPINO FAMILY plays a more central role in the lives of its members, and in the nation’s greater social and political life, than do families in many other \ncultures. To a significant degree the Filipino gains his or her sense of identity and self­worth from family membership despite the social impact of contemporary urban \nculture, which places increasing emphasis on the individual, and even in the face of sometimes competing friendships and associ"
+    },
+    {
+      "question": "What type of kinship system does the Philippines have?",
+      "answer": "Bilateral",
+      "cultural_golden_answer": "The Philippines has a bilateral kinship system, where marriage and descent are calculated along both lines, emphasizing equality between relatives.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 120\nmutual benefits, such as favoring your rich uncle, than of socially defined relationship. The basic egalitarian nature of Filipino kinship is readily seen in the nongender \nspecific nature of kin terms in which there is only one word for spouse (asawa), son or daughter (anak), sibling (kapatid), cousin (pinsan), parent­in­law (biyenan), \nand so forth. If the individual’s gender needs to be indicated, the extra words for male (na lalaki) or female (na babae) must be added.  \nAs well, the"
+    },
+    {
+      "question": "What is the role of women in Filipino families?",
+      "answer": "Active role in decision-making and activities outside the home",
+      "cultural_golden_answer": "Filipino women often play an active role in family decision-making processes and may even engage in activities outside the home, reflecting the country's egalitarian values.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 120\nmutual benefits, such as favoring your rich uncle, than of socially defined relationship. The basic egalitarian nature of Filipino kinship is readily seen in the nongender \nspecific nature of kin terms in which there is only one word for spouse (asawa), son or daughter (anak), sibling (kapatid), cousin (pinsan), parent­in­law (biyenan), \nand so forth. If the individual’s gender needs to be indicated, the extra words for male (na lalaki) or female (na babae) must be added.  \nAs well, the"
+    },
+    {
+      "question": "What is a key aspect of the traditional Filipino family?",
+      "answer": "A source of economic security for its members",
+      "cultural_golden_answer": "The traditional Filipino family, especially in rural and agrarian origins, was a source of economic security for its members, where landownership was crucial to survival.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 121\nfamily’s wealth and is subservient to her husband in all matters and decisions.2 In wealthy patrilineal families, there may even be multiple wives and concubines who \nservice the male head of the household. In this situation, it is only the senior wife who has even a modicum of power and influence in family affairs.  \nTHE EXTENDED FAMILY \nWhat the Filipino family lacks in terms of the strength of the Chinese patrilineal style of kinship descent, it makes up for with its extensive networ"
+    },
+    {
+      "question": "How do Filipino families maintain their extended ties?",
+      "answer": "Through visits as often as possible",
+      "cultural_golden_answer": "Filipino families retain their vitality as an extended entity through frequent visits, especially during significant events like fiestas and Christmas masses.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 121\nfamily’s wealth and is subservient to her husband in all matters and decisions.2 In wealthy patrilineal families, there may even be multiple wives and concubines who \nservice the male head of the household. In this situation, it is only the senior wife who has even a modicum of power and influence in family affairs.  \nTHE EXTENDED FAMILY \nWhat the Filipino family lacks in terms of the strength of the Chinese patrilineal style of kinship descent, it makes up for with its extensive networ"
+    },
+    {
+      "question": "What is compadrazgo, and what is its social importance?",
+      "answer": "Compadrazgo refers to ritual co-parenthood, and the baptismal relationship has greater social importance.",
+      "cultural_golden_answer": "In Filipino culture, compadrazgo represents a vital social institution where ritual relationships are formed through sponsoring at marriages and baptisms. The baptismal relationship is particularly significant as it creates close bonds between families and their sponsors, often leading to long-term alliances.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 122\nbetween consanguineal relations and landed wealth and occasionally practiced first­cousin marriage to maintain the family’s ownership of haciendas especially those \ndevoted to the profitable export crop of cane sugar.3  \nSupplementing the biological extended family is a category of “fictive kin” who are incorporated through ritual relations. The phenomenon is known in the social \nscience literature as compadrazgo, or ritual co­parenthood, and refers to compadre relations established whe"
+    },
+    {
+      "question": "What role do kumpadres play in the lives of sponsored children?",
+      "answer": "Sponsored children take on a pseudo-sibling relationship with the sponsor's children and a grandparent-grandchild relationship with the parents of the sponsor.",
+      "cultural_golden_answer": "In Filipino culture, kumpadres serve as a vital extension of family support. Sponsored children form close relationships with their sponsors' families, often mirroring biological sibling relationships. This practice underscores the importance of social bonds and mutual obligations in Filipino society.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 122\nbetween consanguineal relations and landed wealth and occasionally practiced first­cousin marriage to maintain the family’s ownership of haciendas especially those \ndevoted to the profitable export crop of cane sugar.3  \nSupplementing the biological extended family is a category of “fictive kin” who are incorporated through ritual relations. The phenomenon is known in the social \nscience literature as compadrazgo, or ritual co­parenthood, and refers to compadre relations established whe"
+    },
+    {
+      "question": "What is expected of young Filipino males during adolescence?",
+      "answer": "They are allowed to indulge in 'adult' practices, such as drinking and visiting girls, but serious courtship is not permitted.",
+      "cultural_golden_answer": "In the context of Filipino culture, it is expected that young males will participate in activities outside the home, forming friendships with other boys in groups known as barkadas, which play a crucial role in their socialization and identity formation.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 123\nof the greater extended Filipino family and still exerts a tremendous social pressure.7 \n \nGENDER SOCIALIZATION AND DATING \nWhile the Filipino family structure appears similar to that found in the United States, it is in adolescence when the real differences between Philippine and American \nfamily and social practices become dramatically clear. The major distinction between the two cultures is the Filipino practice of a “double standard” between what men \nand women can do. American wome"
+    },
+    {
+      "question": "What is the significance of 'barkada' in Filipino culture?",
+      "answer": "They form a strong and long-lasting bond between young men, regulating each other's behavior.",
+      "cultural_golden_answer": "The barkada system represents an essential aspect of Filipino male socialization, fostering close relationships and a sense of camaraderie that is deeply rooted in the country's cultural values.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 123\nof the greater extended Filipino family and still exerts a tremendous social pressure.7 \n \nGENDER SOCIALIZATION AND DATING \nWhile the Filipino family structure appears similar to that found in the United States, it is in adolescence when the real differences between Philippine and American \nfamily and social practices become dramatically clear. The major distinction between the two cultures is the Filipino practice of a “double standard” between what men \nand women can do. American wome"
+    },
+    {
+      "question": "What is a key factor that shapes the development of young Filipino males?",
+      "answer": "Membership in a barkada",
+      "cultural_golden_answer": "Membership in a barkada, which serves as a crucial socialization process that forges lifelong bonds and influences their relationships with other males throughout their lives.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 124\ngoals for the greater good of the group, and personal loyalties reach intense levels. Frequently, a man’s youthful gang­mates remain lifelong friends who can always be \ncounted on in any situation and without questions being asked.8 The lessons that a young male learns as a member of a barkada have a lasting impact on the young \nman’s development and follow him through his life, even as he forms similar bonds with other males in other situations, such as work or politics.9  \nThis patter"
+    },
+    {
+      "question": "How is social status often determined among young Filipino women?",
+      "answer": "Through domestic skills such as food preparation and household maintenance",
+      "cultural_golden_answer": "Through domestic skills such as food preparation and household maintenance, which are considered essential for attracting a good future husband and reflecting one's family's reputation and social standing.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 124\ngoals for the greater good of the group, and personal loyalties reach intense levels. Frequently, a man’s youthful gang­mates remain lifelong friends who can always be \ncounted on in any situation and without questions being asked.8 The lessons that a young male learns as a member of a barkada have a lasting impact on the young \nman’s development and follow him through his life, even as he forms similar bonds with other males in other situations, such as work or politics.9  \nThis patter"
+    },
+    {
+      "question": "What is a common practice among rural and traditional families regarding adolescent sexuality?",
+      "answer": "Using chaperones, especially during evening hours",
+      "cultural_golden_answer": "In the Philippines, using chaperones to supervise adolescents, particularly young women, during social events like dances and fiestas, reflects the traditional emphasis on protecting family honor and reputation.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 125\nregulated circumstances. Spending inordinate attention on a boy or young man is not permitted and being alone with him for any length of time is avoided at all cost. The \nsafe assumption that parents make is that every boy will try his luck and that sexual experimentation may happen. If the girl loses her virginity, her marriage possibilities \nwill decline dramatically; a girl of suspect morals is only sought after for sexual favors and not potential marriage. Worse, the girl not only s"
+    },
+    {
+      "question": "What is a significant factor contributing to changing attitudes towards adolescent sexuality?",
+      "answer": "The availability of public education",
+      "cultural_golden_answer": "The expansion of public education in the Philippines, starting from the American colonial period and accelerating after World War II, has played a crucial role in shifting traditional values related to adolescent sexuality, enabling greater freedom and autonomy for young people.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 125\nregulated circumstances. Spending inordinate attention on a boy or young man is not permitted and being alone with him for any length of time is avoided at all cost. The \nsafe assumption that parents make is that every boy will try his luck and that sexual experimentation may happen. If the girl loses her virginity, her marriage possibilities \nwill decline dramatically; a girl of suspect morals is only sought after for sexual favors and not potential marriage. Worse, the girl not only s"
+    },
+    {
+      "question": "What is a common practice for young women to maintain a proper image in modern Filipino society?",
+      "answer": "Dating is still practiced in group situations until a couple has developed a relationship.",
+      "cultural_golden_answer": "In the urban social environment, young women must be careful to maintain a proper image by dating in group situations until they have developed a romantic connection with someone, reflecting the continued importance of maintaining a good reputation in Filipino culture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 126\nmodern urban society has increasingly allowed women to play an initiator role, such as asking young men to go see a movie or sending notes and small gifts. In the \nurban social environment, little thought is given to young men and women “hanging out” together informally in groups with little or no parental supervision and even \nAmerican­style dating by single couples.12  \nAs a result of these changes, even the traditional emphasis on virginity is becoming less important for young men wh"
+    },
+    {
+      "question": "What is changing in terms of traditional courtship practices among modern and urban Filipinos?",
+      "answer": "Many traditional courtship practices have disappeared since the 1950s.",
+      "cultural_golden_answer": "The decline of traditional courtship practices, such as those that were common during the 1950s, reflects a shift towards more modern and Western-influenced dating norms in Filipino society, highlighting the ongoing impact of globalization on local cultural traditions.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 126\nmodern urban society has increasingly allowed women to play an initiator role, such as asking young men to go see a movie or sending notes and small gifts. In the \nurban social environment, little thought is given to young men and women “hanging out” together informally in groups with little or no parental supervision and even \nAmerican­style dating by single couples.12  \nAs a result of these changes, even the traditional emphasis on virginity is becoming less important for young men wh"
+    },
+    {
+      "question": "In what manner did a suitor traditionally express his feelings to a young woman?",
+      "answer": "Through charming evening serenades, sometimes assisted by a more eloquent friend.",
+      "cultural_golden_answer": "In traditional Filipino culture, a suitor would often express his feelings through musical performances, such as serenades, which showcased not only his affection but also his creativity and ability to entertain. This practice is deeply rooted in the Philippines' history of courting rituals and emphasizes the importance of emotional expression and social bonding.",
+      "cultural_relevance": 0.95,
+      "chunk_index": 8,
+      "context": "Page 127\ntively isolated rural areas. These practices included, for example, charming evening serenades of the young woman by the suitor and his friends. The young woman \nwould be notified in advance of her admirer’s plan, so she could assemble in anticipation with her friends. After the opening musical numbers, the couple would \nfrequently engage in a musical contest to see who knew the most songs and could use them to advantage in good­natured teasing. In pre­World War II days, it was \nalso no"
+    },
+    {
+      "question": "What was a common way for parents to express disapproval of their child's relationship?",
+      "answer": "By sending the daughter away on an extended holiday.",
+      "cultural_golden_answer": "In Filipino culture, parents often take an active role in choosing suitable partners for their children. When they disapprove of a relationship, they may resort to drastic measures, such as temporarily separating the couple by sending one partner away, usually to another province. This practice highlights the importance of family approval and the complex dynamics between parental authority and youthful autonomy.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 127\ntively isolated rural areas. These practices included, for example, charming evening serenades of the young woman by the suitor and his friends. The young woman \nwould be notified in advance of her admirer’s plan, so she could assemble in anticipation with her friends. After the opening musical numbers, the couple would \nfrequently engage in a musical contest to see who knew the most songs and could use them to advantage in good­natured teasing. In pre­World War II days, it was \nalso no"
+    },
+    {
+      "question": "What is a strong preference in Filipino courtship?",
+      "answer": "Endogamous marriage preference",
+      "cultural_golden_answer": "Filipinos have a strong endogamous marriage preference, which emphasizes marrying within one's own group or family, often for the purpose of combining fortunes and increasing collective standing in the community.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 128\nof modern personal issues. Eventually, Philippine tradition and the strength of a mother’s hold over her children won out. Kris reconciled with her mother and Salvador \ndisappeared into the background. \nAny discussion of courtship would not be complete without noting a series of additional factors that further pattern behavior and limit choices. While these additional \nfactors are also breaking down with increased urbanization, they still retain significant social relevance. Even though"
+    },
+    {
+      "question": "What is a significant factor pushing courtship and mate selection in an endogamous direction?",
+      "answer": "Religion",
+      "cultural_golden_answer": "The significance of religion, particularly the opposition to interfaith marriages by major denominations such as the Roman Catholic Church and Iglesia ni Cristo, highlights the importance of maintaining social identification and group boundaries through marriage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 128\nof modern personal issues. Eventually, Philippine tradition and the strength of a mother’s hold over her children won out. Kris reconciled with her mother and Salvador \ndisappeared into the background. \nAny discussion of courtship would not be complete without noting a series of additional factors that further pattern behavior and limit choices. While these additional \nfactors are also breaking down with increased urbanization, they still retain significant social relevance. Even though"
+    },
+    {
+      "question": "What is considered a valid marriage ceremony in the Philippines?",
+      "answer": "A religious one",
+      "cultural_golden_answer": "A religious one, as emphasized by the strong influence of the Roman Catholic Church and the belief that the sanction of God is essential to the stability of the Filipino family.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 129\nbeing rejected by her true love, to fear of childbirth, to obligations to take care of younger brothers and sisters and so forth. Especially in the provinces, an educated \nand successful woman who is, say, a local teacher may not find a suitable marriage partner. On the other hand, becoming an elderly bachelor is open to ridicule for not \nbeing a man.16 For example, one of the ways that the traditional Filipino male gains self­esteem is by the number of children he is responsible for br"
+    },
+    {
+      "question": "Who typically assumes wedding expenses in the Philippines?",
+      "answer": "The parents and relatives of the bridegroom",
+      "cultural_golden_answer": "The parents and relatives of the bridegroom, as is traditional in Filipino culture, where the family's honor and reputation are closely tied to the marriage and the responsibility of supporting the couple.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 10,
+      "context": "Page 129\nbeing rejected by her true love, to fear of childbirth, to obligations to take care of younger brothers and sisters and so forth. Especially in the provinces, an educated \nand successful woman who is, say, a local teacher may not find a suitable marriage partner. On the other hand, becoming an elderly bachelor is open to ridicule for not \nbeing a man.16 For example, one of the ways that the traditional Filipino male gains self­esteem is by the number of children he is responsible for br"
+    },
+    {
+      "question": "What was the phenomenon where Filipinas contacted marriage agencies to be matched with foreign husbands?",
+      "answer": "The 'mail-order brides' phenomenon",
+      "cultural_golden_answer": "The 'mail-order brides' phenomenon, a desperate response by some women to the social-economic conditions that impacted their lives in the Philippines.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 130\nauspicious circumstances is not a reality. Marriages are expensive propositions that they cannot afford. Instead, many poor couples simply live in commonlaw marriage \nrelationships or, at most, seek a civil ceremony at the town hall. These marriages are often just as stable as religiously sanctified bonds, but the partners cannot meet the \nsocietal obligation of an expensive church wedding and reception. Since the Philippines has a grossly imbalanced economy, the number of poor is signi"
+    },
+    {
+      "question": "What event heralds the establishment of a new family unit in Philippine society?",
+      "answer": "The arrival of a child",
+      "cultural_golden_answer": "The arrival of a child, a significant life milestone that firmly establishes the new family as a productive unit in Filipino society.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 130\nauspicious circumstances is not a reality. Marriages are expensive propositions that they cannot afford. Instead, many poor couples simply live in commonlaw marriage \nrelationships or, at most, seek a civil ceremony at the town hall. These marriages are often just as stable as religiously sanctified bonds, but the partners cannot meet the \nsocietal obligation of an expensive church wedding and reception. Since the Philippines has a grossly imbalanced economy, the number of poor is signi"
+    },
+    {
+      "question": "What is the primary role of the family in Philippine society?",
+      "answer": "The family provides the principle vehicle for socialization",
+      "cultural_golden_answer": "In Filipino culture, the family is the foundation of society and plays a crucial role in shaping individuals' values and behavior. As the primary vehicle for socialization, families in the Philippines take their responsibility very seriously.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 131\nare created as the married couple become parents and their parents, in turn, become grandparents; everyone gains additional respect and honor in the community. In \nrural farm families, children continue to be valued as future helpers in the family’s daily economic life. As well, among the urban poor it is expected that children will \nsupplement the family’s meager income by doing odd jobs. In any case, all families, rich or poor, welcome children with the expectation that they will prov"
+    },
+    {
+      "question": "Who typically bears more responsibility for child-rearing in Filipino families?",
+      "answer": "The mother",
+      "cultural_golden_answer": "In traditional Filipino culture, mothers are highly revered and play a central role in raising children. Their nurturing and unconditional love towards their children is considered essential to the child's development and well-being.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 131\nare created as the married couple become parents and their parents, in turn, become grandparents; everyone gains additional respect and honor in the community. In \nrural farm families, children continue to be valued as future helpers in the family’s daily economic life. As well, among the urban poor it is expected that children will \nsupplement the family’s meager income by doing odd jobs. In any case, all families, rich or poor, welcome children with the expectation that they will prov"
+    },
+    {
+      "question": "What is often a limiting factor in personal lives and public participation in the Philippines?",
+      "answer": "The country's familial matrifocal bonds",
+      "cultural_golden_answer": "The country's familial matrifocal bonds, which prioritize family obligations over individual initiative and wider community concerns, are often a limiting factor in personal lives and public participation in the Philippines.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 132\nWhat is the effective consequence of the mother’s role in her children’s development? Some critics contend that the freedom of the child to develop in her or his own \nway is greatly limited and this stifles personality growth and circumscribes individual initiative. As a consequence, the child’s ego is subordinated to the family and not \nallowed to grow to its fullest potential. The family, then, can become authoritative despite its loving and caring bonds. Extrapolating further, since "
+    },
+    {
+      "question": "What is the name of the practice where a man maintains a mistress outside of marriage?",
+      "answer": "The querida",
+      "cultural_golden_answer": "The querida, or mistress, is an established practice in Philippine society with roots dating back to the Spanish colonial period, where extramarital relations by men are expected and often encouraged.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 132\nWhat is the effective consequence of the mother’s role in her children’s development? Some critics contend that the freedom of the child to develop in her or his own \nway is greatly limited and this stifles personality growth and circumscribes individual initiative. As a consequence, the child’s ego is subordinated to the family and not \nallowed to grow to its fullest potential. The family, then, can become authoritative despite its loving and caring bonds. Extrapolating further, since "
+    },
+    {
+      "question": "What is the attitude towards marital relations in Filipino culture?",
+      "answer": "They are tolerated and admired.",
+      "cultural_golden_answer": "In Filipino culture, marital relations are not only tolerated but are also highly valued and admired, as seen in the public acceptance of President Joseph Estrada's multiple relationships.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 133\nmarital relations are not just tolerated but are admired. This can be seen in the example of Philippine President Joseph Estrada, who never made a secret of his \nnumerous relationships. While the estimates of the number of his “girlfriends” varies slightly, he acknowledged a dozen, some of whom are close enough in his affection \nthat he put them up in large mansions in elite neighborhoods of Manila during his presidency. Estrada’s predecessor, President Fidel V. Ramos was much more mode"
+    },
+    {
+      "question": "How does the family institution fare despite extramarital affairs?",
+      "answer": "It is extremely resilient.",
+      "cultural_golden_answer": "The Filipino family institution is remarkably resilient, able to survive and even thrive in the face of extramarital affairs, due to the strong cultural expectation that wives will forgive their husbands' transgressions for the sake of the family's well-being.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 133\nmarital relations are not just tolerated but are admired. This can be seen in the example of Philippine President Joseph Estrada, who never made a secret of his \nnumerous relationships. While the estimates of the number of his “girlfriends” varies slightly, he acknowledged a dozen, some of whom are close enough in his affection \nthat he put them up in large mansions in elite neighborhoods of Manila during his presidency. Estrada’s predecessor, President Fidel V. Ramos was much more mode"
+    },
+    {
+      "question": "What is driving changes in middle class male social behavior?",
+      "answer": "Greater economic and social forces",
+      "cultural_golden_answer": "The increasing participation of women in the workforce, leading to a need for men to take on more childcare responsibilities, reflects shifting values in Filipino society.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "Page 134\nYoung Manila professional couple with one child standing in front of their modern ranch­style home in a gated community. Photo by the \nauthor. \nhusbands can often be seen with and caring for their children in ways that would have seem unmanly only a decade or so ago.  \nTo a significant degree, these changes in middle class male social behavior seem to be the result of greater economic and social forces. For example, with increased \nopportunities for women in the workforce, many more pro"
+    },
+    {
+      "question": "What has been supporting these changes in social attitudes?",
+      "answer": "The rise of an organized feminist movement",
+      "cultural_golden_answer": "The emergence of the Gabriela women's organization in the 1980s is a significant example of how Filipino women are asserting their rights and challenging traditional patriarchal norms.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 15,
+      "context": "Page 134\nYoung Manila professional couple with one child standing in front of their modern ranch­style home in a gated community. Photo by the \nauthor. \nhusbands can often be seen with and caring for their children in ways that would have seem unmanly only a decade or so ago.  \nTo a significant degree, these changes in middle class male social behavior seem to be the result of greater economic and social forces. For example, with increased \nopportunities for women in the workforce, many more pro"
+    },
+    {
+      "question": "What movement is being studied and reshaped by new women's studies centers at schools such as St. Scholastica's College and the University of the Philippines?",
+      "answer": "women's issues",
+      "cultural_golden_answer": "The women's movement in the Philippines, which aims to promote gender equality and challenge traditional attitudes towards women.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 135\nwomen are members of Gabriela, their ideas about themselves and their role in Philippine society are being studied and reshaped by new women’s studies centers at \nschools such as St. Scholastica’s College and the University of the Philippines. This movement has the active support of liberal members of the country’s Roman \nCatholic clergy, which means that women’s issues are now included in any review of the nation’s human rights conditions.20 Traditional attitudes that subordinated \nwom"
+    },
+    {
+      "question": "What is happening to the traditional Filipino family due to changes in society?",
+      "answer": "It is undergoing changes",
+      "cultural_golden_answer": "The traditional Filipino family, which has historically been a tight-knit and patriarchal institution, is adapting to changing social norms and economic conditions by becoming more egalitarian and accepting of birth control.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 135\nwomen are members of Gabriela, their ideas about themselves and their role in Philippine society are being studied and reshaped by new women’s studies centers at \nschools such as St. Scholastica’s College and the University of the Philippines. This movement has the active support of liberal members of the country’s Roman \nCatholic clergy, which means that women’s issues are now included in any review of the nation’s human rights conditions.20 Traditional attitudes that subordinated \nwom"
+    },
+    {
+      "question": "What is an important aspect of Filipino social organization mentioned in the passage?",
+      "answer": "Fictive kinship",
+      "cultural_golden_answer": "In the context of Filipino culture, fictive kinship (compadrinazgo) plays a significant role in forming political alliances and constructing family networks. This is deeply rooted in the country's social organization.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "Page 136\n3.   The author’s research in the Philippine sugar economy of Negros province has certainly found this marriage pattern to have been practiced until the post ­World War II era.  \n4.   See Donn V. Hart, Compadrinazgo: Ritual Kinship in the Philippines  (DeKalb: Northern Illinois University Press, 1977). \n5.   Medina, 28. \n6.   See Alfred W. McCoy, ed., An Anarchy of Families: State and Family in the Philippines  (Madison: Center for Southeast Asian Studies, University of Wisconsin, 1993)"
+    },
+    {
+      "question": "What was observed as an important aspect of workplace culture in Manila radio stations?",
+      "answer": "The importance of 'hanging out' with coworkers outside work hours",
+      "cultural_golden_answer": "In the Filipino cultural context, maintaining strong social relationships and camaraderie (barkada) is highly valued. This is evident in the way radio station personnel prioritize socializing with each other even after work hours.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 17,
+      "context": "Page 136\n3.   The author’s research in the Philippine sugar economy of Negros province has certainly found this marriage pattern to have been practiced until the post ­World War II era.  \n4.   See Donn V. Hart, Compadrinazgo: Ritual Kinship in the Philippines  (DeKalb: Northern Illinois University Press, 1977). \n5.   Medina, 28. \n6.   See Alfred W. McCoy, ed., An Anarchy of Families: State and Family in the Philippines  (Madison: Center for Southeast Asian Studies, University of Wisconsin, 1993)"
+    }
+  ]
+}

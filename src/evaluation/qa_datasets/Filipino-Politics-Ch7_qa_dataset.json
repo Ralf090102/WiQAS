@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Filipino-Politics-Ch7.pdf",
+    "total_chunks": 13,
+    "total_qa_pairs": 26,
+    "chunk_size": 6000,
+    "chunk_overlap": 1200,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Paano ang pagpapalaya ng mga Pilipinong sundalo noong digmaan sa Vietnam?",
+      "answer": "Nagsilbi bilang mga base ng Amerika noong panahon ng digmaan",
+      "cultural_golden_answer": "Ang pagiging base ng Amerika ay isang mahalagang bahagi ng kasaysayan ng ating relasyon sa Estados Unidos, kung saan tumutugis ang mga Pilipinong sundalo para sa kalayaan at karapatan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "7ForeignPolicy:StrategiesforRegimeSurvival\nForeignpolicyisalwaystosomedegreethehandmaidenofdomesticpolitics,particularlyinsmallercountriesthatfacenoseriousforeignthreatbuthavedeep-seatedinternalproblems.SuchacountryisthePhilippines.DuringtheVietnamWarClarkFieldandSubicBayactedasforwardAmericanbases,andsoonthereemergedagenuinefearamongsomeinfluentialFilipinosofChineseattack.Bytheearly1970s,however,Manila’sforeignaffairscognoscentiwerewellawareofthewarmingalliancebetweentheUnitedStatesandChina.Eve"
+    },
+    {
+      "question": "Ano ang pag-usbong ng interes ng Amerika noong panahon ni Marcos?",
+      "answer": "Lumago nang husto sa mga 1950s at 1960s",
+      "cultural_golden_answer": "Ang pag-usbong ng interes ng Amerika noong panahon ni Marcos ay nagbigay-daan sa pag-unlad ng ating ekonomiya, ngunit mayroon ding pagkabigo na naging alat sa relasyon ng Pilipinas sa Estados Unidos.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "7ForeignPolicy:StrategiesforRegimeSurvival\nForeignpolicyisalwaystosomedegreethehandmaidenofdomesticpolitics,particularlyinsmallercountriesthatfacenoseriousforeignthreatbuthavedeep-seatedinternalproblems.SuchacountryisthePhilippines.DuringtheVietnamWarClarkFieldandSubicBayactedasforwardAmericanbases,andsoonthereemergedagenuinefearamongsomeinfluentialFilipinosofChineseattack.Bytheearly1970s,however,Manila’sforeignaffairscognoscentiwerewellawareofthewarmingalliancebetweentheUnitedStatesandChina.Eve"
+    },
+    {
+      "question": "What was the primary relationship of the Philippines with other countries during this period?",
+      "answer": "primarily in terms of the American relationship",
+      "cultural_golden_answer": "The Philippines' international role was defined primarily in terms of the American relationship, reflecting a complex and multifaceted dynamic that is characteristic of many post-colonial nations in Southeast Asia.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "ForeignPolicy179Totheextentthattheex-colonizingpowerretainsalargepresenceintheex-colony,heissomewhatlikeaparentpermanentlyestablishedinthehouseholdofamarriedchild,reveredbutresented.Nowimagineasituationinwhichaparent,apowerfulpersonwithmanyotherinterests,absentmindedlyforgetshispastandexpectsthechildtobehavejustlikeanyotherhotelkeeper.Thelattercanhardlybeblamedfordevelopingacertaindegreeofparanoia.Heexpectsfavorabletreatmentandreactswithresentmentwhenitisn’tforthcom-ing.4Theinternationalroleofth"
+    },
+    {
+      "question": "Who pushed for the dispatching of Filipino troops to Vietnam?",
+      "answer": "President Macapagal",
+      "cultural_golden_answer": "President Diosdado Macapagal, who was a strong advocate for the Philippines' involvement in international affairs and a champion of its role as a responsible member of the global community.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "ForeignPolicy179Totheextentthattheex-colonizingpowerretainsalargepresenceintheex-colony,heissomewhatlikeaparentpermanentlyestablishedinthehouseholdofamarriedchild,reveredbutresented.Nowimagineasituationinwhichaparent,apowerfulpersonwithmanyotherinterests,absentmindedlyforgetshispastandexpectsthechildtobehavejustlikeanyotherhotelkeeper.Thelattercanhardlybeblamedfordevelopingacertaindegreeofparanoia.Heexpectsfavorabletreatmentandreactswithresentmentwhenitisn’tforthcom-ing.4Theinternationalroleofth"
+    },
+    {
+      "question": "Ano ang pangalan ng unibersidad na pinangyarihan ng presidente noong 1977?",
+      "answer": "University of the Philippines",
+      "cultural_golden_answer": "Ang Unibersidad ng Pilipinas, na kilala rin bilang UP, ay isang ikalawang-pamantasang institusyon sa Pilipinas at ang unang pangunahing pamantasan sa nasabing bansa. Ito ay isang simbolo ng pagpapalakas ng kalusugan at edukasyon sa Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 2,
+      "context": "ForeignPolicy181hisgenerousconcessionstoforeigncapital,hedevisedaforeignpolicytomeetsomeoftheircriticisms.Hehadadegreeofsuccess.SaidformerforeignsecretaryandUniversityofthePhilippinespresidentSalvadorP.Lopez,aleadingnationalistintellectual,in1977,the“dra-maticchanges”inforeignpolicyundertheNewSocietywere“ahealthysign.”^^OpeningtotheLeftOnenationalistcritiquewasoftheridiculousextremestowhichanticommunismhadbeencarried.PresidentMacapagal’sexclusionoftheYugoslavbasketballteamfromaManilatournamentis"
+    },
+    {
+      "question": "Sa anong taon nagsimula ang pagpapataas ng diplomatikong ugnayan ng Pilipinas kay China?",
+      "answer": "1975",
+      "cultural_golden_answer": "Ang taong 1975 ay isang mahalagang panahon para sa relasyong diplomatiko ng Pilipinas at Tsina. Noong panahong ito, nagsimula ang pagpapataas ng diplomatikong ugnayan sa pagbukas ng embahada ng Tsina sa Manila. Ang pagtutulungan ng mga dalawang bansa ay umunlad at naging isang mahalagang bahagi ng pananalapi at panlipunan ng Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "ForeignPolicy181hisgenerousconcessionstoforeigncapital,hedevisedaforeignpolicytomeetsomeoftheircriticisms.Hehadadegreeofsuccess.SaidformerforeignsecretaryandUniversityofthePhilippinespresidentSalvadorP.Lopez,aleadingnationalistintellectual,in1977,the“dra-maticchanges”inforeignpolicyundertheNewSocietywere“ahealthysign.”^^OpeningtotheLeftOnenationalistcritiquewasoftheridiculousextremestowhichanticommunismhadbeencarried.PresidentMacapagal’sexclusionoftheYugoslavbasketballteamfromaManilatournamentis"
+    },
+    {
+      "question": "Who was the leader of the Philippines that visited Egypt and Saudi Arabia to expand ties with the Muslim world?",
+      "answer": "Imelda Marcos",
+      "cultural_golden_answer": "Imelda Marcos, who as the First Lady of the Philippines, played a significant role in promoting Philippine diplomacy and strengthening relations with key countries in the Muslim world.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "ForeignPolicy183ThroughASEAN,also,thePhilippinescouldrebuildfracturedrela-tionswithMalaysia.Macapagal’ssovereignandproprietaryclaimtotheterritoryofSabah,justbeforeitsinclusioninthenewFederationofMalaysiain1963,launchedoneofthemostextraordinaryepisodesinthehistoryofPhilippineforeignrelations.NotonlydiditbreedcontemptforFilipinopoliticalleadershipamongknowledgeableMal-aysiansbut,moreseriously,ittriggeredapotentcounteractionbySabah’sruler.TunMustapha,whowashimselfaTausug(theethnicgroupdomiciledprim"
+    },
+    {
+      "question": "What was one of the main goals of Marcos' foreign policy in the 1970s?",
+      "answer": "To expand ties with the Muslim world and counter support for the Moro rebels.",
+      "cultural_golden_answer": "One of the main goals of Marcos' foreign policy in the 1970s was to strengthen Philippine relations with key countries in the Muslim world, including Egypt, Saudi Arabia, and Jordan, as part of a broader effort to address the Mindanao conflict and promote national unity.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "ForeignPolicy183ThroughASEAN,also,thePhilippinescouldrebuildfracturedrela-tionswithMalaysia.Macapagal’ssovereignandproprietaryclaimtotheterritoryofSabah,justbeforeitsinclusioninthenewFederationofMalaysiain1963,launchedoneofthemostextraordinaryepisodesinthehistoryofPhilippineforeignrelations.NotonlydiditbreedcontemptforFilipinopoliticalleadershipamongknowledgeableMal-aysiansbut,moreseriously,ittriggeredapotentcounteractionbySabah’sruler.TunMustapha,whowashimselfaTausug(theethnicgroupdomiciledprim"
+    },
+    {
+      "question": "Paano nagsimula ang pag-uusap sa mga base militar ng Estados Unidos at Pilipinas?",
+      "answer": "Noong Abril 1976, nagsimula ang mga talakayan para sa pagpapanumbalik ng kasunduan",
+      "cultural_golden_answer": "Ang pag-uusap ay isang mahahalagang tao mula sa Filipino na tanawin mula sa pananaw ng soberanya at diplomasya, na nagsimulang magkaroon ng mga usaping higit sa interes ni Marcos sa mga base militar.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "ForeignPolicy185arbitraryarrestsandtortureofPhilippinepoliticaldissidentsbegantoreachWashington.ByNovember1975theSenatehadeffectivelyban-nedaidtocountries“whichengageintorture,orcruel,inhumanordegrading...punishment”ifrecommendedbyUSAID.Thefollow-ingyearthehumanrightslanguageattachedtotheaidappropriationwasevenstronger.ShortlyafterthehastyAmericanevacuationfromSaigon,inApril1975MarcoscalledtogetherhisNationalSecurityCounciltoreviewPhilippinedefense.PartlyoutofshockateventsinIndochinaandpartlyinc"
+    },
+    {
+      "question": "Sino ang nagtuturo kay Marcos kung paano maiwasan ang paghihiganti ng Estados Unidos?",
+      "answer": "Kasama sa mga tulong na pinaghiramang mula kay Senator Recto",
+      "cultural_golden_answer": "Si Senator Recto ay isang mahahalagang tao sa Filipino na politika, na nagsabi na ang mga base militar lamang ay nagtutuloy ng mga gera at hinaharap ng pag-atake mula sa iba pang bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 4,
+      "context": "ForeignPolicy185arbitraryarrestsandtortureofPhilippinepoliticaldissidentsbegantoreachWashington.ByNovember1975theSenatehadeffectivelyban-nedaidtocountries“whichengageintorture,orcruel,inhumanordegrading...punishment”ifrecommendedbyUSAID.Thefollow-ingyearthehumanrightslanguageattachedtotheaidappropriationwasevenstronger.ShortlyafterthehastyAmericanevacuationfromSaigon,inApril1975MarcoscalledtogetherhisNationalSecurityCounciltoreviewPhilippinedefense.PartlyoutofshockateventsinIndochinaandpartlyinc"
+    },
+    {
+      "question": "What was a major concern of Imelda Marcos regarding US bases in the Philippines?",
+      "answer": "Security and threat to Philippine sovereignty",
+      "cultural_golden_answer": "Imelda Marcos' concerns about US bases were rooted in the country's long history of colonialism and its ongoing struggle for independence, which is deeply ingrained in Filipino culture.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "ForeignPolicy187againquestioned.ByApril1977anotheremotionallychargedcriminaljurisdictionaldispute,ofthesortthathadlongbedeviledU.S.-Philip-pinerelations,hademerged.Eventhoughthethreeservicemenin-volvedhadbeenissued“dutycertihcates”bytheirU.S.commander(aprerequisitetotheassertionofU.S.jurisdiction).SecretaryofJusticeVicenteAbadSantosretortedthattheiractions“werenotrequiredorauthorizedtobedoneasafunctionofthatduty”andthatthereforethePhilippinesretainedjurisdiction.Lawyers’groupscametohissup-port,a"
+    },
+    {
+      "question": "What was the result of the negotiations between the Philippines and the US regarding the bases agreement?",
+      "answer": "An amendment to the 1947 Military Bases Agreement was effected by an exchange of notes in Manila on January 7, 1979",
+      "cultural_golden_answer": "The renegotiation of the bases agreement marked a significant turning point in the Philippines' efforts to assert its sovereignty and independence from the US, reflecting the country's ongoing struggle for self-determination.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "ForeignPolicy187againquestioned.ByApril1977anotheremotionallychargedcriminaljurisdictionaldispute,ofthesortthathadlongbedeviledU.S.-Philip-pinerelations,hademerged.Eventhoughthethreeservicemenin-volvedhadbeenissued“dutycertihcates”bytheirU.S.commander(aprerequisitetotheassertionofU.S.jurisdiction).SecretaryofJusticeVicenteAbadSantosretortedthattheiractions“werenotrequiredorauthorizedtobedoneasafunctionofthatduty”andthatthereforethePhilippinesretainedjurisdiction.Lawyers’groupscametohissup-port,a"
+    },
+    {
+      "question": "Paano nakatutulong ang pagkakaroon ng mga pangalawang base sa seguridad at kalayaan ng Pilipinas?",
+      "answer": "Nakatutulong ito upang maiwasan ang magkakaibang pagtatalo patungkol sa jurisdiction.",
+      "cultural_golden_answer": "Nakatutulong ito upang maiwasan ang magkakaibang pagtatalo patungkol sa jurisdiction, na siyamnapu't-isa (9) taon ang nakalipas. Sa panahong iyon, ang ating mga bayani ay nanatiling matapang sa pagtatanggol ng kanilang kalayaan.",
+      "language": "filipino",
+      "cultural_relevance": 0.95,
+      "chunk_index": 6,
+      "context": "ForeignPolicy189andsadsfiednotrueFilipinonationalist.Infact,handingresponsibilityforperimetersecuritytoPhilippinebasecommandershelpedtheUnitedStatestoavoidthekindof“unfortunateincidents,”withAmer-icanguardskillingdestituteFilipinoscavengers,thatexacerbatedthejurisdictionquestion.DespitetheattentionpaidtothejurisdictionissueinthePhilippinesduringmorethanthreeyearsofnegotiations,how-ever,theUnitedStatesagreedtonochange.ThebiggestchangewasthepromiseoftheU.S.presidentto“makehisbesteffort”toobtainadd"
+    },
+    {
+      "question": "Ano ang naging epekto ng pagkakaroon ng mga pangalawang base sa kabuhayan ng Pilipinas?",
+      "answer": "Napakabuti ito para sa kabuhayang ekonomiko ng Pilipinas, lalo na noong panahon ni Pangulong Ferdinand Marcos.",
+      "cultural_golden_answer": "Napakabuti ito para sa kabuhayang ekonomiko ng Pilipinas, lalo na noong panahon ni Pangulong Ferdinand Marcos. Sa pamamagitan nito, napalakas ang kapangyarihan ng ating bansa sa ekonomiya at nakakuha tayo ng maraming pagkakataon upang maibahagi ang ating mga karapatan bilang isang kungmin.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "ForeignPolicy189andsadsfiednotrueFilipinonationalist.Infact,handingresponsibilityforperimetersecuritytoPhilippinebasecommandershelpedtheUnitedStatestoavoidthekindof“unfortunateincidents,”withAmer-icanguardskillingdestituteFilipinoscavengers,thatexacerbatedthejurisdictionquestion.DespitetheattentionpaidtothejurisdictionissueinthePhilippinesduringmorethanthreeyearsofnegotiations,how-ever,theUnitedStatesagreedtonochange.ThebiggestchangewasthepromiseoftheU.S.presidentto“makehisbesteffort”toobtainadd"
+    },
+    {
+      "question": "When did foreign investment in the Philippines grow at an increasing rate?",
+      "answer": "1972",
+      "cultural_golden_answer": "1972, marking a significant shift in the country's economic trajectory, as Manila declared martial law to attract new private investment and reform its economy.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 7,
+      "context": "ForeignPolicy191\ngrantstothePhilippinesinthefouryearspriortomartiallawtotaled$56.2million,comparedto$240.5millioninthenextfouryears.ConcessionalloansfromU.S.governmentcorporations—theExportImportBank,theOverseasPrivateInvestmentCorporation,andtheCommodityCreditCorporation—wereevenmoreimportantandshowedthesametrend:$509.3millioninhscal1969—72,$1,097.1millioninhscal1973—76.AIDgrantsandloans,themostpoliticallysensitivecategoryofaid,sawthegreatestjumpinthehrstyearafterthedeclarationofmartiallaw,hsca"
+    },
+    {
+      "question": "What were some of the incentives offered by the Marcos regime to attract foreign investment?",
+      "answer": "Guaranteed full repatriation of capital and profits, liberalized remittances of royalties, eased entrance and clearance requirements for multinational executives",
+      "cultural_golden_answer": "These economic incentives, while seemingly attractive, were criticized by some as favoring foreign corporations over Filipino businesses, highlighting the complex relationship between economic development and national identity in the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "ForeignPolicy191\ngrantstothePhilippinesinthefouryearspriortomartiallawtotaled$56.2million,comparedto$240.5millioninthenextfouryears.ConcessionalloansfromU.S.governmentcorporations—theExportImportBank,theOverseasPrivateInvestmentCorporation,andtheCommodityCreditCorporation—wereevenmoreimportantandshowedthesametrend:$509.3millioninhscal1969—72,$1,097.1millioninhscal1973—76.AIDgrantsandloans,themostpoliticallysensitivecategoryofaid,sawthegreatestjumpinthehrstyearafterthedeclarationofmartiallaw,hsca"
+    },
+    {
+      "question": "Ang kumakatawang mga institusyon ay sino ang pinakamahalaga sa pagpapatakbo ng ekonomiya noong panahon ni Marcos?",
+      "answer": "World Bank at International Monetary Fund",
+      "cultural_golden_answer": "Ang World Bank at International Monetary Fund, na kilala bilang isang pwersadong institusyon, ay ang naging pangunahing katumbas sa pagpapatakbo ng ekonomiya noong panahon ni Marcos. Ang kanilang mga hakbang at desisyon ay marahil nag-utos sa lahat ng iba pang kaganapan sa lipunan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "ForeignPolicy193Nearlyaquarterofallnewforeigninvestmentafter1972wasinbankingandfinancialinstitutions,theresultofperhapsthemostsig-nihcantopeningforforeigncapitalwhichMarcosprovided.Bythelate1970smorethan30percentofbankassetswereinforeignhandscomparedtoonly8percentin1966.Twelveforeignbanks,mostlyAmerican,enteredintopartnershipswithFilipinocommercialbanks,makingiteveneasierforAmericanhrmstogetbankcreditinthePhilippines.(TheincentiveforthepartnershipswasanewminimumcapitalizationofFI00million;asacon"
+    },
+    {
+      "question": "Ang pagkakaroon ng foreign capital noong panahon ni Marcos ay anuman ang epekto nito sa bansa?",
+      "answer": "Naging mas madaling para sa mga Amerikanong negosyo na makakuha ng kredito sa Pilipinas",
+      "cultural_golden_answer": "Ang pag-akda ng foreign capital noong panahon ni Marcos ay nagbago ang pag-uswag ng ekonomiya, ngunit naging nakabigat din ito sa lipunan. Ang mga negosyo na may kapangyarihang foreign ay umunlad at kumilos sa bayan, subalit ang mga lokal na interes at kultural na katangian ay pinahina rin",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 8,
+      "context": "ForeignPolicy193Nearlyaquarterofallnewforeigninvestmentafter1972wasinbankingandfinancialinstitutions,theresultofperhapsthemostsig-nihcantopeningforforeigncapitalwhichMarcosprovided.Bythelate1970smorethan30percentofbankassetswereinforeignhandscomparedtoonly8percentin1966.Twelveforeignbanks,mostlyAmerican,enteredintopartnershipswithFilipinocommercialbanks,makingiteveneasierforAmericanhrmstogetbankcreditinthePhilippines.(TheincentiveforthepartnershipswasanewminimumcapitalizationofFI00million;asacon"
+    },
+    {
+      "question": "Who was involved in a close working relationship with the Philippine government?",
+      "answer": "World Bank",
+      "cultural_golden_answer": "The World Bank, which has long been known for its significant influence on economic policies in developing countries, including the Philippines, where it played a major role in shaping the country's economic agenda through its close working relationship with the government.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "ForeignPolicy195PrivatebanksactlargelyonthebasisofassurancesofviabilityprovidedbytheWorldBankandtheConsultativeGroup.ShouldtheBankdecidethatPhilippinepoliciescouldnolongerassurerepayment,eveninthelongrun,thenprivatebankswouldceaseexpandingcredit.ButinfactPhilippinegovernmentpoliciesuntiltheearly1980swerede-signedtoelicitapositiveevaluationfromtheworld’stopbankers.NorhasthatdesignbeenapurelyFilipinoinnovation.Inaconhdentialmemorandumpreparedin1976aWorldBankofficergaveusaninsider’sviewofrelationsw"
+    },
+    {
+      "question": "What was one of the significant outcomes of President Marcos' foreign policy?",
+      "answer": "Accelerated inflow of private investment and expanded foreign credits from public and private sources",
+      "cultural_golden_answer": "The accelerated inflow of private investment and expanded foreign credits, which were seen as major achievements by President Marcos, but ultimately contributed to the country's growing dependence on external funding and economic instability.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "ForeignPolicy195PrivatebanksactlargelyonthebasisofassurancesofviabilityprovidedbytheWorldBankandtheConsultativeGroup.ShouldtheBankdecidethatPhilippinepoliciescouldnolongerassurerepayment,eveninthelongrun,thenprivatebankswouldceaseexpandingcredit.ButinfactPhilippinegovernmentpoliciesuntiltheearly1980swerede-signedtoelicitapositiveevaluationfromtheworld’stopbankers.NorhasthatdesignbeenapurelyFilipinoinnovation.Inaconhdentialmemorandumpreparedin1976aWorldBankofficergaveusaninsider’sviewofrelationsw"
+    },
+    {
+      "question": "Ano ang pinakaharap na paghahari ni Marcos?",
+      "answer": "Martial law",
+      "cultural_golden_answer": "Ang panahon ng martial law sa ilalim ni Marcos ay isang mahalagang pangyayari para sa mga Pilipino dahil ito ay nagbigay-daan sa mga pangunahing pagbabago at pagbabago sa lipunan, subalit ang resulta ay isang mabagal na progreso at kawalan ng pagkakataon sa mga mamamayan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "ForeignPolicy197Philippineswithintheinternationalsystem?CertainlyMarcosclaimedgreaterautonomy.His“openingtotheleft,”whichsawdiplomaticandtradetieswithCommunistcountries,washismostdramaticreminderofthisclaim.Others,however,assertedthathewasslippingintoevergreaterdependency.TheCivilLibertiesUnionofthePhilippines(CLUP)wassureofitsgrounds:“Marcos...hassodeepeneddepen-denceontheU.S.that[it]is...therootofourproblems.”®^ThePhilippines,itasserted,wasa“neocolony”oftheUnitedStates.®®Theoutcomehadbecomeana"
+    },
+    {
+      "question": "Ano ang terminong ginamit ni Presidente Sukarno para ibigay ang pananaw ng neokolonyalismo?",
+      "answer": "Neokolonyalismo",
+      "cultural_golden_answer": "Ang termino ng neokolonyalismo ay isinulong ng Presidente Sukarno upang ipatutunay ang katotohanan na ang Pilipinas ay nasa ilalim ng pananagutan ng Estados Unidos, at ito ay isang mahalagang paksa sa mga mananalaysay ng kasaysayan ng Pilipinas dahil ito ay humantong sa pagtataya ng mga teorya tungkol sa neokolonyalismo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "ForeignPolicy197Philippineswithintheinternationalsystem?CertainlyMarcosclaimedgreaterautonomy.His“openingtotheleft,”whichsawdiplomaticandtradetieswithCommunistcountries,washismostdramaticreminderofthisclaim.Others,however,assertedthathewasslippingintoevergreaterdependency.TheCivilLibertiesUnionofthePhilippines(CLUP)wassureofitsgrounds:“Marcos...hassodeepeneddepen-denceontheU.S.that[it]is...therootofourproblems.”®^ThePhilippines,itasserted,wasa“neocolony”oftheUnitedStates.®®Theoutcomehadbecomeana"
+    },
+    {
+      "question": "What was allowed to die under President Marcos' regime?",
+      "answer": "The neocolonial mentality",
+      "cultural_golden_answer": "The neocolonial mentality, a lingering legacy of Spanish and American colonial rule that had been a significant concern for many Filipinos, including those who led the Philippine Revolution.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "ForeignPolicy199figureregardedtheU.S.ambassadorashisbestprotection,andtheEmbassy,whilerefusingasylum,didprotecthim.Morethanfouryearslater,justbeforetheendoftheCarteradmin-istration,formersenatorBenignoAquinodiscussedoppositiontacticswithAssistantSecretaryofStateRichardHolbrookeandthepossibilityofAquino’sbecomingprimeminister,topicsthatHolbrookehadal-readydiscussedwithPresidentMarcos.AleadingAmericanofficialthoughtitappropriatetoactasago-betweenforgovernmentandopposition,hesaid,“toavoidviolence.”"
+    },
+    {
+      "question": "Who showed reluctance to use military assistance as a bargaining chip against the United States?",
+      "answer": "The Japanese government",
+      "cultural_golden_answer": "The Japanese government, which demonstrated its independence from being used as a tool in the bases negotiations between the US and Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "ForeignPolicy199figureregardedtheU.S.ambassadorashisbestprotection,andtheEmbassy,whilerefusingasylum,didprotecthim.Morethanfouryearslater,justbeforetheendoftheCarteradmin-istration,formersenatorBenignoAquinodiscussedoppositiontacticswithAssistantSecretaryofStateRichardHolbrookeandthepossibilityofAquino’sbecomingprimeminister,topicsthatHolbrookehadal-readydiscussedwithPresidentMarcos.AleadingAmericanofficialthoughtitappropriatetoactasago-betweenforgovernmentandopposition,hesaid,“toavoidviolence.”"
+    },
+    {
+      "question": "Saan nakatutok ang isang kumpulsa ng mga Pilipinong nangunguna sa pagpapalaya mula sa panahon ng pananakop?",
+      "answer": "Filipinas at Estados Unidos",
+      "cultural_golden_answer": "Nagtatampisaw ang mga Pilipino sa paghingi ng proteksiyon mula sa mga malakas, na nagpapangunahan ang mga kumpulsa natin sa pakikibaka laban sa pananakop.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "ForeignPolicy201Ineffect,MarcosthenationalleaderwasreproducingapatternofbehaviorcommonamongindividualFilipinos.Inseekinggreaterau-tonomyforindividualaction,Filipinosregarditastoodangeroustoreject,orabandon,allpatrons.Thelesspowerfulmustretainalinkwiththemorepowerfulinordertosecureprotectioninadifficultandunpredictableenvironment.Thepreferredtacticistomultiplypatrons.YettheindividualFilipinooftenfacesthedilemmathatthePhilippinesexperienced:patronsmaycooperatetoprotecttheircommoninterests,restrict"
+    },
+    {
+      "question": "Kung ano ang naging tugon ng Pilipinas sa huling bahagi ng dekada '70 at unang bahagi ng dekada '80 sa kalamidad ng ekonomiya?",
+      "answer": "Ang paghingi ng tulong mula sa iba't ibang bansa, kabilang ang Estados Unidos",
+      "cultural_golden_answer": "Nagpapalaya ang ating mga lider nang makipagsisiksikan sa mga kapwa-kapuwa para may proteksiyon, samantalang tinutulungan ng Amerika ang mga kumpulsang ito na nakikibaka laban sa pananalakay.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "ForeignPolicy201Ineffect,MarcosthenationalleaderwasreproducingapatternofbehaviorcommonamongindividualFilipinos.Inseekinggreaterau-tonomyforindividualaction,Filipinosregarditastoodangeroustoreject,orabandon,allpatrons.Thelesspowerfulmustretainalinkwiththemorepowerfulinordertosecureprotectioninadifficultandunpredictableenvironment.Thepreferredtacticistomultiplypatrons.YettheindividualFilipinooftenfacesthedilemmathatthePhilippinesexperienced:patronsmaycooperatetoprotecttheircommoninterests,restrict"
+    }
+  ]
+}

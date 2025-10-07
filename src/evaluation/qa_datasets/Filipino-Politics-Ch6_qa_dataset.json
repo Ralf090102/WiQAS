@@ -1,0 +1,230 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Filipino-Politics-Ch6.pdf",
+    "total_chunks": 12,
+    "total_qa_pairs": 24,
+    "chunk_size": 6000,
+    "chunk_overlap": 1200,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Paano ang naging tulong ng mga kalsada at paaralan sa panunungkulan ni Marcos?",
+      "answer": "Nakatulong sila upang makuha niya ang pagtitiwala ng mamamayan.",
+      "cultural_golden_answer": "Ang mga proyekto na ito ay nagbigay-daan sa kaniyang rehimeng makipag-ugnay sa kapwa Pilipino at lumikha ng isang mas mahusay na imahe bilang isang lider, tulad ng sinasabi sa Salita ng Pagpapakatawang-Pilipino.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "6DomesticPolicy:AgrarianReformandtheSearchforNationalUnity\nThesearchforregimelegitimacy,andthusstability,wasunflagging.PresidentMarcospaidparticularattentiontothelegalismsofthepoliti-calprocess,butwhatsethimabovehisfellowlawyer-politicianswashisawarenessoftheimportanceofcarryingoutpoliciesthatwouldhelpcreatepoliticalsupport.Herightlycreditedthebuildingofanunprece-dentednumberofroadsandschoolhouseswithhelpinghisreelectionin1969—though“goons,guns,andgold”contributedaswell.Rapideconomicdevelopmentw"
+    },
+    {
+      "question": "Ano ang naging dahilan ng pagtaas ng kaguluhan sa Mindanao?",
+      "answer": "Ang pag-aalis ng mga Muslim sa kanilang lupain at ang pakikialam ng pamahalaan sa kanilang tradisyonal na lupa.",
+      "cultural_golden_answer": "Ang problema ay nagmula rin sa karagdagang pagpapalayo ng mga Kristiyanong migrante, at ang kawalan ng pakinabangan ng mga Moro mula sa mga proyekto ng pamahalaan na nagbigay-daan sa kanila upang muling makita ang tunay na layunin ng pagbabago sa lipunan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "6DomesticPolicy:AgrarianReformandtheSearchforNationalUnity\nThesearchforregimelegitimacy,andthusstability,wasunflagging.PresidentMarcospaidparticularattentiontothelegalismsofthepoliti-calprocess,butwhatsethimabovehisfellowlawyer-politicianswashisawarenessoftheimportanceofcarryingoutpoliciesthatwouldhelpcreatepoliticalsupport.Herightlycreditedthebuildingofanunprece-dentednumberofroadsandschoolhouseswithhelpinghisreelectionin1969—though“goons,guns,andgold”contributedaswell.Rapideconomicdevelopmentw"
+    },
+    {
+      "question": "What was the outcome of the courts-martial acquittal of the officers responsible for the 'massacre' in Sulu?",
+      "answer": "The people of Sulu were grief-stricken and their grief turned to rage.",
+      "cultural_golden_answer": "This incident highlights the deep sense of injustice and betrayal felt by Muslim Filipinos, who value pride in their community and solidarity with one another. The acquittal of the officers responsible for the 'massacre' was a devastating blow to their trust in the Philippine justice system, which is essential to Filipino culture's emphasis on bayanihan (solidarity) and respect for authority.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "156FilipinoPolitics\nSuluwar.^Inanycase,thepeopleofSuluweregrief-stricken,andwhentheofficersresponsibleforthe“massacre”wereacquittedbycourtsmartial,griefturnedtorage.MuslimstudentsinManila,includ-ingascholarshiprecipientattheUniversityofthePhilippines,NurMisuari,organizeddemonstrationstoprotestwhattheycalled“theworstcrimeofthecentury.”ThescandalshockedthewholeFilipinoMuslimcommunity.Infact,tobeMuslimrequiresmembershipintheIslamiccommunity,orumma.^Prideinselfisequatedwithprideinthecommunity,andvic"
+    },
+    {
+      "question": "What was the result of the 1971 local elections in the provinces of Lanao del Norte, North Cotabato, and Zamboanga?",
+      "answer": "The Christians were elected to key positions, including governor, mayor, and constabulary commander.",
+      "cultural_golden_answer": "This outcome marked a significant shift in power dynamics in Mindanao, where Muslims had traditionally held sway. The election results highlighted the growing influence of Christian politicians and military leaders, who would go on to shape the region's politics for years to come, often at the expense of Muslim Filipinos' rights and interests.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "156FilipinoPolitics\nSuluwar.^Inanycase,thepeopleofSuluweregrief-stricken,andwhentheofficersresponsibleforthe“massacre”wereacquittedbycourtsmartial,griefturnedtorage.MuslimstudentsinManila,includ-ingascholarshiprecipientattheUniversityofthePhilippines,NurMisuari,organizeddemonstrationstoprotestwhattheycalled“theworstcrimeofthecentury.”ThescandalshockedthewholeFilipinoMuslimcommunity.Infact,tobeMuslimrequiresmembershipintheIslamiccommunity,orumma.^Prideinselfisequatedwithprideinthecommunity,andvic"
+    },
+    {
+      "question": "Ano ang tawag sa pagsiklab ng digmaan ng Moros noong 1971?",
+      "answer": "Mindanao Revolutionary Council for Independence",
+      "cultural_golden_answer": "Ang pagsiklab ng digmaan ay isang mahalagang yugto sa kasaysayan ng Mindanao at mga Muslim dito, na nagsisimula sa pagtatag ng MNLF at pagsusulong ng pakikibaka para sa kalayaan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "158FilipinoPolitics\ntacticsbutcouldnotabandontheconceptthatsovereigntywasvestedinAllah.In1967hefoundedthePhilippineMuslimNationalistLeague.AtthispointhewasstillpartoftheMoropoliticalestablishment,workingcloselywithCongressmanRashidLucmanofLanao.YetMis-uari’snotionsofjusticethreatenedthepositionoftheMuslimelite.InJuly1968Misuari’sleaguenewspaperendorsedMatalam’sinde-pendencemanifesto.HebegantotalkwithyoungfollowersaboutarmedinsurrectiontoachieveindependencefortheMoronation(BangsaMoro)andmadeplans"
+    },
+    {
+      "question": "Sa ilalim ng kung ano mang administrasyon, ay nakatanggap ang Moros ng mga bagong pautang at programa?",
+      "answer": "Ang pamamahala ni Marcos",
+      "cultural_golden_answer": "Ang pagsusulong ng mga bagong pautang at programa sa ilalim ng pamamahala ni Marcos ay isang pagtutumazod na nagpapalakas ng relasyong panlipunan ng mga Moro sa pamahalaan, gayunpaman, ang mga ito ay nagsimula lamang dahil sa pagtulong ng Arab world.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "158FilipinoPolitics\ntacticsbutcouldnotabandontheconceptthatsovereigntywasvestedinAllah.In1967hefoundedthePhilippineMuslimNationalistLeague.AtthispointhewasstillpartoftheMoropoliticalestablishment,workingcloselywithCongressmanRashidLucmanofLanao.YetMis-uari’snotionsofjusticethreatenedthepositionoftheMuslimelite.InJuly1968Misuari’sleaguenewspaperendorsedMatalam’sinde-pendencemanifesto.HebegantotalkwithyoungfollowersaboutarmedinsurrectiontoachieveindependencefortheMoronation(BangsaMoro)andmadeplans"
+    },
+    {
+      "question": "Who was involved in the negotiations at Jeddah, Saudi Arabia?",
+      "answer": "Executive Secretary Melchor, representing Marcos, and Misuari",
+      "cultural_golden_answer": "The high-level negotiations between Melchor and Misuari marked a significant attempt at reconciliation, reflecting the Filipino culture's emphasis on family and community ties, as the two leaders sought to address the Bangsamoro issue.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "160FilipinoPolitics\nassistance,buttheIslamicForeignMinisters’ConferenceheldinKualaLumpurin1974deniedtheMNLFofficialrecognition.However,theconferencedidrecommendthatthePhilippinegovernmentholddirecttalkswithMisuari,whohadbythistimemovedtoLibya,thesourceofhismostgeneroussupport.NegotiationsTalksopenedatJeddah,SaudiArabia,inJanuary1975.ExecutiveSecretaryMelchor,representingMarcos,spokeof“nationalunity”whileMisuarispokeofBangsaMoro“sovereignty.”MelchorblamedMisuari’srigidityonColonelMuamarKhaddah,an"
+    },
+    {
+      "question": "What was the outcome of the Tripoli Agreement in December?",
+      "answer": "The signing of the Tripoli Agreement by the MNLF, the Republic of the Philippines, and the Secretary-General of the Islamic Conference",
+      "cultural_golden_answer": "The agreement marked a significant breakthrough in Filipino politics, as it provided for Muslim autonomy in a 13-province region, reflecting the country's commitment to its Muslim minority and adhering to the principle of 'Islam is a part of Philippine culture'. The agreement also highlighted the importance of Islamic Conference in facilitating dialogue between the Philippines and the MNLF.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "160FilipinoPolitics\nassistance,buttheIslamicForeignMinisters’ConferenceheldinKualaLumpurin1974deniedtheMNLFofficialrecognition.However,theconferencedidrecommendthatthePhilippinegovernmentholddirecttalkswithMisuari,whohadbythistimemovedtoLibya,thesourceofhismostgeneroussupport.NegotiationsTalksopenedatJeddah,SaudiArabia,inJanuary1975.ExecutiveSecretaryMelchor,representingMarcos,spokeof“nationalunity”whileMisuarispokeofBangsaMoro“sovereignty.”MelchorblamedMisuari’srigidityonColonelMuamarKhaddah,an"
+    },
+    {
+      "question": "Paano nagbigay-bahagi ng MNLF sa mga Moro sa Pilipinas?",
+      "answer": "Sa pamamagitan ng kanilang pagtutol sa Tripoli Agreement at ang pagpapalawak ng kanilang suporta mula sa internasyonal",
+      "cultural_golden_answer": "Sa pamamagitan ng kanilang pagtutol sa Tripoli Agreement, na inilarawan nila bilang isang 'trap ng mga pangyayari na masama' at ang pagpapalawak ng kanilang suporta mula sa internasyonal, partikular ang Iran, na nakatulong sa kanila upang mapanatili ang kanilang kilusang pambansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "162FilipinoPolitics\nproducingdissensionwithintheleadership.PresidentMarcosindicatedhis“desire”toresumediscussionswiththerebelsbutcitedthedifficultyofnegotiatingwithafragmentedMNLFcommand.InparttheleadershipstrugglewasbetweentheoldMoroeliteoft/a^w-politicians,mostlyeducatedinManilaoreventheUnitedStates,andtheyoungerArab-educatedchallengersattractedtoMisuari.Dis-sensionwasalsobasedonethnicdifferences,sincetheMoroidentityhadbynomeansobliteratedthesenseofbeingTausugorMaranaoorMaguindanao.AsCesarMaju"
+    },
+    {
+      "question": "Sa anong panahon sinimulan ng MNLF ang kanilang pagtutol sa Tripoli Agreement?",
+      "answer": "Noong 1978, pagkatapos na mabigo ang kanilang mga negosasyon kay Presidente Marcos",
+      "cultural_golden_answer": "Noong 1978, pagkatapos na mabigo ang kanilang mga negosasyon kay Presidente Marcos at ang pagpapalawak ng kanilang suporta mula sa internasyonal, isang mahalagang yugto para sa mga Moro na naghahanap ng katibayan ng kanilang karapatang makabuo ng sariling pamamahala.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "162FilipinoPolitics\nproducingdissensionwithintheleadership.PresidentMarcosindicatedhis“desire”toresumediscussionswiththerebelsbutcitedthedifficultyofnegotiatingwithafragmentedMNLFcommand.InparttheleadershipstrugglewasbetweentheoldMoroeliteoft/a^w-politicians,mostlyeducatedinManilaoreventheUnitedStates,andtheyoungerArab-educatedchallengersattractedtoMisuari.Dis-sensionwasalsobasedonethnicdifferences,sincetheMoroidentityhadbynomeansobliteratedthesenseofbeingTausugorMaranaoorMaguindanao.AsCesarMaju"
+    },
+    {
+      "question": "What was the name of the separatist movement that emerged in Mindanao?",
+      "answer": "MNLF",
+      "cultural_golden_answer": "The Moro National Liberation Front (MNLF) is a significant example of a Filipino Muslim-led movement for self-determination and autonomy, reflecting the complex history of Islamic communities in the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "164FilipinoPolitics\nconnections.AmajorbuildupofPhilippinearmedforcestookplaceinSuluandBasilan,andamoreaggressivegeneraltookovertheSouth-ernCommand.StoriesofcivilianmassacresbyMarinesorarmyper-sonnelagainbecamefrequent.Reportsalsospreadthatsome“terroristacts,”quicklyblamedontheMNLF,wereactuallyarrangedbylocalpoliticiansandmilitarycommanders-worriedthatMarcosmightmakegoodonpromisestowithdrawthemilitaryfromselectedareas.Everyconflictbecomesinstitutionalizedovertime,creatingintereststhatfavoritsprol"
+    },
+    {
+      "question": "What event led to President Marcos's changing stance on the military presence in Mindanao?",
+      "answer": "The buildup of Philippine armed forces in Sulu and Basilan, and stories of civilian massacres by Marines or personnel",
+      "cultural_golden_answer": "This buildup and subsequent reports of human rights abuses marked a significant turning point in President Marcos's approach to the Mindanao conflict, highlighting the complexities of martial law and its impact on marginalized communities in the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "164FilipinoPolitics\nconnections.AmajorbuildupofPhilippinearmedforcestookplaceinSuluandBasilan,andamoreaggressivegeneraltookovertheSouth-ernCommand.StoriesofcivilianmassacresbyMarinesorarmyper-sonnelagainbecamefrequent.Reportsalsospreadthatsome“terroristacts,”quicklyblamedontheMNLF,wereactuallyarrangedbylocalpoliticiansandmilitarycommanders-worriedthatMarcosmightmakegoodonpromisestowithdrawthemilitaryfromselectedareas.Everyconflictbecomesinstitutionalizedovertime,creatingintereststhatfavoritsprol"
+    },
+    {
+      "question": "Paano kinilala ng Pangulo si Land Reform bilang mahalagang bahagi ng bagong lipunan?",
+      "answer": "Ang land reform ay ang tanging hakbang para sa tagumpay o pagkawala ng bagong lipunan.",
+      "cultural_golden_answer": "Ang land reform ay isang pangunahing hakbang para sa tagumpay o pagkawala ng bagong lipunan, na kung saan si Presidente Marcos ay nagtuturo na kapag walang mga reporma sa lupa, wala tayong bagong lipunan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "166FilipinoPolitics\nAndonthedecree’sfirstanniversaryPresidentMarcossaidthat“LandreformistheonlygaugeforthesuccessorfailureoftheNewSociety.Iflandreformfails,thereisnoNewSociety.”^^Inthedecree’spreambleMr.Marcoshintedatoneofthemotivesforthispriority:thefearofagrarianunrest,andCommunistleadershipthereof.Onlytwoweeksaftermartiallawhadbeendeclared.ProfessorRoyProstermannoftheUniversityofWashington,authorofthe1970landreforminVietnam(andthesubsequentprograminElSalvador)arrivedinthePhilippines,adraftdec"
+    },
+    {
+      "question": "Sinabi ng Pangulo kung ano ang mangyayari kapag hindi magtatagumpay ang Land Reform?",
+      "answer": "Kapag walang mga reporma sa lupa, wala tayong bagong lipunan.",
+      "cultural_golden_answer": "Ang mensahe ni Presidente Marcos na 'kapag walang mga reporma sa lupa, wala tayong bagong lipunan' ay nagpapahiwatig ng kanyang tiwala sa mga reporma sa lupa bilang isang mahalagang hakbang para sa pagsulong ng bagong lipunan na pinakasimulan niya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "166FilipinoPolitics\nAndonthedecree’sfirstanniversaryPresidentMarcossaidthat“LandreformistheonlygaugeforthesuccessorfailureoftheNewSociety.Iflandreformfails,thereisnoNewSociety.”^^Inthedecree’spreambleMr.Marcoshintedatoneofthemotivesforthispriority:thefearofagrarianunrest,andCommunistleadershipthereof.Onlytwoweeksaftermartiallawhadbeendeclared.ProfessorRoyProstermannoftheUniversityofWashington,authorofthe1970landreforminVietnam(andthesubsequentprograminElSalvador)arrivedinthePhilippines,adraftdec"
+    },
+    {
+      "question": "When was Presidential Decree 27 passed?",
+      "answer": "1971",
+      "cultural_golden_answer": "In 1971, the Marcos administration passed Presidential Decree 27, a significant step towards land reform in the Philippines, a country where land ownership has long been a contentious issue.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 7,
+      "context": "168FilipinoPolitics\nunderexistinglegislation.In1971tenantorganizationsformedanunprecedentedlyeffectivelobbyandpushedthroughCongress,with-outthehelpofthepresident,amendmentstospeedgovernmentac-quisitionoflargeestatesforredistribution.ButMarcosdeclaredmartiallawbeforehecouldusethisnewlegislation.Theargumentthatmartiallawwasnecessaryforeffectivelandreformisthereforelessthanfullypersuasive.InprinciplePresidentialDecree27wasagreatimprovementoverpreviouslegislationbecausealltenantswhoselandlordsownedm"
+    },
+    {
+      "question": "What was the goal of the Department of Agrarian Reform?",
+      "answer": "To service over 390,000 tenants on 730,000 hectares of land",
+      "cultural_golden_answer": "The primary objective of the Department of Agrarian Reform in the Philippines was to redistribute land from large landholders to small farmers and tenant households, a crucial step towards addressing the country's long-standing problem of unequal land distribution, which has been a major driver of rural poverty and social inequality.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "168FilipinoPolitics\nunderexistinglegislation.In1971tenantorganizationsformedanunprecedentedlyeffectivelobbyandpushedthroughCongress,with-outthehelpofthepresident,amendmentstospeedgovernmentac-quisitionoflargeestatesforredistribution.ButMarcosdeclaredmartiallawbeforehecouldusethisnewlegislation.Theargumentthatmartiallawwasnecessaryforeffectivelandreformisthereforelessthanfullypersuasive.InprinciplePresidentialDecree27wasagreatimprovementoverpreviouslegislationbecausealltenantswhoselandlordsownedm"
+    },
+    {
+      "question": "Saan ay nagsimula ang pagkakaroon ng kahirapan sa programa ng pagre-reform sa lupa noong panahon ni Presidente Marcos?",
+      "answer": "Malacang Palace",
+      "cultural_golden_answer": "Ang Malacañang Palace, ang luklukan ng poder ng Pangulo ng Pilipinas, ay naging simbolo ng katunggali sa pagitan ng pamilya ng mga may-ari ng lupa at ang kawatan na naghahanap ng hustisya sa ilalim ng panahong Martial Law. Ang kahirapan sa programa ay isang patunay ng kompleksidad ng usaping pangkapitalista na kinabibilangan ng pagiging-kompetensya ng mga may-ari ng lupa at ang kawatan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "170FilipinoPolitics\ncent.^®Moreseriouswastheretreatbytopdecisionmakersinthefaceoflandlordpressure,despitetheboastofMinisterofAgrarianReformConradoEstrellaabouthiseasyaccesstoPresidentMarcos.TherewasapparentlyafeelinginMalacahangPalacethatmorewastobegainedpoliticallybyeasingthepressureonsmallerlandlordsthanbypushingreformtocompletion.Foreignanalysts,however,weremoreinclinedtoconcludethatincompletereformraisedexpectationsandintensihedthefrustrationofthosewhodidnotbeneht.By1981revolutionarypolitica"
+    },
+    {
+      "question": "Ang anong pangalan ng programa na nagsilbing alternatibo sa pagkabili ng lupa para sa mga magsasaka?",
+      "answer": "Masagana99",
+      "cultural_golden_answer": "Ang Masagana99, isang programa ng pambansang pamumuhunan na nagbigay ng unsecured loan o credit sa mga magsasaka upang madagdagan ang produksyon ng bigas. Ang programang ito ay isang bahagi ng Green Revolution na naging makabuluhan sa pagbabago sa buhay ng mga mamamayan ng Pilipinas, lalo na sa panahon ng Martial Law.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "170FilipinoPolitics\ncent.^®Moreseriouswastheretreatbytopdecisionmakersinthefaceoflandlordpressure,despitetheboastofMinisterofAgrarianReformConradoEstrellaabouthiseasyaccesstoPresidentMarcos.TherewasapparentlyafeelinginMalacahangPalacethatmorewastobegainedpoliticallybyeasingthepressureonsmallerlandlordsthanbypushingreformtocompletion.Foreignanalysts,however,weremoreinclinedtoconcludethatincompletereformraisedexpectationsandintensihedthefrustrationofthosewhodidnotbeneht.By1981revolutionarypolitica"
+    },
+    {
+      "question": "When did President Marcos issue a decree requiring holders of timber licenses and pasture leases to develop areas within their concessions for rice, corn, and other staple production?",
+      "answer": "1974",
+      "cultural_golden_answer": "1974, a year marked by significant policy shifts in the Philippines under President Marcos' administration, which had far-reaching implications for land reform and corporate farming.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "172FilipinoPolitics\nborrowers.Inlate1975only302,762farmersreceivedloans,56per-centofnumbersatthepeakayearearlier;lessthanhalfthatnumberbenehtedinthefollowingyear.Bylate1979only21percentofthe1974farmer-borrowersreceivedcreditunderMasagana99,andundernootherprogramwouldbankslendtotenantswithoutthesecurityoftractororworkanimal;eventhatwasararity.MorethanF800millioninloansweredelinquent,andnearlyhalfofruralbankshadstoppedmakingunsecuredcroploans.Thisostensiblywell-conceivedprogramdeclinedinlargepartb"
+    },
+    {
+      "question": "What was the primary goal of Masagana 99?",
+      "answer": "To achieve rice production goals",
+      "cultural_golden_answer": "To increase rice production and make the Philippines a net exporter of rice, reflecting the country's emphasis on self-sufficiency in food production and its impact on rural communities.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 9,
+      "context": "172FilipinoPolitics\nborrowers.Inlate1975only302,762farmersreceivedloans,56per-centofnumbersatthepeakayearearlier;lessthanhalfthatnumberbenehtedinthefollowingyear.Bylate1979only21percentofthe1974farmer-borrowersreceivedcreditunderMasagana99,andundernootherprogramwouldbankslendtotenantswithoutthesecurityoftractororworkanimal;eventhatwasararity.MorethanF800millioninloansweredelinquent,andnearlyhalfofruralbankshadstoppedmakingunsecuredcroploans.Thisostensiblywell-conceivedprogramdeclinedinlargepartb"
+    },
+    {
+      "question": "Paano ang nangyari sa mga magsasaka noong panahon ng martial law?",
+      "answer": "Nakapabayaan sila ng kanilang lupa at napilit na mag-emarking",
+      "cultural_golden_answer": "Noong panahon ng martial law, ang korporasyon ng mga negosyo ay pinagsamantalahan ang karapatang pantao ng mga magsasaka sa pag-aani ng lupain para sa kanilang interes. Ito ay isang halimbawa ng pagnanakaw ng lupa at pang-ekskluso na kapaligiran kung saan ang mga mahihirap na magsasaka ay pinagkamay-kamayan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "174FilipinoPolitics\nobstacleforcorporateconcessionaires.Onmorethan25,000hectarescultivatorsweredrivenoffthelandtomakewayformechanized,administeredfarming.^^Corporatefarmsandplantationsencroachedonsmallfamilyfarmsinotherwaysaswell.Intheearlyyearsofmartiallawtherewasaremarkableincreaseintheareaplantedtoexportcrops,bothbecauseofrisingworldpricesandbecauseofthedesiretoevadelandreform.Sugarplantingexpandedbynearly94,000hectaresbetween1972and1975,andin1976threesugarmillswereunderconstruction,requiring"
+    },
+    {
+      "question": "Ano ang nangyari sa mga manggagawa ng agrikultura noong panahon ni Marcos?",
+      "answer": "Nakalikom ang kanilang suweldo at napilit na magtrabaho sa mabagal na gastos",
+      "cultural_golden_answer": "Noong panahon ni Marcos, ang mga manggagawa ng agrikultura ay kinamkam-kamayan ng mga korporasyon at pinagsamantalahan. Ito ay isang halimbawa ng pang-ekskluso na kapaligiran kung saan ang mga mahihirap na magsasaka ay hindi nakinabang sa pagtatrabaho sa kanilang sariling lupain.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "174FilipinoPolitics\nobstacleforcorporateconcessionaires.Onmorethan25,000hectarescultivatorsweredrivenoffthelandtomakewayformechanized,administeredfarming.^^Corporatefarmsandplantationsencroachedonsmallfamilyfarmsinotherwaysaswell.Intheearlyyearsofmartiallawtherewasaremarkableincreaseintheareaplantedtoexportcrops,bothbecauseofrisingworldpricesandbecauseofthedesiretoevadelandreform.Sugarplantingexpandedbynearly94,000hectaresbetween1972and1975,andin1976threesugarmillswereunderconstruction,requiring"
+    },
+    {
+      "question": "Who was President Marcos's predecessor?",
+      "answer": "Marcos himself, as he came to power through martial law",
+      "cultural_golden_answer": "The passage does not explicitly mention the president before Marcos, but it implies that Marcos seized power, highlighting a significant aspect of Filipino politics and governance - the phenomenon of authoritarian rule.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 11,
+      "context": "176FilipinoPolitics\nficialswhowereresponsibleforfrustratingreforminthe1970s.Togainlegitimacythroughpolicyshewillhavetoinitiatemorefundamen-talchangethanshedidinherhrstyearinoffice.\nConclusionWehaveexaminedtwotypesofpolicywhichweredesignedtoaug-mentregimelegitimacyandsupport.PresidentMarcosattemptedtodealwitharebellionthatwastoaconsiderabledegreetheproductofhisownpreviouspolicies.HemanagedtofactionalizetheMorosbutperhapsprolongedthehghting.Warmayhavestrengthenedmilitarysupportforthepresident,atle"
+    },
+    {
+      "question": "What was one of the key outcomes of President Marcos's land reform policies?",
+      "answer": "The spread of organized unrest in the countryside by the end of the 1970s",
+      "cultural_golden_answer": "This outcome is a stark reminder that, despite Marcos's promises of 'revolution from above,' his regime failed to address the underlying social and economic issues driving unrest among rural communities, echoing the long-standing challenges faced by post-colonial Filipino governments in addressing rural poverty and land inequality.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "176FilipinoPolitics\nficialswhowereresponsibleforfrustratingreforminthe1970s.Togainlegitimacythroughpolicyshewillhavetoinitiatemorefundamen-talchangethanshedidinherhrstyearinoffice.\nConclusionWehaveexaminedtwotypesofpolicywhichweredesignedtoaug-mentregimelegitimacyandsupport.PresidentMarcosattemptedtodealwitharebellionthatwastoaconsiderabledegreetheproductofhisownpreviouspolicies.HemanagedtofactionalizetheMorosbutperhapsprolongedthehghting.Warmayhavestrengthenedmilitarysupportforthepresident,atle"
+    }
+  ]
+}
