@@ -73,7 +73,7 @@ class DatasetReshaper:
                 context = ""
 
         # Build metadata (move context inside)
-        ignored_fields = {"question", "answer"} # should stay outside of metadata
+        ignored_fields = {"question", "answer", "context"} # should stay outside of metadata
         metadata = {k: v for k, v in record.items() if k not in ignored_fields}
         metadata["ground_truth_context"] = context
 

@@ -11,7 +11,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 0,
-      "context": "1.\nTHE\tISLANDS\tBEFORE\nTHE\tCROSS:\tPRE-1521\n“Hail!\tIn\tthe\tSaka-year\t822\n\t[900\tC.E.],\t\nin\tthe\tmonth\tof\tMarch-April,\taccording\nto\tthe\tastronomer,\tthe\t4th\tday\tof\tthe\tdark\thalf\tof\tthe\tmoon,\ton\tMonday,\tAt\tthat\ntime,\tLady\tAngkatan,\ttogether\twith\ther\trelative,\tBukah,\tthe\tchild\tof\tHis\tHonor\nNamwran,\twas\tgiven,\tas\ta\tspecial\tfavor,\ta\tdocument\tof\tfull\tacquittal\tby\tthe\tchief\nand\tcommander\tof\tTundun,\tthe\tformer\tLeader\tof\tPailah,\tJayadewa,\tto\tthe\teffect\nthat\tHis\tHonor\tNamwran\tthrough\tthe\tHonorable\tScribe,\twas\tt",
       "ground_truth_context": "1.\nTHE\tISLANDS\tBEFORE\nTHE\tCROSS:\tPRE-1521\n“Hail!\tIn\tthe\tSaka-year\t822\n\t[900\tC.E.],\t\nin\tthe\tmonth\tof\tMarch-April,\taccording\nto\tthe\tastronomer,\tthe\t4th\tday\tof\tthe\tdark\thalf\tof\tthe\tmoon,\ton\tMonday,\tAt\tthat\ntime,\tLady\tAngkatan,\ttogether\twith\ther\trelative,\tBukah,\tthe\tchild\tof\tHis\tHonor\nNamwran,\twas\tgiven,\tas\ta\tspecial\tfavor,\ta\tdocument\tof\tfull\tacquittal\tby\tthe\tchief\nand\tcommander\tof\tTundun,\tthe\tformer\tLeader\tof\tPailah,\tJayadewa,\tto\tthe\teffect\nthat\tHis\tHonor\tNamwran\tthrough\tthe\tHonorable\tScribe,\twas\tt"
     }
   },
@@ -25,7 +24,6 @@
       "language": "english",
       "cultural_relevance": 0.9,
       "chunk_index": 1,
-      "context": "strengthened,\tsome\tfeatures\tof\tpre-colonial\tways\tof\tliving,\te.g.,\tthe\tmelding\tof\nthe\tprivate\tand\tpublic\tspheres\tof\tlife.\nIn\tthe\tarchipelago,\tthe\tIberians\thad\tcome\tupon\tdifferent\tsocieties,\tat\tonce\nstatic\tand\tdynamic,\twith\twell-defined\tframeworks\twithin\twhich\tthe\tworld\tmade\nsense.\tTo\tthe\tSpanish,\tof\tcourse,\tinfected\twith\tan\toverbearing\tsense\tof\tracial\nsuperiority\tand\tentitlement,\tthe\tnative\tway\tof\tlife\twas\tsavage\tand\ttherefore\thad\nto\tbe\tsupplanted\twith\tthe\tEuropean\tnotion\tof\tcivilization.\tThe\tcon",
       "ground_truth_context": "strengthened,\tsome\tfeatures\tof\tpre-colonial\tways\tof\tliving,\te.g.,\tthe\tmelding\tof\nthe\tprivate\tand\tpublic\tspheres\tof\tlife.\nIn\tthe\tarchipelago,\tthe\tIberians\thad\tcome\tupon\tdifferent\tsocieties,\tat\tonce\nstatic\tand\tdynamic,\twith\twell-defined\tframeworks\twithin\twhich\tthe\tworld\tmade\nsense.\tTo\tthe\tSpanish,\tof\tcourse,\tinfected\twith\tan\toverbearing\tsense\tof\tracial\nsuperiority\tand\tentitlement,\tthe\tnative\tway\tof\tlife\twas\tsavage\tand\ttherefore\thad\nto\tbe\tsupplanted\twith\tthe\tEuropean\tnotion\tof\tcivilization.\tThe\tcon"
     }
   },
@@ -37,7 +35,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 2,
-      "context": "Many\t species\t have\t a\t tenuous\t hold\t on\t life,\t as\t they\t require\t primary-forest\nhabitats.\tSuch\tis\tthe\tcase\twith\tthe\tPhilippine\tEagle,\tmore\tpopularly\tknown\tas\nthe\t monkey-eating\t eagle—a\t large\t and\t magnificent\t avian\t predator\t with\t a\nwingspan\tof\tnearly\tseven\tfeet.\tA\tpair\tneeds\tapproximately\ttwenty-five\tto\tfifty\nsquare\tmiles\tof\tforest\tto\tsustain\tthemselves\tand\tto\tpropagate.\nA\nS\n\tW\nE\n\tW\nERE\n:\tP\nRE\n-C\nOLONIAL\n\tB\nARANGAY\n\tS\nOCIETY\nIt\twas\tlong\theld\tas\tcommon\twisdom\tthat\tpopulations\tin\tthe\tarch",
       "ground_truth_context": "Many\t species\t have\t a\t tenuous\t hold\t on\t life,\t as\t they\t require\t primary-forest\nhabitats.\tSuch\tis\tthe\tcase\twith\tthe\tPhilippine\tEagle,\tmore\tpopularly\tknown\tas\nthe\t monkey-eating\t eagle—a\t large\t and\t magnificent\t avian\t predator\t with\t a\nwingspan\tof\tnearly\tseven\tfeet.\tA\tpair\tneeds\tapproximately\ttwenty-five\tto\tfifty\nsquare\tmiles\tof\tforest\tto\tsustain\tthemselves\tand\tto\tpropagate.\nA\nS\n\tW\nE\n\tW\nERE\n:\tP\nRE\n-C\nOLONIAL\n\tB\nARANGAY\n\tS\nOCIETY\nIt\twas\tlong\theld\tas\tcommon\twisdom\tthat\tpopulations\tin\tthe\tarch"
     }
   },
@@ -49,7 +46,6 @@
       "language": "english",
       "cultural_relevance": 0.9,
       "chunk_index": 3,
-      "context": "Larger\tpopulation\tcenters\tsprung\tup\tdue\tto\ttrade\tand,\tin\tsome\tareas,\tmost\nnotably\tin\tMindanao,\tthe\tinsistent\tcall\tof\tIslam.\tBut\tthere\twere\tno\tfiercely\nambitious\twarlords,\tno\tTokugawa\tor\tGenghis\tKhan,\twho\tset\tout\tto\tunify\tmany\nfiefdoms.\tUntil\tthe\tSpanish\tappeared\ton\tthe\thorizon,\tno\tnation-state\texisted,\nonly\ta\tfar-flung\tcollection\tof\tislands\tuntroubled\tby\tthe\tnotion\tof\ta\tcenter.\nTrade\nThe\tarchipelago\tformed\tthe\touter\tedges\tof\tan\testablished\ttrade\tcircle,\tone\tthat\nextended\tfrom\tthe\tPersian\tGulf\tin",
       "ground_truth_context": "Larger\tpopulation\tcenters\tsprung\tup\tdue\tto\ttrade\tand,\tin\tsome\tareas,\tmost\nnotably\tin\tMindanao,\tthe\tinsistent\tcall\tof\tIslam.\tBut\tthere\twere\tno\tfiercely\nambitious\twarlords,\tno\tTokugawa\tor\tGenghis\tKhan,\twho\tset\tout\tto\tunify\tmany\nfiefdoms.\tUntil\tthe\tSpanish\tappeared\ton\tthe\thorizon,\tno\tnation-state\texisted,\nonly\ta\tfar-flung\tcollection\tof\tislands\tuntroubled\tby\tthe\tnotion\tof\ta\tcenter.\nTrade\nThe\tarchipelago\tformed\tthe\touter\tedges\tof\tan\testablished\ttrade\tcircle,\tone\tthat\nextended\tfrom\tthe\tPersian\tGulf\tin"
     }
   },
@@ -61,7 +57,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 4,
-      "context": "to\tAfrica\tand\tthe\tPersian\tGulf,\tand\tpoints\tbetween,\tsetting\tup\ta\ttrading\tnetwork\nthat\tbuilt\ton\tprevious\toutposts.\tUnlike\tthe\tEuropean\texpansionists\tlater\ton,\tthe\nMiddle\tKingdom\thad\tno\timperialist\tambitions,\tdisdaining\tto\trule\tover\tthe\tnon-\nChinese,\t whom\t they\t dismissed\t as\t barbarians—except\t for\t the\t Koreans,\t the\nJapanese,\tand\tthe\tAnnamese.\nThe\tdynamics\tof\tthis\ttrade\tsystem\tunderwent\ta\tdrastic\tchange,\thowever,\nwhen\tthe\tChinese\tshut\tdown\ttheir\tports\tto\tforeign\tships,\tessentially\tabandoning\nt",
       "ground_truth_context": "to\tAfrica\tand\tthe\tPersian\tGulf,\tand\tpoints\tbetween,\tsetting\tup\ta\ttrading\tnetwork\nthat\tbuilt\ton\tprevious\toutposts.\tUnlike\tthe\tEuropean\texpansionists\tlater\ton,\tthe\nMiddle\tKingdom\thad\tno\timperialist\tambitions,\tdisdaining\tto\trule\tover\tthe\tnon-\nChinese,\t whom\t they\t dismissed\t as\t barbarians—except\t for\t the\t Koreans,\t the\nJapanese,\tand\tthe\tAnnamese.\nThe\tdynamics\tof\tthis\ttrade\tsystem\tunderwent\ta\tdrastic\tchange,\thowever,\nwhen\tthe\tChinese\tshut\tdown\ttheir\tports\tto\tforeign\tships,\tessentially\tabandoning\nt"
     }
   },
@@ -73,7 +68,6 @@
       "language": "english",
       "cultural_relevance": 0.9,
       "chunk_index": 5,
-      "context": "giant\tbarangays.\tMaynila,\tfor\tinstance,\thad\ttwo\tthousand\tinhabitants\tat\tthe\ttime\nof\tSpanish\tconquest,\twhile\tCebu\tand\tthe\tsultanates\tin\tSulu\tand\tMindanao\twere\ncomparable\tin\tsize,\tif\tnot\tlarger.\tBut\tthese\tbigger\tbarangays\twere\tthe\texceptions\nrather\tthan\tthe\trule.\nA\tdatu\theaded\tthe\tbarangay,\twith\teach\tbarangay\tmore\tor\tless\tself-contained,\nthough\tthere\twere\toccasionally\talliances\tamong\tvarious\tbarangays.\tThere\twere\nno\tformal\tallegiances\tbeyond\tthe\tbarangay,\texcept\tin\tthe\tMuslim\tsettlements\tto\nthe\tso",
       "ground_truth_context": "giant\tbarangays.\tMaynila,\tfor\tinstance,\thad\ttwo\tthousand\tinhabitants\tat\tthe\ttime\nof\tSpanish\tconquest,\twhile\tCebu\tand\tthe\tsultanates\tin\tSulu\tand\tMindanao\twere\ncomparable\tin\tsize,\tif\tnot\tlarger.\tBut\tthese\tbigger\tbarangays\twere\tthe\texceptions\nrather\tthan\tthe\trule.\nA\tdatu\theaded\tthe\tbarangay,\twith\teach\tbarangay\tmore\tor\tless\tself-contained,\nthough\tthere\twere\toccasionally\talliances\tamong\tvarious\tbarangays.\tThere\twere\nno\tformal\tallegiances\tbeyond\tthe\tbarangay,\texcept\tin\tthe\tMuslim\tsettlements\tto\nthe\tso"
     }
   },
@@ -85,7 +79,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 6,
-      "context": "day\tor\tfor\tbarter,\trather\tthan\tfor\tpurely\tspeculative\tpurposes.\tIn\ta\tword,\tthe\narchipelagic\tbarangay\twas\tnot\tonly\tpre-colonial\tbut\talso\tpre-capitalist.\tProbably\nthe\tmost\tspectacular\tand\tawe-inspiring\tinstance\tof\tenduring\tbayanihan\tare\tthe\nrice\tterraces\tof\tNorthern\tLuzon,\thigh\tup\tin\tthe\tCordillera\tMountain\tRange.\tIn\ncontinuous\tuse\tsince\tthey\twere\tbuilt\ttwo\tmillennia\tago\tby\tthe\tIfugao\t(one\tof\nseveral\ttribes\tbased\tin\tthe\tCordilleras),\tthese\tmagnificent\tembankments\twere\ncarved\tout\tof\tstubborn\tand\ttr",
       "ground_truth_context": "day\tor\tfor\tbarter,\trather\tthan\tfor\tpurely\tspeculative\tpurposes.\tIn\ta\tword,\tthe\narchipelagic\tbarangay\twas\tnot\tonly\tpre-colonial\tbut\talso\tpre-capitalist.\tProbably\nthe\tmost\tspectacular\tand\tawe-inspiring\tinstance\tof\tenduring\tbayanihan\tare\tthe\nrice\tterraces\tof\tNorthern\tLuzon,\thigh\tup\tin\tthe\tCordillera\tMountain\tRange.\tIn\ncontinuous\tuse\tsince\tthey\twere\tbuilt\ttwo\tmillennia\tago\tby\tthe\tIfugao\t(one\tof\nseveral\ttribes\tbased\tin\tthe\tCordilleras),\tthese\tmagnificent\tembankments\twere\ncarved\tout\tof\tstubborn\tand\ttr"
     }
   },
@@ -97,7 +90,6 @@
       "language": "english",
       "cultural_relevance": 0.8,
       "chunk_index": 7,
-      "context": "reflected\tindebtedness,\tnot\tthe\tperson….\tIndeed,\tthe\tpossibility\tof\tshifting\t\nfrom\none\trank\tto\tanother—as\tevidenced\tby\tthe\tfine\tgradations\tof\tservitude—bespoke\nthe\ttendency\tto\tdissociate\tstatus\tfrom\tperson.”\nP\nEOPLE\n\tT\nRAVEL\tAND\n\tS\nO\n\tD\nO\n\tI\nDEAS\nPorts\t by\t nature\t are\t interactive\t sites,\t as\t true\t millennia\t ago\t as\t it\t is\t now.\nMerchants,\tseamen,\ttravelers,\tand\temissaries\tfrom\tvarious\tculture\tzones\tnot\nonly\ttraded\tgoods\tbut\tstories\tand\tideas\tas\twell.\tAlong\twith\tcommerce,\tideas\nmade\ttheir\twa",
       "ground_truth_context": "reflected\tindebtedness,\tnot\tthe\tperson….\tIndeed,\tthe\tpossibility\tof\tshifting\t\nfrom\none\trank\tto\tanother—as\tevidenced\tby\tthe\tfine\tgradations\tof\tservitude—bespoke\nthe\ttendency\tto\tdissociate\tstatus\tfrom\tperson.”\nP\nEOPLE\n\tT\nRAVEL\tAND\n\tS\nO\n\tD\nO\n\tI\nDEAS\nPorts\t by\t nature\t are\t interactive\t sites,\t as\t true\t millennia\t ago\t as\t it\t is\t now.\nMerchants,\tseamen,\ttravelers,\tand\temissaries\tfrom\tvarious\tculture\tzones\tnot\nonly\ttraded\tgoods\tbut\tstories\tand\tideas\tas\twell.\tAlong\twith\tcommerce,\tideas\nmade\ttheir\twa"
     }
   },
@@ -109,7 +101,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 8,
-      "context": "merely\tof\tthin\tplate)\tand\tbrooches\tto\tfasten\tthem;\tand\trich\tnecklaces,\tpendants,\nearrings,\tfinger-rings,\tankle\trings,\tfor\tthe\tneck,\tears,\thands,\tand\tfeet—the\tmen\nas\twell\tas\tthe\twomen.\tThey\teven\tused\tto,\tand\tdo\tyet,\tinsert\tgold\tbetween\ttheir\nteeth\tas\tan\tornament.”\tEarlier,\tin\t1521,\tthe\tVenetian\tchronicler\tof\tthe\tMagellan\nexpedition\tthat\thad\tcome\tacross\tthe\tarchipelago,\tAntonio\tPigafetta,\thad\tnoted\nthe\texistence\tin\tsome\tof\tthe\tislands\tof\t“mines\tof\tgold,\twhich\tis\tfound\tby\tdigging\nfrom\tthe\tearth\tlar",
       "ground_truth_context": "merely\tof\tthin\tplate)\tand\tbrooches\tto\tfasten\tthem;\tand\trich\tnecklaces,\tpendants,\nearrings,\tfinger-rings,\tankle\trings,\tfor\tthe\tneck,\tears,\thands,\tand\tfeet—the\tmen\nas\twell\tas\tthe\twomen.\tThey\teven\tused\tto,\tand\tdo\tyet,\tinsert\tgold\tbetween\ttheir\nteeth\tas\tan\tornament.”\tEarlier,\tin\t1521,\tthe\tVenetian\tchronicler\tof\tthe\tMagellan\nexpedition\tthat\thad\tcome\tacross\tthe\tarchipelago,\tAntonio\tPigafetta,\thad\tnoted\nthe\texistence\tin\tsome\tof\tthe\tislands\tof\t“mines\tof\tgold,\twhich\tis\tfound\tby\tdigging\nfrom\tthe\tearth\tlar"
     }
   },
@@ -121,7 +112,6 @@
       "language": "english",
       "cultural_relevance": 0.9,
       "chunk_index": 9,
-      "context": "imparted.\tThey\twere\tfastidious,\tScott\tnotes,\tin\ttheir\tpersonal\thygiene,\tusing\nswabs\tto\tclean\ttheir\tears\tand\t“vegetable\thusk\tfor\tcleaning\tand\tpolishing\tthe\nteeth.”\nUnlike\tLegazpi,\tChirino\twas\timpressed\tby\tthe\tcivility,\tcourteousness,\tand\nupbringing\tof\tthe\tTagalogs,\tparticularly\tin\tthe\tuse\tof\tthe\tthird\tperson\twhen\naddressing\tsomeone.\tChirino\twas\tless\ttaken\tby\tthe\tVisayans,\twho\t“are\tmore\nrustic\t and\t less\t civil\t in\t manners,\t just\t as\t their\t language\t is\t harsher\t and\t less\npolished.”\t On\t the\t o",
       "ground_truth_context": "imparted.\tThey\twere\tfastidious,\tScott\tnotes,\tin\ttheir\tpersonal\thygiene,\tusing\nswabs\tto\tclean\ttheir\tears\tand\t“vegetable\thusk\tfor\tcleaning\tand\tpolishing\tthe\nteeth.”\nUnlike\tLegazpi,\tChirino\twas\timpressed\tby\tthe\tcivility,\tcourteousness,\tand\nupbringing\tof\tthe\tTagalogs,\tparticularly\tin\tthe\tuse\tof\tthe\tthird\tperson\twhen\naddressing\tsomeone.\tChirino\twas\tless\ttaken\tby\tthe\tVisayans,\twho\t“are\tmore\nrustic\t and\t less\t civil\t in\t manners,\t just\t as\t their\t language\t is\t harsher\t and\t less\npolished.”\t On\t the\t o"
     }
   },
@@ -133,7 +123,6 @@
       "language": "filipino",
       "cultural_relevance": 0.9,
       "chunk_index": 10,
-      "context": "into\ta\ttrance.\tThe\tpig’s\tentrails\twould\tbe\tread,\tthen\tconsumed,\twith\tcertain\tparts\nreserved\tfor\tthe\tseer.\nAs\t a\t medium\t for\t spirits\t and\t practitioner\t of\t sacred\t rites,\t the\t babaylan\noccupied\tan\timportant,\tand\tlucrative,\tposition\tin\tthe\tbarangay.\tS/he\tacted\talso\tas\nmedicine\t wo/man,\t midwife,\t dispenser\t of\t herbs\t and\t potions\t that\t healed\t the\nphysical\twounds,\tor\tof\tcharms\tand\t\nincantations\tif\ta\tperson’s\tillness,\tor\tbad\nfortune,\twere\tthought\tto\tbe\tthe\tresult\tof\ta\thex\tput\tupon\thim\tor\ther—",
       "ground_truth_context": "into\ta\ttrance.\tThe\tpig’s\tentrails\twould\tbe\tread,\tthen\tconsumed,\twith\tcertain\tparts\nreserved\tfor\tthe\tseer.\nAs\t a\t medium\t for\t spirits\t and\t practitioner\t of\t sacred\t rites,\t the\t babaylan\noccupied\tan\timportant,\tand\tlucrative,\tposition\tin\tthe\tbarangay.\tS/he\tacted\talso\tas\nmedicine\t wo/man,\t midwife,\t dispenser\t of\t herbs\t and\t potions\t that\t healed\t the\nphysical\twounds,\tor\tof\tcharms\tand\t\nincantations\tif\ta\tperson’s\tillness,\tor\tbad\nfortune,\twere\tthought\tto\tbe\tthe\tresult\tof\ta\thex\tput\tupon\thim\tor\ther—"
     }
   },
@@ -145,7 +134,6 @@
       "language": "english",
       "cultural_relevance": 0.9,
       "chunk_index": 11,
-      "context": "seeks\tto\tbe\tmore\testeemed\tthan\tthe\tothers.\tBut\tagainst\tthe\tSpaniards\tand\ttheir\nother\tenemies,\tthey\tconfederate\tand\tunite,\tand\tordinarily\tSilonga\thas\tthe\tmost\npower.”\nThe\t sultanate\t had\t a\t centralized\t government\t similar\t to\t Islamic\t states\t in\nBorneo\tand\tIndonesia.\tIts\thead,\tthe\tsultan,\twas\towed\tallegiance\tby\tother\tdatus.\nThough\tthe\tlatter\tgoverned\ttheir\town\tfollowers,\tthey\toccupied\ta\tsubordinate\nposition\tvis\tà\tvis\tthe\tsultan,\twho\talone\tcould\tdeclare\twar,\tengage\tin\tdealings\nwith\tother\tstates",
       "ground_truth_context": "seeks\tto\tbe\tmore\testeemed\tthan\tthe\tothers.\tBut\tagainst\tthe\tSpaniards\tand\ttheir\nother\tenemies,\tthey\tconfederate\tand\tunite,\tand\tordinarily\tSilonga\thas\tthe\tmost\npower.”\nThe\t sultanate\t had\t a\t centralized\t government\t similar\t to\t Islamic\t states\t in\nBorneo\tand\tIndonesia.\tIts\thead,\tthe\tsultan,\twas\towed\tallegiance\tby\tother\tdatus.\nThough\tthe\tlatter\tgoverned\ttheir\town\tfollowers,\tthey\toccupied\ta\tsubordinate\nposition\tvis\tà\tvis\tthe\tsultan,\twho\talone\tcould\tdeclare\twar,\tengage\tin\tdealings\nwith\tother\tstates"
     }
   }
