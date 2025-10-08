@@ -30,6 +30,7 @@ dependencies = [
     "tqdm",
     "rich",
     "psutil",
+    "scikit-learn",
 ]
 
 [[project.authors]]

@@ -11,6 +11,7 @@ rank_bm25
 numpy
 transformers
 accelerate
+scikit-learn
 
 # Document processing
 pymupdf

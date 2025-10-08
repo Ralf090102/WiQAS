@@ -391,6 +391,51 @@ class AnswerGeneratorConfig(BaseConfig):
             max_tokens = get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
         )
 
+# ========= EVALUATION CONFIGURATION ==========
+@dataclass
+class EvaluationConfig(BaseConfig):
+    """Evaluation configuration"""
+    
+    dataset_path: str = "./src/evaluation/evaluation_dataset.json"
+    limit: int | None = None
+    randomize: bool = False
+    disable_cultural_llm_analysis: bool = False
+    
+    # Retrieval settings
+    search_type: str = "hybrid"
+    k_results: int = 5
+    enable_reranking: bool = True
+    enable_mmr: bool = True
+    
+    similarity_threshold: float = 0.5
+    
+    @classmethod
+    def from_env(cls) -> "EvaluationConfig":
+        """Load evaluation configuration from environment variables"""
+        limit_str = get_env_str("WIQAS_EVALUATION_LIMIT", "")
+        limit = int(limit_str) if limit_str.isdigit() else None
+        
+        return cls(
+            dataset_path=get_env_str("WIQAS_EVALUATION_DATASET_PATH", "./src/evaluation/evaluation_dataset.json"),
+            limit=limit,
+            randomize=get_env_bool("WIQAS_EVALUATION_RANDOMIZE", False),
+            disable_cultural_llm_analysis=get_env_bool("WIQAS_EVALUATION_DISABLE_CULTURAL_LLM", False),
+            search_type=get_env_str("WIQAS_EVALUATION_SEARCH_TYPE", "hybrid"),
+            k_results=get_env_int("WIQAS_EVALUATION_K_RESULTS", 5),
+            enable_reranking=get_env_bool("WIQAS_EVALUATION_ENABLE_RERANKING", True),
+            enable_mmr=get_env_bool("WIQAS_EVALUATION_ENABLE_MMR", True),
+            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.5),
+        )
+
+    def validate(self) -> None:
+        """Validate evaluation configuration"""
+        if self.limit is not None and self.limit <= 0:
+            raise ValueError("limit must be positive when specified")
+        if not 0.0 <= self.similarity_threshold <= 1.0:
+            raise ValueError("similarity_threshold must be between 0.0 and 1.0")
+        if self.k_results <= 0:
+            raise ValueError("k_results must be positive")
+
 # ========== MAIN RAG CONFIGURATION ==========
 @dataclass
 class RAGConfig(BaseConfig):
@@ -404,6 +449,7 @@ class RAGConfig(BaseConfig):
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
     generator: AnswerGeneratorConfig = field(default_factory=AnswerGeneratorConfig)
+    evaluation: EvaluationConfig = field(default_factory=EvaluationConfig)  # Add this line
 
     @classmethod
     def from_env(cls) -> "RAGConfig":
@@ -417,6 +463,7 @@ class RAGConfig(BaseConfig):
             llm=LLMConfig.from_env(),
             vectorstore=VectorStoreConfig.from_env(),
             generator=AnswerGeneratorConfig.from_env(),
+            evaluation=EvaluationConfig.from_env(),
         )
 
 
