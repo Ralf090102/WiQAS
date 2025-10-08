@@ -1,0 +1,176 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Philippine-Myths-Legends-And-Folktales ch4.pdf",
+    "total_chunks": 9,
+    "total_qa_pairs": 18,
+    "chunk_size": 4000,
+    "chunk_overlap": 800,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Ano ang nangyari sa mga butterflies habang naglalakad sa forest?",
+      "answer": "Pinatay ng mga monyet",
+      "cultural_golden_answer": "Ang mga butterflies ay pinatay ng mga monyet, na isang halimbawa ng pakikipaglaban sa pagkakapantay-pantay sa kapwa.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 0,
+      "context": "The Monkeys \nand the Butterflies \nDEEP IN A FOREST in Agusan lived many monkeys and but- \nterflies. They gave no trouble to each other, for while the \nmonkeys ate the fruits of the forest trees, the butterflies \ndrank the nectar from the flowers. \nBut one day the monkeys decided to kill the butterflies. \n“This is our forest,” they said. “We want no butterflies \naround.” \nSo they picked up sticks and marched to the glade \nwhere the butterflies were flitting about from flower to \nflower and sippin"
+    },
+    {
+      "question": "Anong pinaghuhugutan ni butterfly habang hinamon ang mga monyet?",
+      "answer": "Ang kanyang sariling buhay",
+      "cultural_golden_answer": "Sa pamamagitan ng pag-aalay ng kanyang buhay, sinabi ng butterfly na ang kapantayan sa kapwa ay mahalaga at dapat ipaglaban.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "The Monkeys \nand the Butterflies \nDEEP IN A FOREST in Agusan lived many monkeys and but- \nterflies. They gave no trouble to each other, for while the \nmonkeys ate the fruits of the forest trees, the butterflies \ndrank the nectar from the flowers. \nBut one day the monkeys decided to kill the butterflies. \n“This is our forest,” they said. “We want no butterflies \naround.” \nSo they picked up sticks and marched to the glade \nwhere the butterflies were flitting about from flower to \nflower and sippin"
+    },
+    {
+      "question": "Who suggested that the monkey and the butterfly should live together without quarreling?",
+      "answer": "The butterfly",
+      "cultural_golden_answer": "In Filipino culture, respecting the boundaries of others is a crucial aspect of community living. The butterfly's proposal for peaceful coexistence serves as an example of this value.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "mosquitoes who sting you or the fleas who bite you day \nand night. We only drink nectar from the flowers, and that \nharms nobody. On the other hand, if we do not carry \npollen from one flower to another, no seeds will grow, and \nif there are no seeds, very soon you monkeys will have no \nfruit to eat. Young seeds that get no pollen do not grow.” \n“What do you think we should do?” asked the monkey. \n“You and I should agree to let each other alone,” replied \nthe butterfly. “Just continue eating the"
+    },
+    {
+      "question": "What was the plan devised by the Eel, Catfish, and Bee to scare away the Old Man and his Wife from their house?",
+      "answer": "They planned to frighten them away so that they could have the house for themselves.",
+      "cultural_golden_answer": "In some Filipino settings, sharing a living space is often viewed as an opportunity for communal bonding. However, in this passage, the plan devised by the Eel, Catfish, and Bee highlights a more individualistic approach to homeownership.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "mosquitoes who sting you or the fleas who bite you day \nand night. We only drink nectar from the flowers, and that \nharms nobody. On the other hand, if we do not carry \npollen from one flower to another, no seeds will grow, and \nif there are no seeds, very soon you monkeys will have no \nfruit to eat. Young seeds that get no pollen do not grow.” \n“What do you think we should do?” asked the monkey. \n“You and I should agree to let each other alone,” replied \nthe butterfly. “Just continue eating the"
+    },
+    {
+      "question": "Ano ang pangalan ng principe na naging lalaki sa tuktok ng puno?",
+      "answer": "Monkey Prince",
+      "cultural_golden_answer": "Si Monkey Prince ay isang karakter na may kakaibang pag-uugalian, na nagsisilbing simbolo ng mga pagbabago at pag-usbong sa buhay.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Husband (groaning in the yard): Ouch! Ai! Ouch! \nWife: What happened to you? \nHusband: Ouch! Ai! Ai! Ouch! \nWife: There are evil spirits in the house! When I dipped \nwater from the jar, something wounded me. And \nwhen I blew into the fire, something stung me and \nnow my lips are swollen. Tell me what happened to \nyou. \nHusband: There must indeed be evil spirits here. When I \nwas coming down the ladder, somebody pushed me \nto the ground. We better leave this house. \n(In a hurry the Old Man and hi"
+    },
+    {
+      "question": "Ano ang layunin ng alagad ng diwa sa kung ano'y gawaing ito?",
+      "answer": "Upang magtanim ang mga asawa nito sa kalunsay at maging malaya sila sa kaharian ng lalaki",
+      "cultural_golden_answer": "Ang layunin ng alagad ng diwa ay upang matuklasan ang kasabihang ' Pag-uugali ang pag-usbong', na nagsasaad na ang pagbabago at pag-usbong sa buhay ay maaaring magkaroon ng isang bagong anyo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Husband (groaning in the yard): Ouch! Ai! Ouch! \nWife: What happened to you? \nHusband: Ouch! Ai! Ai! Ouch! \nWife: There are evil spirits in the house! When I dipped \nwater from the jar, something wounded me. And \nwhen I blew into the fire, something stung me and \nnow my lips are swollen. Tell me what happened to \nyou. \nHusband: There must indeed be evil spirits here. When I \nwas coming down the ladder, somebody pushed me \nto the ground. We better leave this house. \n(In a hurry the Old Man and hi"
+    },
+    {
+      "question": "What was transformed into a wild forest?",
+      "answer": "The proud city",
+      "cultural_golden_answer": "The transformation of the proud city into a wild forest, reminiscent of the Filipino concept of 'sari-saring kapantay' (various forms) where humans and animals coexist in harmony with nature.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "So saying, she returned to the dark forest. \nNo sooner had she turned her back than the proud city \nbecame a wild forest. The king and all his subjects were \nchanged into lizards, snakes, wild pigs, jungle fowl, croco- \ndiles, and other animals of the forest. Also, just as the witch \nhad said, Ukay became a monkey. He climbed up into a \ntree and said nothing but “Kra-kra-kra!” all day long. \nThe years dragged on one by one and Ukay and his \npeople remained in their animal forms. The neighboring "
+    },
+    {
+      "question": "How long did Ukay and his people remain in their animal forms?",
+      "answer": "Two centuries passed, three centuries",
+      "cultural_golden_answer": "For over four hundred years, Ukay and his people remained in their animal forms, reflecting the Filipino value of 'tiis-bilog' (enduring patience) as they waited for a chance to break the witch's curse.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "So saying, she returned to the dark forest. \nNo sooner had she turned her back than the proud city \nbecame a wild forest. The king and all his subjects were \nchanged into lizards, snakes, wild pigs, jungle fowl, croco- \ndiles, and other animals of the forest. Also, just as the witch \nhad said, Ukay became a monkey. He climbed up into a \ntree and said nothing but “Kra-kra-kra!” all day long. \nThe years dragged on one by one and Ukay and his \npeople remained in their animal forms. The neighboring "
+    },
+    {
+      "question": "Sino ang prinsipe na nagkamay sa binata?",
+      "answer": "ang magandang batang principe",
+      "cultural_golden_answer": "Ang magandang batang principe, na isinilang ng pangunahing prinsipal at bayaning babae, na nagpakita ng matapang at makabayan na pagkatao ng mga taga-Bukidnon.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 4,
+      "context": "mind him. She did not even notice him carry her up into \nthe tree. \nBut when he spoke to her, she opened her eyes and saw \nhim, and she jumped up in terror. She screamed and \nshrieked till the forest rang with her voice, but she had no \nway to escape. She had come to the forest to die, but now \nthat she could have leaped to her death, she was more \ninterested in saving her life than in ending it. She contin- \nued screaming and shrieking, but when she looked into the \nmonkey’s eyes again she foun"
+    },
+    {
+      "question": "Anong pangalan ng kabataan na Manobo?",
+      "answer": "ng kalalakihan",
+      "cultural_golden_answer": "Ang lalaking binatang Manobo, na may buhay na mabuting pagkatao at isip, na nagpakita ng pagmamahal sa kapwa at katotohanan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "mind him. She did not even notice him carry her up into \nthe tree. \nBut when he spoke to her, she opened her eyes and saw \nhim, and she jumped up in terror. She screamed and \nshrieked till the forest rang with her voice, but she had no \nway to escape. She had come to the forest to die, but now \nthat she could have leaped to her death, she was more \ninterested in saving her life than in ending it. She contin- \nued screaming and shrieking, but when she looked into the \nmonkey’s eyes again she foun"
+    },
+    {
+      "question": "What is the reason for the princess's confinement?",
+      "answer": "To keep her from the eyes of admirers",
+      "cultural_golden_answer": "In Filipino culture, it was not uncommon for families to keep their daughters confined in high towers or strict supervision to protect them from external influences and potential suitors. This practice is rooted in traditional values emphasizing family honor and reputation.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "spare our lives and we will give you magic power.” \n“What magic power?” he asked. \nThe rat held out three strands of hair, and in its mouth \nthe snake held out three clean feathers. “Take these,” they \nsaid. “You only have to rub them on the dead to bring \nthem back to life,” \nThe man took the feathers and hair and said, “T will \nspare your lives if you promise never to rob my traps \nagain.” \n_ “We promise and thank you,” said the rat and the \nsnake. “We will always remember your kindness.” \nNow"
+    },
+    {
+      "question": "Who eventually marries the princess?",
+      "answer": "The man who was brought in despite being considered sickly",
+      "cultural_golden_answer": "In Filipino culture, marriage is often seen as a union of families and social classes rather than just individual partners. The fact that this 'sickly' man, who may be perceived as unattractive or socially unacceptable, marries the princess suggests that love and compatibility are more valued than physical appearance or social status.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "spare our lives and we will give you magic power.” \n“What magic power?” he asked. \nThe rat held out three strands of hair, and in its mouth \nthe snake held out three clean feathers. “Take these,” they \nsaid. “You only have to rub them on the dead to bring \nthem back to life,” \nThe man took the feathers and hair and said, “T will \nspare your lives if you promise never to rob my traps \nagain.” \n_ “We promise and thank you,” said the rat and the \nsnake. “We will always remember your kindness.” \nNow"
+    },
+    {
+      "question": "Ano ang pangalan ng unang karakter sa kuwento?",
+      "answer": "Masoy",
+      "cultural_golden_answer": "Si Masoy, isang halimbawa ng isang may-ari ng lupa na nagtatanim at nagsisipag-aral sa kaniyang mga kabuhayan sa loob ng liko.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "The Monkey Who Became \na Servant \nMASOY LIVED on a small clearing beside a forest in the \nEastern Visayas. He raised fruits, beans, and ginger. Every \nmorning he would go to the village to market his products, \nand with the money he got he would buy rice and other \nthings for his daily needs. In this way he lived happily, \nenvying no one. \nBut early one morning when he went to his orchard to \ngather fruit, he saw his trees bare. “A thief must have \nclimbed over my fence,” Masoy thought, so he ra"
+    },
+    {
+      "question": "Anong pangyayari nang mapatagak sa lupa ang babasahin na may pitch?",
+      "answer": "Nakatagpo ng monkey at kinailangan si Masoy na kumonti ng pera para sa pagkain niya",
+      "cultural_golden_answer": "Si Masoy ay nakapagtanto lamang sa kaniyang mga ginagawa at naging mapanira ng loob pagkatapos sumakop ang babasahin, na nagpapahiwatig ng kahalagahan ng diskarte at matiyagaang pagtitiyaga sa Pilipinas",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 6,
+      "context": "The Monkey Who Became \na Servant \nMASOY LIVED on a small clearing beside a forest in the \nEastern Visayas. He raised fruits, beans, and ginger. Every \nmorning he would go to the village to market his products, \nand with the money he got he would buy rice and other \nthings for his daily needs. In this way he lived happily, \nenvying no one. \nBut early one morning when he went to his orchard to \ngather fruit, he saw his trees bare. “A thief must have \nclimbed over my fence,” Masoy thought, so he ra"
+    },
+    {
+      "question": "Who is Masoy?",
+      "answer": "Masoy had a naturally kind heart, and he pulled the monkey out of the pitch.",
+      "cultural_golden_answer": "Masoy, with his generous nature, exemplifies the Filipino value of bayanihan (collective unity) as seen in his willingness to take in the monkey and treat it like a family member.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 7,
+      "context": "will serve you well.” \nMasoy had a naturally kind heart, and he pulled the \nmonkey out of the pitch. From that day on the monkey \nbecame Masoy’s servant. He did all the house work for \nMasoy and ran errands for him. \nOne day on his way to the village the monkey found a \npiece of silver and a piece of gold lying ona river bank. He \nwent to Masoy and asked, “Master, why don’t you get \nyourself a wife?” \n“Why should I get me a wife when I can hardly support \nmyself?” said Masoy. \n“In that case, get"
+    },
+    {
+      "question": "What is the role of the village chief?",
+      "answer": "The village chief loaned the monkey a polished coconut shell used for measuring rice, and he was also asked to consider Masoy as his son-in-law.",
+      "cultural_golden_answer": "In this context, the village chief embodies the Filipino concept of respeto (respect) by graciously lending the measure to the monkey and showing interest in getting to know Masoy better, highlighting the importance of community and social relationships in Filipino culture.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "will serve you well.” \nMasoy had a naturally kind heart, and he pulled the \nmonkey out of the pitch. From that day on the monkey \nbecame Masoy’s servant. He did all the house work for \nMasoy and ran errands for him. \nOne day on his way to the village the monkey found a \npiece of silver and a piece of gold lying ona river bank. He \nwent to Masoy and asked, “Master, why don’t you get \nyourself a wife?” \n“Why should I get me a wife when I can hardly support \nmyself?” said Masoy. \n“In that case, get"
+    },
+    {
+      "question": "Ano ang pangalan ng chief na nakatanggap ng pagbisita mula kay Masoy?",
+      "answer": "Ang pangalang chief ay hindi nagsasaad saan siya galing pero malamang isang pinuno o may-ari ng lupain",
+      "cultural_golden_answer": "Ang chief ay tumutukoy rin sa may-ari ng lupain at ang pagbisita ni Masoy ay nagpapahiwatig ng kanyang katayuan bilang tagasuporta ng mga katungkulan ng chief",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "path so the merchant would not see them. \nThe chief saw Masoy and he was well pleased with him \nand asked, “Have you a palace?” \nThe monkey made a sign to Masoy, and Masoy replied, \n“Yes, your Honor.” \n“I should like to come and pay you a visit,” said the \nchief. \n“It would be a great honor to me, sir,” replied Masoy, \nstill following the monkey’s signals. \n“Would it be all right if I came this afternoon?” \n“Yes, sir. You would be very welcome, sir,” said Ma- \nSoy. \nThen the monkey hurried out, "
+    },
+    {
+      "question": "Anong nangyari sa witch pagkatapos nitong makidig ng pilihang pinagsasabi ni Masoy?",
+      "answer": "Siya ay naputulan ng buhay at nakulong sa pit",
+      "cultural_golden_answer": "Ang kuwento ng monkey at witch ay nagpapahiwatig ng isang karaniwang tema sa mga alamat na Pilipino, kung saan ang mga may-ari ng kapangyarihan ay tinututukan ng mas mabibigat na balitaktakan ng mga demonyo o mga nilalayon",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "path so the merchant would not see them. \nThe chief saw Masoy and he was well pleased with him \nand asked, “Have you a palace?” \nThe monkey made a sign to Masoy, and Masoy replied, \n“Yes, your Honor.” \n“I should like to come and pay you a visit,” said the \nchief. \n“It would be a great honor to me, sir,” replied Masoy, \nstill following the monkey’s signals. \n“Would it be all right if I came this afternoon?” \n“Yes, sir. You would be very welcome, sir,” said Ma- \nSoy. \nThen the monkey hurried out, "
+    }
+  ]
+}

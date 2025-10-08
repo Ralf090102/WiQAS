@@ -1,0 +1,445 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Culture-And-Customs-Of-The-Philippines ch3.pdf",
+    "total_chunks": 27,
+    "total_qa_pairs": 54,
+    "chunk_size": 4000,
+    "chunk_overlap": 800,
+    "question_level": "high",
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "What level of art does Western-influenced art exist in Philippine culture?",
+      "answer": "At two cultural levels",
+      "cultural_golden_answer": "Western-influenced art can be found at both the high end of culture, where artists produce sophisticated works comparable to international modern art scenes, and more broadly, at the mass or folk level of Philippine culture, which is seen in everyday life through bright colors and artistic exuberance.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "Page 49\n3 \nArt and Literature \nPHILIPPINE ART is an amalgamation of indigenous traditions, adopted Western forms, and a vibrant contemporary folk art. The older artistic forms still exist among \nthe country’s many minority peoples, although these traditions are disappearing at an increasing rate. Western­influenced art can be found at two cultural levels. At the \nhigh end of culture, artists produce sophisticated works comparable with any others on the international modern art scene. A number of"
+    },
+    {
+      "question": "What has been happening to indigenous artistic traditions among minority peoples in the Philippines?",
+      "answer": "Disappearing at an increasing rate",
+      "cultural_golden_answer": "Indigenous artistic traditions, which have a rich history and significance in Philippine culture, are unfortunately disappearing at an alarming rate, threatening the cultural heritage of the country's minority groups.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 0,
+      "context": "Page 49\n3 \nArt and Literature \nPHILIPPINE ART is an amalgamation of indigenous traditions, adopted Western forms, and a vibrant contemporary folk art. The older artistic forms still exist among \nthe country’s many minority peoples, although these traditions are disappearing at an increasing rate. Western­influenced art can be found at two cultural levels. At the \nhigh end of culture, artists produce sophisticated works comparable with any others on the international modern art scene. A number of"
+    },
+    {
+      "question": "What type of materials were used to make clothing and adornments in pre-colonial Philippines?",
+      "answer": "Natural materials such as barkcloth, pineapple fibers, abaca (hemp), and other plants",
+      "cultural_golden_answer": "Natural materials such as barkcloth, pineapple fibers, abaca (hemp), and other plants, which were woven together to create unique textiles that reflected the ingenuity of indigenous Filipino artisans.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 50\naddition to domestic manufactures, Filipinos also used Chinese and Vietnamese pottery that was of higher quality and artistic design. Chinese pottery was copied and \ncontinues to be made in Vigan, Ilocos Sur province. Also surviving are woodcarvings of grainary gods and human figures. Most of these wooden representations have \nbeen found either in the northern mountains of Luzon island or among the Muslim peoples of the south. In the latter case, since Islam discourages the artistic \nrep"
+    },
+    {
+      "question": "How did tattoos serve in pre-colonial Philippines?",
+      "answer": "As a mark of a man's ability as a warrior, but also for beautification",
+      "cultural_golden_answer": "Tattoos played a significant role in pre-colonial Filipino culture, serving both as a symbol of martial prowess and as a form of self-expression and adornment, reflecting the importance placed on individual identity and community affiliation.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Page 50\naddition to domestic manufactures, Filipinos also used Chinese and Vietnamese pottery that was of higher quality and artistic design. Chinese pottery was copied and \ncontinues to be made in Vigan, Ilocos Sur province. Also surviving are woodcarvings of grainary gods and human figures. Most of these wooden representations have \nbeen found either in the northern mountains of Luzon island or among the Muslim peoples of the south. In the latter case, since Islam discourages the artistic \nrep"
+    },
+    {
+      "question": "What impact did the arrival of Spanish colonizers have on Filipino artistry?",
+      "answer": "They introduced a strong tradition of religious art that persisted until the nineteenth century.",
+      "cultural_golden_answer": "The arrival of Spanish colonizers revolutionized Filipino artistry by introducing new European mediums, leading to advancements in engraving, sculpture, oil painting, and architecture.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Page 51\nweaponry, such as the tips of spears carried by warriors of the Central Cordillera region and the ornately decorated iron kris, a wave shaped sword, carried by the \nMuslim men of the south. Metals were worked in a crude forge that consists of hollow bamboo tubes with plungers to create a blower sufficient to melt metal into \nworkable forms for the craftsmen. \nTHE HISPANIC ARTISTIC TRADITION \nThe arrival of Spanish colonizers introduced a strong tradition of religious art that persisted u"
+    },
+    {
+      "question": "What were the primary requirements for homes in the Spanish Philippines?",
+      "answer": "Furniture for storage was a basic requirement.",
+      "cultural_golden_answer": "In the context of Filipino culture, furniture for storage, particularly finely carved cabinets and intricately designed chairs like the butaca, became essential components of wealthy mestizos' homes, reflecting their increasing wealth and status.",
+      "cultural_relevance": 0.8,
+      "chunk_index": 2,
+      "context": "Page 51\nweaponry, such as the tips of spears carried by warriors of the Central Cordillera region and the ornately decorated iron kris, a wave shaped sword, carried by the \nMuslim men of the south. Metals were worked in a crude forge that consists of hollow bamboo tubes with plungers to create a blower sufficient to melt metal into \nworkable forms for the craftsmen. \nTHE HISPANIC ARTISTIC TRADITION \nThe arrival of Spanish colonizers introduced a strong tradition of religious art that persisted u"
+    },
+    {
+      "question": "Who is mentioned as the most famous artist of the period?",
+      "answer": "Damian Domingo",
+      "cultural_golden_answer": "Damian Domingo, a renowned Filipino artist who contributed significantly to Philippine art and culture during the 19th century.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 52\nfor the sitter and flat armrests extending far beyond the chair for use as a foot and leg rest. Gradually, too, beds replaced mats that had formerly been spread on \nbamboo floors. The graceful Mariposa (butterfly)­style rattan sofa appeared in the living rooms of the better homes, and the European­style high table for dining \nsurrounded by sets of simple straight­back chairs made their appearance in more and more homes. All of these and other pieces of furniture gave secular work to \nFil"
+    },
+    {
+      "question": "What was the name of the painting that won a gold medal at Spain's national arts festival in Madrid?",
+      "answer": "Spoliarium",
+      "cultural_golden_answer": "The Spoliarium, a masterpiece by Juan Luna that is considered an iconic representation of Filipino art and a critique of the colonial experience.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "Page 52\nfor the sitter and flat armrests extending far beyond the chair for use as a foot and leg rest. Gradually, too, beds replaced mats that had formerly been spread on \nbamboo floors. The graceful Mariposa (butterfly)­style rattan sofa appeared in the living rooms of the better homes, and the European­style high table for dining \nsurrounded by sets of simple straight­back chairs made their appearance in more and more homes. All of these and other pieces of furniture gave secular work to \nFil"
+    },
+    {
+      "question": "Who led the modernist school of art in the Philippines?",
+      "answer": "Victorio Edades",
+      "cultural_golden_answer": "Victorio Edades, a pioneer in introducing cubism, abstraction, and figurative expressionism to the Philippine art scene, reflecting the country's desire for artistic innovation and cultural identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 53\nthe monument to assassinated revolutionary hero Andres Bonifacio, which is a landmark in the Manila suburb of Caloocan City, where the Katipunan leader first \nassembled his followers to rise up against Spain. Tolentino also sculpted the Oblation, a naked male figure looking into the sun with outstretched arms, which serves as \nthe symbol for the University of the Philippines.4  \nEven during the American period, but especially after World War II, the dominance of Amorsolo’s school of pain"
+    },
+    {
+      "question": "What was a significant movement in Philippine art during the 1960s?",
+      "answer": "Social realism",
+      "cultural_golden_answer": "The social realist movement, which flourished during Ferdinand Marcos' presidency, marked a significant shift towards addressing pressing issues like poverty and identity, resonating with the Filipino people's struggles for self-expression and nation-building.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Page 53\nthe monument to assassinated revolutionary hero Andres Bonifacio, which is a landmark in the Manila suburb of Caloocan City, where the Katipunan leader first \nassembled his followers to rise up against Spain. Tolentino also sculpted the Oblation, a naked male figure looking into the sun with outstretched arms, which serves as \nthe symbol for the University of the Philippines.4  \nEven during the American period, but especially after World War II, the dominance of Amorsolo’s school of pain"
+    },
+    {
+      "question": "What is a notable trend in the Philippine art scene?",
+      "answer": "The gallery-in-the-mall concept has extended to middle- as well as upper-class portions of the metropolitan area.",
+      "cultural_golden_answer": "A shift towards democratizing access to quality artwork, making it more accessible and affordable for Filipinos from various socioeconomic backgrounds.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 55\nArtist Ben Cabrera’s Brown Brother’s Burden “photo” painting showing the colonized view of his relationship to the white colonizer. \nCourtesy of the Cultural Center of the Philippines Library Collection. \nin the United States and Melbourne, Australia.6 Manila’s artists have also received a wider audience than ever before, since many of the capital’s new shopping malls \nare also home to a number of art galleries. While the galleryin­the­mall concept does not extend to malls catering to th"
+    },
+    {
+      "question": "What type of art is being highlighted alongside the high-end Philippine art culture?",
+      "answer": "Folk art",
+      "cultural_golden_answer": "The dynamic folk art tradition, which reflects the country's rich cultural heritage and showcases the creativity and resilience of the Filipino people.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "Page 55\nArtist Ben Cabrera’s Brown Brother’s Burden “photo” painting showing the colonized view of his relationship to the white colonizer. \nCourtesy of the Cultural Center of the Philippines Library Collection. \nin the United States and Melbourne, Australia.6 Manila’s artists have also received a wider audience than ever before, since many of the capital’s new shopping malls \nare also home to a number of art galleries. While the galleryin­the­mall concept does not extend to malls catering to th"
+    },
+    {
+      "question": "What is the name of the festival celebrated in the town of Lucban and Sariaya, Quezon province?",
+      "answer": "Pahiyas harvest festival",
+      "cultural_golden_answer": "The Pahiyas harvest festival in Lucban and Sariaya, Quezon province, showcases the vibrant culture of Filipino communities as they celebrate the bountiful harvest with colorful rice wafers (kipig) and elaborate decorations.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 56\ntivals, in the urban pop art scene, and on the innovative jeepneys that serve the transportation needs of the country. Philippine towns are at their most colorful during \nannual fiestas when bamboo arches embellished by palms or paper ornaments mark the main thoroughfares for celebrants, and paper and cloth bunting are strung \nbetween houses and poles or trees. Even food becomes art during the feast of San Nicolas de Tolentino, when special cookies with the image of the saint are given o"
+    },
+    {
+      "question": "What is made by covering a frame of thin bamboo strips with translucent colored paper and attaching intricately cut paper tails?",
+      "answer": "parol",
+      "cultural_golden_answer": "The parol, a traditional Filipino Christmas decoration, represents the star of Bethlehem and is often hung from house windows to welcome visitors. Its intricate design and colorfulness are a testament to Filipino creativity and festive spirit.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Page 56\ntivals, in the urban pop art scene, and on the innovative jeepneys that serve the transportation needs of the country. Philippine towns are at their most colorful during \nannual fiestas when bamboo arches embellished by palms or paper ornaments mark the main thoroughfares for celebrants, and paper and cloth bunting are strung \nbetween houses and poles or trees. Even food becomes art during the feast of San Nicolas de Tolentino, when special cookies with the image of the saint are given o"
+    },
+    {
+      "question": "What is a notable form of Philippine folk art?",
+      "answer": "The jeepney",
+      "cultural_golden_answer": "The jeepney, which has become an iconic symbol of Filipino resourcefulness and creativity in repurposing and customizing vehicles, reflecting the country's rich cultural heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 57\nfeather dusters from chicken feathers, plaster­of­Paris figurines, children’s toys from discarded tin cans, and coin banks from polished and painted coconut shells and a \nvariety of products from sea shells. These products demonstrate the creativity of the Filipino and bespeak of the folk artistry of the common man and woman who \nmake practical goods with an artistic quality. \nSomewhat more sophisticated are the numerous art studios in Manila’s old tourist district, which produce scores "
+    },
+    {
+      "question": "What industry is gaining importance both locally and internationally in terms of artistic skill?",
+      "answer": "The comic book industry",
+      "cultural_golden_answer": "The comic book industry, which has become a significant contributor to the country's cultural exports, showcasing Filipino artists' talent and creativity in creating popular comics, such as those for Disney and Japanese companies.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "Page 57\nfeather dusters from chicken feathers, plaster­of­Paris figurines, children’s toys from discarded tin cans, and coin banks from polished and painted coconut shells and a \nvariety of products from sea shells. These products demonstrate the creativity of the Filipino and bespeak of the folk artistry of the common man and woman who \nmake practical goods with an artistic quality. \nSomewhat more sophisticated are the numerous art studios in Manila’s old tourist district, which produce scores "
+    },
+    {
+      "question": "What is a common feature found in jeepneys?",
+      "answer": "a small shrine with a plastic icon of a saint",
+      "cultural_golden_answer": "a small shrine with a plastic icon of a saint, which reflects the Filipino culture's devotion to saints and religiosity, often seen in public spaces such as jeepneys.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 58\nA jeepney. Photo by the author. \nmay also be a canvas upon which additional paintings are found. In the front, the driver will frequently have a small shrine that includes a plastic icon of a saint, most \noften St. Christopher or Our Lady of Perpetual Help, upon which might be hung a sacrificial garland of the strong sweet smelling sampaguita flowers. Often, too, the \ndriver will have miniature beer bottles glued to his dashboard along with a cassette recorder and a box for the tapes. So"
+    },
+    {
+      "question": "What is happening to the jeepney system?",
+      "answer": "a sharp restriction of jeepneys",
+      "cultural_golden_answer": "the decline of the jeepney system, a reflection of the Philippines' cultural shift towards more modern and efficient transportation methods, but also a loss of its unique communal aspect that is characteristic of Filipino society.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "Page 58\nA jeepney. Photo by the author. \nmay also be a canvas upon which additional paintings are found. In the front, the driver will frequently have a small shrine that includes a plastic icon of a saint, most \noften St. Christopher or Our Lady of Perpetual Help, upon which might be hung a sacrificial garland of the strong sweet smelling sampaguita flowers. Often, too, the \ndriver will have miniature beer bottles glued to his dashboard along with a cassette recorder and a box for the tapes. So"
+    },
+    {
+      "question": "What is significant about the jeepney's artwork?",
+      "answer": "It continues to represent Philippine culture in the countryside.",
+      "cultural_golden_answer": "The jeepney's artwork, a vibrant and indigenous folk tradition, remains an iconic representation of Filipino culture, particularly in rural areas where it continues to thrive.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 59\nconditioning. Recent, too, is the appearance of an enclosed air conditioned sport utility­type vehicle, which holds only nine passengers but travels with limited stops thus \noffering a significant saving of time for the harried commuter. As the economic viability of the jeepney has declined so too has the artwork, at least in major cities. In the \ncountryside, however, the jeepney’s art continues to represent Philippine culture.  \nFirmly based in indigenous and vibrant folk traditions, t"
+    },
+    {
+      "question": "How did the use of Spanish language affect Philippine literature?",
+      "answer": "It allowed for a cross-fertilization of knowledge and accelerated the breakdown of regional differences.",
+      "cultural_golden_answer": "The adoption of Spanish as the unifying lingua franca in the Philippines facilitated a rich exchange of ideas, influencing the development of Philippine literature and shaping its unique character.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "Page 59\nconditioning. Recent, too, is the appearance of an enclosed air conditioned sport utility­type vehicle, which holds only nine passengers but travels with limited stops thus \noffering a significant saving of time for the harried commuter. As the economic viability of the jeepney has declined so too has the artwork, at least in major cities. In the \ncountryside, however, the jeepney’s art continues to represent Philippine culture.  \nFirmly based in indigenous and vibrant folk traditions, t"
+    },
+    {
+      "question": "What year did President Joseph Estrada deliver his address entirely in Pilipino?",
+      "answer": "1998",
+      "cultural_golden_answer": "1998, marking a significant moment in the country's linguistic evolution and a nod to its official national language, Pilipino.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 60\nphants. Philippine literature in Spanish was thus the single most powerful weapon in the nationalists’ arsenal.  \nAlthough the literary tradition of writing in Spanish continued during the American period, the new North American colonial ruler actively promoted public education \nand the English language. The short­term impact of this American education and language policy was dramatic, and its long­term influence cannot be overestimated. In \nthe short­term, education became something of "
+    },
+    {
+      "question": "What was promoted by the American colonial ruler during the American period?",
+      "answer": "Public education and the English language",
+      "cultural_golden_answer": "English education and literacy, which ultimately became a cornerstone of modern Filipino culture and played a pivotal role in shaping the nation's literary landscape.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "Page 60\nphants. Philippine literature in Spanish was thus the single most powerful weapon in the nationalists’ arsenal.  \nAlthough the literary tradition of writing in Spanish continued during the American period, the new North American colonial ruler actively promoted public education \nand the English language. The short­term impact of this American education and language policy was dramatic, and its long­term influence cannot be overestimated. In \nthe short­term, education became something of "
+    },
+    {
+      "question": "What form of oral tradition was created in villages and served as the foundation of native poetry?",
+      "answer": "Riddles, proverbs, and aphorisms",
+      "cultural_golden_answer": "In Filipino culture, riddles, proverbs, and aphorisms, collectively known as the oral literary tradition, hold significant importance as they were created in villages to serve as the foundation of native poetry.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 61\ntivists. In retrospect many of these socially conscious writers produced some of the best pieces of Filipino literature in the 1930s and 1940s even though their English­\nwriting colleagues were winning all of the accolades. \nMore recently, the Philippines has seen a strong increase in the use of Pilipino among the country’s writers, poets, and literary critics. This resurgence is closely tied \nto two developments: the increasing sense of national identity and pride that accelerated rapid"
+    },
+    {
+      "question": "What is a more complex form of oral tradition that passed on a group's creation myths and social values through tales of the supernatural or heroic deeds?",
+      "answer": "Epic stories",
+      "cultural_golden_answer": "In Filipino culture, epic stories are an essential part of our oral tradition, passing down creation myths, social values, and cherished values through tales of heroes and gods.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Page 61\ntivists. In retrospect many of these socially conscious writers produced some of the best pieces of Filipino literature in the 1930s and 1940s even though their English­\nwriting colleagues were winning all of the accolades. \nMore recently, the Philippines has seen a strong increase in the use of Pilipino among the country’s writers, poets, and literary critics. This resurgence is closely tied \nto two developments: the increasing sense of national identity and pride that accelerated rapid"
+    },
+    {
+      "question": "What was the first Philippine literary form to be printed?",
+      "answer": "Poetry and songs from the pre-colonial oral tradition",
+      "cultural_golden_answer": "Poetry and songs from the pre-colonial oral tradition, which showcase the rich cultural heritage of the Philippines and demonstrate the blending of local traditions with Spanish colonial influences.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 62\nWhile folklore, creation myths, epics, proverbs, and literary forms from the pre­colonial period might at first glance seem obscure, they are still relevant to modern \nPhilippine society and form a literary core that contains the culture’s social beliefs and values. They also provide the basic framework for more than a few \ncontemporary stories, modern dance productions, plays, and poetry that continue to enrich Philippine life. As such, the pre­Hispanic oral tradition is a genuine liter"
+    },
+    {
+      "question": "What is a significant example of how the Pasyon has been used in modern times?",
+      "answer": "In creative writing, such as the pasyon for Patnubay ng Binyagan (Guide for the Baptized) written by Pascual Poblete in 1935",
+      "cultural_golden_answer": "The Pasyon's continued use in modern times highlights its enduring cultural significance and ability to transcend time, providing a framework for contemporary Filipino stories and values.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "Page 62\nWhile folklore, creation myths, epics, proverbs, and literary forms from the pre­colonial period might at first glance seem obscure, they are still relevant to modern \nPhilippine society and form a literary core that contains the culture’s social beliefs and values. They also provide the basic framework for more than a few \ncontemporary stories, modern dance productions, plays, and poetry that continue to enrich Philippine life. As such, the pre­Hispanic oral tradition is a genuine liter"
+    },
+    {
+      "question": "When did a significant break with the literary past occur in the Philippines?",
+      "answer": "The latter decades of the nineteenth century",
+      "cultural_golden_answer": "The latter decades of the nineteenth century marked a significant shift in the Philippine literature, as the colony became drawn into the world's economic system and led to the emergence of Ilustrados who produced a literature of reform.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 63\nthe Iglesia Filipina Independiente (IFI), a nationalist Filipino church created by a nationwide schism from the Roman Catholic Church in 1902. In this work, Poblete \ncompares the pasyon of Jesus Christ to the struggle of the Philippines to gain independence from the United States. Another example from the 1930s is Lino Dizon’s \npasyon, which has Christ as a socialist while peasants are crucified by the vicious hacienda system. A more recent social revolutionary portrayal of Christ is Fra"
+    },
+    {
+      "question": "Who was proficient in using literature for political purposes?",
+      "answer": "Francisco Baltazar, also known as Balagtas",
+      "cultural_golden_answer": "Francisco Baltazar, a prominent Filipino poet and writer, used his literary works to critique the Spanish colonial regime and became a key figure in the Propaganda Movement.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Page 63\nthe Iglesia Filipina Independiente (IFI), a nationalist Filipino church created by a nationwide schism from the Roman Catholic Church in 1902. In this work, Poblete \ncompares the pasyon of Jesus Christ to the struggle of the Philippines to gain independence from the United States. Another example from the 1930s is Lino Dizon’s \npasyon, which has Christ as a socialist while peasants are crucified by the vicious hacienda system. A more recent social revolutionary portrayal of Christ is Fra"
+    },
+    {
+      "question": "Who best epitomized the young Ilustrado group?",
+      "answer": "Jose Rizal",
+      "cultural_golden_answer": "Jose Rizal, who is a celebrated national hero and symbol of Philippine culture, representing the ideals of the Ilustrados in their pursuit of education, literature, and reform.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 64\nJose Rizal best epitomized the young Ilustrado group, and it was he who brought the literary efforts to the greatest height. Although a masterful essayist and poet, \nRizal’s best known works are his novels Noli Me Tangere (Touch Me Not, 1887) and El Filibusterismo (The Subversive, 1891), both of which use realism rather \nthan religious or folk allegory.17  \nIn the first novel, the young hero Crisostomo Ibarra returns home from Europe filled with hope of serving his people as a school tea"
+    },
+    {
+      "question": "What was a significant result of adopting the language of the colonizer in Philippine literature?",
+      "answer": "Creation of a modern national consciousness",
+      "cultural_golden_answer": "The creation of a modern national consciousness, which transcended regional and dialectical differences and helped forge a unified Filipino identity through literature.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Page 64\nJose Rizal best epitomized the young Ilustrado group, and it was he who brought the literary efforts to the greatest height. Although a masterful essayist and poet, \nRizal’s best known works are his novels Noli Me Tangere (Touch Me Not, 1887) and El Filibusterismo (The Subversive, 1891), both of which use realism rather \nthan religious or folk allegory.17  \nIn the first novel, the young hero Crisostomo Ibarra returns home from Europe filled with hope of serving his people as a school tea"
+    },
+    {
+      "question": "What was the language used by the 'old rich' during the American era?",
+      "answer": "Spanish",
+      "cultural_golden_answer": "Spanish, which reflects the enduring legacy of Spanish colonialism in the Philippines and its continued use as a symbol of prestige among the elite.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "Page 65\nFrom American Conquest to 1960 \nDespite the American emphasis on education in English and the rapid construction of schools during the first decades of the American regime, Spanish continued to be \nused in government, academia, and business circles and was considered the prestige language of the “old rich.” This section begins with the American occupation when \nEnglish was first introduced, but carries its discussion beyond the Second World War and into the independence period, since the"
+    },
+    {
+      "question": "Who were some notable Filipino writers during the American era?",
+      "answer": "Fernando Maria Guerrero, Jesus Balmori, Jose Garcia Villa, and Claro M. Recto",
+      "cultural_golden_answer": "These writers, along with others mentioned in the passage, represent a generation of Filipino intellectuals who navigated the complexities of colonialism, nationalism, and cultural identity through their work.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "Page 65\nFrom American Conquest to 1960 \nDespite the American emphasis on education in English and the rapid construction of schools during the first decades of the American regime, Spanish continued to be \nused in government, academia, and business circles and was considered the prestige language of the “old rich.” This section begins with the American occupation when \nEnglish was first introduced, but carries its discussion beyond the Second World War and into the independence period, since the"
+    },
+    {
+      "question": "Who were some notable writers associated with the University of the Philippines?",
+      "answer": "These talented writers, many of whom were associated with the University of the Philippines, included essayist Salvador P. Lopez and short story authors Arturo Rotor and Manuel Arguilla.",
+      "cultural_golden_answer": "Salvador P. Lopez, Arturo Rotor, and Manuel Arguilla, who represented a new wave of writers emerging from the University of the Philippines, bringing a socially responsible approach to Filipino literature in English.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 66\ntural alienation while working in a foreign language.20 Meanwhile, other writers in English sought a more socially responsible art. These talented writers, many of whom \nwere associated with the University of the Philippines, included essayist Salvador P. Lopez and short story authors Arturo Rotor and Manuel Arguilla. By 1939, the \nPhilippine Writers’ Club declared the need for the writer to join in the struggle against social injustice and oppression. Especially important in this moveme"
+    },
+    {
+      "question": "What was a notable literary work that showcased the mastery of English by Filipino writers?",
+      "answer": "His Native Soil (1940) and The Winds of April (1940),",
+      "cultural_golden_answer": "Juan Laya's His Native Soil (1940) and N.V.M. Gonzalez's The Winds of April (1940), which marked a significant milestone in the development of the Filipino novel in English, demonstrating the writers' ability to internalize and master the language.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Page 66\ntural alienation while working in a foreign language.20 Meanwhile, other writers in English sought a more socially responsible art. These talented writers, many of whom \nwere associated with the University of the Philippines, included essayist Salvador P. Lopez and short story authors Arturo Rotor and Manuel Arguilla. By 1939, the \nPhilippine Writers’ Club declared the need for the writer to join in the struggle against social injustice and oppression. Especially important in this moveme"
+    },
+    {
+      "question": "In what decade did the growth of vernacular literature, especially in Tagalog, gain momentum?",
+      "answer": "The 1930s",
+      "cultural_golden_answer": "The 1930s, a pivotal time for Filipino nationalism and literary development, marked the establishment of the Philippine film industry and the significant rise of vernacular writers, further fueled by the anticipation of an eventual break from American rule.",
+      "cultural_relevance": 1.0,
+      "chunk_index": 17,
+      "context": "Page 67\na secondary foreign language to the vast majority of the Filipino people, and the innermost thoughts and longings of a people will always be best expressed in the native \ntongue. The utility of the vernacular was especially important for the socially committed writer who sought to address the basic issues and concerns of the average \nFilipino. The use of Pilipino was intimately linked to nationalism, especially in the face of the American cultural onslaught. Even during the American colo"
+    },
+    {
+      "question": "Who was one of the prolific Tagalog poets producing a number of volumes during this time?",
+      "answer": "Jose Corazon de Jesus",
+      "cultural_golden_answer": "Jose Corazon de Jesus, an esteemed figure in Filipino literature, whose beautiful nationalist hymn 'Bayan Ko' exemplifies the impact of vernacular writing on the nation's cultural heritage.",
+      "cultural_relevance": 1.0,
+      "chunk_index": 17,
+      "context": "Page 67\na secondary foreign language to the vast majority of the Filipino people, and the innermost thoughts and longings of a people will always be best expressed in the native \ntongue. The utility of the vernacular was especially important for the socially committed writer who sought to address the basic issues and concerns of the average \nFilipino. The use of Pilipino was intimately linked to nationalism, especially in the face of the American cultural onslaught. Even during the American colo"
+    },
+    {
+      "question": "Who was considered the 'Father of the Tagalog novel'?",
+      "answer": "Lope K. Santos",
+      "cultural_golden_answer": "Lope K. Santos, a pioneering figure in Filipino literature who laid the groundwork for vernacular writing and paved the way for social realism in Philippine literature.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 68\nEnglish began to experiment with their native languages. With the prewar development of a solid base, vernacular literature held its own during the immediate postwar \nperiod, when the use of English returned and reached its apex. \nIn the early American period, the most notable contributor of the vernacular writers was Lope K. Santos, the “Father of the Tagalog novel.” Santos not only \ndeveloped that language’s literature, but he provided a bridge between the romanticism of the Spanish er"
+    },
+    {
+      "question": "What notable event affected the life of Amado V. Hernandez?",
+      "answer": "His arrest and charge with rebellion",
+      "cultural_golden_answer": "Amado V. Hernandez's imprisonment for his labor activism highlights the struggles faced by Filipino writers who dared to speak out against social injustices, underscoring the importance of literary expression as a tool for social change.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Page 68\nEnglish began to experiment with their native languages. With the prewar development of a solid base, vernacular literature held its own during the immediate postwar \nperiod, when the use of English returned and reached its apex. \nIn the early American period, the most notable contributor of the vernacular writers was Lope K. Santos, the “Father of the Tagalog novel.” Santos not only \ndeveloped that language’s literature, but he provided a bridge between the romanticism of the Spanish er"
+    },
+    {
+      "question": "What was the period of contemporary Philippine literature said to have begun?",
+      "answer": "The 1960s",
+      "cultural_golden_answer": "The 1960s, a significant decade in Philippine history marked by social activism and literary experimentation, which saw the emergence of new writers and literary movements that reflected the country's growing need for change and self-expression.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "Page 69\nContemporary Literature: From the 1960s \nAlthough precise dating is difficult, the contemporary period of Philippine literature can be said to have begun in the 1960s during the rule of President Ferdinand \nMarcos. In keeping with its oral and poetic origins, the contemporary period was initiated by poets who wrote in Tagalog, but who are equally versatile in English. \nAdditionally, some younger writers began to experiment with Taglish, a hip urban mixing of English and Tagalog that give"
+    },
+    {
+      "question": "What was one of the key influences on the Philippine literary scene in the early 1960s?",
+      "answer": "European existentialism",
+      "cultural_golden_answer": "European existentialism, which allowed writers to break with existing formalism and find shelter from the threatening real world, a philosophical trend that resonated with Filipino writers seeking new ways to express themselves and their society's struggles.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "Page 69\nContemporary Literature: From the 1960s \nAlthough precise dating is difficult, the contemporary period of Philippine literature can be said to have begun in the 1960s during the rule of President Ferdinand \nMarcos. In keeping with its oral and poetic origins, the contemporary period was initiated by poets who wrote in Tagalog, but who are equally versatile in English. \nAdditionally, some younger writers began to experiment with Taglish, a hip urban mixing of English and Tagalog that give"
+    },
+    {
+      "question": "When did the imposition of martial law occur?",
+      "answer": "September 1972",
+      "cultural_golden_answer": "The imposition of martial law in September 1972 marked a pivotal moment in Philippine history, as it led to the suppression of 'committed' writing and the emergence of underground literary works that became an important aspect of Filipino resistance literature.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 20,
+      "context": "Page 70\n1979; Mass, 1982; and Po­on [Dusk], 1984). Each of the novels is set in Jose’s hometown of Rosales, Pangasinan, and confront issues of national identity and the \nexploitation of one Filipino by another. Jose’s work is a true saga, taking a family through the turmoil of history such that they are sometimes even torn from each other \nas even brother exploits brother while fighting oppression and landlordism. Despite the trials the family is put through, there is a theme of social justice a"
+    },
+    {
+      "question": "What was the outcome of the 'People Power' movement?",
+      "answer": "The Marcos regime was overthrown in 1986",
+      "cultural_golden_answer": "The 'People Power' movement, which culminated in the overthrow of the Marcos regime in 1986, is a testament to the resilience and determination of the Filipino people to fight for their rights and freedoms, echoing the country's rich history of struggle for democracy and social justice.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 20,
+      "context": "Page 70\n1979; Mass, 1982; and Po­on [Dusk], 1984). Each of the novels is set in Jose’s hometown of Rosales, Pangasinan, and confront issues of national identity and the \nexploitation of one Filipino by another. Jose’s work is a true saga, taking a family through the turmoil of history such that they are sometimes even torn from each other \nas even brother exploits brother while fighting oppression and landlordism. Despite the trials the family is put through, there is a theme of social justice a"
+    },
+    {
+      "question": "In what year was the National Commission for Culture and the Arts founded?",
+      "answer": "1992",
+      "cultural_golden_answer": "The National Commission for Culture and the Arts, which promotes a national literature, was founded in 1992. This marked an important step towards recognizing the value of arts and culture in Filipino society.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 21,
+      "context": "Page 71\nWhat is remarkable about this continued social interest is that the single focus of the Marcos regime that had united writers before 1986 no longer exists. So, while \nindividual writers have moved on to pursue personal interests, especially the growth of a true feminist literature, as an intellectual group they continue to share a broad \nsocial concern. Supplementing the creative writing programs and workshops of the nation’s premier universities has been the National Commission for Cult"
+    },
+    {
+      "question": "Which authors are considered influential in contemporary Philippine poetry?",
+      "answer": "Virgilio Almario, Jose F. Lacaba, Cirilo Bautista, and Alfrredo N. Salanga",
+      "cultural_golden_answer": "These poets, including Virgilio Almario, the voice of contemporary Tagalog poetry, and others like Jose F. Lacaba, who writes in the idiom of the common people, have made significant contributions to Philippine poetry, reflecting the country's rich literary heritage.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 21,
+      "context": "Page 71\nWhat is remarkable about this continued social interest is that the single focus of the Marcos regime that had united writers before 1986 no longer exists. So, while \nindividual writers have moved on to pursue personal interests, especially the growth of a true feminist literature, as an intellectual group they continue to share a broad \nsocial concern. Supplementing the creative writing programs and workshops of the nation’s premier universities has been the National Commission for Cult"
+    },
+    {
+      "question": "What was a significant literary movement that emerged after the Marcos era?",
+      "answer": "Marxist activists' writings, specifically Gelacio Guillermo's Ang Panitikan ng Pambansang Demokrasya (1990)",
+      "cultural_golden_answer": "The emergence of Marxist activism in literature reflects the country's experience with authoritarian rule and its struggle for democracy. Gelacio Guillermo's work, Ang Panitikan ng Pambansang Demokrasya, is a landmark text that signifies the shift towards democratic ideals.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 22,
+      "context": "Page 72\nliterature in the post­martial law age with the strongest contender being the Marxist activists from the Marcos era. Within this recent tradition are Gelacio Guillermo’s \nAng Panitikan ng Pambansang Demokrasya (1990), Alice Guillermo’s Images of Change (1988), and Elmer Ordonez’s The Other View (1989). Meanwhile, still \nother academic writers have put forward new alternatives for the study of Philippine literature that include post­structuralist and post­colonial approaches such as \nCris"
+    },
+    {
+      "question": "What type of literature has been gaining importance since the restoration of democratic government in 1986?",
+      "answer": "Women's writing",
+      "cultural_golden_answer": "The rise of women's writing is a significant development in Philippine literature, reflecting the country's growing focus on feminist ideals and the empowerment of marginalized voices. This movement has given platform to writers like Joi Barrios and Ruth Elynia S. Mabanglo, who have made important contributions to the literary landscape.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 22,
+      "context": "Page 72\nliterature in the post­martial law age with the strongest contender being the Marxist activists from the Marcos era. Within this recent tradition are Gelacio Guillermo’s \nAng Panitikan ng Pambansang Demokrasya (1990), Alice Guillermo’s Images of Change (1988), and Elmer Ordonez’s The Other View (1989). Meanwhile, still \nother academic writers have put forward new alternatives for the study of Philippine literature that include post­structuralist and post­colonial approaches such as \nCris"
+    },
+    {
+      "question": "What is one of the primary uses of komiks?",
+      "answer": "Entertainment",
+      "cultural_golden_answer": "Entertainment, which reflects the Filipino culture's emphasis on storytelling and communal enjoyment.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 23,
+      "context": "Page 73\nBy far the most frequent use of the komiks is for entertainment. The use of detailed graphics and simple dialogue in captions and dialogue balloons allows even those \nwith a minimal reading ability to follow the stories of their heroes. Even when a part of other magazines, such as Liwayway, the komiks developed their own stable of \nstock characters and situations. Sometimes these were modeled on American models, but they also included the barrio doctor and the local Chinese merchant. The"
+    },
+    {
+      "question": "How do female characters in komiks often contribute to social values and behavior?",
+      "answer": "They are represented rather strongly, but often associated with the supernatural",
+      "cultural_golden_answer": "Through their empowerment in love story komiks, where they rise above tyrannical lovers, unreasonable family demands, and exacting parents, delivering powerful messages of esteemed social values and behavior.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 23,
+      "context": "Page 73\nBy far the most frequent use of the komiks is for entertainment. The use of detailed graphics and simple dialogue in captions and dialogue balloons allows even those \nwith a minimal reading ability to follow the stories of their heroes. Even when a part of other magazines, such as Liwayway, the komiks developed their own stable of \nstock characters and situations. Sometimes these were modeled on American models, but they also included the barrio doctor and the local Chinese merchant. The"
+    },
+    {
+      "question": "What is the title of the pamphlet written by Alice G. Guillermo in 1989?",
+      "answer": "Sining Biswal: An Essay on Philippine Visual Arts",
+      "cultural_golden_answer": "Sining Biswal: An Essay on Philippine Visual Arts, a seminal work that explores the rich cultural heritage of Filipino visual arts, reflecting the country's unique blend of Spanish and indigenous influences.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 24,
+      "context": "Page 74\nliterature will continue to evolve such that the outsider will recognize its basic forms but will puzzle over the style and content, but these will make perfect sense to the \nFilipino literary consumer. \nNOTES \n1.   This discussion relies heavily on David Baradas ’s pamphlet, Sining Biswal: An Essay on Philippine Ethnic Visual Arts  (Manila: Cultural Center of the Philippines, 1992). Three \nyears earlier, Alice G. Guillermo also wrote the pamphlet Sining Biswal: An Essay on Philippine Vi"
+    },
+    {
+      "question": "What is one of the main concepts discussed in the passage?",
+      "answer": "The evolution of literature",
+      "cultural_golden_answer": "The evolution of literature, a significant theme in Philippine culture that reflects the nation's struggle for identity and expression amidst colonial influences and cultural syncretism.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 24,
+      "context": "Page 74\nliterature will continue to evolve such that the outsider will recognize its basic forms but will puzzle over the style and content, but these will make perfect sense to the \nFilipino literary consumer. \nNOTES \n1.   This discussion relies heavily on David Baradas ’s pamphlet, Sining Biswal: An Essay on Philippine Ethnic Visual Arts  (Manila: Cultural Center of the Philippines, 1992). Three \nyears earlier, Alice G. Guillermo also wrote the pamphlet Sining Biswal: An Essay on Philippine Vi"
+    },
+    {
+      "question": "Who wrote 'The Bread of Salt and Other Stories'?",
+      "answer": "N.V.M. Gonzalez",
+      "cultural_golden_answer": "N.V.M. Gonzalez, a notable Filipino author known for his contributions to Philippine literature, published 'The Bread of Salt and Other Stories' in 1993.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 25,
+      "context": "Page 75\n16.  Lumbera, 9–12.  \n17.  Polo, 29–33.  \n18.  Jose Rizal, Noli Me Tangere, trans. Ma. Soledad Lacson ­Locsin (Honolulu: University of Hawai’i Press, 1997) and El Filibusterismo , trans. Ma. Soledad LacsonLocsin (Makati, \nMetro Manila: Bookmark, Inc.). \n19.  See Rodney J. Sullivan, Exemplar of Americanism: The Philippine Career of Dean C. Worcester  (Ann Arbor: Center for South and Southeast Asian Studies, University of \nMichigan, 1991) for a biography of the man who brought the case, an"
+    },
+    {
+      "question": "What is the name of the collection that includes selected writings by Carlos Bulosan?",
+      "answer": "On Becoming Filipino: Selected Writings of Carlos Bulosan",
+      "cultural_golden_answer": "On Becoming Filipino: Selected Writings of Carlos Bulosan, a collection edited by E. San Juan, Jr., highlights the life and works of Carlos Bulosan, an iconic figure in Philippine literature who wrote about the Filipino experience.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 25,
+      "context": "Page 75\n16.  Lumbera, 9–12.  \n17.  Polo, 29–33.  \n18.  Jose Rizal, Noli Me Tangere, trans. Ma. Soledad Lacson ­Locsin (Honolulu: University of Hawai’i Press, 1997) and El Filibusterismo , trans. Ma. Soledad LacsonLocsin (Makati, \nMetro Manila: Bookmark, Inc.). \n19.  See Rodney J. Sullivan, Exemplar of Americanism: The Philippine Career of Dean C. Worcester  (Ann Arbor: Center for South and Southeast Asian Studies, University of \nMichigan, 1991) for a biography of the man who brought the case, an"
+    },
+    {
+      "question": "Who are some prominent new writers in English writing about Philippine culture?",
+      "answer": "Alfred Yuson, Jose Y. Dalisay Jr., Eric Gamalinda",
+      "cultural_golden_answer": "These prominent writers, along with others mentioned, represent a shift towards new voices and perspectives in the literary landscape of the Philippines, reflecting the country's complex history and cultural identity.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 26,
+      "context": "Page 76\nSUGGESTED READINGS \nCarbo, Nick. Returning a Borrowed Tongue: An Anthology of Filipino and Filipino American Poetry. Minneapolis, MN: Coffee House Press, 1995. \nCasal, Fr. Gabriel, et al. The People and Art of the Philippines. Los Angeles: University of California at Los Angeles, Museum of Cultural History, 1981. \nGuillermo, Alice G. “The Evolution of Philippine Art,” in Southeast Asian Art Today. ed. Joyce van Fenema. ed., Singapore: Roeder Publications, 1996, 118–163.  \nOrdonez, Elmer "
+    },
+    {
+      "question": "What is one example of a book that examines Philippine art and culture?",
+      "answer": "Guillermo, Alice G. 'The Evolution of Philippine Art', in Southeast Asian Art Today",
+      "cultural_golden_answer": "This anthology showcases the evolution of Philippine art, highlighting its unique cultural significance and contributions to the broader regional context.",
+      "cultural_relevance": 0.9,
+      "chunk_index": 26,
+      "context": "Page 76\nSUGGESTED READINGS \nCarbo, Nick. Returning a Borrowed Tongue: An Anthology of Filipino and Filipino American Poetry. Minneapolis, MN: Coffee House Press, 1995. \nCasal, Fr. Gabriel, et al. The People and Art of the Philippines. Los Angeles: University of California at Los Angeles, Museum of Cultural History, 1981. \nGuillermo, Alice G. “The Evolution of Philippine Art,” in Southeast Asian Art Today. ed. Joyce van Fenema. ed., Singapore: Roeder Publications, 1996, 118–163.  \nOrdonez, Elmer "
+    }
+  ]
+}

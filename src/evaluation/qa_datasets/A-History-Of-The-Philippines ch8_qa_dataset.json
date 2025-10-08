@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\A-History-Of-The-Philippines ch8.pdf",
+    "total_chunks": 17,
+    "total_qa_pairs": 17,
+    "chunk_size": 7000,
+    "chunk_overlap": 1400,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Paano nilinanglo ni Pangulong Benigno Aquino III ang korupsyon sa Pilipinas?",
+      "answer": "Dinala niya ang impeachment case laban kay Chief Justice Renato Corona, at naglabas ng mga batas upang mapigilan ang korapsiyon",
+      "cultural_golden_answer": "Nagpakahirap na isulong ni Pangulong Aquino III ang kampanya kontra-korupsyon sa Pilipinas, isang mahalaga sa kultura ng Pagbabago at Pakikidigma ng bayan laban sa korapsiyon",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "AFTERWORD\nA\ns\t\nexpected,\tBenigno\tSimeon\tAquino\tIII\twon\tthe\tpresidential\telections\theld\tin\nMay\t2010,\tbeginning\ta\tsix-year\tone-term\tpresidency.\tWhat\twas\tsurprising\twas\nthe\tcandidacy\tof\tdisgraced\tfelon\tformer\tpresident\tJoseph\t“Erap”\tEstrada,\twho\nwas\tforced\tout\tin\tearly\t2001,\tand\twas\tsucceeded\tby\this\tthen\tvice-president,\nGloria\tMacapagal\tArroyo.\tRunning\tagain\tfor\tthe\thighest\toffice\tin\tthe\tland,\ndespite\ta\tpledge\tnot\tto\tdo\tso—a\tcondition\tfor\this\tpresidential\tpardon\tin\t2007—\nEstrada\tplaced\tsecond,\tin\ta"
+    },
+    {
+      "question": "In what year did a scandal over the misuse of pork barrel funds break out?",
+      "answer": "2013",
+      "cultural_golden_answer": "The 'pork barrel' scandal in 2013, which involved allegations of corruption among government officials and lawmakers, is a significant example of the ongoing struggle against graft and malversation in Philippine politics. This controversy highlights the need for greater transparency and accountability in governance.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "directly\trefer\tto\tis\toutright\tsmuggling,\twhere\tno\tduties\tat\tall\tare\tpaid.\tGoods\tare\nbrought\tsurreptitiously\tinto\tthe\tcountry,\teither\tthrough\tSulu\tin\tthe\tsouth,\twhere\nthe\tborders\twith\tBorneo\tare\tquite\tporous,\tor\tfurther\tnorth,\toff\tthe\twaters\tof\nIlocos\tNorte.\tBecause\tsmuggled\tgoods\toffer\tunfair\tcompetition\tto\tdomestic\nindustries,\t many\t labor-intensive\t industries\t such\t as\t garments\t and\t textiles,\nfootwear\tand\tfurniture\thave\tclosed\tshop.\tSmuggling\thas\teven\texpanded\tto\ninclude\trice,\tthreatening\tt"
+    },
+    {
+      "question": "Saan ito nangyari ang pakikipag-ugnay ng gobyerno at MILF?",
+      "answer": "Mindanao",
+      "cultural_golden_answer": "Ang pakikipag-ugnay na ito ay isang mahalagangkahulungan sa panahon ng mga rebolusyonaryong Islamist at lumilitaw rin ang paglala ng problema ng sekeresiyal ng bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "been\tand\tstill\tare\tspotty.\tThe\toverriding\temphasis\tis\ton\tfree-market,\tneo-liberal\neconomic\tpolicies,\twhere\tthe\tstate\tlimits\tits\trole\tto\tsetting\tand\tenforcing\tthe\nrules,\t e.g.\t no\t unfair\t competition.\t It\t is\t an\t economic\t philosophy\t that\t argues\nagainst\tstate\tintervention,\teven\tto\tsave\tkey\tbut\tailing\tindustries.\nThe\tgovernment’s\town\tPhilippine\tDevelopment\tPlan,\t2011-2016,\tissued\tby\nthe\tNational\tEconomic\tand\tDevelopment\tAuthority,\tbarely\tadvocates\tfor\tstate\nindustrial\tpolicy.\tStill,\ta\tmore\tact"
+    },
+    {
+      "question": "What is the name of the group that seeks to supplant the national government with one aligned with its philosophy?",
+      "answer": "The New People's Army (NPA)",
+      "cultural_golden_answer": "The New People's Army, a communist-led insurgency movement in the Philippines, has been waging a decades-long struggle for social change and reform, echoing the Filipino people's long history of resistance against colonial powers.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "The\t MNLF\t seems\t to\t have\t also\t been\t involved\t in\t an\t incursion\t into\nneighboring\tMalaysia.\tIn\tearly\tFebruary\tof\t2013,\tabout\t200\tarmed\tfollowers\tof\nthe\tSultan\tof\tSulu,\tJamalul\tKiram\tIII,\tlanded\ton\tEastern\tSabah,\ton\tthe\tisland\tof\nBorneo,\ta\tprovince\tcontrolled\tby\tMalaysia\tbut\tone\tstill\ttechnically\tunder\tthe\npurview\tof\tthe\tsultanate,\twhich\tbills\titself\tas\tthe\tRoyal\tSultanate\tof\tSulu\tand\nNorth\tBorneo.\tUntil\ta\tlease\tdeal\twith\tthe\tBritish\tin\t1878,\tSabah\twas\tunder\tthe\ndirect\t rule\t of\t the\t sultan."
+    },
+    {
+      "question": "Paano nilinanglo ng Pilipinas ang pag-atake ng Tsina sa teritoryo nito?",
+      "answer": "Sa pamamagitan ng Association of Southeast Nations (ASEAN) at ng United Nations (UN)",
+      "cultural_golden_answer": "Sa pamamagitan ng ASEAN at UN, na may kaugnayan rin sa pakikibaka ng Pilipinas para sa pambansang pagkakapantay-pantay at karapatan sa lupa nito, batay sa kasaysayan ng mga rebolusyonaryong lider tulad ni Emilio Aguinaldo na umani ng pag-ibayong pagpupugay sa bayan ng Pilipinas",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "could\tbe\tset\tup\tthrough\tthe\tAssociation\tof\tSoutheast\tNations\t(ASEAN),\tmany\tof\nwhose\tmembers\talso\thave\tclaims\tover\tthe\tsame\tarea.\n\nThe\tmap\tabove\tshows\tthe\tChinese\tgovernment’s\tclaim\tto\tthe\tSouth\tChina\tSea,\nwith\tnine\tunconnected\tdashes\tmarking\tthe\touter\tlimits\tof\tits\tterritory.\n\nThe\tPhilippine\tgovernment\thopes\tboth\tpublic\tpressure\tand\ta\tfavorable\tUN\nruling\t will\t mitigate\t the\t overriding\t military\t muscle\t of\t China.\t The\t Aquino\nadministration\tis\talso\trelying\ton\tthe\tmutual\tdefense\ttreaty\tbetween"
+    },
+    {
+      "question": "What was the period of time covered by Janet Abu-Lughod's book 'Before European Hegemony'?",
+      "answer": "A.D. 1250-1350",
+      "cultural_golden_answer": "This period, A.D. 1250-1350, marks a significant era in Philippine history before European colonization, highlighting the rich cultural and trade exchanges that took place between Southeast Asian societies during this time.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "REFERENCES\nC\nHAPTER\n\t1.\nAbu-Lughod,\tJanet.\t\nBefore\tEuropean\tHegemony:\tThe\tWorld\tSystem\tA.D.\t1250-\n1350.\n\tNew\tYork:\tOxford\tUniversity\tPress,\t1989.\nBergreen,\tLaurence.\t\nOver\tthe\tEdge\tof\tthe\tWorld\n.\tNew\tYork:\tWilliam\tMorrow,\n2003.\nBlair,\tHelen\tEmma,\tand\tRobertson,\tJames\tAlexander.\t\nThe\tPhilippine\tIslands,\n1493-1898\n.\tWith\tadditional\thistorical\tnotes\tby\tEdward\tGaylord\tBourne.\nVolume\tIII,\t1569-1576;\tVolume\tXII,\t1601-1604;\tVolume\tXIII,\t1604-1605;\nand\tVolume\tXXXIII,\t1519-1522.\tCleveland,\tOhio:\tThe\tArth"
+    },
+    {
+      "question": "Sa anong taon nagsimula ang pagpapanumbalik ng demokrasya sa Pilipinas?",
+      "answer": "1986",
+      "cultural_golden_answer": "Ang taunang 1986, na tumaas sa kasaysayan bilang ang EDSA Revolution, ay nagbigay-daan sa mga Pilipino upang makabuo ng mas malakas at mas maunlad na demokrasya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "Bulosan,\tCarlos.\t\nAmerica\tIs\tin\tthe\tHeart\n.\tIntroduction\tby\tCarey\tMcWilliams.\nSeattle\tand\tLondon:\tUniversity\tof\tWashington\tPress,\t2003.\nConnaughton,\tRichard.\t\nMacArthur\tand\tDefeat\tin\tthe\tPhilippines\n.\tNew\tYork:\nThe\tOverlook\tPress,\t2001.\nConstantino,\tRenato.\t\nThe\tMiseducation\tof\tthe\tFilipino\n.\tQuezon\tCity:\tFoundation\nfor\tNationalist\tStudies,\t1982.\n———.\t\nThe\tPhilippines:\tThe\tContinuing\tPast\n.\tVol.\tII.\tQuezon\tCity:\tFoundation\nfor\tNationalist\tStudies,\t1978.\nFriend,\t Theodore.\t\nBetween\t Two\t Empires\n"
+    },
+    {
+      "question": "What type of indigenous groups are known as Aeta, also referred to as Agta, Ita, Ati, and Negritos?",
+      "answer": "Indigenous groups characterized by short stature, dark pigmentation, and curly or kinky hair",
+      "cultural_golden_answer": "These groups are descendants from the Australoids, one of two discrete movements of people that over time dispersed through Southeast Asia.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "CO:\tWestview\tPress,\t2000.\nA\nRTICLES\nAbola,\tVictor\tA.\t“Source\tof\tLeakages\tin\tBOC\tCollections.”\tPaper,\tMarch\t2004.\nManila:\tCenter\tfor\tResearch\tand\tCommunications,\tUniversity\tof\tAsia\tand\nthe\tPacific.\nBacalla,\tTess.\t“BIR\tOfficials\tAmass\tUnexplained\tWealth.”\tMay\t12-14,\t2003.\nManila:\t Philippine\t Center\t for\t Investigative\t Journalism,\nhttp://www.pcij.org/stories/2003/bir.html\nBurgonio,\t T.\t J.\t\n“Hyatt\t 10\t Marks\t 4th,\t Prays\t for\t Last\t Anniversary.”\t\nThe\nPhilippine\tDaily\tInquirer\n,\tJuly\t7,\t2009.\nCon"
+    },
+    {
+      "question": "Ano ang kahalagahan ng Bayanihan sa kultura ng Pilipinas?",
+      "answer": "Bayanihan ay tumutukoy sa tradisyon ng pakikipagtulungan at pagtutulungan",
+      "cultural_golden_answer": "Ang Bayanihan ay isang mahalagang katangian ng kultura ng Pilipino, na nagpapahiwatig ng kahalagahan ng samahan at pagtutulungan sa kapwa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "strong\tas\tfamily\tties.\nBatasan\tPambansa.\n\tNational\tAssembly\tthat\treplaced\tthe\tbicameral\tCongress\nunder\tthe\tmartial\tlaw\tregime\tof\tFerdinand\tand\tImelda\tMarcos.\nBathala\tMay\tKapal\n.\tThe\tsupreme\tdeity\tfor\tthe\tTagalogs;\tfrom\tthe\tSanskrit\tword\nBatthara\n,\tmeaning\tnoble\tlord;\tcomparable\tto\tLaon\tfor\tthe\tVisayans\tand\nKabunian\tfor\tthe\tIgorots.\nBayan\n.\tCountry\tor\tnation\tor\ttown.\nBayani.\n\tHero\tor\theroine.\nBayanihan\n.\tCommunal\tsolidarity;\tthe\ttradition\tof\tshared\tlabor.\nBaybayin\n.\tThe\tnative\tscript,\tinfluenced\t"
+    },
+    {
+      "question": "What is the term for a type of animist spirit in Filipino culture?",
+      "answer": "Nono",
+      "cultural_golden_answer": "In Filipino culture, Nono or Nuno refers to an animist spirit that plays a significant role in the spiritual beliefs and practices of various ethnic groups in the Philippines. The concept of Nono is deeply rooted in the indigenous animistic traditions of the country.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "West\tCoast\tstarting\tin\t1906.\nMa-Yi\n.\tThe\tChinese\tname\tfor\tthe\tisland\tof\tMindoro\tand\tby\textension\tfor\tthe\nPhilippines.\nMumbaki\n.\tShaman;\tthe\tIgorot\tcounterpart\tof\tthe\tVisayan\t\nbabaylan\n\t and\t the\nTagalog\t\nKatolonan\n.\nNamamahay\n.\t“One\twho\tkeeps\thouse”;\ta\ttype\tof\t\nalipin\n,\tor\tslave,\twho\thad\this\tor\nher\town\thouse\tbut\tcould\tbe\tcalled\tupon\tto\tserve\tthe\tmaster\tto\tpay\toff\ta\tdebt.\nNayon\n.\tBarrio\tor\thamlet,\toutside\ttown;\tduring\tthe\tSpanish\tcolonial\tera,\treferred\nto\tsmall\tgroups\tof\tinhabitants\twho\tlived\tin\t"
+    },
+    {
+      "question": "Saan mula ang katutubong lipunan ng mga Pilipino?",
+      "answer": "Pre-Hispanic",
+      "cultural_golden_answer": "Ang pre-Hispanic na lipunan ng mga Pilipino ay hinubdan sa katutubong pagbabago at kasaysayan, kung saan ang mga bayanihan at komunidad ay may malalim na kahalagahan sa kanilang kultura.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "gave\tthe\tSpanish\tmonarch\tand\tcolonial\tauthorities\tpower\tover\tthe\tclergy\nand\tchurches\tin\tSpanish\tcolonies.\nPensionados\n.\tPensioners;\tFilipino\tscholars\tdrawn\tmostly\tfrom\tmiddle-\tto\tupper-\nmiddle-class\tfamilies\tsent\tto\tearn\tuniversity\tdegrees\tin\tthe\tUnited\tStates\nunder\ta\tprogram\tset\tup\tin\t1903.\tThe\tpensionados\tin\tturn\twere\trequired\tto\nreturn\tand\twork\tas\tcivil\tservants\tfor\tthe\tcolonial\tgovernment.\nPeninsulares\n.\tSpaniards\tliving\tin\tthe\tPhilippines\twho\twere\tborn\tin\tSpain,\tas\ndistinguished\tfrom\tthe\t\nI"
+    },
+    {
+      "question": "Who was the founder of the Katipunan?",
+      "answer": "Bonifacio, Andrés",
+      "cultural_golden_answer": "Andrés Bonifacio, who is revered as a national hero in the Philippines for his role in leading the Philippine Revolution and establishing the Katipunan, a secret society that aimed to drive out Spanish colonial rule.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "Autonomous\tRegion\tof\tMuslim\tMindanao\t(ARMM),\t\n265\n,\t\n293\n,\t\n331\nayuntamientos\n,\t\n122\nazucareras\n,\t\n79\nbabaylan\n,\t\n33\n,\t\n127\nBagong\tAlyansang\tMakabayan,\tthe\tNew\tNationalist\tAlliance,\tor\tBAYAN,\t\n258\nBagong\tBayani\n,\t\n287\nBalabagan,\tSarah,\t\n287\nbalanghai\n,\t\n53\nBaldwin,\tHanson,\t\n212\nBalikatan,\t\n307\nbalintawak,\t\n127\nBanco\tEspañol-Filipino,\t\n81\nBandung\tConference,\t\n211\nbangka\n,\t\n33\nBangsa\tMoro\tLiberation\tOrganization\t(BMLO),\t\n251\nBangsamoro\tBasic\tLaw\t(BBL)\t\n331\nBangsamoro\tJuridical\tEntity,\t\n311\nBank\tof"
+    },
+    {
+      "question": "Paano nagsimula ang pagiging isang mabubuting mamamayan sa Pilipinas?",
+      "answer": "Ang pagbabahagi ng Doctrina Kristiana en Lengua Española y Tagalog (The Christian Catechism) noong 1863",
+      "cultural_golden_answer": "Noong 1863, ang Doctrina Kristiana en Lengua Española at Tagalog ay idinagdag sa pagbabahagi ng mga relihiyosong panitikan, na nakatutok sa papel ng edukasyon at ideya-spreading sa pagbuo ng isang mapayapang lipunan sa Pilipinas. Ang Doctrina ay isang mahalagang hakbang upang bigyang-diin ang karangalan ng wikang Tagalog at pilit na gumawa ng mga tao na mayroon ang isang mas matibay na pagkatao.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "council\tof\tclerics\tin\t1582,\t\n71\nCounter-Intelligence\tCorps\t(CIC),\t\n204\nCPP,\t\n246\n,\t\n263\nCPP/NPA,\t\n246\n–\n47\n,\t\n268\nCrisanto\tEvangelista,\t\n173\ncrony\tcapitalism,\t\n242\n–\n44\n,\t\n76\nCry\tat\tBalintawak,\t\n128\nCultural\tCenter\tof\tthe\tPhilippines\t(CCP),\t\n223\nCustoms\tBureau,\t\n318\ndagdag,\tbawas\n,\t\n304\ndagdag-bawas\n,\t\n257\nDagohoy,\tFrancisco,\t\n84\n–\n86\n;\tDagohoy’s\tRepublic,\t\n84\n–\n86\ndap-ay\n,\t\n35\ndatu\n,\t\n14\n,\t\n22\n,\t\n32\n,\t\n33\nDay,\tCordillera,\t\n240\nde\tJesus,\tGregoria,\t\n132\nde\tla\tCruz,\tApolinario,\t\n105\n–\n12\n,\t\n298\nde"
+    },
+    {
+      "question": "Who was the founder of the Philippine Independent Church?",
+      "answer": "Iglesia Filipina Independiente (IFI)",
+      "cultural_golden_answer": "Iglesia Filipina Independiente (IFI), which symbolizes the Philippines' struggle for independence from foreign control and its quest for self-governance in the Catholic faith",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "Human\trights,\tunder\tMarcos,\t\n239\n–\n41\nHuman\tSecurity\tAct\t(HSA),\t\n316\nHyatt\t\n10\n,\tthe,\t\n306\nIfugao,\t\n34\nIglesia\t\nFilipina\tIndependiente\n\t(the\tPhilippine\tIndependent\tChurch),\tPIC,\t\n159\nIglesia\tni\tKristo\t(INK,\tor\tChurch\tof\tChrist),\t\n298\nIgorot\n,\t\n35\n,\t\n48\nIlagas\n,\t\n249\nIleto,\tReynaldo\t\n(Filipinos\tand\tTheir\tRevolution)\n,\t\n115\nIligan\tIntegrated\tSteel\tMill,\tInc.,\t\n215\nIlocano,\tEl\n,\t\n160\nilustrado\n,\t\n11\n,\t\n12\n,\t\n99\n,\t\n110\n,\t\n112\n,\t\n114\n,\t\n115\n,\t\n164\nImeldific,\t\n237\nIndependence\tDay\tJune\t\n12\n,\t\n218\nInde"
+    },
+    {
+      "question": "Sino ang nagtatag ng Unibersidad ng Pilipinas?",
+      "answer": "Ang mga Kastila, na pinangunahan ni Jose de la Rosa",
+      "cultural_golden_answer": "Nagsimula sa pagtatatag ng mga paaralan ng Katoliko noong panahon ng kapanahunan ng mga Espanyol. Ang Unibersidad ng Pilipinas ay ang pinakalumang unibersidad sa Pilipinas, na naglunsad ng edukasyon at pagtuturo sa bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Manunggul\tJar,\t\n38\n.\t\nSee\talso\n\tTabon\tCave\nMao\tTse-tung,\t\n9\nMarcos,\tdeclaration\tof\tmartial\tlaw,\t\n226\nMarcos,\tFerdinand\tJr.,\t\n323\nMarcos,\tFerdinand,\trenaming\tof\tPhilippines,\t\n10\n;\tbirth,\t\n219\n;\tearly\tyears,\t\n219\n;\nrule\t before\t martial\t law,\t\n219\n–\n226\n;\t martial\t law,\t\n229\n–\n39\n;\t film\t biography,\nIginuhit\tng\tTadhana\n\t(\nDestined\tby\tFate\n),\t\n232\n;\twritings,\t\n232\n;\tincrease\tmilitary\naid\tfrom\tPentagon,\t\n234\n;\tcosts\tof\tmartial\tlaw,\t\n239\n–\n45\n;\tauthenticity\tof\twar\nmedals,\t\n256\n;\t coup\t against,\t\n259\n"
+    },
+    {
+      "question": "When was the Philippine Republic inaugurated?",
+      "answer": "January 23, 1899",
+      "cultural_golden_answer": "The inauguration of the Philippine Republic on January 23, 1899, marked a significant milestone in the country's struggle for independence and self-governance.",
+      "language": "english",
+      "cultural_relevance": 0.95,
+      "chunk_index": 15,
+      "context": "Philippine\tDevelopment\tPlan,\t\n329\nPhilippine\tExecutive\tCommission,\t\n181\nPhilippine\t\nExpeditionary\tForce\tto\tKorea\t(PEFTOK),\t\n196\nPhilippine\tExposition\tof\t1887,\t\n164\nPhilippine\tIndependence\tLeague,\t\n162\nPhilippine\tJaycees,\t\n210\n–\n11\nPhilippine\tNational\tPolice,\t\n291\nPhilippine\tPenal\tCode,\t\n330\nPhilippine\tProgress\tLeague,\t\n162\nPhilippine\tRehabilitation\tAct\t(PRA),\t\n201\n,\t\n202\nPhilippine\tRepublic,\tinaugurated\tof\tin\tJanuary\t\n23\n,\t1899,\t\n143\nPhilippine\tRevolution\tof\t1896,\t\n123\n,\t\n139\nPhilippine\tRural\tRe"
+    },
+    {
+      "question": "Ano ang tawag sa kapangyarian ng pagiging saligan o panlalaitan sa isang kaganapan?",
+      "answer": "utang na loob",
+      "cultural_golden_answer": "Ang utang na loob ay isang mahalagang konsepto sa Pilipinas, na tumutukoy sa pakikisama at pagtutulungan. Sa panitnian ng Filipino, nagsasabing ang tao'y may utang na loob kung paano siya nakatulong o nagtaguyod sa iba.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "Smith,\tJacob,\t\n154\nSmith,\tJames,\t\n167\nSnap\tElections,\t\n255\nSobero,\tGuillermo,\t\n292\nSocial\tWeather\tSurvey\t(SWS),\t\n328\nSocialist\tParty\tof\tthe\tPhilippines,\t\n173\nSolarz,\tStephen,\t\n254\n,\t\n259\nsoldiers’\tletters\thome,\t\n152\nSolheim,\t\nWilhelm\tG.\tII,\t\n26\n,\t\n37\nSolidaridad,\tLa\n,\t\n116\n–\n20\n,\t\n25\nSotto,\tTito,\t\n299\nSoutheast\tAsia\tTreaty\tOrganization\t(Manila\tPact)\tSEATO,\t\n209\nSpanish\tArmada,\t\n57\nSpanish\trevolution\tof\t1868,\t\n105\nSpanish-American\tWar,\t\n10\n,\t\n137\n–\n44\n,\t\n145\nSpecial\tAllotment\tRelease\tOrders\t(SARO"
+    }
+  ]
+}

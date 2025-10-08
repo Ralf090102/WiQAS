@@ -1,0 +1,374 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Filipino-Politics-Ch4.pdf",
+    "total_chunks": 20,
+    "total_qa_pairs": 40,
+    "chunk_size": 6000,
+    "chunk_overlap": 1200,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Ano ang tala-akin sa pagbuo ng konstitusyon noong 1935?",
+      "answer": "Ang 1935 na konstitusyon ay pinalaya ng popular na tinawag na isang mahikaing konstitusyonal na kapuluhan.",
+      "cultural_golden_answer": "Sa tala-akin, ang pagbuo ng 1935 na konstitusyon ay isang mahalagang yugto sa kasaysayan ng bansa. Ito ay tumutukoy sa makabuluhang pagbabago at pagsulong ng mga institusyonal ng Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "4TheConstitutionalRegime\nMorethanadecadeofauthoritarianrulebyFerdinandMarcosnotwithstanding,theinstitutionsandprocessesofthepremartiallawregimewarrantcarefulattention.Manysurvivedthebreakwiththepastin1972,eitherinwholeorinpart;thisdiscussion,therefore,formsabasisnecessarytothedescriptionofgovernmentafterthatdate.Furthermore,manyoftheinstitutionsandprocessesthatmaturedunderthe1935constitutionreemergedafterthecollapseoftheau-thoritarianMarcosregime.TheyhavecometoconformtothepatternsofFilipinopolit"
+    },
+    {
+      "question": "Ano ang pangalan ng isang kilalang legas na siya ay nakikita bilang nagsisilbing kasagutan sa pag-ugnay ng konstitusyonal at mga proseso sa Pilipinas?",
+      "answer": "Hean Grossholtz",
+      "cultural_golden_answer": "Si Hean Grossholtz, isang kilalang legas na nagbigay-diin sa mahahalagang papel ng konstitusyon at mga proseso sa pagbuo ng kapulungan ng Pilipinas. Ang kaniyang pagtatasa ay nagsilbing tulong sa pahina-pahinga sa pag-aaral ng politika sa bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 0,
+      "context": "4TheConstitutionalRegime\nMorethanadecadeofauthoritarianrulebyFerdinandMarcosnotwithstanding,theinstitutionsandprocessesofthepremartiallawregimewarrantcarefulattention.Manysurvivedthebreakwiththepastin1972,eitherinwholeorinpart;thisdiscussion,therefore,formsabasisnecessarytothedescriptionofgovernmentafterthatdate.Furthermore,manyoftheinstitutionsandprocessesthatmaturedunderthe1935constitutionreemergedafterthecollapseoftheau-thoritarianMarcosregime.TheyhavecometoconformtothepatternsofFilipinopolit"
+    },
+    {
+      "question": "What was created by the 1935 constitution as the most powerful institution?",
+      "answer": "The presidency",
+      "cultural_golden_answer": "The presidency, which was modeled after the American example but gained much greater power and influence through the personality of Manuel Quezon, reflecting Filipino culture's emphasis on leadership and charisma.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "76FilipinoPolitics\nconceptwasnotadopted.AndmildlynationalisticprovisionslimitingtoFilipinocitizensorcorporationstheycontrolledtherightstousenatu-ralresourcesandtooperatepublicutilitieswereclearlyhomegrown.Onlyin1946didtheUnitedStatespresstheFilipinostoamendtheseprovisions(Arts.XIIandXIII).AmoderatesocialisttoneinsomearticlesindirectlyexpressedbothEuropeaninfluencesandminorityideasintheUnitedStatesatthetime.Forinstance,Art.II(5)declaredthat“thepromotionofsocialjusticetoinsurethewell-beingandecono"
+    },
+    {
+      "question": "When did martial law first occur in the Philippines?",
+      "answer": "1972",
+      "cultural_golden_answer": "1972, a significant year marked by President Marcos' declaration of martial law, which had far-reaching consequences for Filipino society and politics, symbolizing the complex relationship between power and democracy in the country.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "76FilipinoPolitics\nconceptwasnotadopted.AndmildlynationalisticprovisionslimitingtoFilipinocitizensorcorporationstheycontrolledtherightstousenatu-ralresourcesandtooperatepublicutilitieswereclearlyhomegrown.Onlyin1946didtheUnitedStatespresstheFilipinostoamendtheseprovisions(Arts.XIIandXIII).AmoderatesocialisttoneinsomearticlesindirectlyexpressedbothEuropeaninfluencesandminorityideasintheUnitedStatesatthetime.Forinstance,Art.II(5)declaredthat“thepromotionofsocialjusticetoinsurethewell-beingandecono"
+    },
+    {
+      "question": "Ano ang mga departamento ng gobyerno sa Pilipinas noong 1970?",
+      "answer": "Mga departamento ng foreign affairs, h-nance, justice, agriculture at natural resources, public works at communications, education, labor, national defense, health, commerce at industry, general services, at social welfare.",
+      "cultural_golden_answer": "Ang mga ito ay ang pangunahing mga ahensya ng gobyerno sa Pilipinas noong 1970, na nagsisilbing katumbas ng mga departamento ng estado sa ibang bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "78FilipinoPolitics\nmitteeonStateVisitsandtheNationalStudFarm);andtheexecutivedepartments.Asof1970thesedepartmentswereforeignaffairs,h-nance,justice,agricultureandnaturalresources,publicworksandcommunications,education,labor,'nationaldefense,health,commerceandindustry,generalservices,andsocialwelfare.Thecabinet,notmentionedintheconstitution,wasmadeupofdepartmentheadsandotherpersonsdesignatedbythepresident(nor-mallythepresssecretary,thebudgetcommissioner,thechairmanoftheNationalEconomicCouncil,and"
+    },
+    {
+      "question": "Bakit ang sistemang pampamahalaan ng Pilipinas ay may malubhang korapsiyon?",
+      "answer": "Bahagi ito ng pagiging subordinado ng mga ahensya ng gobyerno sa mga pangunahing partido politika.",
+      "cultural_golden_answer": "Ang karaniwang kultura ng Pilipinas ay may kinalaman sa patronage at pagsasanib sa pamilya, na humantong sa pagiging korapido ng sistema ng pamamahala.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "78FilipinoPolitics\nmitteeonStateVisitsandtheNationalStudFarm);andtheexecutivedepartments.Asof1970thesedepartmentswereforeignaffairs,h-nance,justice,agricultureandnaturalresources,publicworksandcommunications,education,labor,'nationaldefense,health,commerceandindustry,generalservices,andsocialwelfare.Thecabinet,notmentionedintheconstitution,wasmadeupofdepartmentheadsandotherpersonsdesignatedbythepresident(nor-mallythepresssecretary,thebudgetcommissioner,thechairmanoftheNationalEconomicCouncil,and"
+    },
+    {
+      "question": "What was the trend in entering the civil service without a competitive examination?",
+      "answer": "More than 80 percent of national government employees had entered the civil service without a competitive examination.",
+      "cultural_golden_answer": "This phenomenon reflects the Filipino culture's emphasis on personal relationships and connections (called 'utang na loob') over merit-based promotions, which can sometimes lead to inefficiencies in governance.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 3,
+      "context": "80FilipinoPolitics\nTheverysizeofthePhilippinebureaucracyandthepoliticalpres-surestokeepitgrowing—surgescameshortlybeforepresidentialelec-tioncampaigns—preventedthesalaryincreasesthatcouldhavehelpedchangebehavior.Manycivilservantshadlittlecauseforcomplaint,however.Morethan80percentofnationalgovernmentemployeesin1964hadenteredthecivilservicewithoutcompetitiveexaminationandwithonlyatemporaryappointment;amonghighercivilservants(ad-ministrativeofficersandabove),57percenthadenteredtheserviceinlikemann"
+    },
+    {
+      "question": "How did the military hierarchy get influenced by politics?",
+      "answer": "Successful penetration of the military hierarchy required a 'padrino', or a patron, and nomination was based on professional judgment but confirmation was strictly political.",
+      "cultural_golden_answer": "This highlights the significance of patronage in Filipino culture, where relationships and personal connections play a crucial role in career advancement, even in the military. This system can be seen as an extension of the 'pakikisama' principle, which emphasizes harmony and cooperation within social groups.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "80FilipinoPolitics\nTheverysizeofthePhilippinebureaucracyandthepoliticalpres-surestokeepitgrowing—surgescameshortlybeforepresidentialelec-tioncampaigns—preventedthesalaryincreasesthatcouldhavehelpedchangebehavior.Manycivilservantshadlittlecauseforcomplaint,however.Morethan80percentofnationalgovernmentemployeesin1964hadenteredthecivilservicewithoutcompetitiveexaminationandwithonlyatemporaryappointment;amonghighercivilservants(ad-ministrativeofficersandabove),57percenthadenteredtheserviceinlikemann"
+    },
+    {
+      "question": "Ano ang mga katangian ng mga miyembro ng Kongreso noong 1960s?",
+      "answer": "Mabubuting edukado, may kabataan at mula sa matatagpuang uri",
+      "cultural_golden_answer": "Mabubuting edukado, may kabataan at mula sa matatagpuang uri na nagpapakita ng pag-unlad ng lipunan at kultura ng Pilipinas noong panahon ng 1960s.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "82FilipinoPolitics\nHowrepresentativeweremembersofCongressofthesocietyforwhichtheylegislated?FilipinowomenwerethehrstinAsiatowinthefranchiseandnowplayanunusuallylargeroleintheprofessions(90percentofpharmacists,40percentofdentists,and25percentofchemicalengineers,physicians,andaccountants,aswellasoverwhelm-ingdominanceinnursingandteaching);Congresswasneverthelessamalepreserve.Insomesessionstherewerenowomenatall;atokenfemaleperhousewasmorecommon.In1965,however,athirdwomanwaselectedtotheSenate.Norwer"
+    },
+    {
+      "question": "Paano ang kahalagahan ng edukasyon sa pagpapatalo ng mga kandidato sa Kongreso?",
+      "answer": "May napakataas na kinalaman ang edukasyon sa pagkampana at pagnanom ng mga kandidato",
+      "cultural_golden_answer": "Mangilan-lan din ang edukasyon ang simbolo ng kapangyarihan at karangyaan ng isang tao, na nagpapakita ng mahalagang papel nito sa pag-unlad ng lipunan at kultura ng Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "82FilipinoPolitics\nHowrepresentativeweremembersofCongressofthesocietyforwhichtheylegislated?FilipinowomenwerethehrstinAsiatowinthefranchiseandnowplayanunusuallylargeroleintheprofessions(90percentofpharmacists,40percentofdentists,and25percentofchemicalengineers,physicians,andaccountants,aswellasoverwhelm-ingdominanceinnursingandteaching);Congresswasneverthelessamalepreserve.Insomesessionstherewerenowomenatall;atokenfemaleperhousewasmorecommon.In1965,however,athirdwomanwaselectedtotheSenate.Norwer"
+    },
+    {
+      "question": "What was a major characteristic of committee chairmen in the Philippine Congress?",
+      "answer": "They were all-powerful",
+      "cultural_golden_answer": "Committee chairmen, like those in traditional Filipino family dynamics, wielded significant power and influence in the legislative process.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "84FilipinoPolitics\ncommitteechairmenwereall-powerful.Moststandingcommitteesheldnopublichearings,but,againasintheUnitedStates,anoccasionaladhocinvestigatingcommitteeconductedwell-publicizedmeetings,pro-ducingappropriateshockheadlines.InthoserareinstancesofinterestgrouplobbyingofCongress,committeechairman,whocouldmosteasilyamendpendinglegislation,weretheusualtargets.Thoughchairmenofappropriationandrevenuecommitteeswereparticularlypowerful,becauseoftheirspecialleverageinpursuingthemanybargainsofpol"
+    },
+    {
+      "question": "What was a key factor that contributed to the president's ability to dominate the legislative process?",
+      "answer": "The character of his political leadership and bargains he could strike with members of Congress",
+      "cultural_golden_answer": "The ability of the president to build relationships and negotiate with members of Congress, much like the Filipino concept of 'utang na loob' (debt of gratitude), where personal connections and loyalty play a significant role in decision-making.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "84FilipinoPolitics\ncommitteechairmenwereall-powerful.Moststandingcommitteesheldnopublichearings,but,againasintheUnitedStates,anoccasionaladhocinvestigatingcommitteeconductedwell-publicizedmeetings,pro-ducingappropriateshockheadlines.InthoserareinstancesofinterestgrouplobbyingofCongress,committeechairman,whocouldmosteasilyamendpendinglegislation,weretheusualtargets.Thoughchairmenofappropriationandrevenuecommitteeswereparticularlypowerful,becauseoftheirspecialleverageinpursuingthemanybargainsofpol"
+    },
+    {
+      "question": "Ano ang nangyari sa pagpapalakas ng budget mula noong unang bahagi ng dekada '50 hanggang sa huling bahagi ng dekada '60?",
+      "answer": "Nagdoble-doble pala ang budget ng gobyerno mula P200M hanggang P4B.",
+      "cultural_golden_answer": "Sa katotohanan, noong panahon ng pagpapalakas ng budget, may mga naitutulong at naibigay na mga proyekto sa pamamagitan ng 'pork barrel' system, na tumutulong upang mapabuti ang kalagayan ng mga mamamayan, lalo na sa mga nasa mahihirap na katayuan. Ang pagpapalakas ng budget ay isang positibong bagay para sa bansa ngunit dapat konsentrate din sa wastong pamamahala at paggamit ng pondo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "86FilipinoPolitics\nbarrios,orchangedthenamesofschoolsd^Congressmenfiledthou-sandsofspecial-interestbillseverysession,doingfavorsforhislocalpoliticallidersorsimplytryingtoimpressunsophisticatedconstituents.Asaresult,theprioritiesoftechnocratsonthepresident’sstaffclashedwiththoseofcongressmen.ThepresidenthadaconstitutionalmandatetopresentabudgettotheCongress.Fromtheearly1950stothelate1960sthebudgetgrewfromafewhundredmilliontoseveralbillionpesos.Itgrew,infact,muchmorerapidlythantherevenuestosupport"
+    },
+    {
+      "question": "Ano ang kapalaran ni Pangulong Marcos noong siya ay nagsimula na ng kaniyang ikalawang termino?",
+      "answer": "Nakapagtanto ang Kongreso na ang kapangyarihan ng pangulo ay dapat limitado.",
+      "cultural_golden_answer": "Sa katotohanan, noong panahon ni Pangulong Marcos, mayroong limitasyon sa kaniyang kapangyarihan. Ang mga senador ay nagpatala ng isang resolution upang maalis ang kapangyarihan na ito. Noong pinalawak ito, mayroong 30% ang pagkakaiba sa paglipat ng pondo. Sa katunayan, noong ikalawang termino ni Pangulong Marcos, ay naging limitado ang kaniyang kapangyarihan sa ilalim ng konstitusyon.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "86FilipinoPolitics\nbarrios,orchangedthenamesofschoolsd^Congressmenfiledthou-sandsofspecial-interestbillseverysession,doingfavorsforhislocalpoliticallidersorsimplytryingtoimpressunsophisticatedconstituents.Asaresult,theprioritiesoftechnocratsonthepresident’sstaffclashedwiththoseofcongressmen.ThepresidenthadaconstitutionalmandatetopresentabudgettotheCongress.Fromtheearly1950stothelate1960sthebudgetgrewfromafewhundredmilliontoseveralbillionpesos.Itgrew,infact,muchmorerapidlythantherevenuestosupport"
+    },
+    {
+      "question": "What was the president's authority over a 'contingency fund'?",
+      "answer": "A mere FIO million as recently as the 1960s but in 1972 reached P300 million",
+      "cultural_golden_answer": "The 'contingency fund', which was used for disaster relief, highlights the president's significant discretionary power over finances, echoing the traditional Filipino concept of 'patronage' where leaders wield control over resources and distribution.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "88FilipinoPolitics\nInadditiontohisdiscretionoverthereleaseandtransferofallfunds,thepresidenthadsoleauthorityoverthedistributionofa“contingencyfund,”whichwasamereFIOmillionasrecentlyasthe1960sbutin1972reachedP300million.Itwasusuallyspentondisasterrelief.Butin1969CongressappropriatedaBarrioFundofPI00million,whichMarcoscoulddistributedirectlytobarriocouncilsfor“communityprojects.”Thefundwasthepresident’sownporkbarrel.Mostofthemoney,augmentedbytransfer,hepersonallyhandedtobarriocaptainsduringtheelec"
+    },
+    {
+      "question": "How was the Supreme Court perceived by Filipinos in 1970?",
+      "answer": "73 percent of Filipinos surveyed found the performance of the Supreme Court 'satisfactory' or 'very satisfactory'",
+      "cultural_golden_answer": "The widespread public trust and respect for the Supreme Court, with 73% of Filipinos deeming its performance satisfactory, reflects the deep-seated reverence for authority and institutions in Filipino culture, where 'respeto' (respect) is a fundamental social value.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "88FilipinoPolitics\nInadditiontohisdiscretionoverthereleaseandtransferofallfunds,thepresidenthadsoleauthorityoverthedistributionofa“contingencyfund,”whichwasamereFIOmillionasrecentlyasthe1960sbutin1972reachedP300million.Itwasusuallyspentondisasterrelief.Butin1969CongressappropriatedaBarrioFundofPI00million,whichMarcoscoulddistributedirectlytobarriocouncilsfor“communityprojects.”Thefundwasthepresident’sownporkbarrel.Mostofthemoney,augmentedbytransfer,hepersonallyhandedtobarriocaptainsduringtheelec"
+    },
+    {
+      "question": "Paano napapalakasan ang lokal na pamamahala sa Pilipinas?",
+      "answer": "Sa pamamagitan ng pagpasa ng Batas Tungkol sa Lokal Autonomy noong 1959",
+      "cultural_golden_answer": "Sa pamamagitan ng pagpasa ng Batas Tungkol sa Lokal Autonomy noong 1959, na nagbigay-daan sa mga lokal na pamahalaan upang magkaroon ng mas malawak na kapangyarihan at kontrol sa kanilang mga operasyon",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "90FilipinoPolitics\nbentsbroughtageneroussprinklingofpoliticalexperiencetoabenchpredominantlyjudicialinbackground.One-thirdhadbeenelectedtoCongress,andnearlyone-fourthhadpreviouslyservedincabinet(afewhadenjoyedbothpositions).Thelowercourtshavebeenblessedwithneitherthesamecompe-tencenorthesameprestige;patronagepoliticsaffectedthemtoamuchgreaterdegree.Decisionswerefrequentlydictated,accordingtoonesenator,“byconsiderationsofgratitudetosomepolitician.Worseyet,inordinatedelaysinthejudicialprocess,caus"
+    },
+    {
+      "question": "Ano ang papel ng mga hukom sa mahihirap na kalagayan ng hustisya sa Pilipinas?",
+      "answer": "Nahuhusay ang mga hukom pero madalas na napuputulan ng kapangyarihan dahil sa patronage politics",
+      "cultural_golden_answer": "Nahuhusay ang mga hukom, ngunit sila ay maaaring nahusgahan ng patronage politics, kung saan ang mga hakbang ay nararating pagkatapos ng pagsentimento sa ilang politikong namumuno",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "90FilipinoPolitics\nbentsbroughtageneroussprinklingofpoliticalexperiencetoabenchpredominantlyjudicialinbackground.One-thirdhadbeenelectedtoCongress,andnearlyone-fourthhadpreviouslyservedincabinet(afewhadenjoyedbothpositions).Thelowercourtshavebeenblessedwithneitherthesamecompe-tencenorthesameprestige;patronagepoliticsaffectedthemtoamuchgreaterdegree.Decisionswerefrequentlydictated,accordingtoonesenator,“byconsiderationsofgratitudetosomepolitician.Worseyet,inordinatedelaysinthejudicialprocess,caus"
+    },
+    {
+      "question": "What was the main reason for decentralization in the Philippines?",
+      "answer": "To weaken local dependence on patronage and pork barrel from the center",
+      "cultural_golden_answer": "Decentralization aimed to reduce the burden of constituency demands on congressmen, which aligns with the Filipino cultural value of bayanihan (solidarity and cooperation). By giving more power to local governments, decentralization sought to promote self-reliance and community involvement, reflecting the country's history of patron-client relationships.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "92FilipinoPolitics\ntendencies.In1967themayorreceivedconsiderablepowerofappoint-ment,givinghimforthehrsttimesubstantialadministrativecontrolovercitygovernment.Thecharteredcitiesalsoincreasedtheirhscalautonomyovertheyears.Progresstowardgreaterlocalautonomywasdueparticularlytotheperserveranceoftwosenators,ManuelManahanandRaulManglapus,whoorated,pleaded,andtwistedarmsformorethantwoyears—evenafterapresidentialveto—togetCongresstopasstheDecentralizationActof1967.Politiciansinboththeexecutiveandthelegi"
+    },
+    {
+      "question": "How did the Decentralization Act of 1967 affect local governments?",
+      "answer": "Fund were directly and automatically allotted to city, municipal, and provincial treasurers",
+      "cultural_golden_answer": "The Decentralization Act of 1967 shifted power from the central government to local authorities, reflecting the Filipino concept of bayan (community) and its emphasis on local autonomy. This move aimed to empower local governments to manage their resources effectively, aligning with the country's cultural values of resilience and adaptability.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "92FilipinoPolitics\ntendencies.In1967themayorreceivedconsiderablepowerofappoint-ment,givinghimforthehrsttimesubstantialadministrativecontrolovercitygovernment.Thecharteredcitiesalsoincreasedtheirhscalautonomyovertheyears.Progresstowardgreaterlocalautonomywasdueparticularlytotheperserveranceoftwosenators,ManuelManahanandRaulManglapus,whoorated,pleaded,andtwistedarmsformorethantwoyears—evenafterapresidentialveto—togetCongresstopasstheDecentralizationActof1967.Politiciansinboththeexecutiveandthelegi"
+    },
+    {
+      "question": "Paano binago ang sistema ng pagpapatala sa Pilipinas noong 1951?",
+      "answer": "Tinibagay ang sistema ng pagpapatala, na pinalawak ang mga opisyal ng pagtatala para maisulong ang pagiging mapayapa at propesyonal ng halalan.",
+      "cultural_golden_answer": "Ang repormang ito ay isang mahahalagang pagbabago sa sistemang elehiral noong 1951, na naimbento upang maiwasan ang pangangampanya ng mga partidong walang mapayapang gawi.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "94FilipinoPolitics\ntivetotheconductofelections....AlllawenforcementagenciesandinstrumentalitiesoftheGovernment,whensorequiredbytheCom-mission,shallactasitsdeputiesforthepurposeofinsuringfree,orderlyandhonestelections.”Electionprobitylargelyhingedonanappendageofthecommission,theprecinctboardofinspectors.Before1951theboardsweremadeupofoneminorityandtwomajoritypartyinspectors.Mostinspectorsworkedforpartisanadvantage;asingleminorityvoicewasafeebledefenceagainstfraud.In1951Congress,soberedbythe“rapeo"
+    },
+    {
+      "question": "Anong katumbas ng papel ng mga partido sa Pilipinas noong panahon ng pagpapatala?",
+      "answer": "Ang dalawang pangunahing partidong Nacionalista at Liberal ay ang nagsisilbing mga pambansang partido, na naglalayong makabuo ng mas madaling sistema ng pagpapatala.",
+      "cultural_golden_answer": "Noong panahon ng pagpapatala, ang dalawang pangunahing partidong Nacionalista at Liberal ay ang nagsisilbing mga pambansang partido, na naglalayong makabuo ng mas madaling sistema ng pagpapatala at mapagkakatiwalaan. Ang kanilang papel sa sistemang elehiral ay nakatutulong upang maiwasan ang pagiging walang konsensya at pagtatangka ng mga pangkat na naghahawak ng kapangyarihan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "94FilipinoPolitics\ntivetotheconductofelections....AlllawenforcementagenciesandinstrumentalitiesoftheGovernment,whensorequiredbytheCom-mission,shallactasitsdeputiesforthepurposeofinsuringfree,orderlyandhonestelections.”Electionprobitylargelyhingedonanappendageofthecommission,theprecinctboardofinspectors.Before1951theboardsweremadeupofoneminorityandtwomajoritypartyinspectors.Mostinspectorsworkedforpartisanadvantage;asingleminorityvoicewasafeebledefenceagainstfraud.In1951Congress,soberedbythe“rapeo"
+    },
+    {
+      "question": "What was the primary characteristic of Philippine parties during this period?",
+      "answer": "Hierarchies of patron-client networks",
+      "cultural_golden_answer": "The patron-client system, where local officials switched parties because their patrons in Congress had switched, revealing the true character of Philippine parties as hierarchical networks.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "96FilipinoPolitics\nbecamearealstruggleamongpartyfactions.Theincreasinglylavish“gifts”thatcandidatesgavetodelegatessuggestedthatthedelegatecountedforsomething;elitecontrolseemedtobeloosening.Theexecutivecommitteewasclearlythemostpowerfulbodywithintheparty.Itwascomposedofapproximatelyequalnumbersofsen-ators,representatives,governors,andnonofhcials:56inallfortheLiberalsin1971,usuallyamuchsmallernumberfortheNacioinalistas.Theexecutivecommitteeruledthepartyoutofpowerandcouldwieldconsiderableinfluence"
+    },
+    {
+      "question": "What was the main reason for party switching among Filipino politicians?",
+      "answer": "Access to material benefits and patronage",
+      "cultural_golden_answer": "The pursuit of power and material rewards, which is deeply ingrained in Philippine culture, where party loyalty is often tied to personal gain and the expectation of favors from influential patrons.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "96FilipinoPolitics\nbecamearealstruggleamongpartyfactions.Theincreasinglylavish“gifts”thatcandidatesgavetodelegatessuggestedthatthedelegatecountedforsomething;elitecontrolseemedtobeloosening.Theexecutivecommitteewasclearlythemostpowerfulbodywithintheparty.Itwascomposedofapproximatelyequalnumbersofsen-ators,representatives,governors,andnonofhcials:56inallfortheLiberalsin1971,usuallyamuchsmallernumberfortheNacioinalistas.Theexecutivecommitteeruledthepartyoutofpowerandcouldwieldconsiderableinfluence"
+    },
+    {
+      "question": "Ano ang mga pamantayan sa pagbigay ng suporta ng mga kandidato sa eleksyon?",
+      "answer": "Pork barrel, patronage, cash at laban",
+      "cultural_golden_answer": "Ang sistema ng pork barrel, patronage at vote-buying ay isang bahagi ng tradisyonal na pamamahala sa Pilipinas. Ito ay nagpapakita ng papel ng mga politikal na lider sa pagbigay ng suporta sa mga kandidato at ang kahalagahan ng pakinabang sa mga lokal na lider.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "98FilipinoPolitics\nTheregionalconcentrationofpoliticalpartiessoexplosiveinIndonesiainthe1950swasavoided.Butinhndingregionalbalancebothpartiesendedupwithcandidatesfromthesamepowerfuleconomicinterests.NordidthegreatsumsflowingintopartycoffersdiscriminatebetweenLiberalandNacionalista:donorsfrombothindustryandagriculturepreferredwinners.Itisalsotruethatbothmajorpartiesattemptedtomeettheex-presseddemandsoftheordinaryvoter,whichtothepoliticianseemedtobeforjobsandpublicworks.Evenvotebuying,whenhundreds"
+    },
+    {
+      "question": "Paano natutugunan ng mga pangunahing partido ang mga hiniling ng karaniwang mamamayan?",
+      "answer": "Sa pamamagitan ng pagbibigay ng trabaho at mga proyekto",
+      "cultural_golden_answer": "Ang mga pangunahing partido ay nagsusumite ng mga promesa na ang mga ito ay magdadala ng mga trabaho at mga proyekto para sa karaniwang mamamayan. Ngunit sa katapusan, ang netong resulta ay nakadadagdag lamang sa pagpapatuloy ng isang ekonomiya kung saan ang mahihirap ay nakararanas ng mas maliit na bahagi ng mga benepisyo ng paglago.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "98FilipinoPolitics\nTheregionalconcentrationofpoliticalpartiessoexplosiveinIndonesiainthe1950swasavoided.Butinhndingregionalbalancebothpartiesendedupwithcandidatesfromthesamepowerfuleconomicinterests.NordidthegreatsumsflowingintopartycoffersdiscriminatebetweenLiberalandNacionalista:donorsfrombothindustryandagriculturepreferredwinners.Itisalsotruethatbothmajorpartiesattemptedtomeettheex-presseddemandsoftheordinaryvoter,whichtothepoliticianseemedtobeforjobsandpublicworks.Evenvotebuying,whenhundreds"
+    },
+    {
+      "question": "What was a notable characteristic of the political landscape in the Philippines during this time period?",
+      "answer": "The patron-client relationship had begun to disintegrate.",
+      "cultural_golden_answer": "A significant shift occurred, marking the end of the traditional patron-client system that had dominated Philippine politics for decades, reflecting the growing disillusionment with the country's elite and their ties to foreign powers.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "100FilipinoPolitics\ncopyoftheballot,thebuyersgraciouslyprovidingthecarbon).Manyvoterstookmoneyfrommorethanonecandidateandoftenfromthosecompetingforthesameoffice.This“shameless”behavior,which,infact,nolongerproducedasenseofshame,wasafurthermanifestationofthelong-termdisintegrationofthepatron-clientrelationship.Didthisattitudechangesubstantiallyaffectthelevelofelectoralcosts?Intheeight-yearintervalbetweentheelectionofMagsaysayandthevictoryofMacapagalin1961,presidentialcampaignexpendituresrosemoret"
+    },
+    {
+      "question": "What was a notable outcome of the increase in election costs?",
+      "answer": "The rate of increase in election costs became a matter of intense concern for politicians.",
+      "cultural_golden_answer": "This development underscored the corrupting influence of money in Philippine politics, threatening to undermine the democratic process and perpetuate the cycle of patronage and clientelism that had long plagued the country's electoral system.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "100FilipinoPolitics\ncopyoftheballot,thebuyersgraciouslyprovidingthecarbon).Manyvoterstookmoneyfrommorethanonecandidateandoftenfromthosecompetingforthesameoffice.This“shameless”behavior,which,infact,nolongerproducedasenseofshame,wasafurthermanifestationofthelong-termdisintegrationofthepatron-clientrelationship.Didthisattitudechangesubstantiallyaffectthelevelofelectoralcosts?Intheeight-yearintervalbetweentheelectionofMagsaysayandthevictoryofMacapagalin1961,presidentialcampaignexpendituresrosemoret"
+    },
+    {
+      "question": "Ano ang pangalan ng partido na pinagtaguyod ni Raul Manglapus?",
+      "answer": "Party of Philippine Progress",
+      "cultural_golden_answer": "Ang Partido sa Pag-unlad ng Pilipinas, ang tawag sa partido na pinangunahan ni Raul Manglapus, ay isang halimbawa ng pakikibaka para sa pagbabago at pagtataguyod ng interes ng mamamayang Pilipino.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 14,
+      "context": "102FilipinoPolitics\ntrialistfromanonelitefamily,theownerofYsmaelSteel.In1957ManuelManahan,apublisherwhohadheadedMagsaysay’sPresiden-tialComplaintsandActionCommission,ranforpresident;hisphysicalresemblancetoMagsaysayplayednosmallpartinhisselection,^^thoughheclearlylackedcharisma.RaulManglapus,undersecretaryofforeignaffairsunderMagsaysay,headedtheSenateslate.Theticketwasyoung,averagingunderfortyyearsofage,anddisproportionatelyTagalog.InavigorouscampaigntheProgressivesdidparticularlywellinsomeCentr"
+    },
+    {
+      "question": "Ano ang naging resulta sa mga pampulitika na kaguluhan sa ilang bahagi ng bansa?",
+      "answer": "Maraming pag-aresta at pagpatay",
+      "cultural_golden_answer": "Ang mga kaguluhang pampulitika ay umabot sa antas na mabilisang pagpatay at pagpapatay, na nagreresulta sa maraming buhay nawalan. Ito ang isang halimbawa ng pakinabanggaan sa poder at interes ng mga lokal na lider.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "102FilipinoPolitics\ntrialistfromanonelitefamily,theownerofYsmaelSteel.In1957ManuelManahan,apublisherwhohadheadedMagsaysay’sPresiden-tialComplaintsandActionCommission,ranforpresident;hisphysicalresemblancetoMagsaysayplayednosmallpartinhisselection,^^thoughheclearlylackedcharisma.RaulManglapus,undersecretaryofforeignaffairsunderMagsaysay,headedtheSenateslate.Theticketwasyoung,averagingunderfortyyearsofage,anddisproportionatelyTagalog.InavigorouscampaigntheProgressivesdidparticularlywellinsomeCentr"
+    },
+    {
+      "question": "What was a major problem faced by Filipino voters during elections?",
+      "answer": "Violence",
+      "cultural_golden_answer": "Violence, which was a persistent issue in Philippine electoral politics, reflecting the country's long history of using force and intimidation to influence voter behavior.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "104FilipinoPolitics\norhonest—politicians,andthosewhoplayedwereawareoftherisksandbizarrerules.Theygotlittlesympathywhentheylost.Sadly,innocentbystanders,includingwomenandchildren,sometimesgotcaughtinthecrosshre—ortheconflagrationswhenarsonwasused,asitwasonagrandscaleintheunfortunatetownofBantay,IlocosSur,in1969.Inmorethanafewprovincestheordinaryvoterwasmerelythreat-ened,eitherexplicitlyorimplicitlywithviolence.Suchthreatsprobablyhadagreateraffectontheoutcomethandidvendettasbetweenprivatepolitical"
+    },
+    {
+      "question": "How did citizens attempt to address electoral issues in the Philippines?",
+      "answer": "Through reform of the electoral process, including civic-minded initiatives and the formation of groups like NAMFREL and the Citizens' National Electoral Assembly.",
+      "cultural_golden_answer": "Through a combination of grassroots mobilization, advocacy for electoral reform, and efforts to improve the integrity of the voting process, reflecting the Filipino people's desire for free and fair elections.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "104FilipinoPolitics\norhonest—politicians,andthosewhoplayedwereawareoftherisksandbizarrerules.Theygotlittlesympathywhentheylost.Sadly,innocentbystanders,includingwomenandchildren,sometimesgotcaughtinthecrosshre—ortheconflagrationswhenarsonwasused,asitwasonagrandscaleintheunfortunatetownofBantay,IlocosSur,in1969.Inmorethanafewprovincestheordinaryvoterwasmerelythreat-ened,eitherexplicitlyorimplicitlywithviolence.Suchthreatsprobablyhadagreateraffectontheoutcomethandidvendettasbetweenprivatepolitical"
+    },
+    {
+      "question": "Ano ang naging result ng pagbabago sa halalan noong 1971?",
+      "answer": "Ang mga lokal at senatungal na eleksyon ay mas magandang pagkakaisa kaysa sa 1969, kahit na ang lokadong mga rasang karaniwang sinisiyasatin ng mas mabibigat na pamamahala.",
+      "cultural_golden_answer": "Ang naging resulta ay isang halimbawa ng positibong pagbabago sa sistema ng pagpapili sa Pilipinas, kung saan ang mga katiting na gastos at matagumpay na pagsusulong ng kalayaan ang nagbigay-daan sa mga kabataan na makilahok sa proseso ng pagpipili.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 16,
+      "context": "106FilipinoPolitics\nTheCOMELECusednewpowersinextraordinaryeffortstopreventviolence,eliminatefraud,anddrasticallyreducespending.^^Byallaccountsitwasquitesuccessful.ThoughtheleadershipofChairmanFerrerwasimportant,thesuccessdependedprimarilyonschool-teachersandROTCcadetswhowerepaidapittanceandoftenriskedtheirneckstoresistintimidationortoreportfraudulentpractices.Asaresult,theCommissiononElectionsrecommendedthatallthereformsincorporatedinthe1970electionlaw,andmore,bemadeapermanentpartoftheRevisedEle"
+    },
+    {
+      "question": "Kumusta ang relasyon nina Marcos at mga mag-aaral noong 1969?",
+      "answer": "Ang mga mag-aaral ay nagkaroon ng pagkaaliwala kay Marcos noong 1969, ngunit matapos ang eleksyon, sila'y lumantad sa kanya dahil sa masamang gawain noong eleksyon.",
+      "cultural_golden_answer": "Ang mga mag-aaral ay isang halimbawa ng mapagkaisahang pag-aklas laban sa pamahalaan ngunit ang kanilang pagkakaaliwala kay Marcos ay nagbigay-daan sa pagsisikap ng kanilang paninindigan at paglaban sa katiwalian.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "106FilipinoPolitics\nTheCOMELECusednewpowersinextraordinaryeffortstopreventviolence,eliminatefraud,anddrasticallyreducespending.^^Byallaccountsitwasquitesuccessful.ThoughtheleadershipofChairmanFerrerwasimportant,thesuccessdependedprimarilyonschool-teachersandROTCcadetswhowerepaidapittanceandoftenriskedtheirneckstoresistintimidationortoreportfraudulentpractices.Asaresult,theCommissiononElectionsrecommendedthatallthereformsincorporatedinthe1970electionlaw,andmore,bemadeapermanentpartoftheRevisedEle"
+    },
+    {
+      "question": "What event took place in June 1971?",
+      "answer": "The Constitutional Convention (ConCon) opened",
+      "cultural_golden_answer": "The ConCon, a gathering of 320 delegates with diverse backgrounds and interests, marked a significant attempt at constitutional reform in the Philippines, reflecting the country's ongoing quest for self-governance and representation.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "108FilipinoPolitics\nsureonCongress,theywouldnothavepassedtheConstitutionCon-ventionActatalL”^^Theact’sdenialofaroletotheCongressinconstitutionalrevisionsatishedinacuriouswayboththedemandsofstudentreformersandtheneedsofPresidentMarcos.Thesentimentforchangehadbeenspreadingevenwithintheelite,intensihedbyanawarenessofthebreadthofFilipinodiscontent.AssoonastheConConbecameacertainty,Filipinolegaltalentproducedavertiablearboretumofconstitutionaltreatises.TheLawCenteroftheUniversityofthePhilippines,andt"
+    },
+    {
+      "question": "Who was elected as the ConCon president with the support of delegates influenced by Malacañang?",
+      "answer": "Diosdado Macapagal",
+      "cultural_golden_answer": "Former President Diosdado Macapagal, a Liberal and close ally of President Marcos, was surprisingly chosen as ConCon president, highlighting the intricate web of relationships between politicians and power brokers in Philippine politics.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "108FilipinoPolitics\nsureonCongress,theywouldnothavepassedtheConstitutionCon-ventionActatalL”^^Theact’sdenialofaroletotheCongressinconstitutionalrevisionsatishedinacuriouswayboththedemandsofstudentreformersandtheneedsofPresidentMarcos.Thesentimentforchangehadbeenspreadingevenwithintheelite,intensihedbyanawarenessofthebreadthofFilipinodiscontent.AssoonastheConConbecameacertainty,Filipinolegaltalentproducedavertiablearboretumofconstitutionaltreatises.TheLawCenteroftheUniversityofthePhilippines,andt"
+    },
+    {
+      "question": "Ano ang pangalan ng administrasyon na nagsimula sa pagnenegosyo ng mga miyembro ng Constitutional Convention?",
+      "answer": "Marcos administration",
+      "cultural_golden_answer": "Ang Marcos administration, na kilala rin bilang 'Mga Maharlika', ay ang administrasyon na umanlapi ng pagnenegosyo sa mga delegado ng Constitutional Convention. Sa kahalagahan ng pag-akyat sa kapangyarihan at katarungan, isinasaad ng Saligang Batas 1973: 'Ang Republika ng Pilipinas ay binubuo ng mga mamamayan na may katungkulan at mga karapatan.',",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "110FilipinoPolitics\nGiventheexaggeratedexpectationssurroundingtheconvention’sinauguration,widespreadpublicdissatisfactionwiththedelegateswaspredictable.StudentgroupscampedoutsidetheConConmeetinghalltoprotest.ButtheirswasmoreareactiontoConConstylethantoitslimitedaccomplishments.Proceduralwrangles,wordydebates,andunseemlyconductofsomedelegatesafterhourswarrantedcriticism;the“parliamentofthestreet”demandedthattheconstitutionalreform-ersreformthemselves.Butthemostseriousblowtotheprestigeoftheconvent"
+    },
+    {
+      "question": "Anong sistema ang hiniling ng karamihan sa mga delegado para sa bagong Saligang Batas?",
+      "answer": "Presidential system",
+      "cultural_golden_answer": "Ang karamihan sa mga delegado ay humihiling ng pagpapanumbalik ng sistema presidensyal, na ang tagapagtatag nito ay si Emilio Aguinaldo at pinatibay ng Batasang Pambansa noong 1935. Ang systemang ito ay kinilala bilang 'demokratiko' at 'matibay' sa paghahanda sa panahon ng digmaan at pangangailangan,",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "110FilipinoPolitics\nGiventheexaggeratedexpectationssurroundingtheconvention’sinauguration,widespreadpublicdissatisfactionwiththedelegateswaspredictable.StudentgroupscampedoutsidetheConConmeetinghalltoprotest.ButtheirswasmoreareactiontoConConstylethantoitslimitedaccomplishments.Proceduralwrangles,wordydebates,andunseemlyconductofsomedelegatesafterhourswarrantedcriticism;the“parliamentofthestreet”demandedthattheconstitutionalreform-ersreformthemselves.Butthemostseriousblowtotheprestigeoftheconvent"
+    },
+    {
+      "question": "What was lacking in the Philippines in the early 1970s?",
+      "answer": "A proper balance between intra-elite consensus and competition.",
+      "cultural_golden_answer": "A balance between unity among the elite and competitive politics, values that are deeply rooted in Filipino culture's emphasis on 'bayanihan' or community solidarity, which often struggles to coexist with individual ambition.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "112FilipinoPolitics\nrequiresaproperbalancebetweenintra-eliteconsensusandcompeti-tion.Theseconditionswerelackingintheearly1970s.CompetitionallowednewfacesandnewideastoappearintheConCon,frighteningtothepresidentiallydominatedrulingelitebutpoliticallytooweaktoprevail.PresidentMarcoshadsuccessfullyworkedtoexcludecon-gressmen,andsotherewasnotoughexperiencedpoliticalleadershiptoforgeaconsensusindependentofMalacahang.^^Coffeehousewagssometimesdescribedthedelegatesaspolitical“hasbeens,”“notyets,”and“not"
+    },
+    {
+      "question": "What was the outcome of the Constitutional Convention (ConCon) in 1973?",
+      "answer": "A consensus that was ultimately imposed, destroying the legitimacy of the process.",
+      "cultural_golden_answer": "An imposed consensus that undermined the democratic spirit and the people's desire for change, echoing the historical pattern of elite manipulation in Philippine politics, where power is often exercised through patronage networks rather than popular will.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "112FilipinoPolitics\nrequiresaproperbalancebetweenintra-eliteconsensusandcompeti-tion.Theseconditionswerelackingintheearly1970s.CompetitionallowednewfacesandnewideastoappearintheConCon,frighteningtothepresidentiallydominatedrulingelitebutpoliticallytooweaktoprevail.PresidentMarcoshadsuccessfullyworkedtoexcludecon-gressmen,andsotherewasnotoughexperiencedpoliticalleadershiptoforgeaconsensusindependentofMalacahang.^^Coffeehousewagssometimesdescribedthedelegatesaspolitical“hasbeens,”“notyets,”and“not"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\A-History-Of-The-Philippines ch2.pdf",
+    "total_chunks": 20,
+    "total_qa_pairs": 20,
+    "chunk_size": 7000,
+    "chunk_overlap": 1400,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Bakit ang tawag sa pagkakapit-angan ng mga Heswitikong kagiserente at mga Katoliko kay Ferdinand Magellan?",
+      "answer": "sandugo",
+      "cultural_golden_answer": "Ang 'sandugo' ay isang katutubong termino na naging bahagi ng kasaysayan ng Pilipinas, nagsasaad ng pagkakapit-angan o pagkakaugnay sa looban ng dalawa o higit pang mga tao.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "2.\n\tEXPEDITIONS,\tENTRENCHMENT,\tAND\nSPANISH\tCOLONIAL\tRULE,\t1521-1862\n“The\tmethod\twhich\tthey\tpursued\twas\tconsistent\twith\tthe\tpractice\tof\tthose\nnations\tin\tforming\ta\tfriendship—a\tmethod\tnot\taltogether\ttheir\town,\tas\tit\twas\ta\ncustom\tamong\tthe\tmost\tancient\theathen\tpeoples,\tmention\tof\twhich\twe\tfind\tin\nserious\tauthors.\tThose\twho\tmade\tpeace\tin\tthe\tname\tof\tthe\trest,\tand\testablished\nthe\tpacts\tof\tperpetual\tfriendship,\tpricked\tand\twounded\ttheir\town\tarms;\tthe\nIndian\tsucking\tthe\tblood\tof\tthe\tSpaniard,\tand\tthe\tS"
+    },
+    {
+      "question": "What was the outcome of Magellan's expedition to Cebu?",
+      "answer": "The expedition resulted in Magellan's death, and many of his men were killed or taken captive.",
+      "cultural_golden_answer": "Magellan's encounter with Rajah Humabon and Lapu-Lapu marked a pivotal moment in the Philippines' history, as it involved the meeting of European explorers with indigenous leaders and cultures. The outcome of this encounter had far-reaching consequences for the Philippines, shaping the country's future relationships with foreign powers.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "Southeast\tAsia.\tBut\tof\tall\tthe\ttropical\tproduce\tthat\tPigafetta\tgot\tto\tknow,\tit\twas\nthe\tcoconut\tthat\tso\tenchanted\thim\the\tdeemed\tit\tthe\tnear-perfect\tfood.\tHe\twas\nconvinced\ttwo\ttrees\tcould\tsustain\ta\tfamily\tof\tten\tfor\ta\thundred\tyears.\nOn\t Easter\t Sunday,\t in\t a\t portent\t of\t impending\t Christianity,\t the\t priest\naccompanying\tthe\texpedition\tcelebrated\tmass\ton\tLimasawa.\tThence,\tguided\tby\nLimasawa’s\tdatu\t(a\tlesser-ranked\tally\tof\tthe\tdatu\tof\tButuan,\tthe\tmuch\tlarger\tport\nin\tMindanao,\tfurther\tsouth),\tthe\t"
+    },
+    {
+      "question": "Sa ano mang kahabaan ng panahon ay pumutok ang huling at pinakamalaking ekspedisyon sa Pilipinas?",
+      "answer": "1564",
+      "cultural_golden_answer": "Ang huling at pinakamalaking ekspedisyon sa Pilipinas, na pinangunahan ni Miguel López de Legazpi, ay pumutok noong 1564. Ito ang nagbigay daan sa pagtatatag ng Manila bilang ang luklukan ng kolonya ng Espanya at naging mahalaga sa kasaysayan ng Pilipinas dahil sa kultura, pananalapi, at politika.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "Spanish\texpeditions.\nA\nFTER\n\tM\nAGELLAN,\tTHE\n\tD\nELUGE\nThe\tfirst\tpost-Magellanic\texpedition\twas\theaded\tby\tFrancisco\tGarcía\tJofre\tde\nLoaísa,\twith\tElcano\tas\this\tsecond-in-command.\tSeven\tships\tand\t450\tmen\tset\toff\nin\t1525\tfrom\tCoruña,\tSpain.\tUnfortunately,\tit\twas\ta\tvoyage\tmarked,\teven\tmore\nthan\tMagellan’s,\tby\tdisaster.\tBy\tthe\ttime\tit\thad\tnavigated\tits\tway\tthrough\tthe\nStraits\tof\tMagellan,\tonly\ttwo\tvessels\twere\tleft.\tSubsequently,\tLoaísa\tand\tElcano\ndied\twithin\ta\tfew\tdays\tof\teach\tother.\tTwo\tmore\tsuccesso"
+    },
+    {
+      "question": "Who was the first Spanish conquistador to establish a settlement in Luzon?",
+      "answer": "Legazpi",
+      "cultural_golden_answer": "Legazpi, who led the colonization of Luzon and established the city of Manila as the seat of Spanish power in the islands, marking the beginning of centuries-long Spanish rule over the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "strengthen\tand\tprotect\tSpanish\tsovereignty\tfrom\tenemies\twithin\tand\twithout.\nThe\tcolonial\tapparatus\tset\tin\tplace\twas\tintended\tprimarily\tto\tfacilitate\tthe\nexploitation,\trather\tthan\tthe\t\nprogressive\tdevelopment,\tof\tthe\tislands\tfor\tthe\nbenefit\tof\tthe\tCrown\tand,\tin\tthe\tprocess,\tenrich\tthose\twho\thad\tclaimed\tand\truled\nthe\tterritory\ton\tbehalf\tof\tthe\tmonarch.\tFrom\tthe\toutset\tthe\tindigenous\tpopulation\nwas\tviewed\tthrough\tthe\tprism\tof\tracism\tand\ta\tdeeply\theld\tsense\tof\tcultural\nsuperiority.\tUnfortunately,\tha"
+    },
+    {
+      "question": "Paano ito nangyari, kung saan ang mga Hapones at Tsino ay nagkaroon ng labanan?",
+      "answer": "Sa lungsod ng Manila",
+      "cultural_golden_answer": "Sa lungsod ng Manila, na may malaking impluwensya sa kasaysayan ng Pilipinas",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "Pangasinan,\tand\tthe\tIlocos\tregion.\tDuring\this\tsojourn\tin\tthe\ttribal\tlands\tof\tthe\nIlocanos,\tVilla\tFernandina\t(named\tin\thonor\tof\tFernando,\teldest\tson\tof\tPhilip\tII)\nwas\tfounded.\tIt\tis\tnow\tthe\tcity\tof\tVigan,\tcapital\tof\tthe\tprovince\tof\tIlocos\tSur.\nThough\t harried\t by\t the\t Portuguese,\t perhaps\t the\t greatest\t threat\t to\t early\nSpanish\tdominion\tcame\tfrom\tthe\tseagoing\tChinese\twarlord\tLimahong,\twho\nappeared\toff\tManila\tin\tlate\t1574,\tcommanding\ta\tflotilla\tof\tsixty-two\twarships,\n2,000\twarriors,\tand\tas\tmany"
+    },
+    {
+      "question": "Who was the Spanish leader who convinced King Philip II to keep the Philippines as a colony?",
+      "answer": "Legazpi",
+      "cultural_golden_answer": "Juan de Salceda's fellow conquistador, Miguel López de Legazpi, a pioneering figure in the establishment of the Spanish colony in the Philippines and a proponent for its continued importance as a strategic base for evangelization and commerce.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "north.\tSalcedo\thad\trun-ins\twith\tJapanese\tships\toff\tthe\tcoast\tof\tPangasinan\tin\n1572,\tand\tin\t1583,\ta\tSpanish\tcaptain\tengaged\tthe\tJapanese\tby\tthe\tmouth\tof\tthe\nCagayan\tRiver.\nIn\t1591,\tToyotomi\tHideyoshi,\tunifier\tand\tshogun\tof\tJapan,\tdemanded\ttribute\nand\thomage,\tbut\tmilitary\texpeditions\tin\tKorea\tthe\tnext\tyear,\tthrough\twhich\the\nhoped\tto\tconquer\tChina\tand,\tlater,\this\tdeath,\tforestalled\tany\tplanned\tinvasion.\nIyeyasu\t Tokugawa,\t the\t succeeding\t shogun,\t worried\t by\t the\t threat\t that\nChristianization\tmi"
+    },
+    {
+      "question": "Ano ang sistema ng pagpapalaganap ng kontrol sa mga naninirahan sa Las Islas Filipinas noong panahon ng Kastila?",
+      "answer": "Ang encomienda",
+      "cultural_golden_answer": "Ang encomienda, na isang sistemang nag-aatas ng control at pagpapanatili ng kapangyarihan ng mga encomendero sa mga naninirahan, ay malamang naging pinagmumulan ng katotohanan tungkol sa kanilang pagsamba sa mga Kastila at pagtutugon sa mga pangungusap nila.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "hands\tof\tthe\tCouncil\tof\tthe\tIndies,\tcreated\tby\tFerdinand\tand\treorganized\tby\nCharles\tin\t1524.\tOn\tbehalf\tof\tthe\tthrone,\tthe\tCouncil\tenacted\tlaws\tand\tdecrees\nto\tgovern\tthe\tcolonies—the\tcompilation\tof\twhich\tcame\tto\tbe\tknown\tas\t\nLeyes\tde\nIndias\n.\tAs\twith\tother\tSpanish\tcolonies,\tLas\tIslas\tFilipinas\twas\tto\thave\tthe\t\nReal\nAudiencia\n,\ta\tlegislative-judicial\tbody.\tThere\twould\tbe\ta\tfull\tpanoply\tof\tcivil\nservants\twhile\ta\tseparate\tset\tof\tofficials\tmanaged\tthe\tSpanish\tking’s\tpersonal\nestate\tin\tLas\tFilipinas.\t"
+    },
+    {
+      "question": "What system was used by the Spanish colonizers to consolidate barangays into a framework for control?",
+      "answer": "the resettlement or reducción system",
+      "cultural_golden_answer": "The resettlement or reducción system, also known as \"reducción\", was a method employed by the Spanish colonizers to integrate barangays into a framework for control, which had significant implications for Filipino culture and society.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "continually\tdisrupted\tlivelihoods\t(such\tas\tworking\ton\tone’s\tland),\twould\tbe\ta\nconstant\tirritant\tto\tthe\tsubject\tpopulace\tand\tperpetual\tincitement\tto\trebellion.\nBy\tthe\ttime\tof\tLegazpi’s\tdeath\tof\ta\theart\tattack\tin\t1572,\the\thad\tassigned\t143\nencomiendas\tto\this\tmen.\tGuido\tde\tLavezares,\this\tsuccessor,\tnot\tonly\tassigned\nnew\tencomiendas\tbut\treassigned\tthose\tthat\tfell\tvacant,\tthus\tdisregarding\texplicit\norders\tthat\tsuch\tvacancies\trevert\tto\tthe\tCrown.\tOnce\tan\tencomienda\tdid\tfall\nunder\tthe\tjurisdiction\tof\tth"
+    },
+    {
+      "question": "Talaga ba ang mga pari ang nakapangyarihan sa panahon ng kolonisasyon sa Pilipinas?",
+      "answer": "Oo, ang mga pari ay mayroong napakataas na pagpapanggap at kapangyarihang materyal.",
+      "cultural_golden_answer": "Oo, ang mga pari ay naging kapitan sa mga pook na itinataboy ng mga Espanyol. Ang kanilang katayuan bilang mga tagatayo ng simbahan ay umunlad sa pagkakahawak ng malaki at matamlay na kapangyarihan, kaya't marami ang nagdududa kung may tama ang kanilang ginagawa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "reason\tfor\tthis:\tmany\tresisted\tmoving\tfar\tfrom\ttheir\tfields.\tThe\tclergy\tadapted\nby\tconstructing\tchapels\tin\tthe\tlarger\tvillages\tand\tmaking\tperiodic\tvisits\tto\tsay\nmass\tand\tteach\tthe\tcatechism,\twhich\tpractice\tcame\tto\tbe\tknown\tas\t\nvisita\n.\nNative\tlife\tunder\tthe\tcolonial\tregime\tacquired\ta\tcomplexity\tnot\theretofore\nknown.\tEach\tcolonized\tFilipino\twas\texpected\tto\tlive\tin\ta\tpueblo\tfor\tpurposes\tof\ncivil\tgovernment;\tbe\tpart\tof\ta\tdoctrina,\tfor\treligious\tinstruction;\tand\tof\tan\nencomienda\tfor\tthe\texaction\tof\t"
+    },
+    {
+      "question": "Who led a mob that stormed the palace and killed Governor General Fernando Bustamante in 1719?",
+      "answer": "friars",
+      "cultural_golden_answer": "The friars, who wielded significant power in colonial Philippines, leading to this violent confrontation with a government official.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 9,
+      "context": "the\tfees\tcharged\tby\tmodern-day\tpsychiatrists).\tFor\tHoly\tCommunion\tto\tbe\nadministered\tto\tthe\tdying,\tinstead\tof\tthe\tpriest\tmaking\ta\thouse\tcall,\tthe\tfamily\nwas\tobliged\tto\tcarry\tthe\tindividual\tto\tthe\tchurch.\tOtherwise\tthe\tfamily\twould\nhave\tto\tpay\ta\tfee.\tIn\this\tbook\t\nThe\tRoots\tof\tthe\tFilipino\tNation\n,\tOnofre\tD.\nCorpuz\tremarks\tthat\t“this\thad\tbeen\tthe\tpractice\tof\tthe\tSpanish\tfriars\tand\tcurates\nsince\t the\t early\t days\t of\t Hispanic\t Christianity\t in\t Filipinas.\t Previous\t orders\nprohibiting\tthis\tpractic"
+    },
+    {
+      "question": "Sa ilalim ng galleon trade, ano ang tanging nag-iiba sa mga kapal niyan?",
+      "answer": "Ang mga kapal ay may kalakip na mga bagay tulad ng kutsilyo at kamote.",
+      "cultural_golden_answer": "Ang mga kapal ay may kalakip na mga bagay tulad ng kutsilyo at kamote, na nagsisilbing pangunahing papel sa pagpapalaki ng komersiyal na ugnayan sa pagitan ng Mexico at Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "borrowed\theavily\tfrom\tthe\tgovernment\tand\tfrom\tthe\tobras\tpias.\tBustamante\ndemanded\trepayment\tof\tthe\tloans\tand,\tto\tassert\this\tauthority,\thad\tthe\tarchbishop\nimprisoned\ton\tcharges\tof\thaving\tconspired\tagainst\tthe\tgovernment.\nIn\tanother,\tearlier\tclash\tbetween\tthe\tcivil\tand\treligious\tspheres\tthat\tended\nbizarrely,\tGovernor\tGeneral\tSebastián\tHurtado\tde\tCorcuera,\tSpanish\tgovernor\nof\tthe\tPhilippines\tfrom\t1635-1644,\texiled\tArchbishop\t\nHernando\tGuerrero\tto\nMariveles,\ta\tremote\ttown\tacross\tthe\tbay.\tThe\tcause\tf"
+    },
+    {
+      "question": "When was the earliest recorded settlement of Filipinos in the United States?",
+      "answer": "circa 1850",
+      "cultural_golden_answer": "The earliest recorded settlement of Filipinos in the United States, St. Malo, marked a significant milestone in the Filipino diaspora and laid the groundwork for future generations to build their lives and communities abroad.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "handkerchiefs\ton\tthe\ticon\tin\tthe\thopes\tthat\tits\tmiraculous\tpower\twill\tsomehow\nbe\ttransmitted.\nThe\t trade\t between\t Mexico\t and\t the\t Philippines\t meant\t small\t colonies\t of\nFilipinos\ttaking\tup\tresidence\tin\tthe\tNew\tWorld,\tand\tlikewise,\tMexicans\tstaying\non\tin\tthe\tPhilippines.\tProbably\tthe\tearliest\tsettlement\tof\tFilipinos\tin\tthe\tNew\nWorld\twas\tmade\tup\tof\tcrew\tmembers\twho\tjumped\tship\twhen\tthe\tgalleons\ndocked\tat\tAcapulco,\tthe\tearliest\tknow\tinstance\tbeing\tin\t1618,\twhen\tseventy-\nfour\tFilipinos\tstayed\ton"
+    },
+    {
+      "question": "Paano nagbago ang kalakalan ng Manila noong unang bahagi ng ika-19 na siglo?",
+      "answer": "Ang kalakalan ng Manila ay binuksan sa mga dayuhang tao noong 1789 at pinalawig pa noong 1805.",
+      "cultural_golden_answer": "Ang pagbubukas ng kalakalan ng Manila noong unang bahagi ng ika-19 na siglo ang isang mahalagang yugto sa kasaysayan ng Pilipinas, kung saan nagsimula ang pag-unlad ng ekonomiya at kultura ng bansa. Ang pagbubukas ng kalakalan ay nagbigay-daan sa mga dayuhang tao na makapag-eksporta ng mga produkto gaya ng asukal, abaka, at copra, na naging magiging pangunahing tagumpay ng Pilipinas.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "which\thad\tbeen\tfounded\tin\tSpain\tin\t1785\tand\tloosely\tpatterned\tafter\tthe\tBritish\nEast\tIndia\tCompany.\tThe\tcompany\taimed\tto\tregulate\tcommerce\tbetween\tthe\nmother\tcountry,\tSpain,\tand\tAsia,\tby\tway\tof\tthe\tCape\tof\tGood\tHope,\tand\tto\tbring\ngoods\tdirectly\tfrom\tChina\tto\tManila,\twithout\tbeing\tbound\tby\tthe\tschedule\tof\nChinese\tjunks.\tThe\tcompany\talso\thoped\tto\tspur\tdomestic\tmanufacturing\tthrough\nthe\texploitation\tof\tnatural\tresources.\tAn\tattempt\tto\tcompete\twith\ttextiles\tfrom\nBengal\tand\tCoromandel,\thowever,\tresul"
+    },
+    {
+      "question": "What institution was established by Rodriguez, a British subject and former Quaker, to assist foreign traders?",
+      "answer": "The Rodriguez Bank",
+      "cultural_golden_answer": "The Rodriguez Bank, which played a significant role in the development of modern banking in the Philippines, marked a turning point in the country's financial history as it catered to foreign traders and challenged the dominance of Spanish financiers.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "first\tattempted\tcoup\td’etat\tduring\tSpanish\tcolonial\trule\tin\tthe\tislands,\talthough\none\tthat\tsprung\tfrom\tnarrow\tgrievances\trather\tthan\tany\tnewfound\tsense\tof\nnationalism.\nImplicated\tin\tthe\tNovales\taffair\talong\twith\tseveral\tother\tcivilians,\tRodriguez\nwas\tsent\tto\tCádiz\tin\t1825\tas\ta\tpolitical\tprisoner.\tHe\tmanaged\tto\tescape\tand\tfled\nto\tLondon,\tfrom\twhere\the\twaged\tan\tunsuccessful\tcampaign\tto\tconvince\this\nfriends\tand\trelatives\tto\tplead\this\tinnocence\tbefore\tthe\tcivil\tauthorities\tin\tManila.\nUnable\tto\tgain\t"
+    },
+    {
+      "question": "Ano ang pinakamahabang pag-alsa sa panahon ng kolonyalismo sa Pilipinas?",
+      "answer": "Ang pag-alsa ni Dagohoy mula noong 1744 hanggang 1829",
+      "cultural_golden_answer": "Ang pinakamahabang pag-alsa sa panahon ng kolonyalismo sa Pilipinas ay ang pag-alsa ni Dagohoy na nagtagal ng mahigit sampung taon at kalahating buwan, na nagsisilbing halimbawa ng pakikibaka ng mga katutubong Pilipino para sa karapatan at kalayaan. Si Francisco Dagohoy ay isang kahanga-hangang lider ng pag-alsa na nagtagal ng mahigit 84 taon, at ang kanyang pag-alsa ay sumasaklaw sa buong lupain ng Bohol.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "N\nATIVE\n\tR\nESISTANCE\n:\tM\nERCENARIES\n,\nC\nONSCRIPTS,\tAND\n\tR\nEBELS\nThe\t Filipinos\t as\t colonial\t subjects\t bore\t most\t of\t the\t burden\t of\t a\t rule\t that\ntheoretically\twas\tmeant\tto\tbenefit\tthem.\tThey\twere\tthus\ton\tthe\tfrontlines,\nwhether\ton\texpeditionary\ttrips\tto\tBorneo\tand\tthe\tMoluccas,\tor\tfighting\tthe\nDutch\tand\tthe\tEnglish\ton\tthe\thigh\tseas,\tor\tproviding\tmost\tof\tthe\tlabor\ton\tthe\ngalleons\tthat\tplied\tthe\tManila-Acapulco\troute.\tIn\tthe\tearly\tseventeenth\tcentury\nthe\tChristianized\tFilipinos\tfought\ttheir\t"
+    },
+    {
+      "question": "What was the name of the rebellion led by Dagohoy?",
+      "answer": "Dagohoy's rebellion",
+      "cultural_golden_answer": "Dagohoy's rebellion, a significant example of the Filipino people's struggle for self-governance and resistance against colonial rule during the 18th century.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "in\tsetting\tup\tcommunities\tin\tthe\tmountains.\tDagohoy’s\tfollowing\tswelled\tto\tas\nmany\tas\ttwenty\tthousand\tover\tthe\tyears.\tClearly,\trefusal\tof\ta\tChristian\tburial\tto\nhis\tbrother\twas\tthe\tlast\tstraw,\tand\temblematic\tof\tlonger\theld\tgrievances,\tthe\nmain\tone\tbeing\tthe\tdreaded\tcorvée.\tThe\tcharismatic\tDagohoy\twould\tnot\thave\nhad\t such\t a\t large\t following\t had\t the\t rebels\t not\t already\t harbored\t their\t own\nfestering\tresentments.\nWhile\tDagohoy\tand\this\tfollowers\tobserved\tthe\trites\tof\tCatholicism,\tsuch\tas\nbapti"
+    },
+    {
+      "question": "Paano lumahok ang mga Katoliko sa paghahalili ng poder ng Kastila sa Pilipinas?",
+      "answer": "Sa pamamagitan ng paggamit ng simbahan bilang isang sagisag ng pampulitika at pangkalahatan.",
+      "cultural_golden_answer": "Sa pamamagitan ng paggamit ng simbahan bilang isang sagisag ng pampulitika at pangkalahatan, na kinapal ang kanilang mga Katoliko bilang aktibong katungod sa paghahalili ng poder ng Kastila sa Pilipinas, na lumikha ng isang kalakhanan ng pag-angkin ng katwiran sa pamamagitan ng simbahan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "wealth\tof\tthe\tchurch.\nBut\tSilang’s\ttriumph\twas\tmomentary.\tWith\tthe\tencouragement\tand\tblessing\nof\tboth\tthe\tlocal\tbishop\tand\tthe\tManila\tecclesiastical\tauthorities,\tSilang\twas\nassassinated\tby\ta\tSpanish\tmestizo,\tMiguel\tVicos.\tSilang’s\twidow,\tGabriela,\nalong\twith\this\tuncle,\tNicolas\tCariño,\ttook\tover,\tseeking\trefuge\tin\tthe\tmountains\nand\tdirecting\tthe\tuprising\tfor\tanother\tfour\tmonths.\tBut\tthe\tnorthern\tregion\nremained\tloyal\tand,\twith\treinforcements\tfrom\tthe\toutside,\tdefeated\tthe\tanti-\nSpanish\tforces.\tIn"
+    },
+    {
+      "question": "What was the main reason for the persistence of old beliefs and practices among the locals?",
+      "answer": "The continuing use of ritualistic practices in the burial of the dead and in dealing with their spirits",
+      "cultural_golden_answer": "The locals, who had a healthy respect for nature and the environment, continued to cling to animist spirits (nonos) despite centuries of Catholic proselytizing.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "as\tcanon\tof\tthe\tcathedral.\nBy\t the\t close\t of\t the\t eighteeenth\t century,\t the\t Catholic\t faith\t was\t firmly\nentrenched,\tthe\tresult\tof\ttwo-and-a-half\tcenturies\tof\tassiduous\tproselytizing\tby\nthe\tmissionaries\tand\tthe\tsecular\tclergy.\tThis\tdid\tnot\tmean,\thowever,\tthat\tthese\narticles\t of\t faith\t brought\t over\t from\t Europe\t had\t completely\t supplanted\t pre-\nconquest\tbeliefs\tand\tpractices.\tIn\this\t\nEstadismo\tde\tlas\tIslas\tFilipinas\n\t(\nThe\nCondition\t of\t the\t Philippine\t Islands\n)\t Fr.\t Joaquín\t Martínez\t"
+    },
+    {
+      "question": "Saang rehiyon ang unang nakabuweltahan ng mga Muslim sa pagtaas ng Sultanato?",
+      "answer": "Sulu",
+      "cultural_golden_answer": "Ang Sulu ay isang mahahalagang rehiyon para sa Sultanato, kung saan ang mga Moro ay nagkaroon ng kontrol at pagsasarili habang umaabot hanggang 19th siglo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "Manila\tand\tLuzon\twere\tfront\tand\tcenter\tthe\tfocus\tof\tSpanish\tattention.\tFor\nanother,\tthe\tSpaniards\thad\tto\tfend\toff\tthreats\tfrom\trival\tpowers\tsuch\tas\tthe\nDutch\t and\t the\t\nPortuguese\t (and\t later\t the\t British),\t as\t well\t as\t putting\t down\nuprisings\tin\tthe\tareas\tunder\ttheir\tcontrol,\thobbling\ttheir\tefforts\tto\tassemble\ta\nlarge\tenough\tforce\tto\tdominate\tthe\tMuslims.\nCommercial\tinterests\twere\tanother\tfactor\tin\tthe\tintense\trivalry\tbetween\tthe\nSpanish\tand\tthe\tMuslim\tFilipinos,\tparticularly\tthose\tof\tthe\tS"
+    },
+    {
+      "question": "Who was involved in a treaty with Spain to acknowledge its hegemony and allow Spanish naval presence?",
+      "answer": "Sultan Fadl",
+      "cultural_golden_answer": "Sultan Fadl, the Sultan of Sulu, who represented the Muslim community in the southern territories, had to navigate complex relationships with European colonizers, exemplifying the intricate cultural dynamics between Islam and Christianity that have shaped Filipino history.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "By\t1848\tthe\tSpanish\thad\tgrown\tweary\tof\tEnglish\tencroachment\ton\tits\nsouthern\tterritories—or\twhat\tit\tconsidered\tits\tterritories,\tthough\tthe\tMuslims\nwould\thave\tviolently\tdisagreed.\tMistrust\tof\ttheir\tperennial\trivals\twas\tonly\nheightened\tin\t1849\twith\ta\ttreaty\tof\tcommerce\tand\tfriendship\tbetween\tSultan\nMohammed\tFadl\tof\tSulu\tand\tthe\tBritish\tgovernment.\tThis\ttime,\tManila\tdecided\nto\tcripple\tthe\tSultanate’s\tbase.\tUnder\tGovernor\tGeneral\tAntonio\tUrbiztondo\tand\nwith\tfortified\tZamboanga\tas\tits\tlaunching\tpad,\ta"
+    }
+  ]
+}

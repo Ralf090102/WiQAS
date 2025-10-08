@@ -1,0 +1,374 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\Filipino-Politics-Ch5.pdf",
+    "total_chunks": 20,
+    "total_qa_pairs": 40,
+    "chunk_size": 6000,
+    "chunk_overlap": 1200,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Ano ang pangalan ng batasang ipinasa noong 1972?",
+      "answer": "New Constitution",
+      "cultural_golden_answer": "Ang bagong saligang batas na pinapaboran ni Marcos ay isang hakbang upang palawakin ang kaniyang kapangyarihan at mapatunay ang kaniyang pagiging mahal sa bayan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "5TheMartialLawRegime\nThischapterexplorestheinstitutionalcontinuitiesanddiscon-tinuitiesacrossthe1972watershedtothe“NewSociety”ofPresidentMarcos.WefocusontheperiodbetweenSeptember1972and1978,whenmartiallawinstitutionswerebecomingestablished.Thereweremanyalterationsintheseyears—thiswasthepresident’sstyle—buthehadnotyetseriouslyembarkedontheroadtowhathecalled“nor-malization.”Insteadheconstantlyreiteratedjustihcationsforthecon-tinuationofmartiallaw.In1978,however,hebeganaperiodoffrequentinstitutiona"
+    },
+    {
+      "question": "Paano naituturing ni Marcos ang kaniyang pamamahala?",
+      "answer": "Martial Law Regime",
+      "cultural_golden_answer": "Ang pamamahala ng Martial Law ay isang panahong nagtuturo na sa mga Pilipino ang kahalagahan ng disiplina at pagtiwala sa liderato, bagaman ito rin naging kapahamakan para sa ilang mga Pilipino.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "5TheMartialLawRegime\nThischapterexplorestheinstitutionalcontinuitiesanddiscon-tinuitiesacrossthe1972watershedtothe“NewSociety”ofPresidentMarcos.WefocusontheperiodbetweenSeptember1972and1978,whenmartiallawinstitutionswerebecomingestablished.Thereweremanyalterationsintheseyears—thiswasthepresident’sstyle—buthehadnotyetseriouslyembarkedontheroadtowhathecalled“nor-malization.”Insteadheconstantlyreiteratedjustihcationsforthecon-tinuationofmartiallaw.In1978,however,hebeganaperiodoffrequentinstitutiona"
+    },
+    {
+      "question": "What was the mechanism used by President Marcos to ratify the new constitution?",
+      "answer": "Citizens Assemblies",
+      "cultural_golden_answer": "The Citizens Assemblies, a Filipino cultural context where local officials directed residents to vote in favor of the constitution with minimal preparation time and often under police or military presence.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 1,
+      "context": "116FilipinoPolitics\ntution,tobewidelyacceptedaslegitimate,hadtobeapprovedbyplebisciteasprescribedintheElectionCode.OnDecember1,withthousandsofpoliticalprisonersstillinarmydetentioncamps,Marcosdecreedthatinpreparationforaplebiscite“ourpeopleshallbeaf-fordedthefullestopportunitytofreelyandpubliclydiscussandde-bate”thevariousprovisionsoftheapproveddraft.^Notsurprisinglymostpeoplewerewaryathrst,butafewbegantospeakout.Sincenoonewasimmediatelydetained,criticalcommentssoongushedinaragingtorrent.Opposit"
+    },
+    {
+      "question": "What was the reaction of the Supreme Court towards the new constitution?",
+      "answer": "The court asserted its jurisdiction, trimmed the legitimacy to the barest minimum, but did not require a new plebiscite.",
+      "cultural_golden_answer": "The Supreme Court's decision marked a significant moment in Filipino history where the rule of law was upheld despite attempts by President Marcos to consolidate power through constitutional means.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 1,
+      "context": "116FilipinoPolitics\ntution,tobewidelyacceptedaslegitimate,hadtobeapprovedbyplebisciteasprescribedintheElectionCode.OnDecember1,withthousandsofpoliticalprisonersstillinarmydetentioncamps,Marcosdecreedthatinpreparationforaplebiscite“ourpeopleshallbeaf-fordedthefullestopportunitytofreelyandpubliclydiscussandde-bate”thevariousprovisionsoftheapproveddraft.^Notsurprisinglymostpeoplewerewaryathrst,butafewbegantospeakout.Sincenoonewasimmediatelydetained,criticalcommentssoongushedinaragingtorrent.Opposit"
+    },
+    {
+      "question": "Ano ang naging kahalagahan ng Barangay sa panahon ng pagpapakasapi ni Marcos?",
+      "answer": "Ang Barangay ay naging direktang daan para sa mga mamamayan na makapag-uwiwika ng kanilang mga salita sa gobyerno at sa panganib ng Pangulo.",
+      "cultural_golden_answer": "Ang Barangay, bilang pinakamaliliit na yunit ng pamahalaan, ay naging mahalaga para sa pananalapi ni Marcos upang makakuha ng karapatan at tiwala ng mga mamamayan, gaya ng isiniwalat sa kanyang pagpatawad sa pamilya ng dating Pangulo Macapagal.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "118FilipinoPolitics\nracy.“Inplaceotthismonopolyofpowerbythetewrich,therehasbeenaresurgenceofpowerofthepeopletodeterminetheirfuture,”heclaimed.“ThroughthebarangaythevoiceofeverycitizenhasfoundadirectchanneltothecitadelsofgovernmentandtotheveryheartofthePresidency.”^^OneleadingapologistfortheNewSociety,DailyExpresscolumnistTeodoroValencia,describedthenewstyleas“thepoliticsofconsensus.InpreparationforthesecondbarangayreferenduminJuly1973,Marcossetforthanewregistrationprocedure,oneprovisionofwhichwa"
+    },
+    {
+      "question": "Anong naging tema ng panahon ni Marcos?",
+      "answer": "Ang pagpapanumbalik ng kapangyarihan ng mamamayan sa pamamagitan ng pagbubukod ng Barangay.",
+      "cultural_golden_answer": "Ang pagbabago at pagpapakasapi ay naging isang pangunahing temang nagtutulak sa mga Pilipino na magbalik-loob sa kanilang mga pamilya at komunidad, na tatahakin ng Barangay bilang daan para makakuha ng karapatan at pagpapakasapi.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "118FilipinoPolitics\nracy.“Inplaceotthismonopolyofpowerbythetewrich,therehasbeenaresurgenceofpowerofthepeopletodeterminetheirfuture,”heclaimed.“ThroughthebarangaythevoiceofeverycitizenhasfoundadirectchanneltothecitadelsofgovernmentandtotheveryheartofthePresidency.”^^OneleadingapologistfortheNewSociety,DailyExpresscolumnistTeodoroValencia,describedthenewstyleas“thepoliticsofconsensus.InpreparationforthesecondbarangayreferenduminJuly1973,Marcossetforthanewregistrationprocedure,oneprovisionofwhichwa"
+    },
+    {
+      "question": "What was the reaction of the Catholic Church to the proposed referendum?",
+      "answer": "The Association of Major Religious Superiors in the Philippines unanimously adopted a manifesto calling for at least ninety days of entirely free public discussion prior to any referendum.",
+      "cultural_golden_answer": "The Catholic Church, which holds significant influence in Filipino society, issued a collective statement opposing the proposed referendum due to concerns over lack of transparency and freedom. This reflects the importance of religious institutions in shaping public opinion in the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "120FilipinoPolitics\nwasalsogrowinginCatholiccircles.OnJanuary11,1975,theAssocia-tionofMajorReligiousSuperiorsinthePhilippinesunanimouslyadoptedamanifestocallingforatleastninetydaysofentirelyfreepublicdiscussionpriortoanyreferendumandsupervisionofvotingbyareputable,impartialbody.Theyconcludedthatsuchconditionswerenotpresentandwouldinconscience-“boycotttheforthcomingreferen-dum.”Suchcriticismwasnottobetakenlightly,andMarcospostponedthereferendumfromJanuarytoFebruary27.TheCatholicbishopsonJanuary31"
+    },
+    {
+      "question": "How did President Marcos try to influence the outcome of the referendum?",
+      "answer": "President Marcos sent a telegram to all mayors, municipal councillors, and barangay leaders throughout the Philippines, declaring his preference for certain answers on the referendum questions.",
+      "cultural_golden_answer": "As is typical in Filipino politics, President Marcos employed patronage and coercion to sway voters' decisions. His telegram served as a reminder of the president's power and authority, which can be both a blessing and a curse in Philippine culture.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "120FilipinoPolitics\nwasalsogrowinginCatholiccircles.OnJanuary11,1975,theAssocia-tionofMajorReligiousSuperiorsinthePhilippinesunanimouslyadoptedamanifestocallingforatleastninetydaysofentirelyfreepublicdiscussionpriortoanyreferendumandsupervisionofvotingbyareputable,impartialbody.Theyconcludedthatsuchconditionswerenotpresentandwouldinconscience-“boycotttheforthcomingreferen-dum.”Suchcriticismwasnottobetakenlightly,andMarcospostponedthereferendumfromJanuarytoFebruary27.TheCatholicbishopsonJanuary31"
+    },
+    {
+      "question": "Paano ito nakapagpapaigting sa mga pagpapalaya ng presyo sa ilalim ni Marcos?",
+      "answer": "Sa pamamagitan ng pagsasabatas ng kontrol sa ekonomiya at pangunguna sa mga gawaing pang-ekonomiya.",
+      "cultural_golden_answer": "Sa pamamagitan ng pagpapalaya ng presyo, umiikot ang mga Filipino sa ilang tao, kung siya'y maganda o masama. Ang gawain na ito ay isang mahahalagang bahagi ng kasaysayan ng Pilipinas at nakatulong sa maraming tao.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "122FilipinoPolitics\nanyreferendumheldundertheseoppressivecircumstancescannotbutbeaviciousfarce.Theboycottersevenhelddemonstrations—allsupposedlyillegal,ofcourse—andforthehrsttimesincemartiallawtheseledtomilitaryviolence,inwhichtwopeopledied.Butboththeturnoutandthe“yes”voteswereattheusuallevel.IMFdelegatesmayhavebeenimpressed,forevenatightlycontrolleddebate,Filipinostyle,mayhaveseemedfreeandopenfromthevantagepointofsomeotherauthoritariansocieties;however,thenetresultoftheexercisewasnotincreasedle"
+    },
+    {
+      "question": "Kilala ang anong pangalan ng ambasador ni Marcos?",
+      "answer": "Si Roberto Benedicto.",
+      "cultural_golden_answer": "Si Roberto Benedicto, na kilala bilang isang mahusay na diplomat at kaibigan ng pangulo. Siya ay nagsilbing isang bahagi ng mga operasyong pang-estado at nakatulong sa pagpapalaya ng mga pananong ng bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "122FilipinoPolitics\nanyreferendumheldundertheseoppressivecircumstancescannotbutbeaviciousfarce.Theboycottersevenhelddemonstrations—allsupposedlyillegal,ofcourse—andforthehrsttimesincemartiallawtheseledtomilitaryviolence,inwhichtwopeopledied.Butboththeturnoutandthe“yes”voteswereattheusuallevel.IMFdelegatesmayhavebeenimpressed,forevenatightlycontrolleddebate,Filipinostyle,mayhaveseemedfreeandopenfromthevantagepointofsomeotherauthoritariansocieties;however,thenetresultoftheexercisewasnotincreasedle"
+    },
+    {
+      "question": "In what year did President Marcos announce the release of 622 prisoners?",
+      "answer": "1974",
+      "cultural_golden_answer": "President Marcos' announcement on December 11, 1974, marked a rare moment of transparency in the secretive and often brutal Martial Law Regime, which was known for its human rights abuses and suppression of political dissent. This event highlights the complex relationship between the government and the Church in the Philippines during this period.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "124FilipinoPolitics\nPoliticalPrisonersJailwasnotonlyforerringjournalists.By1977some70,000Filipinoshadbeenimprisonedfortheirpoliticalactionsandbeliefsatonetimeoranotheraftermartiallawwasdeclared.Therewerevariousestimatesofthenumbersstillincarcerated,withthepresidentclaimingonly6,000inlate1975andconsiderablyfewerby1978.^'^(InthehrstfouryearsofmartiallawmorethanhftypriestsandseveralProtestantpastors,aswellasmanynuns,wereamongthoseheldwithouttrialforhoursorevenyears.)Fromtimetotimesomewerefreed.Fori"
+    },
+    {
+      "question": "Who condemned torture and brutality by the Martial Law Regime?",
+      "answer": "Archbishop Jaime Sin of Manila",
+      "cultural_golden_answer": "Archbishop Jaime Sin, a prominent Catholic leader in the Philippines, spoke out against the human rights abuses committed by the Martial Law Regime, demonstrating the critical role that the Church played in advocating for justice and human dignity during this period. His condemnation of torture and brutality reflects the strong moral compass of many Filipino Catholics.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "124FilipinoPolitics\nPoliticalPrisonersJailwasnotonlyforerringjournalists.By1977some70,000Filipinoshadbeenimprisonedfortheirpoliticalactionsandbeliefsatonetimeoranotheraftermartiallawwasdeclared.Therewerevariousestimatesofthenumbersstillincarcerated,withthepresidentclaimingonly6,000inlate1975andconsiderablyfewerby1978.^'^(InthehrstfouryearsofmartiallawmorethanhftypriestsandseveralProtestantpastors,aswellasmanynuns,wereamongthoseheldwithouttrialforhoursorevenyears.)Fromtimetotimesomewerefreed.Fori"
+    },
+    {
+      "question": "Ano ang nangyari sa mga pulitikal na bilanggo noong panahon ng batas militar?",
+      "answer": "Kabilang dito ang pagkakapagdudiskubre sa kanilang kalagayan at pagsisimula ng mga kampanya laban sa dissents.",
+      "cultural_golden_answer": "Noong panahon ng batas militar, mayroong pagkakatanggap ng mabuti ang mga pulitikal na bilanggo mula sa mga lokalidad at uri ng lipunan. Ang kanilang kalagayan ay nasa depinisyon ng lokasyon at uri ng lipunan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "126FilipinoPolitics\nSevenenlistedmenweredischargedandfiveofficerswereorderedtofacecourtsmartial.ArchbishopSinpraisedthisactionas“positiveproofofgenuineconcern,”buttheoutcomeofthecourtsmartialwasnotmadeknown.Ingeneral,conditionsforpoliticalprisonersdependedonlocaleandsocialclass.IntheManilaarea,whereprisonsoccasionallyattractfor-eignvisitors,conditionsweremuchbetterthanintheprovinces,andprisonersfromthemiddleorupperclasswereusuallytreatedmoredecentlythanthecommontao—though,ofcourse,thiswasalsotru"
+    },
+    {
+      "question": "Tinutukoy ba ni Marcos ang sarili bilang isa sa mga pinakamalaking kasapi ng kongreso?",
+      "answer": "Oo, tinutukoy siya bilang isang malalaking kasapi ng kongreso.",
+      "cultural_golden_answer": "Tinutukoy siya bilang isang malalaking kasapi ng kongreso sa pamamagitan ng pag-udyok ng mga tao sa pagpapakilala niyang sarili bilang lider ng bayan, na may impluwensya ngunit walang tunay na kapangyarihan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "126FilipinoPolitics\nSevenenlistedmenweredischargedandfiveofficerswereorderedtofacecourtsmartial.ArchbishopSinpraisedthisactionas“positiveproofofgenuineconcern,”buttheoutcomeofthecourtsmartialwasnotmadeknown.Ingeneral,conditionsforpoliticalprisonersdependedonlocaleandsocialclass.IntheManilaarea,whereprisonsoccasionallyattractfor-eignvisitors,conditionsweremuchbetterthanintheprovinces,andprisonersfromthemiddleorupperclasswereusuallytreatedmoredecentlythanthecommontao—though,ofcourse,thiswasalsotru"
+    },
+    {
+      "question": "What event was used by Marcos to legitimize his martial law regime?",
+      "answer": "The legislative election for April 1978",
+      "cultural_golden_answer": "The 1978 legislative election, which was a significant effort to legitimize the Marcos regime and an attempt to present a veneer of democratic participation amidst the strictures of martial law.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "128FilipinoPolitics\nInearlyDecember1972mostmembersofCongresshadbeencalledtoMalacahangforconsultationandhadagreedtodissolvetheirbody,inexpectationofbeingmembersofthenewinterimparliament.Nevertheless,somepluckylegislatorstriedtogototheirofficesinthenationalcapitolonJanuary22,thedatesetforreconveningundertheoldconstitution.Theywerephysicallypreventedfromdoingsobythemilitary.Theiractionmusthaveconhrmedthepresident’sfearsof“disruptivebehavior”shouldtheinterimNationalAssemblybecalled.Whenheproclaimedt"
+    },
+    {
+      "question": "What was created by Marcos in September 1976?",
+      "answer": "The Legislative Advisory Council, known as Batasang Bayan",
+      "cultural_golden_answer": "The Batasang Bayan, an advisory council created by Marcos to bypass the traditional legislative process and assert his control over the country's governance.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "128FilipinoPolitics\nInearlyDecember1972mostmembersofCongresshadbeencalledtoMalacahangforconsultationandhadagreedtodissolvetheirbody,inexpectationofbeingmembersofthenewinterimparliament.Nevertheless,somepluckylegislatorstriedtogototheirofficesinthenationalcapitolonJanuary22,thedatesetforreconveningundertheoldconstitution.Theywerephysicallypreventedfromdoingsobythemilitary.Theiractionmusthaveconhrmedthepresident’sfearsof“disruptivebehavior”shouldtheinterimNationalAssemblybecalled.Whenheproclaimedt"
+    },
+    {
+      "question": "Ano ang tawag sa pangunahing partido ng gobyerno noong panahon ni Marcos?",
+      "answer": "Kilusan Bagong Lipunan o KBL",
+      "cultural_golden_answer": "Ang Kilusan Bagong Lipunan ay isang samahan na naitatag upang suportahan ang pamamahala ng Pangulo Marcos, at sa paglipas ng panahon, ito ay nagtutumoy sa mga linya ng mga partido sa paksa bago noong pagsabwatan ni Marcos.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "130FilipinoPolitics\nimportance,Marcosattemptedtoestablishagovernmentpoliticalpartyforthehrsttime.Thebarangayassemblieshadapparentlynotservedtomobilizemasssupportashehadexpected.Eversince1969Marcoshadconsistentlytriedtobypassprovincialandmunicipalleadersandlavishporkbarreldirectlyonthebarrio.InApril1975themanwhoaspiredtobethepadrinoofallFilipinosformalizedinPresidentialDecreeno.684themobilizationofthemostlyunderemployedandoftenunemployedyoungpeopleofthevillage,thosemostsusceptibletorecruitmentbyt"
+    },
+    {
+      "question": "Sino ang pangunahing kandidato ng oposisyon laban kay KBL?",
+      "answer": "Benigno Aquino Jr.",
+      "cultural_golden_answer": "Si Benigno Aquino Jr., na kilala bilang si Ninoy, ay isang kilalang dating senador at ang pangunahing kandidato ng oposisyon laban kay KBL. Siya ay isinilong bilang simbolo ng pag-asa at mga ideyang nagniningning sa panahon ng rehimiya ni Marcos.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "130FilipinoPolitics\nimportance,Marcosattemptedtoestablishagovernmentpoliticalpartyforthehrsttime.Thebarangayassemblieshadapparentlynotservedtomobilizemasssupportashehadexpected.Eversince1969Marcoshadconsistentlytriedtobypassprovincialandmunicipalleadersandlavishporkbarreldirectlyonthebarrio.InApril1975themanwhoaspiredtobethepadrinoofallFilipinosformalizedinPresidentialDecreeno.684themobilizationofthemostlyunderemployedandoftenunemployedyoungpeopleofthevillage,thosemostsusceptibletorecruitmentbyt"
+    },
+    {
+      "question": "Who led a peaceful march to protest massive election fraud?",
+      "answer": "Lorenzo Tahada",
+      "cultural_golden_answer": "Lorenzo Tahada, LABAN chairman, who led a peaceful march to protest massive election fraud in 1978, reflecting the Filipino tradition of non-violent resistance and civic engagement.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "132FilipinoPolitics\nwithoutharassment.Thegovernmentpulledoutallthestops,includ-ingpayraisesforthecivilserviceandlast-minutevoterregistration.Nevertheless,allpre-electionsurveysindicatedthatsomeLABANcan-didates,andcertainlyAquino,wouldwin.Aneventontheeveoftheelectiongavetheoppositionevengreaterhopes:achain-letterrequestforafewminutesofnoiseinsupportofLABANexplodedintoacity-widecacophonythatlastedallevening.ItwasauniqueopportunityforFilipinostoreleasepent-upfrustrationsaftermorethanhveyearsofmarti"
+    },
+    {
+      "question": "What was the President's reaction to the opposition's claims of widespread election irregularities?",
+      "answer": "He blamed the opposition for most of the reported election cheating, saying they were infiltrated by subversives.",
+      "cultural_golden_answer": "The President's reaction reflects the Filipino cultural tendency to deflect criticism and blame external forces or enemies, rather than acknowledging internal weaknesses or mistakes.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "132FilipinoPolitics\nwithoutharassment.Thegovernmentpulledoutallthestops,includ-ingpayraisesforthecivilserviceandlast-minutevoterregistration.Nevertheless,allpre-electionsurveysindicatedthatsomeLABANcan-didates,andcertainlyAquino,wouldwin.Aneventontheeveoftheelectiongavetheoppositionevengreaterhopes:achain-letterrequestforafewminutesofnoiseinsupportofLABANexplodedintoacity-widecacophonythatlastedallevening.ItwasauniqueopportunityforFilipinostoreleasepent-upfrustrationsaftermorethanhveyearsofmarti"
+    },
+    {
+      "question": "Ano ang pangalan ng bagong konstitusyon na idinapat ng pagpapataw ni Marcos noong 1973?",
+      "answer": "1973",
+      "cultural_golden_answer": "Ang bagong konstitusyon ay isang mahahalagang yugto sa kasaysayan ng Pilipinas, kung saan ang kapangyarihan ng pangulo at pederalismo ay binago. Ang mga pagbabago na ito ay nagbunsod ng mga pagbabago sa lipunan at politika ng bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "134FilipinoPolitics\natthedailypleasureofthepresident.AtleastonesittingSupremeCourtjustice,aswellaslawyersandretiredjurists,hadthecouragetospeakopenlyagainstthisarrangement.^®Andifthepresidentwerenotsatishedwithhiscontroloverjudicialoutcomesinciviliancourts,hecouldarrangetohavejurisdictiontakenbycourtsmartial.Insum,thejudicialsystemwasasmuchaninstru-mentforwieldingpowerasitwasforlegitimizingit.Intheexecutivebranchthefocusonwieldingpowerwasmoreclear-cut.TheExecutiveEvenifMarcoshaddecidedtoimplemen"
+    },
+    {
+      "question": "Ang naging epekto ng Integrated Reorganization Plan noong 1972?",
+      "answer": "Ang pangangalaga sa administratibong pagbabago at ang pag-iisyu ng karapatang pampulitika ng teknokrat.",
+      "cultural_golden_answer": "Ang Integrated Reorganization Plan ay isang mahahalagang hakbang upang palawigin ang kapangyarihan ng teknokrat sa Pilipinas, na nagpapanatili sa pagbabago at kasiguruhan sa administrasyon ng bansa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "134FilipinoPolitics\natthedailypleasureofthepresident.AtleastonesittingSupremeCourtjustice,aswellaslawyersandretiredjurists,hadthecouragetospeakopenlyagainstthisarrangement.^®Andifthepresidentwerenotsatishedwithhiscontroloverjudicialoutcomesinciviliancourts,hecouldarrangetohavejurisdictiontakenbycourtsmartial.Insum,thejudicialsystemwasasmuchaninstru-mentforwieldingpowerasitwasforlegitimizingit.Intheexecutivebranchthefocusonwieldingpowerwasmoreclear-cut.TheExecutiveEvenifMarcoshaddecidedtoimplemen"
+    },
+    {
+      "question": "What was one of the significant trends under martial law?",
+      "answer": "The concentration of decision-making under the personal signature of Ferdinand Marcos.",
+      "cultural_golden_answer": "Under Ferdinand Marcos' rule, power became increasingly centralized around his person, reflecting a cultural phenomenon in the Philippines where strong leaders often dominate politics and governance. This trend is reminiscent of the 'cacique democracy' that characterized Philippine politics during the pre-martial law era.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 11,
+      "context": "136FilipinoPolitics\ndonasaneconomist.Itwasthepresenceofafewkeyfiguresofcomparabletraining,outlook,andapparentintegritythatmadepossi-blewhataccomplishmentsthemartiallawregimeachieved.Afterthisinitialreorganization,newexecutivedepartmentswerecreatedataratefasterthaneverbeforeinthePhilippines,bringingthetotaltoeighteenbyJune1974.Thepracticaleffect—andperhapsanintendedone—wastoreducetheimportanceofalldepartmentsecre-tariesandtoincreasethenumberofofficialswhoreporteddirectlytothepresident.By1979there"
+    },
+    {
+      "question": "What was the president's response to corruption within the bureaucracy?",
+      "answer": "The president promised a purge of corrupt military officers, but this promise was eventually forgotten.",
+      "cultural_golden_answer": "Ferdinand Marcos' promises to root out corruption were characteristic of a Filipino cultural tendency to blame individuals rather than systemic issues for problems. Despite his efforts, corruption continued to plague the bureaucracy, highlighting the complexities of addressing graft in Philippine society.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "136FilipinoPolitics\ndonasaneconomist.Itwasthepresenceofafewkeyfiguresofcomparabletraining,outlook,andapparentintegritythatmadepossi-blewhataccomplishmentsthemartiallawregimeachieved.Afterthisinitialreorganization,newexecutivedepartmentswerecreatedataratefasterthaneverbeforeinthePhilippines,bringingthetotaltoeighteenbyJune1974.Thepracticaleffect—andperhapsanintendedone—wastoreducetheimportanceofalldepartmentsecre-tariesandtoincreasethenumberofofficialswhoreporteddirectlytothepresident.By1979there"
+    },
+    {
+      "question": "Paano nagpapanatili ang Pangulo ng mataas na kapangyarian noong panahon ng Rehimeng Militar?",
+      "answer": "Sa pamamagitan ng pagkontrol sa mga ahensya at lokal na pamumuno.",
+      "cultural_golden_answer": "Sa pamamagitan ng pagkontrol sa mga ahensya at lokal na pamumuno, nagbigay-diin ang Rehimeng Militar ng papel ng Pangulo bilang tagapagtatag ng kapangyarihan. Ito ay isang tatak Pilipino ng politika kung saan ang Pangulo ay hinahawak ng malaking kapangyarian at pumapanig sa mga interes ng First Family.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "138FilipinoPolitics\ntrimonialstyleofgovernanceincreasinglyrecognizednoboundarybetweenthepublicpurseandthatoftheFirstFamily.Sothemythof1973,thatcorruptionwassimplythecreatureofCongress,wasdis-pelled.Graftbecamesoextensivethatitnotonlyerodedwhateverregimelegitimacyremainedbutunderminedthenormalfunctioningofgovernment.Thosewhopraisedthe“efficiency”ofauthoritarianregimes,inthePhilippinesandelsewhere,hadtoreexaminetheirpremises.LocalGovernmentTheconcentrationofpowerinthepresident’shandswasparticularl"
+    },
+    {
+      "question": "Anong papel ang ginampanan ng Barangay noong panahon ng Rehimeng Militar?",
+      "answer": "Ang Barangay ay naging haligi ng personal na makinarya-politikal ng Pangulo.",
+      "cultural_golden_answer": "Ang Barangay ay naging haligi ng personal na makinarya-politikal ng Pangulo, na nagpapanatili sa pagkontrol at kapangyarihan ng Rehimeng Militar. Sa kasaysayan ng Pilipinas, ang Barangay ay karaniwang isang pamayanan ng mga lokal na lider na nangingibabaw sa pagpapaunlad ng komunidad. Ngunit noong panahon ng Rehimeng Militar, ginamit ito bilang pambansang makinarya-politikal ng Pangulo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "138FilipinoPolitics\ntrimonialstyleofgovernanceincreasinglyrecognizednoboundarybetweenthepublicpurseandthatoftheFirstFamily.Sothemythof1973,thatcorruptionwassimplythecreatureofCongress,wasdis-pelled.Graftbecamesoextensivethatitnotonlyerodedwhateverregimelegitimacyremainedbutunderminedthenormalfunctioningofgovernment.Thosewhopraisedthe“efficiency”ofauthoritarianregimes,inthePhilippinesandelsewhere,hadtoreexaminetheirpremises.LocalGovernmentTheconcentrationofpowerinthepresident’shandswasparticularl"
+    },
+    {
+      "question": "What was the main purpose of expanding the armed forces under President Marcos?",
+      "answer": "To combat subversion and insurgency",
+      "cultural_golden_answer": "To combat subversion and insurgency, a major concern in the Philippines during that time due to the ongoing communist insurgency and the threat of the New People's Army.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "140FilipinoPolitics\nsuspicion,however—tothemilitary.Militaryofficersthemselveswel-comedthe“extramoney...midwaythroughthehscalyear.”^^Well-informedobserversspeculatedthatthemilitarybudgetmayhavebeendoubledinsomeyearsbypresidentialtransfer,butveryfewpeopleknewforsure.TheMilitaryThe“defensebudget”incurrentpesos,evenignoringthesemassivefundtransfers,grewnearlytenfoldfromFY1972toFY1977,fromP608milliontoF5,381million.Inconstantdollarsthatbudgetin-creasedmorethanthreefold,muchmorerapidlythanelsewherein"
+    },
+    {
+      "question": "What was created in 1974 to organize civilian homedefense units?",
+      "answer": "The Civilian Home Defense Force (CHDF)",
+      "cultural_golden_answer": "The Civilian Home Defense Force (CHDF), a program that aimed to mobilize the Filipino people in supporting national security efforts, echoing the concept of 'bayaniba' or community defense that is deeply rooted in Filipino culture.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "140FilipinoPolitics\nsuspicion,however—tothemilitary.Militaryofficersthemselveswel-comedthe“extramoney...midwaythroughthehscalyear.”^^Well-informedobserversspeculatedthatthemilitarybudgetmayhavebeendoubledinsomeyearsbypresidentialtransfer,butveryfewpeopleknewforsure.TheMilitaryThe“defensebudget”incurrentpesos,evenignoringthesemassivefundtransfers,grewnearlytenfoldfromFY1972toFY1977,fromP608milliontoF5,381million.Inconstantdollarsthatbudgetin-creasedmorethanthreefold,muchmorerapidlythanelsewherein"
+    },
+    {
+      "question": "Ano ang nangyari sa hukbo noong 1972?",
+      "answer": "Sinusupervisyahin ng militar ang ilang korporasyon, kabilang ang Manila Electric at Philippine Long Distance Telephone companies.",
+      "cultural_golden_answer": "Ang pag-supervise ng militar sa mga korporasyon ay isang halimbawa ng pakikilahok ng hukbo sa ekonomiya ng Pilipinas, na nagpapanatili sa kanilang kapangyarihan at impluwensya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "142FilipinoPolitics\nplacedthemunderPCcommand.Anationallyintegratedpoliceforcewasprovidedforinthe1973constitutionandwasoneofthemajorinstitutionaltransformationsofthemartiallawregime.Thepoliceforcesofcitiesandmunicipalitieshadbeenhopelesslyentangledinlocalpoliticsandinsomeareasweremorefrequentlyacauseofdisor-derthantheywere“peaceofficers.”ThePoliceActof1966hadcreatedtheNationalPoliceCommissiontotrytoupgradedisciplineandtrain-ing.ButaslongasMarcoswascourtinglocalpoliticians,hedidnothingtoupsettheir"
+    },
+    {
+      "question": "Kung sino ang naging pangulo noong panahon ng mga martial law?",
+      "answer": "Si Ferdinand Marcos ang naging pangulo.",
+      "cultural_golden_answer": "Si Ferdinand Marcos, na naglingkod bilang pangulo mula 1965 hanggang 1986, ay isang mahalagang tao sa kasaysayan ng Pilipinas, na nakapamunuan ang bansa noong panahon ng mga martial law.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "142FilipinoPolitics\nplacedthemunderPCcommand.Anationallyintegratedpoliceforcewasprovidedforinthe1973constitutionandwasoneofthemajorinstitutionaltransformationsofthemartiallawregime.Thepoliceforcesofcitiesandmunicipalitieshadbeenhopelesslyentangledinlocalpoliticsandinsomeareasweremorefrequentlyacauseofdisor-derthantheywere“peaceofficers.”ThePoliceActof1966hadcreatedtheNationalPoliceCommissiontotrytoupgradedisciplineandtrain-ing.ButaslongasMarcoswascourtinglocalpoliticians,hedidnothingtoupsettheir"
+    },
+    {
+      "question": "When was the National Defense College created?",
+      "answer": "1963",
+      "cultural_golden_answer": "In 1963, President Macapagal established the National Defense College, a move that marked the beginning of closer civil-military relations in the Philippines.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 15,
+      "context": "144FilipinoPolitics\ngeneralsandtheservingcommanderofthePhilippineNavy.^‘^An-othercorporationwasestablishedespeciallyforKoreanWarveterans.TheNationalDefenseCollege,modeledontheNationalWarCollegeinTaiwan,washrstcreatedbyexecutiveorderofPresidentMacapagalin1963,^^butitdidnotadmit“representativesoftheprivatesector”until1973,whenMarcosexpandeditsrolebypresidentialdecree.Itsubsequentlyservedasanothermechanismforbringingmilitaryandcivilianstogetheronthemilitary’sterms.Afewdozencarefullyselectedmeninmid"
+    },
+    {
+      "question": "What was the main motivation for many Filipinos to join the military?",
+      "answer": "status and economic security",
+      "cultural_golden_answer": "For many Filipinos, joining the military offered a chance at status and economic security, as it provided a comfortable life with free education in the Academy.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "144FilipinoPolitics\ngeneralsandtheservingcommanderofthePhilippineNavy.^‘^An-othercorporationwasestablishedespeciallyforKoreanWarveterans.TheNationalDefenseCollege,modeledontheNationalWarCollegeinTaiwan,washrstcreatedbyexecutiveorderofPresidentMacapagalin1963,^^butitdidnotadmit“representativesoftheprivatesector”until1973,whenMarcosexpandeditsrolebypresidentialdecree.Itsubsequentlyservedasanothermechanismforbringingmilitaryandcivilianstogetheronthemilitary’sterms.Afewdozencarefullyselectedmeninmid"
+    },
+    {
+      "question": "Paano lumabas ang pangangalaga ng loob sa militar ni Marcos?",
+      "answer": "Sa pamamagitan ng pagpapalaki ng karagdagang posisyon at mga kasanayan para sa mga sundalo.",
+      "cultural_golden_answer": "Sa pamamagitan ng pagpapalaki ng karagdagang posisyon at mga kasanayan para sa mga sundalo, na umaalala sa katutubong Filipino na kaugalian ng pagtiyak ng seguridad at pakikilabawan ngunit sa isang mayayaman at mapangahas na paraan.",
+      "language": "filipino",
+      "cultural_relevance": 0.8,
+      "chunk_index": 16,
+      "context": "146FilipinoPolitics\nSometimebeforemartiallawPresidentMarcossetouttoestablishhimselfassupremepatronofthearmedforcesaswellastheircom-mander-in-chief.Thiscentralizationofpoliticalinfluencewouldculmi-nateinmartiallaw.Marcosstartedthebuildupwithanimportantadvantage—themilitary’sresentmentofcongressionalinfluence.Themilitaryneededpoliticiansmorethanpoliticiansneededthem.(Sometimescongressionalpatrons,flauntingtheircontroloverbudgetandpromotions,requiredcorporalsaspersonalservants,whileotherstriedtopro"
+    },
+    {
+      "question": "Sino ang naging target ni Marcos?",
+      "answer": "Ang mga hukbong katihan, partikular ang pinuno ng hukbo.",
+      "cultural_golden_answer": "Ang mga hukbong katihan, na may kaugalian ng paggalang sa kanilang mga mandinak at kapitan, at ang mga kumadron sa Kongreso, ay naging target ni Marcos upang makapangalaga ng loob sa militar at mapanatili ang kanyang kontrol.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "146FilipinoPolitics\nSometimebeforemartiallawPresidentMarcossetouttoestablishhimselfassupremepatronofthearmedforcesaswellastheircom-mander-in-chief.Thiscentralizationofpoliticalinfluencewouldculmi-nateinmartiallaw.Marcosstartedthebuildupwithanimportantadvantage—themilitary’sresentmentofcongressionalinfluence.Themilitaryneededpoliticiansmorethanpoliticiansneededthem.(Sometimescongressionalpatrons,flauntingtheircontroloverbudgetandpromotions,requiredcorporalsaspersonalservants,whileotherstriedtopro"
+    },
+    {
+      "question": "Who was tasked with cleaning up corrupt elements within the military?",
+      "answer": "The Department of National Defense",
+      "cultural_golden_answer": "The Department of National Defense, which was left to 'clean its own house' in a move that reflects the Philippines' emphasis on civilian control over the military.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 17,
+      "context": "148FilipinoPolitics\nmilitaryloyalty.The1973constitutionexplicitlystatedwhatwasonlyimplicitinthe1935document:“Civilianauthorityisatalltimessu-premeoverthemilitary.”InSeptember1974thepresidentfeltitnecessary,forthehrsttime,toquietrumorsofacoup,revealingthatshortlyaftertheproclamationofmartiallawhehadheldanall-nightsessionwithSecretaryEnrile,ChiefofStaffRomeoEspino,andtenothers.Thesemenhadmadeapactthattheywouldalwayssubmittoacivilianchiefofstate,evenifsomethingshouldhappentoMarcos.Thepresidentthusa"
+    },
+    {
+      "question": "What was established by President Marcos in 1974?",
+      "answer": "The Presidential Security Command (PSC)",
+      "cultural_golden_answer": "The Presidential Security Command (PSC), a powerful organization that reflects the Philippines' history of relying on strong leaders to maintain order and stability.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "148FilipinoPolitics\nmilitaryloyalty.The1973constitutionexplicitlystatedwhatwasonlyimplicitinthe1935document:“Civilianauthorityisatalltimessu-premeoverthemilitary.”InSeptember1974thepresidentfeltitnecessary,forthehrsttime,toquietrumorsofacoup,revealingthatshortlyaftertheproclamationofmartiallawhehadheldanall-nightsessionwithSecretaryEnrile,ChiefofStaffRomeoEspino,andtenothers.Thesemenhadmadeapactthattheywouldalwayssubmittoacivilianchiefofstate,evenifsomethingshouldhappentoMarcos.Thepresidentthusa"
+    },
+    {
+      "question": "Paano ang relasyon ni General Fabian Ver kay Presidente Marcos?",
+      "answer": "Matatag na pananampalataya at pagkakaroon ng loyalya",
+      "cultural_golden_answer": "Ang katayuan ni General Fabian Ver bilang right-hand man ng pangulo ay isang halimbawa ng pakikitungo sa mga may kapangyarihan sa Pilipinas, kung saan ang pagkakaroon ng loyalya at pananampalataya ay mahalaga upang mapanatili ang kapangyarian.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "150FilipinoPolitics\nofthePhilippines,themostimportantsupplierofROTCofficersforthearmedforces.VerhadactuallyreceivedhiscommissionintheheldduringWorldWarII.(HelatersolidihedtheUPconnection,how-ever,bybecomingtheactivepatronofUPVanguards,theROTCalumniassociation.)Ver’srisewasprimarilyaresultofpersonalloyaltytoPresidentMarcos.HebegantoserveMarcoswhenhewasstillanoppositionmemberofCongress,inthe1950s,andremainedacaptainuntil1965.Aspresident,MarcossoonpromotedhimtocommandthePresidentialSecurityUnit,lat"
+    },
+    {
+      "question": "Paano nagbago ang relasyon ng militar sa sibilyang pamamahala noong panahon ng Marcos?",
+      "answer": "Ang militar ay naging malakas at may katungkulan",
+      "cultural_golden_answer": "Ang pagbabagong ito ay isang halimbawa ng mga pananakop sa kapangyarihan sa Pilipinas, kung saan ang mga lider ng militarily ay nagsimulang makakuha ng kontrol at pampolitika na katungkulan.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "150FilipinoPolitics\nofthePhilippines,themostimportantsupplierofROTCofficersforthearmedforces.VerhadactuallyreceivedhiscommissionintheheldduringWorldWarII.(HelatersolidihedtheUPconnection,how-ever,bybecomingtheactivepatronofUPVanguards,theROTCalumniassociation.)Ver’srisewasprimarilyaresultofpersonalloyaltytoPresidentMarcos.HebegantoserveMarcoswhenhewasstillanoppositionmemberofCongress,inthe1950s,andremainedacaptainuntil1965.Aspresident,MarcossoonpromotedhimtocommandthePresidentialSecurityUnit,lat"
+    },
+    {
+      "question": "What was one of the first acts of the martial law ruler?",
+      "answer": "To reorganize the administration.",
+      "cultural_golden_answer": "The act of reorganizing the administration under martial law marked a significant departure from traditional Filipino values of decentralization and community participation, which were essential in maintaining social harmony and stability. This move was a testament to the country's complex system, often described as 'patrimonial', where power is highly personalized.",
+      "language": "english",
+      "cultural_relevance": 0.8,
+      "chunk_index": 19,
+      "context": "152FilipinoPolitics\ncuttingbackonthemilitarybecamepotentiallydestabilizing.More-over,militaryexpansioncoincidedintheearly1970swithahighergrowthrateforGNP.Someobserversevensuggestthatdefensespend-ingactuallystimulatesgrowthindevelopingcountries.IftheideaheldanytruthinthePhilippinecase,itwasprobablybecausethemilitaryhelpedcontrolthelaborforce,suppressinglaborandpeasantorganizationsandthuspermittingadeclineinrealwages,whichat-tractedforeigninvestors.\nConclusionMarcoswasindeedinnovativeinseekinglegi"
+    },
+    {
+      "question": "What label accurately describes the martial law regime?",
+      "answer": "Patrimonial authoritarianism, or perhaps 'neo-patrimonial'.",
+      "cultural_golden_answer": "The term 'patrimonial authoritarianism' aptly captures the essence of the Marcos regime, which blended elements of traditional Filipino 'patrimonial' system with authoritarian characteristics. This label acknowledges the highly personalized nature of power in the Philippines and its tendency towards centralization.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "152FilipinoPolitics\ncuttingbackonthemilitarybecamepotentiallydestabilizing.More-over,militaryexpansioncoincidedintheearly1970swithahighergrowthrateforGNP.Someobserversevensuggestthatdefensespend-ingactuallystimulatesgrowthindevelopingcountries.IftheideaheldanytruthinthePhilippinecase,itwasprobablybecausethemilitaryhelpedcontrolthelaborforce,suppressinglaborandpeasantorganizationsandthuspermittingadeclineinrealwages,whichat-tractedforeigninvestors.\nConclusionMarcoswasindeedinnovativeinseekinglegi"
+    }
+  ]
+}
