@@ -101,24 +101,6 @@ class CohfieJsonLoader:
                         tags=", ".join(item.get("tags") or []),
                         url=item.get("url") or "",
                     )
-                # elif all(
-                #     key in item for key in ["author", "created_utc", "full_link", "text", "subreddit", "title", "created"]
-                # ):
-                #     metadata = OnlineForumsMetadata(
-                #         author=item.get("author"),
-                #         created_utc=item.get("created_utc"),
-                #         full_link=item.get("full_link"),
-                #         text=item.get("text"),
-                #         subreddit=item.get("subreddit"),
-                #         title=item.get("title"),
-                #         created=item.get("created"),
-                #     )
-                # elif all(key in item for key in ["text", "year", "month"]):
-                #     metadata = SocialMediaMetadata(
-                #         text=item.get("text"),
-                #         year=item.get("year"),
-                #         month=item.get("month"),
-                #     )
                 elif all(key in item for key in ["date", "title", "text"]):
                     metadata = WikipediaMetadata(
                         date=item.get("date"),

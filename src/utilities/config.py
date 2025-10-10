@@ -515,8 +515,10 @@ class GPUConfig(BaseConfig):
     auto_detect: bool = True
     preferred_device: str = "auto"  # "auto", "cpu", "cuda:0"
     fallback_to_cpu: bool = True
-
-    @classmethod
+    memory_fraction: float = 0.9  # Fraction of GPU memory to use (0.1-1.0)
+    clear_cache_frequency: int = 10
+    enable_mixed_precision: bool = True  # Enable mixed precision training for faster inference
+    batch_size_multiplier: float = 2.0
     def from_env(cls) -> "GPUConfig":
         """Load GPU configuration from environment variables"""
         return cls(
@@ -524,7 +526,20 @@ class GPUConfig(BaseConfig):
             auto_detect=get_env_bool("WIQAS_GPU_AUTO_DETECT", True),
             preferred_device=get_env_str("WIQAS_GPU_PREFERRED_DEVICE", "auto"),
             fallback_to_cpu=get_env_bool("WIQAS_GPU_FALLBACK_TO_CPU", True),
+            memory_fraction=get_env_float("WIQAS_GPU_MEMORY_FRACTION", 0.9),
+            clear_cache_frequency=get_env_int("WIQAS_GPU_CLEAR_CACHE_FREQUENCY", 10),
+            enable_mixed_precision=get_env_bool("WIQAS_GPU_ENABLE_MIXED_PRECISION", True),
+            batch_size_multiplier=get_env_float("WIQAS_GPU_BATCH_SIZE_MULTIPLIER", 2.0),
         )
+    
+    def validate(self) -> None:
+        """Validate GPU configuration values"""
+        if self.memory_fraction <= 0 or self.memory_fraction > 1.0:
+            raise ValueError("memory_fraction must be between 0.1 and 1.0")
+        if self.clear_cache_frequency <= 0:
+            raise ValueError("clear_cache_frequency must be positive")
+        if self.batch_size_multiplier <= 0:
+            raise ValueError("batch_size_multiplier must be positive")
 
 
 # ========== LOGGING CONFIGURATION ==========
@@ -618,8 +633,17 @@ def get_config(from_env: bool = False) -> WiQASConfig:
             WIQAS_RETRIEVAL_DEFAULT_K=5        System Configuration:
             WIQAS_STORAGE_DATA_DIRECTORY="./wiqas-data"
             WIQAS_SYSTEM_REQUIRE_OLLAMA=true
-            WIQAS_GPU_ENABLED=true
             WIQAS_LOGGING_LEVEL="info"
+            
+        GPU Configuration:
+            WIQAS_GPU_ENABLED=true
+            WIQAS_GPU_AUTO_DETECT=true
+            WIQAS_GPU_PREFERRED_DEVICE="auto"
+            WIQAS_GPU_FALLBACK_TO_CPU=true
+            WIQAS_GPU_MEMORY_FRACTION=0.9
+            WIQAS_GPU_CLEAR_CACHE_FREQUENCY=10
+            WIQAS_GPU_ENABLE_MIXED_PRECISION=true
+            WIQAS_GPU_BATCH_SIZE_MULTIPLIER=2.0
     """
     if from_env:
         return WiQASConfig.from_env()

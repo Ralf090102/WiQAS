@@ -43,6 +43,7 @@ except ImportError:
     PYMUPDF_AVAILABLE = False
 
 from src.retrieval.embeddings import EmbeddingManager
+from src.utilities.gpu_utils import get_gpu_manager
 
 # Local imports
 from src.utilities.cohfie_json_loader import CohfieJsonLoader
@@ -856,10 +857,25 @@ class DocumentIngestor:
         self.preprocessor = TextPreprocessor(config)
         self.chunker = TextChunker(config)
         self.vector_store = VectorStoreManager(config)
+        
+        # Initialize GPU manager for performance monitoring
+        self.gpu_manager = get_gpu_manager(self.config)
+        self._log_gpu_info()
 
         # Setup knowledge base directory
         self.knowledge_base_path = Path(self.config.system.storage.knowledge_base_directory)
         self.knowledge_base_path.mkdir(parents=True, exist_ok=True)
+    
+    def _log_gpu_info(self) -> None:
+        """Log GPU configuration for ingestion."""
+        if self.gpu_manager.is_nvidia_gpu:
+            log_info("GPU-accelerated ingestion enabled (NVIDIA GPU detected)", config=self.config)
+            memory_info = self.gpu_manager.get_memory_info()
+            if memory_info['memory_info']:
+                mem = memory_info['memory_info']
+                log_info(f"GPU Memory available: {mem['total_mb'] - mem['allocated_mb']:.0f}MB", config=self.config)
+        else:
+            log_info("CPU-based ingestion (no NVIDIA GPU detected)", config=self.config)
 
     def ingest_file(self, file_path: str | Path) -> tuple[bool, DocumentMetadata, list[str]]:
         """
@@ -919,6 +935,15 @@ class DocumentIngestor:
         Returns:
             IngestionStats object with processing statistics
         """
+        # Optimize max_workers based on GPU availability
+        if self.gpu_manager.is_nvidia_gpu:
+            # GPU can handle more concurrent operations efficiently
+            max_workers = min(max_workers * 2, 8)
+            log_debug(f"GPU detected: increased max_workers to {max_workers}", config=self.config)
+        else:
+            # CPU-only: be more conservative with threading
+            max_workers = min(max_workers, 4)
+            log_debug(f"CPU-only: using max_workers {max_workers}", config=self.config)
         directory_path = Path(directory_path)
         stats = IngestionStats()
 
@@ -962,6 +987,7 @@ class DocumentIngestor:
 
             # Process results with progress bar
             with tqdm(total=len(all_files), desc="Ingesting files") as pbar:
+                processed_count = 0
                 for future in as_completed(future_to_file):
                     file_path = future_to_file[future]
 
@@ -979,7 +1005,13 @@ class DocumentIngestor:
                     except Exception as e:
                         stats.add_error(f"Unexpected error processing {file_path}: {e}")
 
+                    processed_count += 1
                     pbar.update(1)
+                    
+                    # Clear GPU cache periodically for large batches
+                    if self.gpu_manager.is_nvidia_gpu and processed_count % 10 == 0:
+                        self.gpu_manager.clear_cache()
+                        log_debug(f"Cleared GPU cache after processing {processed_count} files", config=self.config)
 
         stats.processing_time = time.time() - start_time
 
@@ -1042,6 +1074,7 @@ class DocumentIngestor:
     def get_ingestion_summary(self) -> dict[str, Any]:
         """Get summary of current ingestion state"""
         vector_stats = self.vector_store.get_collection_stats()
+        gpu_info = self.gpu_manager.get_memory_info()
 
         return {
             "knowledge_base_path": str(self.knowledge_base_path),
@@ -1056,7 +1089,28 @@ class DocumentIngestor:
             "chunking_strategy": self.config.rag.chunking.strategy.value,
             "chunk_size": self.config.rag.chunking.chunk_size,
             "embedding_model": self.config.rag.embedding.model,
+            "gpu_acceleration": {
+                "enabled": self.gpu_manager.is_nvidia_gpu,
+                "device": str(self.gpu_manager.device),
+                "memory_info": gpu_info.get('memory_info'),
+            },
         }
+
+    def cleanup(self) -> None:
+        """Cleanup resources and GPU memory."""
+        try:
+            # Cleanup vector store
+            if hasattr(self.vector_store, 'cleanup'):
+                self.vector_store.cleanup()
+            
+            # Cleanup GPU resources
+            if self.gpu_manager:
+                self.gpu_manager.clear_cache()
+                
+            log_debug("DocumentIngestor cleanup completed", config=self.config)
+            
+        except Exception as e:
+            log_warning(f"Error during DocumentIngestor cleanup: {e}", config=self.config)
 
 
 # ========== CONVENIENCE FUNCTIONS ==========
