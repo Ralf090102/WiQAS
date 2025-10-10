@@ -84,7 +84,10 @@ def test_nvidia_ml():
         
         for i in range(gpu_count):
             handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-            name = pynvml.nvmlDeviceGetName(handle).decode()
+            name = pynvml.nvmlDeviceGetName(handle)
+            # Handle both string and bytes return types
+            if isinstance(name, bytes):
+                name = name.decode()
             
             # Memory info
             memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)

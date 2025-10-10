@@ -935,13 +935,11 @@ class DocumentIngestor:
         Returns:
             IngestionStats object with processing statistics
         """
-        # Optimize max_workers based on GPU availability
         if self.gpu_manager.is_nvidia_gpu:
-            # GPU can handle more concurrent operations efficiently
             max_workers = min(max_workers * 2, 8)
             log_debug(f"GPU detected: increased max_workers to {max_workers}", config=self.config)
         else:
-            # CPU-only: be more conservative with threading
+            # CPU-only
             max_workers = min(max_workers, 4)
             log_debug(f"CPU-only: using max_workers {max_workers}", config=self.config)
         directory_path = Path(directory_path)

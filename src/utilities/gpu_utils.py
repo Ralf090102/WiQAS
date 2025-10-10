@@ -99,7 +99,9 @@ class GPUManager:
             
             for i in range(gpu_count):
                 handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-                name = pynvml.nvmlDeviceGetName(handle).decode()
+                name = pynvml.nvmlDeviceGetName(handle)
+                if isinstance(name, bytes):
+                    name = name.decode()
                 memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
                 
                 gpu_info[i] = {
