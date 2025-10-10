@@ -7,40 +7,44 @@ from langchain.schema import Document
 
 @dataclass
 class BooksMetadata:
-    title: str | None = None
-    author: str | None = None
+    title: str | None = None            #
+    author: str | None = None           #
     translated_by: str | None = None
-    year_published: str | None = None
+    year_published: str | None = None   #
     text: str | None = None
 
 
 @dataclass
 class NewsSitesMetadata:
     text: str | None = None
+    category: str | None = None
+    date: str | None = None             #
+    tags: list[str] | None = None       
+    url: str | None = None              #
 
 
-@dataclass
-class OnlineForumsMetadata:
-    author: str | None = None
-    created_utc: str | None = None
-    full_link: str | None = None
-    text: str | None = None
-    subreddit: str | None = None
-    title: str | None = None
-    created: float | None = None
+# @dataclass
+# class OnlineForumsMetadata:
+#     author: str | None = None
+#     created_utc: str | None = None
+#     full_link: str | None = None
+#     text: str | None = None
+#     subreddit: str | None = None
+#     title: str | None = None
+#     created: float | None = None
 
 
-@dataclass
-class SocialMediaMetadata:
-    text: str | None = None
-    year: str | None = None
-    month: str | None = None
+# @dataclass
+# class SocialMediaMetadata:
+#     text: str | None = None
+#     year: str | None = None
+#     month: str | None = None
 
 
 @dataclass
 class WikipediaMetadata:
-    date: float | None = None
-    title: str | None = None
+    date: float | None = None           #
+    title: str | None = None            #
     text: str | None = None
 
 
@@ -89,28 +93,32 @@ class CohfieJsonLoader:
                         year_published=item.get("yearPublished"),
                         text=item.get("text"),
                     )
-                elif "text" in item and len(item) == 1:
+                elif all(key in item for key in ["text", "category", "date", "tags", "url"]):
                     metadata = NewsSitesMetadata(
-                        text=item.get("text"),
+                        text=item.get("text") or "",
+                        category=item.get("category") or "",
+                        date=item.get("date") or 0,
+                        tags=", ".join(item.get("tags") or []),
+                        url=item.get("url") or "",
                     )
-                elif all(
-                    key in item for key in ["author", "created_utc", "full_link", "text", "subreddit", "title", "created"]
-                ):
-                    metadata = OnlineForumsMetadata(
-                        author=item.get("author"),
-                        created_utc=item.get("created_utc"),
-                        full_link=item.get("full_link"),
-                        text=item.get("text"),
-                        subreddit=item.get("subreddit"),
-                        title=item.get("title"),
-                        created=item.get("created"),
-                    )
-                elif all(key in item for key in ["text", "year", "month"]):
-                    metadata = SocialMediaMetadata(
-                        text=item.get("text"),
-                        year=item.get("year"),
-                        month=item.get("month"),
-                    )
+                # elif all(
+                #     key in item for key in ["author", "created_utc", "full_link", "text", "subreddit", "title", "created"]
+                # ):
+                #     metadata = OnlineForumsMetadata(
+                #         author=item.get("author"),
+                #         created_utc=item.get("created_utc"),
+                #         full_link=item.get("full_link"),
+                #         text=item.get("text"),
+                #         subreddit=item.get("subreddit"),
+                #         title=item.get("title"),
+                #         created=item.get("created"),
+                #     )
+                # elif all(key in item for key in ["text", "year", "month"]):
+                #     metadata = SocialMediaMetadata(
+                #         text=item.get("text"),
+                #         year=item.get("year"),
+                #         month=item.get("month"),
+                #     )
                 elif all(key in item for key in ["date", "title", "text"]):
                     metadata = WikipediaMetadata(
                         date=item.get("date"),
