@@ -39,9 +39,9 @@ typer
 # easyocr
 
 # PyTorch - Install CUDA version manually with:
-# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-# For CPU-only installation, just use: pip install torch torchvision torchaudio
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# For CPU-only installation, just use: pip install torch torchvision
 torch>=2.7.1
 torchvision>=0.22.1
 # GPU monitoring (optional)
-pynvml>=11.4.1
+nvidia-ml-py

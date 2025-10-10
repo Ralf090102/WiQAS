@@ -12,7 +12,7 @@ from typing import Optional, Tuple
 
 import torch
 import torch.backends.cudnn as cudnn
-from torch.cuda.amp import autocast
+from torch import amp
 
 from src.utilities.utils import log_debug, log_error, log_info, log_warning
 
@@ -198,10 +198,29 @@ class GPUManager:
                 torch.backends.cudnn.allow_tf32 = True
                 log_debug("Enabled TF32 optimizations", config=self.config)
                 
-            # Set memory fraction to avoid OOM errors
+            # Set memory fraction to avoid OOM errors (use config value if provided)
             if torch.cuda.is_available():
-                # Reserve 10% of GPU memory for system
-                torch.cuda.set_per_process_memory_fraction(0.9)
+                try:
+                    # Determine device id to apply memory fraction to
+                    device_id = 0
+                    if isinstance(self.device, torch.device) and self.device.type == 'cuda':
+                        try:
+                            device_id = self.device.index if self.device.index is not None else torch.cuda.current_device()
+                        except Exception:
+                            device_id = torch.cuda.current_device()
+
+                    # Get memory fraction from config or use default 0.9
+                    fraction = 0.9
+                    if self.config and hasattr(self.config, 'gpu'):
+                        fraction = float(getattr(self.config.gpu, 'memory_fraction', fraction))
+
+                    # Clamp fraction to sensible range
+                    fraction = max(0.1, min(1.0, fraction))
+
+                    torch.cuda.set_per_process_memory_fraction(fraction, device=device_id)
+                    log_debug(f"Set per-process GPU memory fraction to {fraction}", config=self.config)
+                except Exception as e:
+                    log_debug(f"Failed to set per-process memory fraction: {e}", config=self.config)
                 
         except Exception as e:
             log_warning(f"Failed to setup GPU optimizations: {e}", config=self.config)
@@ -303,10 +322,32 @@ class GPUManager:
             log_warning(f"Failed to get memory info: {e}", config=self.config)
             return {'device': str(self.device), 'memory_info': None}
 
-    @autocast()
     def enable_mixed_precision(self):
-        """Context manager for mixed precision training on NVIDIA GPUs."""
-        return autocast(enabled=self.is_nvidia_gpu)
+        """Return context manager for mixed precision (torch.amp.autocast) on NVIDIA GPUs.
+
+        Usage:
+            with gpu_manager.enable_mixed_precision():
+                # run inference
+        """
+        try:
+            # Respect config flag if provided, otherwise default to True
+            config_enable = True
+            if self.config and hasattr(self.config, 'gpu'):
+                config_enable = getattr(self.config.gpu, 'enable_mixed_precision', True)
+
+            enabled = bool(self.is_nvidia_gpu and config_enable)
+            # amp.autocast requires device_type; use 'cuda' when GPU is available
+            return amp.autocast(device_type='cuda', enabled=enabled)
+        except Exception:
+            # Fallback to a no-op context manager if anything goes wrong
+            class _noop_cm:
+                def __enter__(self):
+                    return None
+
+                def __exit__(self, exc_type, exc, tb):
+                    return False
+
+            return _noop_cm()
 
 
 def detect_gpu_info() -> Tuple[bool, Optional[str], Optional[dict]]:
