@@ -38,8 +38,10 @@ typer
 # Pillow
 # easyocr
 
-# Nvidia GPU support (Auto-installed if NVIDIA GPU detected)
-torch>=2.7.1+cu121; sys_platform == "win32" or sys_platform == "linux"
-torchvision>=0.22.0+cu121; sys_platform == "win32" or sys_platform == "linux"
-# GPU monitoring
+# PyTorch - Install CUDA version manually with:
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+# For CPU-only installation, just use: pip install torch torchvision torchaudio
+torch>=2.7.1
+torchvision>=0.22.1
+# GPU monitoring (optional)
 pynvml>=11.4.1
