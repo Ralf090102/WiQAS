@@ -581,14 +581,23 @@ def sources(
                     # Create table for sources
                     table = Table(show_header=True, header_style="bold magenta")
                     table.add_column("File Name", style="cyan", min_width=20)
+                    table.add_column("Title", style="bright_blue", min_width=25)
                     table.add_column("Type", style="yellow", width=10)
                     table.add_column("Chunks", style="green", width=8, justify="right")
                     table.add_column("Source Path", style="dim", no_wrap=False)
 
                     total_chunks = 0
                     for source in sources_list:
+                        title = source.get("title", "")
+                        if not title or title == source["file_name"]:
+                            title = "[dim]No title[/dim]"
+                        
                         table.add_row(
-                            source["file_name"], source["file_type"], str(source["chunk_count"]), source["source_file"]
+                            source["file_name"], 
+                            title,
+                            source["file_type"], 
+                            str(source["chunk_count"]), 
+                            source["source_file"]
                         )
                         total_chunks += source["chunk_count"]
 
