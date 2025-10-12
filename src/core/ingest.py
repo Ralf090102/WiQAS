@@ -271,14 +271,17 @@ class DocumentProcessor:
 
             # Add file metadata to each document
             for doc in documents:
-                doc.metadata.update(
-                    {
-                        "source_file": str(file_path),
-                        "file_name": file_path.name,
-                        "file_type": SUPPORTED_EXTENSIONS[file_ext],
-                        "file_extension": file_ext,
-                    }
-                )
+                metadata_update = {
+                    "source_file": str(file_path),
+                    "file_name": file_path.name,
+                    "file_type": SUPPORTED_EXTENSIONS[file_ext],
+                    "file_extension": file_ext,
+                }
+                
+                if file_ext == ".pdf" and "title" not in doc.metadata:
+                    metadata_update["title"] = file_path.stem
+                
+                doc.metadata.update(metadata_update)
 
             log_debug(f"Loaded {len(documents)} documents from {file_path}", self.config)
             return documents
