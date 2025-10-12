@@ -87,13 +87,13 @@ class CohfieJsonLoader:
     
     def _extract_news_title_from_url(self, url: str) -> str:
         """
-        Extract article title from URL path.
+        Extract article title from URL path or by fetching the page.
         
         Args:
             url: The URL to extract title from
             
         Returns:
-            Article title extracted from URL path
+            Article title extracted from URL path or page content
         """
         if not url:
             return "News Article"
@@ -103,20 +103,16 @@ class CohfieJsonLoader:
             parsed = urlparse(url)
             path = parsed.path
             
-            # Remove leading/trailing slashes and split by slashes
+            # Handle GMA URLs by fetching the page title
+            if "gmanews.tv" in url.lower() or "gma" in url.lower():
+                return self._fetch_gma_title_from_url(url)
+            
             path_parts = [part for part in path.split('/') if part]
             
             if not path_parts:
                 return "News Article"
             
-            # Get the last part of the path (usually the article slug)
             article_slug = path_parts[-1]
-            
-            # Skip GMA URLs for now as they're different format
-            if "gmanews.tv" in url.lower() or "gma" in url.lower():
-                return "GMA News Article"
-            
-            # Clean up the slug to make it a proper title
             title = self._clean_url_slug_to_title(article_slug)
             
             return title if title else "News Article"
@@ -124,6 +120,83 @@ class CohfieJsonLoader:
         except:
             return "News Article"
     
+    def _fetch_gma_title_from_url(self, url: str) -> str:
+        """
+        Fetch the title from a GMA News URL by parsing the JSON response.
+        
+        Args:
+            url: The GMA News URL
+            
+        Returns:
+            Article title extracted from the JSON response or fallback
+        """
+        try:
+            import requests
+            import json as json_lib
+            
+            # Add a reasonable timeout and user agent
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+            
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            
+            # GMA returns JSON data, not HTML
+            data = response.json()
+            
+            # Try to extract title from various JSON fields
+            title = None
+            
+            # Check for direct title field
+            if 'title' in data and data['title']:
+                title = data['title']
+            
+            # Check in story object
+            elif 'story' in data and isinstance(data['story'], dict):
+                story = data['story']
+                if 'title' in story and story['title']:
+                    title = story['title']
+            
+            if title:
+                return self._clean_gma_title(title)
+            
+            # Fallback
+            return "GMA News Article"
+            
+        except Exception as e:
+            # If fetching fails, return a generic title
+            print(f"Failed to fetch GMA title from {url}: {e}")
+            return "GMA News Article"
+    
+    def _clean_gma_title(self, title: str) -> str:
+        """
+        Clean up the title extracted from GMA News pages.
+        
+        Args:
+            title: Raw title from GMA page
+            
+        Returns:
+            Cleaned title
+        """
+        if not title:
+            return "GMA News Article"
+        
+        # Remove common GMA suffixes
+        title = title.replace(' | GMA News Online', '')
+        title = title.replace(' - GMA News', '')
+        title = title.replace(' | GMA Entertainment', '')
+        title = title.replace(' | News |', '')
+        title = title.replace(' | News', '')
+        
+        # Remove trailing pipes and extra spaces
+        title = title.rstrip(' |').strip()
+        
+        # Remove extra whitespace
+        title = ' '.join(title.split())
+        
+        return title.strip() if title.strip() else "GMA News Article"
+
     def _clean_url_slug_to_title(self, slug: str) -> str:
         """
         Convert URL slug to proper title format.
@@ -137,17 +210,11 @@ class CohfieJsonLoader:
         if not slug:
             return ""
         
-        # Replace hyphens and underscores with spaces
         title = slug.replace('-', ' ').replace('_', ' ')
-        
-        # Remove common file extensions
         title = title.replace('.html', '').replace('.php', '').replace('.aspx', '')
         
-        # Remove trailing numbers (often article IDs)
         import re
         title = re.sub(r'\s+\d+$', '', title)
-        
-        # Capitalize each word
         title = ' '.join(word.capitalize() for word in title.split())
         
         return title
@@ -169,14 +236,11 @@ class CohfieJsonLoader:
         elif source_type == "bible":
             return "Bibliya"
         elif source_type in ["google_books", "gutenberg", "wikipedia"]:
-            # These have title fields, use them if available
             return item.get("title", f"Untitled {source_type.replace('_', ' ').title()}")
         elif source_type == "news_sites":
-            # Extract title from URL field based on domain
             url = item.get("url", "")
             return self._extract_news_title_from_url(url)
         else:
-            # Fallback for unknown sources
             return item.get("title", "Unknown Source")
 
     def load(self) -> list[Document]:
@@ -230,24 +294,6 @@ class CohfieJsonLoader:
                         url=item.get("url") or "",
                         title=title,
                     )
-                # elif all(
-                #     key in item for key in ["author", "created_utc", "full_link", "text", "subreddit", "title", "created"]
-                # ):
-                #     metadata = OnlineForumsMetadata(
-                #         author=item.get("author"),
-                #         created_utc=item.get("created_utc"),
-                #         full_link=item.get("full_link"),
-                #         text=item.get("text"),
-                #         subreddit=item.get("subreddit"),
-                #         title=item.get("title"),
-                #         created=item.get("created"),
-                #     )
-                # elif all(key in item for key in ["text", "year", "month"]):
-                #     metadata = SocialMediaMetadata(
-                #         text=item.get("text"),
-                #         year=item.get("year"),
-                #         month=item.get("month"),
-                #     )
                 elif all(key in item for key in ["date", "title", "text"]):
                     metadata = WikipediaMetadata(
                         date=item.get("date"),
@@ -255,7 +301,6 @@ class CohfieJsonLoader:
                         text=item.get("text"),
                     )
                 elif "text" in item and source_type in ["100year", "bible"]:
-                    # Handle simple text-only cases for 100year and bible sources
                     metadata = WikipediaMetadata(
                         date=item.get("date"),
                         title=title,
