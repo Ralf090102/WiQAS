@@ -33,12 +33,26 @@ class ContextPreparer:
             r'^[Dd]ata[/\\]',
             r'^knowledge_?base[/\\]',
         ]
-        
+
         normalized = source_file
         for pattern in patterns:
             normalized = re.sub(pattern, '', normalized)
         
         return normalized
+
+    def _extract_pdf_title(self, source_file: str) -> str:
+        """Extract title from PDF filename."""
+        if not source_file or not source_file.endswith('.pdf'):
+            return None
+        
+        normalized = self._normalize_source_file(source_file)
+        
+        filename = Path(normalized).stem
+        
+        title = filename.replace('-', ' ').replace('_', ' ')
+        title = ' '.join(word.capitalize() for word in title.split())
+        
+        return title
 
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
