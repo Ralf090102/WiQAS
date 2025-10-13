@@ -32,6 +32,20 @@ EXEMPLARS = [
     }
 ]
 
+@dataclass
+class QueryClassification:
+    """
+    Represents the classification result of a user query.
+    
+    Attributes:
+        query_type (str): The functional type of the query (e.g., "Factual", "Analytical").
+        language (str): Detected language code ("fil" for Filipino, "en" for English).
+        confidence (float): Confidence score of the classification (0.0 to 1.0).
+    """
+    query_type: str
+    language: str
+    confidence: float = 0.0
+
 class PromptTemplate:
     """
     Defines the hierarchical structure for prompt construction.
