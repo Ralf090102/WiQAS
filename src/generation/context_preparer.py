@@ -262,7 +262,7 @@ class ContextPreparer:
             
         return False
     
-    def _deduplicate(self, contexts: list[dict]) -> list[dict]:
+    def _deduplicate(self, contexts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Deduplicate a list of cleaned contexts.
 
@@ -278,21 +278,26 @@ class ContextPreparer:
             List of unique dicts.
         """
         unique = []
+        
         for ctx in contexts:
-            text, score = ctx["text"], ctx.get("score", 0.0)
+            text = ctx["text"]
+            score = ctx.get("final_score", 0.0)
+            length = ctx.get("length", len(text))
             duplicate_found = False
+            
             for kept in unique:
                 if self._are_similar(text, kept["text"]):
                     duplicate_found = True
-                    # keep the better one
-                    if (score > kept.get("score", 0.0)) or (
-                        score == kept.get("score", 0.0)
-                        and len(text) > len(kept["text"])
-                    ):
+                    kept_score = kept.get("final_score", 0.0)
+                    kept_length = kept.get("length", len(kept["text"]))
+                    
+                    if (score > kept_score) or (score == kept_score and length > kept_length):
                         kept.update(ctx)
                     break
+                    
             if not duplicate_found:
                 unique.append(ctx)
+                
         return unique
     
     def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False) -> List[Union[str, Dict[str, Any]]]:
