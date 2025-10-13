@@ -7,15 +7,18 @@ between retrieved content and ground truth context.
 
 import json
 import random
+import time
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+import torch
 from sklearn.metrics.pairwise import cosine_similarity
 
 from src.retrieval.embeddings import EmbeddingManager
 from src.retrieval.retriever import WiQASRetriever
 from src.utilities.config import WiQASConfig
+from src.utilities.gpu_utils import get_gpu_manager
 from src.utilities.utils import log_error, log_info, log_warning
 
 
@@ -36,6 +39,17 @@ class RetrievalEvaluator:
         self.eval_config = self.config.rag.evaluation
         self.embedding_manager = EmbeddingManager(self.config)
         self.retriever = WiQASRetriever(self.config)
+        
+        # Initialize GPU manager for optimized evaluation
+        self.gpu_manager = get_gpu_manager(self.config)
+        self.device = self.gpu_manager.get_device()
+        
+        # Optimize batch size for similarity calculations
+        self.batch_size = self.gpu_manager.get_optimal_batch_size(32)
+        
+        log_info(f"RetrievalEvaluator initialized with device: {self.device}", config=self.config)
+        if self.gpu_manager.is_nvidia_gpu:
+            log_info(f"GPU acceleration enabled for evaluation with batch size: {self.batch_size}", config=self.config)
         
     def load_evaluation_dataset(self) -> list[dict[str, Any]]:
         """
@@ -85,9 +99,19 @@ class RetrievalEvaluator:
             Cosine similarity score (0-1)
         """
         try:
-            # Generate embeddings for both texts
-            embedding1 = self.embedding_manager.encode_single(text1)
-            embedding2 = self.embedding_manager.encode_single(text2)
+            # Generate embeddings for both texts with GPU acceleration
+            if self.gpu_manager.is_nvidia_gpu:
+                with torch.no_grad():
+                    with self.gpu_manager.enable_mixed_precision():
+                        embeddings = self.embedding_manager.encode_batch([text1, text2])
+            else:
+                embeddings = self.embedding_manager.encode_batch([text1, text2])
+            
+            embedding1, embedding2 = embeddings[0], embeddings[1]
+            
+            if not embedding1 or not embedding2:
+                log_warning("One or both embeddings are empty", config=self.config)
+                return 0.0
             
             # Reshape for sklearn
             embedding1 = np.array(embedding1).reshape(1, -1)
@@ -99,12 +123,68 @@ class RetrievalEvaluator:
             return float(similarity)
             
         except Exception as e:
-            log_error(f"Error calculating cosine similarity: {e}")
+            log_error(f"Error calculating cosine similarity: {e}", config=self.config)
             return 0.0
+    
+    def calculate_batch_similarities(self, texts: list[str], ground_truth_context: str) -> list[float]:
+        """
+        Calculate cosine similarities between multiple texts and ground truth using batch processing.
+        
+        Args:
+            texts: List of texts to compare against ground truth
+            ground_truth_context: Ground truth text
+            
+        Returns:
+            List of similarity scores
+        """
+        if not texts or not ground_truth_context:
+            return [0.0] * len(texts)
+            
+        try:
+            all_texts = texts + [ground_truth_context]
+            
+            start_time = time.time()
+            
+            if self.gpu_manager.is_nvidia_gpu:
+                with torch.no_grad():
+                    with self.gpu_manager.enable_mixed_precision():
+                        all_embeddings = self.embedding_manager.encode_batch(all_texts)
+            else:
+                all_embeddings = self.embedding_manager.encode_batch(all_texts)
+            
+            encoding_time = time.time() - start_time
+            
+            # Split embeddings: retrieved results vs ground truth
+            text_embeddings = all_embeddings[:-1]
+            ground_truth_embedding = all_embeddings[-1]
+            
+            if not ground_truth_embedding:
+                log_warning("Ground truth embedding is empty", config=self.config)
+                return [0.0] * len(texts)
+            
+            similarities = []
+            ground_truth_array = np.array(ground_truth_embedding).reshape(1, -1)
+            
+            for embedding in text_embeddings:
+                if not embedding:
+                    similarities.append(0.0)
+                else:
+                    text_array = np.array(embedding).reshape(1, -1)
+                    similarity = cosine_similarity(text_array, ground_truth_array)[0][0]
+                    similarities.append(float(similarity))
+            
+            device_info = f" on {self.device}" if self.gpu_manager.is_nvidia_gpu else " on CPU"
+            log_info(f"Batch similarity calculation for {len(texts)} texts completed in {encoding_time:.2f}s{device_info}", config=self.config)
+            
+            return similarities
+            
+        except Exception as e:
+            log_error(f"Error in batch similarity calculation: {e}", config=self.config)
+            return [0.0] * len(texts)
             
     def find_best_match(self, retrieved_results: list, ground_truth_context: str) -> tuple[float, str, int]:
         """
-        Find the best matching retrieved result against ground truth.
+        Find the best matching retrieved result against ground truth using batch processing.
         
         Args:
             retrieved_results: List of retrieved search results
@@ -115,16 +195,22 @@ class RetrievalEvaluator:
         """
         if not retrieved_results:
             return 0.0, "", -1
-            
+        
+        # Extract content from results
+        contents = [result.content for result in retrieved_results]
+        
+        # Use batch processing for better GPU utilization
+        similarities = self.calculate_batch_similarities(contents, ground_truth_context)
+        
+        # Find the best match
+        best_index = -1
         best_similarity = 0.0
         best_content = ""
-        best_index = -1
         
-        for i, result in enumerate(retrieved_results):
-            similarity = self.calculate_cosine_similarity(result.content, ground_truth_context)
+        for i, similarity in enumerate(similarities):
             if similarity > best_similarity:
                 best_similarity = similarity
-                best_content = result.content
+                best_content = contents[i]
                 best_index = i
                 
         return best_similarity, best_content, best_index
@@ -203,34 +289,41 @@ class RetrievalEvaluator:
             
     def evaluate(self) -> dict[str, Any]:
         """
-        Run full evaluation on the dataset.
+        Run full evaluation on the dataset with GPU acceleration.
         
         Returns:
             Dictionary containing evaluation results and statistics
         """
-        log_info("Starting retrieval evaluation...")
+        start_time = time.time()
         
-        # Load dataset
+        log_info("Starting GPU-accelerated retrieval evaluation...", config=self.config)
+        if self.gpu_manager.is_nvidia_gpu:
+            log_info(f"Using GPU acceleration with batch size: {self.batch_size}", config=self.config)
+        else:
+            log_info("Using CPU processing", config=self.config)
+        
         try:
             dataset = self.load_evaluation_dataset()
         except Exception as e:
-            log_error(f"Failed to load evaluation dataset: {e}")
+            log_error(f"Failed to load evaluation dataset: {e}", config=self.config)
             return {"error": str(e)}
             
         if not dataset:
-            log_warning("Empty evaluation dataset")
+            log_warning("Empty evaluation dataset", config=self.config)
             return {"error": "Empty evaluation dataset"}
             
-        # Evaluate each item
+        # Evaluate each item with GPU memory management
         results = []
         similarities = []
         above_threshold_count = 0
         error_count = 0
         
-        log_info(f"Evaluating {len(dataset)} items...")
+        evaluation_start = time.time()
+        log_info(f"Evaluating {len(dataset)} items with GPU acceleration...", config=self.config)
         
         for i, item in enumerate(dataset):
-            log_info(f"Evaluating item {i+1}/{len(dataset)}: {item.get('question', 'No question')[:50]}...")
+            item_question = item.get('question', 'No question')[:50]
+            log_info(f"Evaluating item {i+1}/{len(dataset)}: {item_question}...", config=self.config)
             
             result = self.evaluate_single_item(item)
             results.append(result)
@@ -241,6 +334,11 @@ class RetrievalEvaluator:
                 similarities.append(result["similarity_score"])
                 if result["similarity_score"] >= self.eval_config.similarity_threshold:
                     above_threshold_count += 1
+            
+            # Periodic GPU memory cleanup to prevent OOM
+            if self.gpu_manager.is_nvidia_gpu and (i + 1) % 10 == 0:
+                self.gpu_manager.clear_cache()
+                log_info(f"GPU memory cleared after {i+1} evaluations", config=self.config)
                     
         # Calculate statistics
         if similarities:
@@ -254,6 +352,11 @@ class RetrievalEvaluator:
             
         success_rate = (len(similarities) / len(dataset)) * 100 if dataset else 0.0
         threshold_rate = (above_threshold_count / len(similarities)) * 100 if similarities else 0.0
+        
+        # Calculate performance metrics
+        total_time = time.time() - start_time
+        evaluation_time = time.time() - evaluation_start
+        avg_time_per_item = evaluation_time / len(dataset) if dataset else 0.0
         
         evaluation_summary = {
             "dataset_info": {
@@ -283,11 +386,27 @@ class RetrievalEvaluator:
                 "randomized": self.eval_config.randomize,
                 "limit": self.eval_config.limit
             },
+            "performance_metrics": {
+                "total_time_seconds": f"{total_time:.2f}",
+                "evaluation_time_seconds": f"{evaluation_time:.2f}",
+                "average_time_per_item_seconds": f"{avg_time_per_item:.2f}",
+                "items_per_second": f"{len(dataset) / evaluation_time:.2f}" if evaluation_time > 0 else "0.00",
+                "device_info": self.get_performance_info()
+            },
             "detailed_results": results
         }
         
-        log_info(f"Evaluation completed! Average similarity: {avg_similarity:.4f}")
-        log_info(f"Items above threshold ({self.eval_config.similarity_threshold}): {above_threshold_count}/{len(similarities)} ({threshold_rate:.1f}%)")
+        # Final cleanup
+        if self.gpu_manager.is_nvidia_gpu:
+            self.gpu_manager.clear_cache()
+        
+        # Log completion with performance metrics
+        device_info = f" on {self.device}" if self.gpu_manager.is_nvidia_gpu else " on CPU"
+        log_info(f"GPU-accelerated evaluation completed{device_info}!", config=self.config)
+        log_info(f"Total time: {total_time:.2f}s, Evaluation time: {evaluation_time:.2f}s", config=self.config)
+        log_info(f"Average time per item: {avg_time_per_item:.2f}s, Items per second: {len(dataset) / evaluation_time:.2f}", config=self.config)
+        log_info(f"Average similarity: {avg_similarity:.4f}", config=self.config)
+        log_info(f"Items above threshold ({self.eval_config.similarity_threshold}): {above_threshold_count}/{len(similarities)} ({threshold_rate:.1f}%)", config=self.config)
         
         return evaluation_summary
         
@@ -307,12 +426,39 @@ class RetrievalEvaluator:
                 json.dump(results, f, indent=2, ensure_ascii=False)
             log_info(f"Evaluation results saved to: {output_path}")
         except Exception as e:
-            log_error(f"Failed to save results: {e}")
+            log_error(f"Failed to save results: {e}", config=self.config)
+    
+    def cleanup(self) -> None:
+        """Cleanup GPU memory and resources."""
+        try:
+            if self.gpu_manager:
+                self.gpu_manager.clear_cache()
+            
+            if hasattr(self.embedding_manager, 'cleanup'):
+                self.embedding_manager.cleanup()
+                
+            log_info("RetrievalEvaluator cleanup completed", config=self.config)
+            
+        except Exception as e:
+            log_warning(f"Error during evaluator cleanup: {e}", config=self.config)
+    
+    def get_performance_info(self) -> dict[str, any]:
+        """Get performance and device information."""
+        gpu_info = self.gpu_manager.get_memory_info() if self.gpu_manager else {}
+        embedding_info = self.embedding_manager.get_model_info() if hasattr(self.embedding_manager, 'get_model_info') else {}
+        
+        return {
+            "device": str(self.device),
+            "batch_size": self.batch_size,
+            "gpu_acceleration": self.gpu_manager.is_nvidia_gpu if self.gpu_manager else False,
+            "gpu_info": gpu_info,
+            "embedding_model_info": embedding_info,
+        }
 
 
 def run_evaluation(config: WiQASConfig | None = None, output_path: str | None = None) -> dict[str, Any]:
     """
-    Convenience function to run evaluation.
+    Convenience function to run GPU-accelerated evaluation with proper cleanup.
     
     Args:
         config: Optional WiQAS configuration
@@ -322,9 +468,14 @@ def run_evaluation(config: WiQASConfig | None = None, output_path: str | None = 
         Evaluation results dictionary
     """
     evaluator = RetrievalEvaluator(config)
-    results = evaluator.evaluate()
     
-    if output_path:
-        evaluator.save_results(results, output_path)
+    try:
+        results = evaluator.evaluate()
         
-    return results
+        if output_path:
+            evaluator.save_results(results, output_path)
+            
+        return results
+        
+    finally:
+        evaluator.cleanup()
