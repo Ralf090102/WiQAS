@@ -337,7 +337,7 @@ class PromptTemplate:
             f"- If information is insufficient, state this clearly rather than speculating\n"
             f"- Reference context numbers [1], [2], etc. when synthesizing from multiple sources"
         )
-        
+
     def build_exemplars(self) -> str:
         """
         Construct the few-shot exemplar section of the prompt.
@@ -345,10 +345,23 @@ class PromptTemplate:
         Returns:
             str: Example question-context-answer triplets formatted for prompting.
         """
+        if not self.include_exemplars:
+            return ""
+        
+        relevant_exemplars = [
+            ex for ex in EXEMPLARS 
+            if ex.get("language", "fil") == self.language or ex.get("query_type", "") == self.query_type
+        ]
+        
+        if not relevant_exemplars:
+            relevant_exemplars = EXEMPLARS
+        
         exemplars_text = []
-        for ex in EXEMPLARS:
+        for ex in relevant_exemplars[:3]:  
             exemplars_text.append(
-                f"Q: {ex['question']}\nContext: {ex['context']}\nA: {ex['answer']}"
+                f"Example Question: {ex['question']}\n"
+                f"Context Provided:\n{ex['context']}\n"
+                f"Expected Answer: {ex['answer']}"
             )
         return "\n\n".join(exemplars_text)
     
