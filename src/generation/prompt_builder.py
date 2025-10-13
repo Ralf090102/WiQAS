@@ -227,6 +227,16 @@ class PromptTemplate:
             str: Instruction string containing principles of WiQAS such as
             factual accuracy, cultural faithfulness, and citation requirements.
         """
+
+        citation_examples = (
+            "Citation Format Examples:\n"
+            "- For PDFs: (Source: Food Of The Philippines, p. 23)\n"
+            "- For Wikipedia: (Source: Article Title (Wikipedia, accessed January 15, 2024))\n"
+            "- For News: (Source: \"Article Title\", January 15, 2024. Retrieved from URL)\n"
+            "- For Books: (Source: Book Title, p. 45)\n"
+            "- Multiple sources: (Sources: Source1; Source2; Source3)\n\n"
+        )
+        
         return (
             "You are WiQAS, a RAG-driven Factoid Question Answering System on Filipino culture. "
             "Your role is to generate answers grounded in the retrieved context from the knowledge base. "
