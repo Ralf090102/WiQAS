@@ -36,24 +36,50 @@ class WiQASGenerator:
         self.prompt_builder = PromptBuilder()
 
     def _call_model(self, prompt: str) -> str:
-        """
-        Call the LLM with the constructed prompt.
+        if self.answer_config.backend == "hf":
+            from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+            import torch
 
-        Args:
-            prompt (str): Fully rendered LLM prompt.
+            model_id = self.answer_config.model
+            if model_id == "gemma2:9b":
+                model_id = "aisingapore/Gemma-SEA-LION-v3-9B"
 
-        Returns:
-            str: Model-generated answer text.
-        """
-        # print(prompt)  # debugging hook
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+            model = AutoModelForCausalLM.from_pretrained(
+                model_id,
+                device_map="cpu",          
+                dtype=torch.float32,        
+                low_cpu_mem_usage=True,
+            )
 
-        return generate_response(
-            prompt=prompt,
-            config=self.config,
-            model=self.answer_config.model,
-            temperature=self.answer_config.temperature,
-            max_tokens=self.answer_config.max_tokens,
-        )
+            generator = pipeline(
+                "text-generation",
+                model=model,
+                tokenizer=tokenizer,
+            )
+
+            print("\n[DEBUG] ==== PROMPT PASSED TO MODEL ====\n")
+            print(prompt)
+            print("\n=======================================\n")
+
+            result = generator(
+                prompt,                     
+                max_new_tokens=self.answer_config.max_tokens,
+                temperature=self.answer_config.temperature,
+                do_sample=True,
+                return_full_text=False,
+            )
+            return result[0]["generated_text"].strip()
+
+        else:
+            from src.core.llm import generate_response
+            return generate_response(
+                prompt=prompt,
+                config=self.config,
+                model=self.answer_config.model,
+                temperature=self.answer_config.temperature,
+                max_tokens=self.answer_config.max_tokens,
+            )
     
     def generate(
         self,
