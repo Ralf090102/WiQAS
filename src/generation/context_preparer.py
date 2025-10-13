@@ -167,62 +167,69 @@ class ContextPreparer:
         
         return citation
 
-    def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Normalize a single context string and collapse repeated n-grams.
-
-        - Collapses whitespace into single spaces.
-        - Collapses repeated n-grams of length 1–4 (e.g.
-          "Sinigang na Sinigang na Sinigang na" → "Sinigang na").
-        - Preserves the score if provided.
-
-        Args:
-            context:
-                Either a plain string or a dict containing keys:
-                - "text" (str): The context text.
-                - "score" (float, optional): Relevance score.
-
-        Returns:
-            dict: {"text": cleaned_text, "score": float}
-        """
-        if isinstance(context, str):
-            text = " ".join(context.split())
-            score = 0.0
-        else:
-            text = " ".join(context.get("text", "").split())
-            score = context.get("score", 0.0)
-
+    def _remove_repetitive_phrases(self, text: str) -> str:
         tokens = text.split()
         out = []
         i = 0
+        
         while i < len(tokens):
             collapsed = False
-            # Try longest possible phrase first (4 > 1 tokens)
             for plen in range(4, 0, -1):
                 if i + plen * 2 > len(tokens):
                     continue
+                    
                 phrase = tokens[i:i + plen]
                 j = i + plen
                 repeats = 1
                 while j + plen <= len(tokens) and tokens[j:j + plen] == phrase:
                     repeats += 1
                     j += plen
+                    
                 if repeats > 1:
-                    out.extend(phrase) # keep a single instance
+                    out.extend(phrase)  
                     i = j
                     collapsed = True
                     break
+                    
             if not collapsed:
                 out.append(tokens[i])
                 i += 1
 
-        cleaned_text = " ".join(out)
+        return " ".join(out)
+
+    def _normalize_whitespace(self, text: str) -> str:
+        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r'\s+([.,;:!?])', r'\1', text)
+        return text.strip()
+
+    def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
+        if isinstance(context, str):
+            text = context
+            final_score = 0.0
+            metadata = {}
+        else:
+            text = context.get("content", context.get("text", ""))
+            final_score = context.get("final_score", 0.0)
+            
+            metadata = {
+                "source_file": context.get("source_file"),
+                "page": context.get("page"),
+                "title": context.get("title"),
+                "date": context.get("date"),
+                "url": context.get("url"),
+            }
+
+        text = self._normalize_whitespace(text)
+        text = self._remove_repetitive_phrases(text)
+
+        citation = self._format_citation({**metadata, "content": text})
 
         return {
-            "text": cleaned_text,
-            "score": score,
-            "metadata": context.get("source", {}),
-            "document_id": context.get("document_id"),
+            "text": text,
+            "final_score": final_score,
+            "length": len(text),
+            **metadata,
+            **citation
         }
 
     def _are_similar(self, a: str, b: str) -> bool:
