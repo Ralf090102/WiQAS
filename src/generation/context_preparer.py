@@ -41,7 +41,6 @@ class ContextPreparer:
         return normalized
 
     def _extract_pdf_title(self, source_file: str) -> str:
-        """Extract title from PDF filename."""
         if not source_file or not source_file.endswith('.pdf'):
             return None
         
@@ -53,6 +52,23 @@ class ContextPreparer:
         title = ' '.join(word.capitalize() for word in title.split())
         
         return title
+
+    def _categorize_source(self, source_file: str) -> str:
+        if not source_file:
+            return "unknown"
+        
+        source_lower = source_file.lower()
+        
+        if 'wikipedia' in source_lower:
+            return "wikipedia"
+        elif 'news_site' in source_lower or 'news-site' in source_lower:
+            return "news_site"
+        elif 'books' in source_lower or 'book' in source_lower:
+            return "books"
+        elif source_file.endswith('.pdf'):
+            return "pdf"
+        else:
+            return "unknown"
 
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
