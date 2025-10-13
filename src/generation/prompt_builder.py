@@ -13,7 +13,7 @@ Components:
       renders the final prompt via PromptTemplate.
 """
 
-from typing import Callable, List, Optional, Union
+from typing import Callable, List, Optional, Union, Tuple
 from dataclasses import dataclass
 
 FUNCTIONAL_GUIDELINES = {
@@ -395,7 +395,7 @@ class PromptBuilder:
         detect_language_fn (Callable, optional): Function to infer language from query.
     """
 
-    def __init__(self, detect_language_fn: Optional[Callable] = None):
+    def __init__(self, detect_language_fn: Optional[Callable] = None, use_classifier: bool = True, use_detailed_context: bool = True):
         """
         Initialize a PromptBuilder.
 
@@ -403,13 +403,17 @@ class PromptBuilder:
             detect_language_fn (Callable, optional): Function that infers query language.
         """
         self.detect_language_fn = detect_language_fn
+        self.use_classifier = use_classifier
+        self.use_detailed_context = use_detailed_context
+        self.classifier = QueryClassifier() if use_classifier else None
 
     def build_prompt(
         self,
         query: str,
-        context: List[str],
-        query_type: str = "Factual",
+        context: Union[List[str], List[Dict[str, Any]]],
+        query_type: Optional[str] = None,
         language: Optional[str] = None,
+        include_exemplars: bool = True,
     ) -> str:
         """
         Build the final prompt using PromptTemplate.
@@ -423,9 +427,26 @@ class PromptBuilder:
         Returns:
             str: Fully constructed prompt string.
         """
-        if self.detect_language_fn and not language:
+        if self.use_classifier and self.classifier:
+            classification = self.classifier.classify(query)
+            
+            if query_type is None:
+                query_type = classification.query_type
+            if language is None:
+                language = classification.language
+        
+        if self.detect_language_fn and language is None:
             language = self.detect_language_fn(query)
+        
+        query_type = query_type or "Factual"
         language = language or "fil"
 
-        template = PromptTemplate(query=query, context=context, query_type=query_type, language=language)
+        template = PromptTemplate(
+            query=query, 
+            context=context, 
+            query_type=query_type, 
+            language=language,
+            include_exemplars=include_exemplars,
+            use_detailed_context=self.use_detailed_context
+        )
         return template.render()
