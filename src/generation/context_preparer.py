@@ -35,9 +35,9 @@ class ContextPreparer:
             return ""
         
         patterns = [
-            r'^[Dd]ata[/\\][Kk]nowledge_?[Bb]ase[/\\]',
-            r'^[Dd]ata[/\\]',
-            r'^knowledge_?base[/\\]',
+            r'^[Dd]ata[\\/][Kk]nowledge_?[Bb]ase[\\/]',  
+            r'^[Dd]ata[\\/]',                           
+            r'^[Kk]nowledge_?[Bb]ase[\\/]',             
         ]
 
         normalized = source_file
