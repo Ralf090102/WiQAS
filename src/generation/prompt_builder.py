@@ -151,6 +151,20 @@ class QueryClassifier:
         confidence = scores[best_type] / total_matches if total_matches > 0 else 0.5
 
         return best_type, min(confidence, 1.0)
+
+    def detect_language(self, query: str) -> Tuple[str, float]:
+        fil_score = sum(1 for pattern in self.fil_patterns if pattern.search(query))
+        en_score = sum(1 for pattern in self.en_patterns if pattern.search(query))
+        
+        total = fil_score + en_score
+        
+        if total == 0:
+            return "fil", 0.5 
+        
+        if fil_score > en_score:
+            return "fil", fil_score / total
+        else:
+            return "en", en_score / total
     
 
 class PromptTemplate:
