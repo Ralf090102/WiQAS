@@ -303,24 +303,38 @@ class ContextPreparer:
     def _sort_contexts(self, contexts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return sorted(contexts, key=lambda x: x.get("final_score", 0.0), reverse=True)
     
-    
-    def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False) -> List[Union[str, Dict[str, Any]]]:
-        """
-        Clean and deduplicate contexts.
+    def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False, include_citations: bool = True, score_by_score: bool = True) -> List[Union[str, Dict[str, Any]]]:
+        cleaned = []
+        for c in contexts:
+            cleaned_ctx = self._clean_context(c)
+            if cleaned_ctx:  
+                cleaned.append(cleaned_ctx)
 
-        Args:
-            contexts: List of dicts with "text" and optional "score".
-
-        Returns:
-            List of cleaned, deduplicated context strings.
-        """
-        cleaned = [self._clean_context(c) for c in contexts]
-        cleaned = [c for c in cleaned if c["text"]]  
+        if not cleaned:
+            logger.warning("No valid contexts after cleaning")
+            return []
 
         deduplicated = self._deduplicate(cleaned)
-        return deduplicated if return_full else [c["text"] for c in deduplicated]
+        
+        if sort_by_score:
+            deduplicated = self._sort_contexts(deduplicated)
+        
+        if return_full:
+            return deduplicated
+        
+        if include_citations:
+            results = []
+            for c in deduplicated:
+                text = c["text"]
+                citation_text = c.get("citation_text")
+                if citation_text:
+                    text = f"{text}\n[Source: {citation_text}]"
+                results.append(text)
+            return results
+        
+        return [c["text"] for c in deduplicated]
     
-def prepare_contexts(contexts: List[Dict[str, Any]], return_scores: bool = False) -> List[Union[str, Dict[str, Any]]]:
+def prepare_contexts(contexts: List[Dict[str, Any]], return_scores: bool = False, include_citations: bool = True, similarity_threshold: float = 0.7) -> List[Union[str, Dict[str, Any]]]:
     """
     Functional API: Clean and deduplicate contexts in one call.
 
@@ -330,11 +344,12 @@ def prepare_contexts(contexts: List[Dict[str, Any]], return_scores: bool = False
     Returns:
         List of cleaned, deduplicated context strings.
     """
-    preparer = ContextPreparer()
-    cleaned = [preparer._clean_context(c) for c in contexts]
-    cleaned = [c for c in cleaned if c["text"]]
-    deduplicated = preparer._deduplicate(cleaned)
-
-    if return_scores:
-        return deduplicated
-    return [c["text"] for c in deduplicated]
+    preparer = ContextPreparer(
+        similarity_threshold=similarity_threshold
+    )
+    
+    return preparer.prepare(
+        contexts,
+        return_full=return_scores,
+        include_citations=include_citations
+    )
