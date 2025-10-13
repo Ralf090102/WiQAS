@@ -119,6 +119,40 @@ class QueryClassifier:
         self.fil_patterns = [re.compile(p, re.IGNORECASE) for p in self.FILIPINO_PATTERNS]
         self.en_patterns = [re.compile(p, re.IGNORECASE) for p in self.ENGLISH_PATTERNS]
 
+    def classify_query_type(self, query: str) -> Tuple[str, float]:
+        scores = {qtype: 0 for qtype in self.type_patterns.keys()}
+
+        for qtype, patterns in self.type_patterns.items():
+            for pattern in patterns:
+                matches = len(pattern.findall(query))
+                scores[qtype] += matches
+
+        query_lower = query.lower()
+
+        analytical_triggers = ["why", "bakit", "how did", "significance", "importance", "role", "impact", "influence"]
+        if any(t in query_lower for t in analytical_triggers):
+            scores["Analytical"] += 3
+
+        procedural_triggers = ["how to", "paano", "steps", "hakbang", "process", "procedure"]
+        if any(t in query_lower for t in procedural_triggers):
+            scores["Procedural"] += 3
+
+        comparative_triggers = ["difference", "pagkakaiba", "compare", "contrast", "vs", "versus"]
+        if any(t in query_lower for t in comparative_triggers):
+            scores["Comparative"] += 3
+
+        if max(scores.values()) == 0:
+            return "Factual", 0.5
+
+        priority_order = ["Analytical", "Procedural", "Comparative", "Exploratory", "Factual"]
+        best_type = sorted(scores.items(), key=lambda kv: (-kv[1], priority_order.index(kv[0])))[0][0]
+
+        total_matches = sum(scores.values())
+        confidence = scores[best_type] / total_matches if total_matches > 0 else 0.5
+
+        return best_type, min(confidence, 1.0)
+    
+
 class PromptTemplate:
     """
     Defines the hierarchical structure for prompt construction.
