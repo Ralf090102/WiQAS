@@ -277,7 +277,22 @@ class PromptTemplate:
         """
         if not self.context:
             return "No relevant documents found."
-        return "\n\n".join([f"- {c}" for c in self.context])
+            
+        formatted_contexts = []
+        
+        for i, ctx in enumerate(self.context, 1):
+            if isinstance(ctx, dict):
+                text = ctx.get("text", "")
+                
+                if self.use_detailed_context:
+                    citation = self._format_source_citation(ctx)
+                    formatted_contexts.append(f"[{i}] {text} {citation}")
+                else:
+                    formatted_contexts.append(f"[{i}] {text}")
+            else:
+                formatted_contexts.append(f"[{i}] {ctx}")
+        
+        return "\n\n".join(formatted_contexts)
     
     def build_query_section(self) -> str:
         """
