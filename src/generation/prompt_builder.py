@@ -14,6 +14,7 @@ Components:
 """
 
 from typing import Callable, List, Optional
+from dataclasses import dataclass
 
 FUNCTIONAL_GUIDELINES = {
     "Factual": "Provide clear, concise, and accurate definitions, facts, or explanations. Focus on established knowledge and avoid unnecessary speculation. Use specific dates, names, and verifiable details when available.",
@@ -45,6 +46,58 @@ class QueryClassification:
     query_type: str
     language: str
     confidence: float = 0.0
+
+class QueryClassifier:
+    QUERY_TYPE_KEYWORDS = {
+        "Factual": [
+            # Filipino
+            r'\b(ano|sino|saan|kailan|ilan|alin)\b',
+            r'\b(tawag|ibig\s+sabihin|kahulugan|depinisyon)\b',
+            # English
+            r'\b(what|who|where|when|which|define|meaning)\b',
+            r'\b(is|are|was|were)\b.*\b(definition|called)\b'
+        ],
+        "Analytical": [
+            # Filipino
+            r'\b(bakit|paano|ano\s+ang\s+kahalagahan|ano\s+ang\s+papel)\b',
+            r'\b(impluwensya|epekto|dahilan|resulta)\b',
+            r'\b(simbolismo|kahulugan|representasyon)\b',
+            # English
+            r'\b(why|how\s+did|significance|importance|role|impact)\b',
+            r'\b(analyze|explain|symbolism|represent|meaning|influence)\b',
+            r'\b(cultural\s+significance|historical\s+context)\b'
+        ],
+        "Procedural": [
+            # Filipino
+            r'\b(paano\s+(gumawa|magluto|gawin|mag))\b',
+            r'\b(hakbang|proseso|paraan|instruksyon)\b',
+            r'\b(mga\s+hakbang|sundin|gawin)\b',
+            # English
+            r'\b(how\s+to|steps|process|procedure|instructions)\b',
+            r'\b(make|cook|create|prepare|perform)\b',
+            r'\b(guide|tutorial|method)\b'
+        ],
+        "Comparative": [
+            # Filipino
+            r'\b(pagkakaiba|pagkakatulad|ihambing)\b',
+            r'\b(mas|kaysa|kumpara)\b',
+            r'\b(katulad|kaiba)\b',
+            # English
+            r'\b(difference|similar|compare|contrast|versus|vs)\b',
+            r'\b(alike|unlike|comparison|distinguish)\b',
+            r'\b(better|worse|more|less)\s+than\b'
+        ],
+        "Exploratory": [
+            # Filipino
+            r'\b(paki(paliwanag|bigay\s+ng\s+overview))\b',
+            r'\b(konteksto|background|kasaysayan)\b',
+            r'\b(ano\s+ang\s+tungkol)\b',
+            # English
+            r'\b(overview|describe|tell\s+me\s+about|background)\b',
+            r'\b(discuss|elaborate|explore|context)\b',
+            r'\b(general|broad|comprehensive)\b'
+        ]
+    }
 
 class PromptTemplate:
     """
