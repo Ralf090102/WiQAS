@@ -257,8 +257,10 @@ class DocumentProcessor:
         file_ext = file_path.suffix.lower()
 
         # Treat files containing '.txt' in their name as .txt files
+        forced_txt = False
         if file_ext not in SUPPORTED_EXTENSIONS and ".txt" in file_path.name.lower():
             file_ext = ".txt"
+            forced_txt = True
 
         if file_ext not in SUPPORTED_EXTENSIONS:
             raise ValueError(f"Unsupported file type: {file_ext}")
@@ -277,10 +279,13 @@ class DocumentProcessor:
                     "file_type": SUPPORTED_EXTENSIONS[file_ext],
                     "file_extension": file_ext,
                 }
-                
+
                 if file_ext == ".pdf" and "title" not in doc.metadata:
                     metadata_update["title"] = file_path.stem
-                
+
+                if forced_txt:
+                    metadata_update["title"] = "Bantay-Wika"
+
                 doc.metadata.update(metadata_update)
 
             log_debug(f"Loaded {len(documents)} documents from {file_path}", self.config)

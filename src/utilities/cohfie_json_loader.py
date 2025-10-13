@@ -302,7 +302,6 @@ class CohfieJsonLoader:
                     )
                 elif "text" in item and source_type in ["100year", "bible"]:
                     metadata = WikipediaMetadata(
-                        date=item.get("date"),
                         title=title,
                         text=item.get("text"),
                     )
