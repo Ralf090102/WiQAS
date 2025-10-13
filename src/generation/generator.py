@@ -119,18 +119,25 @@ class WiQASGenerator:
         # retrieve
         self.retriever._initialize_components()
         raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
+
+        def get_meta(r, key):
+            return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
+
         contexts = [
             {
-            "text": r.content,
-            "score": getattr(r, "score", 0.0),
-            "document_id": getattr(r, "document_id", None),
-            "source": r.metadata.get("source") if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None,
+                "content": getattr(r, "content", None),
+                "final_score": get_meta(r, "final_score"),
+                "source_file": get_meta(r, "source_file"),
+                "page": get_meta(r, "page"),
+                "title": get_meta(r, "title"),
+                "date": get_meta(r, "date"),
+                "url": get_meta(r, "url"),
             }
             for r in raw_results
         ]
 
         # prepare contexts
-        prepared_contexts = self.context_preparer.prepare(contexts, return_full=True)
+        prepared_contexts = self.context_preparer.prepare(contexts, include_citations=True, return_full=True)
       
         # build prompt
         prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)

@@ -49,11 +49,14 @@ def ask(
         for c in contexts:
             if isinstance(c, dict):
                 text = c.get("text", "")
-                score = c.get("score", 0.0)
-                meta = c.get("metadata", {})
-                doc_id = c.get("document_id")
+                final_score = c.get("final_score", 0.0)
+                source_file = c.get("source_file", "")
+                page = c.get("page", "")
+                title = c.get("title", "")
+                date = c.get("date", "")
+                url = c.get("url", "")
                 context_strings.append(
-                    f"[bold]{doc_id or ''} - {score}\n[/bold]\n{text}\n[dim]{meta}[/dim]"
+                    f"[bold]{source_file} - {title} | {page} | {url} | {date}\n{final_score}\n[/bold]\n{text}\n"
                 )
             else:
                 context_strings.append(str(c))
