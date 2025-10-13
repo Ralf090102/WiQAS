@@ -99,6 +99,18 @@ class QueryClassifier:
         ]
     }
 
+    FILIPINO_PATTERNS = [
+        r'\b(ang|ng|sa|mga|ay|na|at|para|kung|mga)\b',
+        r'\b(ano|sino|saan|kailan|paano|bakit)\b',
+        r'\b(ito|iyan|ako|ikaw|siya|kami|tayo|sila)\b',
+    ]
+    
+    ENGLISH_PATTERNS = [
+        r'\b(the|is|are|was|were|has|have|had)\b',
+        r'\b(what|who|where|when|how|why)\b',
+        r'\b(this|that|these|those|I|you|he|she|we|they)\b',
+    ]
+
 class PromptTemplate:
     """
     Defines the hierarchical structure for prompt construction.
