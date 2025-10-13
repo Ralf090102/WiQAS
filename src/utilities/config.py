@@ -519,6 +519,8 @@ class GPUConfig(BaseConfig):
     clear_cache_frequency: int = 10
     enable_mixed_precision: bool = True  # Enable mixed precision training for faster inference
     batch_size_multiplier: float = 2.0
+    
+    @classmethod
     def from_env(cls) -> "GPUConfig":
         """Load GPU configuration from environment variables"""
         return cls(

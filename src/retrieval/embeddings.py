@@ -129,7 +129,7 @@ class EmbeddingManager:
             # Set to evaluation mode for inference
             self.model.eval()
             
-            if self.gpu_manager.is_nvidia_gpu:
+            if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
                 if hasattr(self.model, '_modules'):
                     for module in self.model._modules.values():
                         if hasattr(module, 'half'):
@@ -220,7 +220,7 @@ class EmbeddingManager:
         try:
             with torch.no_grad():
                 # Use mixed precision if GPU is available
-                if self.gpu_manager.is_nvidia_gpu:
+                if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
                     with self.gpu_manager.enable_mixed_precision():
                         embedding = self.model.encode(
                             text, 
@@ -288,7 +288,7 @@ class EmbeddingManager:
                 log_debug(f"Processing batch {i//batch_size + 1}/{(len(valid_texts) + batch_size - 1) // batch_size} with {len(batch_texts)} texts", self.config)
 
                 with torch.no_grad():
-                    if self.gpu_manager.is_nvidia_gpu:
+                    if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
                         with self.gpu_manager.enable_mixed_precision():
                             batch_embeddings = self.model.encode(
                                 batch_texts,
@@ -312,7 +312,7 @@ class EmbeddingManager:
                     all_embeddings.extend(batch_embeddings)
                     
                     # Clear GPU cache periodically for large batches
-                    if self.gpu_manager.is_nvidia_gpu and i > 0 and i % (batch_size * 10) == 0:
+                    if self.gpu_manager and self.gpu_manager.is_nvidia_gpu and i > 0 and i % (batch_size * 10) == 0:
                         self.gpu_manager.clear_cache()
 
             result_embeddings = [[] for _ in texts]
@@ -382,7 +382,7 @@ class EmbeddingManager:
             "optimized_batch_size": self.batch_size,
             "base_batch_size": self.config.rag.embedding.batch_size,
             "gpu_info": gpu_info,
-            "nvidia_gpu_detected": self.gpu_manager.is_nvidia_gpu if self.gpu_manager else False,
+            "nvidia_gpu_detected": self.gpu_manager.is_nvidia_gpu,
         }
 
 

@@ -707,11 +707,13 @@ class TextChunker:
 class VectorStoreManager:
     """Manages ChromaDB vector store operations"""
 
-    def __init__(self, config: WiQASConfig | None = None):
+    def __init__(self, config: WiQASConfig | None = None, embedding_manager: EmbeddingManager | None = None):
         self.config = ensure_config(config)
         self.vectorstore_config = self.config.rag.vectorstore
         self.embedding_config = self.config.rag.embedding
-        self.embedding_manager = EmbeddingManager(self.config)
+        
+        # Use provided embedding manager or create new one
+        self.embedding_manager = embedding_manager or EmbeddingManager(self.config)
 
         # Initialize ChromaDB client
         self.client = None
@@ -864,7 +866,12 @@ class DocumentIngestor:
         self.processor = DocumentProcessor(config)
         self.preprocessor = TextPreprocessor(config)
         self.chunker = TextChunker(config)
-        self.vector_store = VectorStoreManager(config)
+        
+        # Create single embedding manager instance
+        self.embedding_manager = EmbeddingManager(config)
+        
+        # Pass embedding manager to vector store to avoid double creation
+        self.vector_store = VectorStoreManager(config, self.embedding_manager)
         
         # Initialize GPU manager for performance monitoring
         self.gpu_manager = get_gpu_manager(self.config)
