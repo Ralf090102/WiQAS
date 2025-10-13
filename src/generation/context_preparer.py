@@ -33,6 +33,12 @@ class ContextPreparer:
             r'^[Dd]ata[/\\]',
             r'^knowledge_?base[/\\]',
         ]
+        
+        normalized = source_file
+        for pattern in patterns:
+            normalized = re.sub(pattern, '', normalized)
+        
+        return normalized
 
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
