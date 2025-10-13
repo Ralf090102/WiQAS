@@ -71,7 +71,6 @@ class ContextPreparer:
             return "unknown"
 
     def _format_date(self, date_value: Any) -> Optional[str]:
-        """Convert various date formats to readable string."""
         if not date_value:
             return None
         
@@ -92,6 +91,81 @@ class ContextPreparer:
             logger.debug(f"Could not parse date {date_value}: {e}")
             
         return None
+
+    def _format_citation(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Format citation information based on source type."""
+        source_file = context.get("source_file", "")
+        normalized_source = self._normalize_source_file(source_file)
+        source_type = self._categorize_source(normalized_source)
+        
+        citation = {
+            "source_type": source_type,
+            "citation_text": None,
+            "normalized_source_file": normalized_source
+        }
+        
+        if source_type == "pdf":
+            title = self._extract_pdf_title(source_file)
+            page = context.get("page")
+            
+            if title:
+                citation["title"] = title
+                if page is not None:
+                    citation["citation_text"] = f"{title}, p. {page}"
+                else:
+                    citation["citation_text"] = title
+                
+        elif source_type == "wikipedia":
+            title = context.get("title", "")
+            date_value = context.get("date")
+            
+            if title:
+                citation["title"] = title
+                date_str = self._format_date(date_value)
+                
+                if date_str:
+                    citation["date"] = date_str
+                    citation["citation_text"] = f"{title} (Wikipedia, accessed {date_str})"
+                else:
+                    citation["citation_text"] = f"{title} (Wikipedia)"
+                    
+        elif source_type == "news_site":
+            title = context.get("title", "")
+            url = context.get("url", "")
+            date_value = context.get("date")
+            
+            parts = []
+            if title:
+                citation["title"] = title
+                parts.append(f'"{title}"')
+            
+            date_str = self._format_date(date_value)
+            if date_str:
+                citation["date"] = date_str
+                parts.append(date_str)
+            
+            if url:
+                citation["url"] = url
+            
+            if parts:
+                citation_base = ", ".join(parts)
+                if url:
+                    citation["citation_text"] = f"{citation_base}. Retrieved from {url}"
+                else:
+                    citation["citation_text"] = citation_base
+                
+        elif source_type == "books":
+            title = context.get("title", "")
+            page = context.get("page")
+            
+            if title:
+                citation["title"] = title
+                if page is not None:
+                    citation["citation_text"] = f"{title}, p. {page}"
+                else:
+                    citation["citation_text"] = title
+        
+        return citation
 
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
