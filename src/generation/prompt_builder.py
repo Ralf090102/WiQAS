@@ -373,13 +373,19 @@ class PromptTemplate:
             str: Fully constructed prompt string with system instructions,
             context, query, guidelines, and exemplars.
         """
-        return (
-            f"System Instructions:\n{self.build_system_instructions()}\n\n"
-            f"Context:\n{self.build_context_section()}\n\n"
-            f"{self.build_query_section()}\n\n"
-            f"{self.build_guidelines()}\n\n"
-            f"Few-shot Exemplars:\n{self.build_exemplars()}"
-        )
+        sections = [
+            f"=== SYSTEM INSTRUCTIONS ===\n{self.build_system_instructions()}",
+            f"=== RETRIEVED CONTEXT ===\n{self.build_context_section()}",
+            f"=== USER QUERY ===\n{self.build_query_section()}",
+            f"=== RESPONSE GUIDELINES ===\n{self.build_guidelines()}"
+        ]
+        
+        if self.include_exemplars:
+            sections.append(f"=== FEW-SHOT EXAMPLES ===\n{self.build_exemplars()}")
+        
+        sections.append("=== YOUR ANSWER ===")
+        
+        return "\n\n" + ("-" * 80 + "\n\n").join(sections)
     
 class PromptBuilder:
     """
