@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Union, Optinal
+from typing import Any, Dict, List, Union, Optional
 from difflib import SequenceMatcher
 import re
 from pathlib import Path
@@ -309,7 +309,7 @@ class ContextPreparer:
     def _sort_contexts(self, contexts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return sorted(contexts, key=lambda x: x.get("final_score", 0.0), reverse=True)
     
-    def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False, include_citations: bool = True, score_by_score: bool = True) -> List[Union[str, Dict[str, Any]]]:
+    def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False, include_citations: bool = True, sort_by_score: bool = True) -> List[Union[str, Dict[str, Any]]]:
         cleaned = []
         for c in contexts:
             cleaned_ctx = self._clean_context(c)
