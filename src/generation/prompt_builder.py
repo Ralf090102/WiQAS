@@ -13,7 +13,7 @@ Components:
       renders the final prompt via PromptTemplate.
 """
 
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Union
 from dataclasses import dataclass
 
 FUNCTIONAL_GUIDELINES = {
@@ -207,6 +207,17 @@ class PromptTemplate:
         self.language = language
         self.include_exemplars = include_exemplars
         self.use_detailed_context = use_detailed_context
+
+    def _format_source_citation(self, ctx: Dict[str, Any]) -> str:
+        citation_text = ctx.get("citation_text")
+        if citation_text:
+            return f"[Source: {citation_text}]"
+        
+        source_file = ctx.get("normalized_source_file") or ctx.get("source_file", "")
+        if source_file:
+            return f"[Source: {source_file}]"
+        
+        return "[Source: Unknown]"
 
     def build_system_instructions(self) -> str:
         """
