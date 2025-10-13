@@ -314,7 +314,12 @@ class CohfieJsonLoader:
                 text_content = item.get("text", "")
 
                 # Remove 'text' from metadata dict to avoid duplication
-                meta_dict = {k: v for k, v in metadata.__dict__.items() if k != "text"}
+                # Convert None values to empty strings
+                meta_dict = {
+                    k: ("" if v is None else v)
+                    for k, v in metadata.__dict__.items()
+                    if k != "text"
+                }
 
                 document = Document(
                     page_content=text_content,
