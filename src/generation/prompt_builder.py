@@ -13,7 +13,8 @@ Components:
       renders the final prompt via PromptTemplate.
 """
 
-from typing import Callable, List, Optional, Union, Tuple
+import re
+from typing import Any, Callable, Dict, List, Optional, Union, Tuple
 from dataclasses import dataclass
 
 FUNCTIONAL_GUIDELINES = {
@@ -261,8 +262,6 @@ class PromptTemplate:
             f"{citation_examples}"
             "6. **Handling Uncertainty**: If the context provides partial information, answer what you can and "
             "explicitly state what information is missing. Never fabricate details not present in the context.\n\n"
-            "7. **Source Reference**: Each context snippet is numbered [1], [2], etc. You can reference these "
-            "numbers when synthesizing information from multiple sources to make your answer clearer.\n\n"
             "Remember: WiQAS is not a generic QA system—it is designed specifically to answer questions "
             "about Filipino culture accurately, faithfully, and in context. Your responses should demonstrate "
             "cultural competence and linguistic awareness appropriate for Filipino cultural topics."
@@ -321,21 +320,14 @@ class PromptTemplate:
             else "Respond in English"
         )
         
-        citation_instruction = (
-            "Mga Sanggunian" if self.language == "fil" else "Sources"
-        )
-        
         return (
             f"Response Guidelines ({self.query_type} Type):\n"
             f"{guideline}\n\n"
             f"Additional Requirements:\n"
             f"- {language_instruction}\n"
-            f"- Always cite sources at the end using format: ({citation_instruction}: [citation from context])\n"
             f"- Use the EXACT citation format provided in each context snippet's [Source: ...] tag\n"
-            f"- For multiple sources, separate with semicolons: ({citation_instruction}: Source1; Source2)\n"
             f"- Maintain cultural sensitivity and authenticity\n"
             f"- If information is insufficient, state this clearly rather than speculating\n"
-            f"- Reference context numbers [1], [2], etc. when synthesizing from multiple sources"
         )
 
     def build_exemplars(self) -> str:
