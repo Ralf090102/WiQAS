@@ -302,6 +302,7 @@ class ChromaVectorStore:
                 source_file = metadata.get("source_file", "unknown")
                 file_name = metadata.get("file_name", "unknown")
                 file_type = metadata.get("file_type", "unknown")
+                title = metadata.get("title", "")
                 doc_id = all_data["ids"][i] if i < len(all_data["ids"]) else f"doc_{i}"
 
                 if source_file not in sources:
@@ -309,6 +310,7 @@ class ChromaVectorStore:
                         "source_file": source_file,
                         "file_name": file_name,
                         "file_type": file_type,
+                        "title": title,
                         "chunk_count": 0,
                         "first_chunk_id": doc_id,
                     }

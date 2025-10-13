@@ -12,6 +12,7 @@ numpy
 transformers
 accelerate
 scikit-learn
+bs4
 
 # Document processing
 pymupdf
