@@ -165,6 +165,18 @@ class QueryClassifier:
             return "fil", fil_score / total
         else:
             return "en", en_score / total
+
+    def classify(self, query: str) -> QueryClassification:
+        query_type, type_confidence = self.classify_query_type(query)
+        language, lang_confidence = self.detect_language(query)
+        
+        overall_confidence = (type_confidence + lang_confidence) / 2
+        
+        return QueryClassification(
+            query_type=query_type,
+            language=language,
+            confidence=overall_confidence
+        )
     
 
 class PromptTemplate:
