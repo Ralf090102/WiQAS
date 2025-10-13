@@ -111,6 +111,14 @@ class QueryClassifier:
         r'\b(this|that|these|those|I|you|he|she|we|they)\b',
     ]
 
+    def __init__(self):
+        self.type_patterns = {
+            qtype: [re.compile(pattern, re.IGNORECASE) for pattern in patterns]
+            for qtype, patterns in self.QUERY_TYPE_KEYWORDS.items()
+        }
+        self.fil_patterns = [re.compile(p, re.IGNORECASE) for p in self.FILIPINO_PATTERNS]
+        self.en_patterns = [re.compile(p, re.IGNORECASE) for p in self.ENGLISH_PATTERNS]
+
 class PromptTemplate:
     """
     Defines the hierarchical structure for prompt construction.
