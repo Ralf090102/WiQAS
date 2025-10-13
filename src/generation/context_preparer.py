@@ -24,6 +24,16 @@ class ContextPreparer:
         """
         self.similarity_threshold = similarity_threshold
 
+    def _normalize_source_file(self, source_file: str) -> str:
+        if not source_file:
+            return ""
+        
+        patterns = [
+            r'^[Dd]ata[/\\][Kk]nowledge_?[Bb]ase[/\\]',
+            r'^[Dd]ata[/\\]',
+            r'^knowledge_?base[/\\]',
+        ]
+
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
         Normalize a single context string and collapse repeated n-grams.
