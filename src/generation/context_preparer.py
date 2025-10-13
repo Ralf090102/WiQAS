@@ -70,6 +70,29 @@ class ContextPreparer:
         else:
             return "unknown"
 
+    def _format_date(self, date_value: Any) -> Optional[str]:
+        """Convert various date formats to readable string."""
+        if not date_value:
+            return None
+        
+        try:
+            if isinstance(date_value, (int, float)):
+                date_obj = datetime.fromtimestamp(int(date_value))
+                return date_obj.strftime("%B %d, %Y")
+            
+            if isinstance(date_value, str) and date_value.isdigit():
+                date_obj = datetime.fromtimestamp(int(date_value))
+                return date_obj.strftime("%B %d, %Y")
+            
+            if isinstance(date_value, str):
+                date_obj = datetime.fromisoformat(date_value.replace('Z', '+00:00'))
+                return date_obj.strftime("%B %d, %Y")
+                
+        except (ValueError, TypeError, OSError) as e:
+            logger.debug(f"Could not parse date {date_value}: {e}")
+            
+        return None
+
     def _clean_context(self, context: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
         Normalize a single context string and collapse repeated n-grams.
