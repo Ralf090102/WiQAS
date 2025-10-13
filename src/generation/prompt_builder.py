@@ -277,7 +277,7 @@ class PromptTemplate:
         """
         if not self.context:
             return "No relevant documents found."
-            
+
         formatted_contexts = []
         
         for i, ctx in enumerate(self.context, 1):
@@ -301,7 +301,10 @@ class PromptTemplate:
         Returns:
             str: Formatted user question.
         """
-        return f"User Question:\n{self.query}"
+        return (
+            f"User Question:\n{self.query}\n\n"
+            f"[Detected Language: {self.language.upper()} | Query Type: {self.query_type}]"
+        )
     
     def build_guidelines(self) -> str:
         """
