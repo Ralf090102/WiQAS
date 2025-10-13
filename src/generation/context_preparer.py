@@ -248,13 +248,18 @@ class ContextPreparer:
         Returns:
             bool: True if texts are considered duplicates.
         """
+        len_ratio = min(len(a), len(b)) / max(len(a), len(b))
+        if len_ratio < 0.5:  
+            return False
+        
         ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
         if ratio >= self.similarity_threshold:
             return True
         
         shorter, longer = (a, b) if len(a) < len(b) else (b, a)
-        if len(shorter) > 10 and shorter.lower() in longer.lower():
+        if len(shorter) > 30 and shorter.lower() in longer.lower():
             return True
+            
         return False
     
     def _deduplicate(self, contexts: list[dict]) -> list[dict]:
