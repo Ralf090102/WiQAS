@@ -314,9 +314,30 @@ class PromptTemplate:
             str: Guidelines text derived from FUNCTIONAL_GUIDELINES and
             contextualized for the query type.
         """
-        guideline = FUNCTIONAL_GUIDELINES.get(self.query_type, FUNCTIONAL_GUIDELINES["Factual"])
-        return f"Response Guidelines:\n{guideline}\nCite sources. Be culturally sensitive."
-
+        guideline = FUNCTIONAL_GUIDELINES.get(self.query_type)
+        
+        language_instruction = (
+            "Respond in Filipino (Tagalog)" if self.language == "fil" 
+            else "Respond in English"
+        )
+        
+        citation_instruction = (
+            "Mga Sanggunian" if self.language == "fil" else "Sources"
+        )
+        
+        return (
+            f"Response Guidelines ({self.query_type} Type):\n"
+            f"{guideline}\n\n"
+            f"Additional Requirements:\n"
+            f"- {language_instruction}\n"
+            f"- Always cite sources at the end using format: ({citation_instruction}: [citation from context])\n"
+            f"- Use the EXACT citation format provided in each context snippet's [Source: ...] tag\n"
+            f"- For multiple sources, separate with semicolons: ({citation_instruction}: Source1; Source2)\n"
+            f"- Maintain cultural sensitivity and authenticity\n"
+            f"- If information is insufficient, state this clearly rather than speculating\n"
+            f"- Reference context numbers [1], [2], etc. when synthesizing from multiple sources"
+        )
+        
     def build_exemplars(self) -> str:
         """
         Construct the few-shot exemplar section of the prompt.
