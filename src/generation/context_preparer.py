@@ -77,18 +77,30 @@ class ContextPreparer:
             return "unknown"
 
     def _format_date(self, date_value: Any) -> Optional[str]:
+        """Convert various date formats to readable string."""
         if not date_value:
             return None
         
         try:
+            # Try UNIX timestamp (handle both seconds and milliseconds)
             if isinstance(date_value, (int, float)):
-                date_obj = datetime.fromtimestamp(int(date_value))
+                timestamp = int(date_value)
+                # Check if timestamp is in milliseconds (13 digits)
+                if timestamp > 10000000000:
+                    timestamp = timestamp / 1000
+                date_obj = datetime.fromtimestamp(timestamp)
                 return date_obj.strftime("%B %d, %Y")
             
+            # Try string timestamp
             if isinstance(date_value, str) and date_value.isdigit():
-                date_obj = datetime.fromtimestamp(int(date_value))
+                timestamp = int(date_value)
+                # Check if timestamp is in milliseconds (13 digits)
+                if timestamp > 10000000000:
+                    timestamp = timestamp / 1000
+                date_obj = datetime.fromtimestamp(timestamp)
                 return date_obj.strftime("%B %d, %Y")
             
+            # Try ISO format string
             if isinstance(date_value, str):
                 date_obj = datetime.fromisoformat(date_value.replace('Z', '+00:00'))
                 return date_obj.strftime("%B %d, %Y")
