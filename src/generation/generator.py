@@ -37,39 +37,46 @@ class WiQASGenerator:
 
     def _call_model(self, prompt: str) -> str:
         if self.answer_config.backend == "hf":
-            from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+            from transformers import AutoTokenizer, AutoModelForCausalLM
             import torch
 
             model_id = self.answer_config.model
             if model_id == "gemma2:9b":
                 model_id = "aisingapore/Gemma-SEA-LION-v3-9B"
 
+            if torch.cuda.is_available():
+                device = "cuda"
+                dtype = torch.float16
+            elif torch.backends.mps.is_available():
+                device = "mps"
+                dtype = torch.float16
+            else:
+                device = "cpu"
+                dtype = torch.float32
+
             tokenizer = AutoTokenizer.from_pretrained(model_id)
-            model = AutoModelForCausalLM.from_pretrained(
+            hf_model = AutoModelForCausalLM.from_pretrained(
                 model_id,
-                device_map="cpu",          
-                dtype=torch.float32,        
+                dtype=dtype,
+                device_map="auto" if device == "cuda" else None,
                 low_cpu_mem_usage=True,
             )
+            hf_model.to(device)
 
-            generator = pipeline(
-                "text-generation",
-                model=model,
-                tokenizer=tokenizer,
-            )
+            inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
-            print("\n[DEBUG] ==== PROMPT PASSED TO MODEL ====\n")
-            print(prompt)
-            print("\n=======================================\n")
+            print("model prompted")
 
-            result = generator(
-                prompt,                     
+            outputs = hf_model.generate(
+                **inputs,
                 max_new_tokens=self.answer_config.max_tokens,
                 temperature=self.answer_config.temperature,
                 do_sample=True,
-                return_full_text=False,
             )
-            return result[0]["generated_text"].strip()
+
+            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
+
+            return tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
 
         else:
             from src.core.llm import generate_response
