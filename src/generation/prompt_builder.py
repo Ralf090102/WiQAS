@@ -191,7 +191,7 @@ class PromptTemplate:
         - Exemplars: Few-shot examples illustrating the desired QA style.   
     """
 
-    def __init__(self, query: str, context: List[str], query_type: str = "Factual", language: str = "fil"):
+    def __init__(self, query: str, context: Union[List[str], List[Dict[str, Any]]], query_type: str = "Factual", language: str = "fil", include_exemplars: bool = True,  use_detailed_context: bool = True):
         """
         Initialize a PromptTemplate instance.
 
@@ -205,6 +205,8 @@ class PromptTemplate:
         self.context = context
         self.query_type = query_type
         self.language = language
+        self.include_exemplars = include_exemplars
+        self.use_detailed_context = use_detailed_context
 
     def build_system_instructions(self) -> str:
         """
