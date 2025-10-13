@@ -215,12 +215,13 @@ class RetrievalEvaluator:
                 
         return best_similarity, best_content, best_index
         
-    def evaluate_single_item(self, item: dict[str, Any]) -> dict[str, Any]:
+    def evaluate_single_item(self, item: dict[str, Any], item_number: int) -> dict[str, Any]:
         """
         Evaluate a single item from the dataset.
         
         Args:
             item: Evaluation item containing question and ground_truth_context
+            item_number: Sequential item number for tracking
             
         Returns:
             Dictionary with evaluation results
@@ -230,8 +231,9 @@ class RetrievalEvaluator:
         ground_truth_context = metadata.get("ground_truth_context", "")
         
         if not question or not ground_truth_context:
-            log_warning(f"Skipping invalid item: missing question or ground_truth_context")
+            log_warning(f"Skipping invalid item {item_number}: missing question or ground_truth_context")
             return {
+                "item": item_number,
                 "question": question,
                 "ground_truth_context": ground_truth_context,
                 "retrieved_content": "",
@@ -267,6 +269,7 @@ class RetrievalEvaluator:
             best_similarity, best_content, best_index = self.find_best_match(results, ground_truth_context)
             
             return {
+                "item": item_number,
                 "question": question,
                 "ground_truth_context": ground_truth_context,
                 "retrieved_content": best_content,
@@ -276,8 +279,9 @@ class RetrievalEvaluator:
             }
             
         except Exception as e:
-            log_error(f"Error evaluating item: {e}")
+            log_error(f"Error evaluating item {item_number}: {e}")
             return {
+                "item": item_number,
                 "question": question,
                 "ground_truth_context": ground_truth_context,
                 "retrieved_content": "",
@@ -322,10 +326,11 @@ class RetrievalEvaluator:
         log_info(f"Evaluating {len(dataset)} items with GPU acceleration...", config=self.config)
         
         for i, item in enumerate(dataset):
+            item_number = i + 1
             item_question = item.get('question', 'No question')[:50]
-            log_info(f"Evaluating item {i+1}/{len(dataset)}: {item_question}...", config=self.config)
+            log_info(f"Evaluating item {item_number}/{len(dataset)}: {item_question}...", config=self.config)
             
-            result = self.evaluate_single_item(item)
+            result = self.evaluate_single_item(item, item_number)
             results.append(result)
             
             if "error" in result:
