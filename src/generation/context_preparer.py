@@ -299,6 +299,10 @@ class ContextPreparer:
                 unique.append(ctx)
                 
         return unique
+
+    def _sort_contexts(self, contexts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        return sorted(contexts, key=lambda x: x.get("final_score", 0.0), reverse=True)
+    
     
     def prepare(self, contexts: List[Dict[str, Any]], return_full: bool = False) -> List[Union[str, Dict[str, Any]]]:
         """
