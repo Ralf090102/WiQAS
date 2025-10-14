@@ -77,6 +77,77 @@ def ask(
     else:
         console.print(Panel(answer, title="Answer", border_style="green"))
 
+@app.command()
+def batch_ask(
+    input_file: str = typer.Argument(..., help="Path to input text file with questions delimited by '?'"),
+    output_file: str = typer.Option("batch_output.json", "--output", "-o", help="Path to output JSON file"),
+    k: int = typer.Option(5, "--results", "-k", help="Number of retrieval results per question"),
+    query_type: str = typer.Option("Factual", "--type", "-t", help="Query type for all questions"),
+):
+    """
+    Run batch question answering from a text file delimited by '?'.
+    Saves results to a JSON file containing question, context, and answer.
+    """
+    console.print(Panel("[bold blue]WiQAS Batch Answer Generation[/bold blue]"))
+    generator = WiQASGenerator(WiQASConfig.from_env())
+
+    with open(input_file, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Split by '?', clean up, and re-append '?' for each question if needed
+    raw_questions = [q.strip() for q in content.split("?") if q.strip()]
+    questions = [q + "?" if not q.endswith("?") else q for q in raw_questions]
+
+    results = []
+
+    for i, query in enumerate(questions, 1):
+        console.print(f"[bold green]Processing {i}/{len(questions)}:[/bold green] {query}")
+        try:
+            result = generator.generate(
+                query=query,
+                k=k,
+                query_type=query_type,
+                show_contexts=True,
+            )
+
+            contexts = result.get("contexts", [])
+            structured_contexts = []
+            for c in contexts:
+                if not isinstance(c, dict):
+                    try:
+                        c = c.__dict__
+                    except AttributeError:
+                        try:
+                            c = json.loads(json.dumps(c, default=lambda o: o.__dict__))
+                        except Exception:
+                            continue
+
+                structured_contexts.append({
+                    "text": c.get("text", ""),
+                    "final_score": c.get("final_score", 0.0),
+                    "source_file": c.get("source_file", "")
+                })
+
+            results.append({
+                "question": query,
+                "contexts": structured_contexts,
+                "answer": result.get("answer", "")
+            })
+
+        except Exception as e:
+            console.print(f"[bold red]Error processing question '{query}': {e}[/bold red]")
+            results.append({
+                "question": query,
+                "contexts": [],
+                "answer": "",
+                "error": str(e)
+            })
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+
+    console.print(Panel(f"[bold green]Batch generation complete![/bold green]\nSaved to: {output_file}", border_style="green"))
+
 def main():
     app()
 

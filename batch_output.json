@@ -1,0 +1,137 @@
+[
+  {
+    "question": "Ano ang Sinigang?",
+    "contexts": [
+      {
+        "text": "Sinigang has been referred to as the “pride” of native cuisine and a genuine Filipino concoction. This dish is as elastic as the local environment, since there is no one or two specific in gredients that must be present, virtually whatever is on hand will do. Sinigang may in clude any meat or fish and just about any local vegetables",
+        "final_score": 1.2581064760684966,
+        "source_file": "data\\knowledge_base\\Culture-And-Customs-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "Boiling, or nilaga, is the basis for many of the best-loved Filipino dishes, for example, sinigang, the pride of in digenous cuisine. Sinigang are soups or very liquid stews in which meat, fish or vegetables are combined with a souring agent. The choice of souring agent—or pampasim—is vast: lime, ripe guavas, starfruit, tamarind or even young tart pineapple. The most famous of the many nilaga is bulalo, which consists of boiled leg bone containing mar- row with cartilage at tached, plus meat and lettuce",
+        "final_score": 1.2478162527084349,
+        "source_file": "data\\knowledge_base\\Food-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "Sinakulo. Religious plays usually staged during festivals and important religious events such as Christmas and Easter. Sinigang. Stewed dish of fish or meat that is flavored with a variety of souring agents such as tamarind, green mango, guava, or to matoes.",
+        "final_score": 1.2163486301898954,
+        "source_file": "data\\knowledge_base\\Culture-And-Customs-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "It was not until the arrival of the Spanish that sautéing (guisado) or frying in oil or lard came into use and that process was Filipinized and added to the basic forms of Filipino cookery. Boiling, or nilaga, is the basis for many of the best-loved Filipino dishes, for example, sinigang, the pride of in digenous cuisine. Sinigang are soups or very liquid stews in which meat, fish or vegetables are combined with a souring agent",
+        "final_score": 1.1861414730548856,
+        "source_file": "data\\knowledge_base\\Food-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "Ang sinigang ay isang. Mga uri ng sinigang Ayon sa pangunahing sangkap Sinigang na Sinigang na Sinigang na mga Ayon sa pampaasim na sangkap Sinigang sa Sinigang sa Sinigang sa Mga sanggunian",
+        "final_score": 1.0158838033676145,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/3/3.json"
+      }
+    ],
+    "answer": "Ang sinigang ay isang sabaw o magaan na pritong gulay at karne na may lasa ng matabang ahente tulad ng sampalok, mangga't halaya, bayabas o kamatis.  (Sources: Culture And Customs Of The Philippines, p. 243; Food Of The Philippines, p. 29)"
+  },
+  {
+    "question": "Ano ang Adobo?",
+    "contexts": [
+      {
+        "text": "The Filipino has thus given the name adobo to a particular dish of chicken or pork-and-chicken, and derived from it an adjective to describe other foods using the same or a similar cooking process (adobong pusit). The term adobado has moved from the dish to the process of stewing in a spiced or flavored broth (e. g. \"Ang itik sa Angono'y adobado na bago prituhin,\"),5 thus using the basic meaning — to cook in a pickling sauce",
+        "final_score": 1.2552355408668516,
+        "source_file": "data\\knowledge_base\\Sarap-Essays-On-Philippine-Food.pdf"
+      },
+      {
+        "text": "GLOSSARY Abrao — different kinds of vegetables cooked with bagoong (salted fish) into a stew Adobo — a stew of chicken and/or pork with vinegar, garlic, pepper and bay leaf Agahan — breakfast; food eaten for*breakfast Alat — the taste of salt or sea water; saltiness Ang ikakain — that which is used to eat with Asim — sourness; acidify; the taste of vinegar, unripe mangoes and other green fruits Atang — act of helping another to place a load on the head or shoulders Bab ad — to marinate; to soak thoroughly",
+        "final_score": 1.1678873896598814,
+        "source_file": "data\\knowledge_base\\Sarap-Essays-On-Philippine-Food.pdf"
+      },
+      {
+        "text": "Ang adobo Laquian, Eleanor at Irene Sobreviñas. Filipino Cooking Here and Abroad, nasa wikang Ingles,, National Bookstore, Lungsod ng Maynila, Pilipinas, pahina,, at, ISBN ay isa sa mga pinaka-popular at pinaka-kilalang tradisyunal na Itinuturing ito bilang pambansang lutuin ng Pilipinas. Maaaring adobohin ang karne, isda o mga gulay. Nagmula sa, National Bookstore,, isinalimbag noong, ISBN, may na mga pahina May ibat ibang uri ayon sa sahog na ilalagay dito",
+        "final_score": 0.8799777090549468,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      },
+      {
+        "text": "chicken with vinegar, garlic, pepper and bay leaf Adobado — Mexican stewed meat dish Adobo sa bawang — adobo with to asted garlic Adobong hito sa gata — catfish cooked with coconut milk Aga — earliness; time ahead of schedule Agachonas adobadas — adobo of snipes Agahan — breakfast; food eaten for breakfast Agrio-dulce — sweet sour (e",
+        "final_score": 0.818993717432022,
+        "source_file": "data\\knowledge_base\\Sarap-Essays-On-Philippine-Food.pdf"
+      },
+      {
+        "text": "Chicken Adobo with Turmeric and Coconut Milk (left) and Chicken Simmered in Tomatoes (right). ADOBONG MANOK & APRITADANG MANOK Chicken Adobo with Turmeric& Chicken Simmered in Tomatoes CHICKEN ADOBO WITH TURMERIC AND COCONUT MILK Adobo, meaning cooked in vinegar and garlic, is the national dish of the Philippines. This adobo is en- riched with coconut milk and turmeric",
+        "final_score": 0.6076647281646728,
+        "source_file": "data\\knowledge_base\\Food-Of-The-Philippines.pdf"
+      }
+    ],
+    "answer": "Ang Adobo ay isang sabaw ng manok at/o baboy na may suka, bawang, paminta, at dahon ng bay leaf.  (Sources: Sarap Essays On Philippine Food, p. 236; Filipino Cooking Here and Abroad, National Bookstore, Lungsod ng Maynila, Pilipinas)"
+  },
+  {
+    "question": "Sino si Dr. Juan Escandor?",
+    "contexts": [
+      {
+        "text": "Sinabi na ng nakaraang panahon na may mga Bikolanong nakipaglaban para lang magkaroon ng kapayapaan at para bigyan ang mga susunod na henerasyon na magandang buhay. Isa sa mga Bikolanong iyan ay si Dr. Juan Escandor ng Gubat, Sorsogon. Alumnus siya ng Gubat High School. Nagtapos sa Medicina Sa Unibersidad ng Pilipinas. Mayroon sana siyang pagkakataon na yumaman, tulad ng karamihan ng at ing mga doktor. Inaalok na nga ng kaibigan na sa ibang bansa na lang maging doktor at maraming pera doon",
+        "final_score": 0.9699731469154358,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2006/10/10.json"
+      },
+      {
+        "text": "Doktor na Palaban ng Bikol Ni Perry M. Calara Sinasabi ng iba na baka bumalik ang diktadurya, ideklara ulit ang martial law, o magkaroon ng kudeta. Ang iba natatakot ang iba hindi. Kun mangyari man iyan alam natin na may mga Bikolanong papalag, mag uumalpas, lalaban. Sinabi na ng nakaraang panahon na may mga Bikolanong nakipaglaban para lang magkaroon ng kapayapaan at para bigyan ang mga susunod na henerasyon na magandang buhay. Isa sa mga Bikolanong iyan ay si Dr. Juan Escandor ng Gubat, Sorsogon",
+        "final_score": 0.8886363506317139,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2006/10/10.json"
+      },
+      {
+        "text": "Dagdag na tala Ang kasalukuyang silid-aklatan ng Departamento ng Radiology sa UP-PGH ay ipinangalan kay Dr. Juan Escandor. Taun-taon, ang Health Action for Human Rights ay naglulunsad ng Bobby at Johnny Lecture Series upang ipaalala sa mga bagong henerasyon ng mga duktor na mayroong dalawang bayani na dapat tularan.",
+        "final_score": 0.42438122630119324,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2006/10/10.json"
+      }
+    ],
+    "answer": "Si Dr. Juan Escandor ay isang Bikolano mula sa Gubat, Sorsogon na nagsilbing doktor at nakipaglaban para sa kapayapaan at magandang buhay ng mga susunod na henerasyon.   (Sources: Dr. Juan Escandor (Wikipedia, accessed October 03, 2006))"
+  },
+  {
+    "question": "Sino si Adolf Hitler?",
+    "contexts": [
+      {
+        "text": "Ang pangalan ni Hitler, Adolf, ay nagmumula sa lumang salitang Aleman na ang katumbas sa tagalog ay osong maharlika ang ideyang ito. Blang bata, si Hitler ay nilalatigo halos araw-araw ng kaniyang ama. Makalipas ang ilang taon sinabi niya sa kaniyang sekretarya, Nagpasya ako noon na hindi na ako iiyak tuwing akoy lalatiguhin ng aking ama. Makalipas ang ilang araw, nagkaroon ako ng pagkakataon na subukin ang aking pasya. Ang aking ina, sa katakutan, ay nagtago sa harapan ng pintuan",
+        "final_score": 0.9059484720230101,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      },
+      {
+        "text": "Ito rin ay pinagsamantalahan sa propaganda ng Kapangyarihang Magkakakampi noong Ikalawang Digmaang Pandaigdig sa pamamagitan ng pagsasaboy mula sa kalangitan ng mga pampletang naglalaman ng pariralang Heil Schicklgruber sa mga lungsod ng Alemanya. Ang pangalan ni Hitler, Adolf, ay nagmumula sa lumang salitang Aleman na ang katumbas sa tagalog ay osong maharlika ang ideyang ito. Blang bata, si Hitler ay nilalatigo halos araw-araw ng kaniyang ama",
+        "final_score": 0.6399311929941176,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      },
+      {
+        "text": "Ako naman, patahimik ko na binilang ang bawat palo ng patpat na sumugat sa aking puwit. Si Hitler ay hindi sigurado kung sino ang kaniyang lolo sa ama, subalit marahil ito ay si Johann Georg Hiedler o ang kaniyang kapatid na si. Si Hitler ay tila takot malaman na siya ay isang Hudyo na ayon kay Waite, ang katotohanang ito ay higit na mas mahalaga kaysa kung siya ay Hudyo talaga. Dahil sa trabaho ni Alois Hitler, madalas lumipat ang kaniyang pamilya, mula, na naging isa sa mga magaling na pilosopo ng siglo",
+        "final_score": 0.3187378942966461,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      },
+      {
+        "text": "Galing sa Hidlar at Hidlarcek. Nang lumaon, in akusahan si Adolf Hitler ng kaniyang mga kalaban sa politika ng di pagiging tunay na Hitler, kundi pagiging isang Schicklgruber. Ito rin ay pinagsamantalahan sa propaganda ng Kapangyarihang Magkakakampi noong Ikalawang Digmaang Pandaigdig sa pamamagitan ng pagsasaboy mula sa kalangitan ng mga pampletang naglalaman ng pariralang Heil Schicklgruber sa mga lungsod ng Alemanya",
+        "final_score": 0.2591358423233032,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      },
+      {
+        "text": "Ayon sa pangunahing arkitekto ni Hitler na si Albert Speer, si Hitler ay nanatiling pormal na kasapi ng hanggang sa kaniyang kamatayan at kaniya pang in utos sa kaniyang mga pangunahing kasama na manatiling mga kasapi nito. Sa kaniyang pangangatwiran sa pagiging marahas ng",
+        "final_score": 0.1283109337091446,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
+      }
+    ],
+    "answer": "Si Adolf Hitler ay isang Aleman na pinuno at ang lider ng Nazi Party mula 1921 hanggang sa kaniyang kamatayan noong 1945. Ang pangalan niya, Adolf, ay nagmumula sa lumang salitang Aleman na ang katumbas sa tagalog ay \"osong maharlika.\" (Sources: Adolf Hitler (Wikipedia, accessed August 07, 2021)) Blang bata, si Hitler ay nilalatigo halos araw-araw ng kaniyang ama.  (Sources: Adolf Hitler (Wikipedia, accessed August 07, 2021))"
+  },
+  {
+    "question": "Sino si Jose Rizal?",
+    "contexts": [
+      {
+        "text": "José Rizal, doctor, scientist, and writer, whose in cendiary novels and agitation for reform led to his execution by the Spanish colonial government in 1896. (LÓPEZ MEMORIAL MUSEUM)",
+        "final_score": 0.9949344992637634,
+        "source_file": "data\\knowledge_base\\A-History-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "Kong. JOSÉ RIZAL Born in 1861, José Rizal could converse in ten languages and corresponded in six. The most charismatic and well-known member of the Propaganda Movement, Rizal was also a medical doctor, scientist, fencer, and writer who brilliantly articulated the dreams and buried hurts fueling the newfound nationalism. His older brother, Paciano, had been a protégé of Fr. Burgos and had been living with the latter when he was implicated in the Cavite Mutiny",
+        "final_score": 0.922585129737854,
+        "source_file": "data\\knowledge_base\\A-History-Of-The-Philippines.pdf"
+      },
+      {
+        "text": "Ito ang artikulo patungkol sa bayaning Pilipino. Para sa pelikula patungkol sa kanya, silipin ang. Si Dr. Jos Protacio Rizal Mercado y Alonzo Realonda Ipinanganak si Rizal sa isang mayamang angkan sa. Isang. Itinatag ni Jos Rizal ang. Ang pamilya ni Jos Rizal Anak si Rizal nina Francisco Rizal Mercado. Ikalimang salinlahi na si Rizal sa in anak ni Domingo Lam-co noong kalagitnaan ng dantaon. Mayroon ding lahing Kastila at Hapones si Jos Rizal",
+        "final_score": 0.6272374391555786,
+        "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2007/12/12.json"
+      }
+    ],
+    "answer": "Si José Rizal ay isang doktor, siyentipiko, at manunulat na kilala dahil sa mga akdang pampanitikan niya at pag-aalsa para sa reporma na humahantong sa kanyang pagkamatay ng pamahalaang Espanyol noong 1896. (Source: A History Of The Philippines, p. 134)"
+  }
+]
