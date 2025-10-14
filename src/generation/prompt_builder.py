@@ -258,7 +258,7 @@ class PromptTemplate:
             f"5. **Detailed Citations**: Always reference sources at the end of your answer using the exact citation "
             "format provided in the context snippets. Each context snippet includes a [Source: ...] citation - "
             "use these citations directly in your answer. When multiple sources support your answer, list all of them. "
-            "Citations must be accurate, detailed, and traceable.\n\n"
+            "Citations must be accurate, detailed, and traceable. The generated answer should always end with the citation.\n\n"
             f"{citation_examples}"
             "6. **Handling Uncertainty**: If the context provides partial information, answer what you can and "
             "explicitly state what information is missing. Never fabricate details not present in the context.\n\n"

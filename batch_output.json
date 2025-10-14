@@ -28,7 +28,7 @@
         "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/3/3.json"
       }
     ],
-    "answer": "Ang sinigang ay isang sabaw o magaan na pritong gulay at karne na may lasa ng matabang ahente tulad ng sampalok, mangga't halaya, bayabas o kamatis.  (Sources: Culture And Customs Of The Philippines, p. 243; Food Of The Philippines, p. 29)"
+    "answer": "Ang Sinigang ay isang pinirang pagkaing isinasahog na karne o isda at may mga iba't ibang pampasim na sangkap tulad ng tamarind, berde mangga, guava, o tomato. (Source: Culture And Customs Of The Philippines, p. 243)"
   },
   {
     "question": "Ano ang Adobo?",
@@ -59,7 +59,7 @@
         "source_file": "data\\knowledge_base\\Food-Of-The-Philippines.pdf"
       }
     ],
-    "answer": "Ang Adobo ay isang sabaw ng manok at/o baboy na may suka, bawang, paminta, at dahon ng bay leaf.  (Sources: Sarap Essays On Philippine Food, p. 236; Filipino Cooking Here and Abroad, National Bookstore, Lungsod ng Maynila, Pilipinas)"
+    "answer": "Ang Adobo ay isang sinigang na gawa sa manok at/o baboy na may suka, bawang, paminta, at dahon ng bay leaf.  (Source: Sarap Essays On Philippine Food, p. 236)"
   },
   {
     "question": "Sino si Dr. Juan Escandor?",
@@ -80,7 +80,7 @@
         "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2006/10/10.json"
       }
     ],
-    "answer": "Si Dr. Juan Escandor ay isang Bikolano mula sa Gubat, Sorsogon na nagsilbing doktor at nakipaglaban para sa kapayapaan at magandang buhay ng mga susunod na henerasyon.   (Sources: Dr. Juan Escandor (Wikipedia, accessed October 03, 2006))"
+    "answer": "Si Dr. Juan Escandor ay isang Bikolano mula sa Gubat, Sorsogon na nagtapos ng Medisina sa Unibersidad ng Pilipinas. Kilala siya dahil sa paglaban niya para sa kapayapaan at isang magandang buhay para sa mga susunod na henerasyon. (Sources: Dr. Juan Escandor (Wikipedia, accessed October 03, 2006);  Dr. Juan Escandor (Wikipedia, accessed October 03, 2006))"
   },
   {
     "question": "Sino si Adolf Hitler?",
@@ -111,7 +111,7 @@
         "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2021/8/8.json"
       }
     ],
-    "answer": "Si Adolf Hitler ay isang Aleman na pinuno at ang lider ng Nazi Party mula 1921 hanggang sa kaniyang kamatayan noong 1945. Ang pangalan niya, Adolf, ay nagmumula sa lumang salitang Aleman na ang katumbas sa tagalog ay \"osong maharlika.\" (Sources: Adolf Hitler (Wikipedia, accessed August 07, 2021)) Blang bata, si Hitler ay nilalatigo halos araw-araw ng kaniyang ama.  (Sources: Adolf Hitler (Wikipedia, accessed August 07, 2021))"
+    "answer": "Si Adolf Hitler ay isang Aleman na pinuno ng Partido Nazi at diktador ng Alemanya mula 1933 hanggang 1945. Ang pangalan niya, Adolf, ay nagmumula sa lumang salitang Aleman na ang katumbas sa tagalog ay osong maharlika. Blang bata, si Hitler ay nilalatigo halos araw-araw ng kaniyang ama. (Source: Adolf Hitler (Wikipedia, accessed August 07, 2021))"
   },
   {
     "question": "Sino si Jose Rizal?",
@@ -132,6 +132,6 @@
         "source_file": "data/knowledge_base/cohfie/wikipedia/wikipedia/2007/12/12.json"
       }
     ],
-    "answer": "Si José Rizal ay isang doktor, siyentipiko, at manunulat na kilala dahil sa mga akdang pampanitikan niya at pag-aalsa para sa reporma na humahantong sa kanyang pagkamatay ng pamahalaang Espanyol noong 1896. (Source: A History Of The Philippines, p. 134)"
+    "answer": "Si José Rizal ay isang doktor, siyentista, at manunulat. Ang kanyang mapagpalayas na nobelang at pag-aalsa para sa reporma ay humantong sa kanyang pagkakakadena ng pamahalaang kolonyal ng Espanya noong 1896.  (Source: A History Of The Philippines, p. 134)"
   }
 ]
