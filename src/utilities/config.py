@@ -67,10 +67,17 @@ class ChunkerType(str, Enum):
 @dataclass
 class TimingBreakdown:
     """Container for component timing information."""
+    # Retrieval components
     embedding_time: float = 0.0
     search_time: float = 0.0 
     reranking_time: float = 0.0
     mmr_time: float = 0.0
+    
+    # Generation components
+    context_preparation_time: float = 0.0
+    prompt_building_time: float = 0.0
+    llm_generation_time: float = 0.0
+    
     total_time: float = 0.0
     
     def get_percentages(self) -> Dict[str, float]:
@@ -80,19 +87,27 @@ class TimingBreakdown:
                 'embedding_percent': 0.0,
                 'search_percent': 0.0, 
                 'reranking_percent': 0.0,
-                'mmr_percent': 0.0
+                'mmr_percent': 0.0,
+                'context_preparation_percent': 0.0,
+                'prompt_building_percent': 0.0,
+                'llm_generation_percent': 0.0
             }
         
         return {
             'embedding_percent': (self.embedding_time / self.total_time) * 100,
             'search_percent': (self.search_time / self.total_time) * 100,
             'reranking_percent': (self.reranking_time / self.total_time) * 100,
-            'mmr_percent': (self.mmr_time / self.total_time) * 100
+            'mmr_percent': (self.mmr_time / self.total_time) * 100,
+            'context_preparation_percent': (self.context_preparation_time / self.total_time) * 100,
+            'prompt_building_percent': (self.prompt_building_time / self.total_time) * 100,
+            'llm_generation_percent': (self.llm_generation_time / self.total_time) * 100
         }
     
     def format_timing_summary(self) -> str:
         """Format timing breakdown as a readable string."""
-        component_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        retrieval_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        generation_sum = self.context_preparation_time + self.prompt_building_time + self.llm_generation_time
+        component_sum = retrieval_sum + generation_sum
         
         percentages = self.get_percentages_from_components()
         
@@ -103,9 +118,15 @@ class TimingBreakdown:
             f"reranking time = {self.reranking_time:.2f} s",
         ]
         
-        # Only show MMR timing if used
         if self.mmr_time > 0:
             lines.append(f"mmr time = {self.mmr_time:.2f} s")
+        
+        if generation_sum > 0:
+            lines.extend([
+                f"context preparation time = {self.context_preparation_time:.2f} s",
+                f"prompt building time = {self.prompt_building_time:.2f} s",
+                f"llm generation time = {self.llm_generation_time:.2f} s"
+            ])
         
         lines.extend([
             f"total time = {component_sum:.2f} s",
@@ -116,29 +137,43 @@ class TimingBreakdown:
             f"reranking time = {percentages['reranking_percent']:.2f}%"
         ])
         
-        # Only show MMR percentage if used
         if self.mmr_time > 0:
             lines.append(f"mmr time = {percentages['mmr_percent']:.2f}%")
+        
+        if generation_sum > 0:
+            lines.extend([
+                f"context preparation time = {percentages['context_preparation_percent']:.2f}%",
+                f"prompt building time = {percentages['prompt_building_percent']:.2f}%",
+                f"llm generation time = {percentages['llm_generation_percent']:.2f}%"
+            ])
         
         return "\n".join(lines)
     
     def get_percentages_from_components(self) -> Dict[str, float]:
         """Calculate percentage breakdown based on component times only."""
-        component_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        retrieval_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        generation_sum = self.context_preparation_time + self.prompt_building_time + self.llm_generation_time
+        component_sum = retrieval_sum + generation_sum
         
         if component_sum == 0:
             return {
                 'embedding_percent': 0.0,
                 'search_percent': 0.0,
                 'reranking_percent': 0.0,
-                'mmr_percent': 0.0
+                'mmr_percent': 0.0,
+                'context_preparation_percent': 0.0,
+                'prompt_building_percent': 0.0,
+                'llm_generation_percent': 0.0
             }
         
         return {
             'embedding_percent': (self.embedding_time / component_sum) * 100,
             'search_percent': (self.search_time / component_sum) * 100,
             'reranking_percent': (self.reranking_time / component_sum) * 100,
-            'mmr_percent': (self.mmr_time / component_sum) * 100
+            'mmr_percent': (self.mmr_time / component_sum) * 100,
+            'context_preparation_percent': (self.context_preparation_time / component_sum) * 100,
+            'prompt_building_percent': (self.prompt_building_time / component_sum) * 100,
+            'llm_generation_percent': (self.llm_generation_time / component_sum) * 100
         }
 
 
@@ -449,10 +484,10 @@ class VectorStoreConfig(BaseConfig):
 class AnswerGeneratorConfig(BaseConfig):
     """Answer generation configuration"""
 
-    model: str = "gemma2:9b"
+    model: str = "aisingapore/Gemma-SEA-LION-v3-9B"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
-    backend: str = "ollama" # ollama | hf 
+    backend: str = "hf" # ollama | hf 
 
     # init gen params
     temperature: float = 0.7
@@ -463,10 +498,10 @@ class AnswerGeneratorConfig(BaseConfig):
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
+            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "aisingapore/Gemma-SEA-LION-v3-9B"),
             base_url = get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout = get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
-            backend = get_env_str("WIQAS_BACKEND", "ollama"), # ollama | hf 
+            backend = get_env_str("WIQAS_BACKEND", "hf"), # ollama | hf 
             temperature = get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
             top_p = get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
             max_tokens = get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),

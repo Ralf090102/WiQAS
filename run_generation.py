@@ -30,6 +30,7 @@ def ask(
     query_type: str = typer.Option("Factual", "--type", "-t", help="Query type: Factual, Analytical, Procedural, Creative, Exploratory"),
     json_output: bool = typer.Option(False, "--json", help="Output result as JSON"),
     show_contexts: bool = typer.Option(True, "--show-contexts/--hide-contexts", help="Show retrieved contexts in console"),
+    show_timing: bool = typer.Option(True, "--timing/--no-timing", help="Show timing breakdown"),
 ):
     console.print(Panel("[bold blue]WiQAS Answer Generation[/bold blue]"))
     generator = WiQASGenerator(WiQASConfig.from_env())
@@ -38,11 +39,13 @@ def ask(
         query=query,
         k=k,
         query_type=query_type,
-        show_contexts=True,  
+        show_contexts=True,
+        include_timing=show_timing,
     )
 
     answer = result["answer"]
     contexts = result.get("contexts", [])
+    timing = result.get("timing")
 
     if show_contexts:
         context_strings = []
@@ -67,12 +70,26 @@ def ask(
             border_style="blue"
         ))
 
+    if show_timing and timing:
+        console.print(Panel(timing.format_timing_summary(), title="Performance Timing", border_style="blue"))
+
     if json_output:
         output = {
             "query": query,
             "answer": answer,
             "contexts": contexts,
         }
+        if show_timing and timing:
+            output["timing"] = {
+                "embedding_time": timing.embedding_time,
+                "search_time": timing.search_time,
+                "reranking_time": timing.reranking_time,
+                "mmr_time": timing.mmr_time,
+                "context_preparation_time": timing.context_preparation_time,
+                "prompt_building_time": timing.prompt_building_time,
+                "llm_generation_time": timing.llm_generation_time,
+                "total_time": timing.total_time
+            }
         console.print(json.dumps(output, indent=2, ensure_ascii=False))
     else:
         console.print(Panel(answer, title="Answer", border_style="green"))
@@ -83,6 +100,7 @@ def batch_ask(
     output_file: str = typer.Option("batch_output.json", "--output", "-o", help="Path to output JSON file"),
     k: int = typer.Option(5, "--results", "-k", help="Number of retrieval results per question"),
     query_type: str = typer.Option("Factual", "--type", "-t", help="Query type for all questions"),
+    include_timing: bool = typer.Option(False, "--timing", help="Include timing information in output"),
 ):
     """
     Run batch question answering from a text file delimited by '?'.
@@ -108,6 +126,7 @@ def batch_ask(
                 k=k,
                 query_type=query_type,
                 show_contexts=True,
+                include_timing=include_timing,
             )
 
             contexts = result.get("contexts", [])
@@ -128,11 +147,26 @@ def batch_ask(
                     "source_file": c.get("source_file", "")
                 })
 
-            results.append({
+            result_entry = {
                 "question": query,
                 "contexts": structured_contexts,
                 "answer": result.get("answer", "")
-            })
+            }
+            
+            if include_timing and "timing" in result:
+                timing = result["timing"]
+                result_entry["timing"] = {
+                    "embedding_time": timing.embedding_time,
+                    "search_time": timing.search_time,
+                    "reranking_time": timing.reranking_time,
+                    "mmr_time": timing.mmr_time,
+                    "context_preparation_time": timing.context_preparation_time,
+                    "prompt_building_time": timing.prompt_building_time,
+                    "llm_generation_time": timing.llm_generation_time,
+                    "total_time": timing.total_time
+                }
+            
+            results.append(result_entry)
 
         except Exception as e:
             console.print(f"[bold red]Error processing question '{query}': {e}[/bold red]")

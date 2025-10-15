@@ -1,10 +1,11 @@
+import time
 from typing import Any
 
 from src.core.llm import generate_response
 from src.retrieval.retriever import WiQASRetriever
 from src.generation.context_preparer import ContextPreparer
 from src.generation.prompt_builder import PromptBuilder
-from src.utilities.config import AnswerGeneratorConfig, WiQASConfig
+from src.utilities.config import AnswerGeneratorConfig, WiQASConfig, TimingBreakdown
 
 class WiQASGenerator:
     """
@@ -94,6 +95,7 @@ class WiQASGenerator:
         k: int = 5,
         query_type: str = "Factual",
         show_contexts: bool = False,
+        include_timing: bool = False,
     ) -> dict[str, Any]:
         """
         Run the full WiQAS RAG pipeline and return a structured result.
@@ -109,16 +111,39 @@ class WiQASGenerator:
             k (int, optional): Number of retrieval results to fetch (default: 5).
             query_type (str, optional): Response style guideline (default: "Factual").
             show_contexts (bool, optional): Whether to return contexts in the output (default: False).
+            include_timing (bool, optional): Whether to include timing breakdown in results (default: False).
 
         Returns:
             dict[str, Any]: Structured output containing:
                 - "query" (str): Original user query.
                 - "answer" (str): Model-generated answer.
                 - "contexts" (list[str]): Deduplicated contexts (only if show_contexts=True).
+                - "timing" (TimingBreakdown): Component timing breakdown (only if include_timing=True).
         """
-        # retrieve
+        # Initialize timing if requested
+        timing = TimingBreakdown() if include_timing else None
+        
+        # retrieve with timing
         self.retriever._initialize_components()
-        raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
+        if include_timing:
+            # Get retrieval timing by calling with timing enabled
+            retrieval_result = self.retriever.query(
+                query, k=k, enable_mmr=True, llm_analysis=False, 
+                formatted=False, include_timing=True
+            )
+            
+            if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
+                # Extract retrieval timing
+                retrieval_timing = retrieval_result["timing"]
+                timing.embedding_time = retrieval_timing.embedding_time
+                timing.search_time = retrieval_timing.search_time
+                timing.reranking_time = retrieval_timing.reranking_time
+                timing.mmr_time = retrieval_timing.mmr_time
+                raw_results = retrieval_result["results"]
+            else:
+                raw_results = retrieval_result
+        else:
+            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
 
         def get_meta(r, key):
             return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
@@ -136,17 +161,38 @@ class WiQASGenerator:
             for r in raw_results
         ]
 
-        # prepare contexts
+        # prepare contexts with timing
+        if include_timing:
+            context_start = time.time()
         prepared_contexts = self.context_preparer.prepare(contexts, include_citations=True, return_full=True)
+        if include_timing:
+            timing.context_preparation_time = time.time() - context_start
       
-        # build prompt
+        # build prompt with timing
+        if include_timing:
+            prompt_start = time.time()
         prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
+        if include_timing:
+            timing.prompt_building_time = time.time() - prompt_start
         
-        # generate answer
+        # generate answer with timing
+        if include_timing:
+            llm_start = time.time()
         answer = self._call_model(prompt)
+        if include_timing:
+            timing.llm_generation_time = time.time() - llm_start
+            # Calculate total time
+            timing.total_time = (timing.embedding_time + timing.search_time + timing.reranking_time + 
+                               timing.mmr_time + timing.context_preparation_time + 
+                               timing.prompt_building_time + timing.llm_generation_time)
 
-        return {
+        result = {
             "query": query,
             "answer": answer,
             "contexts": prepared_contexts if show_contexts else [],
         }
+        
+        if include_timing:
+            result["timing"] = timing
+            
+        return result
