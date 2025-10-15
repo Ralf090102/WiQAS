@@ -13,12 +13,13 @@ Usage:
 """
 
 import logging
+import time
 
 from src.retrieval.embeddings import EmbeddingManager
 from src.retrieval.reranker import Document, RerankerManager
 from src.retrieval.search import HybridSearcher, KeywordSearcher, MMRSearcher, SearchResult, SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
-from src.utilities.config import WiQASConfig
+from src.utilities.config import TimingBreakdown, WiQASConfig
 from src.utilities.utils import log_error, log_info, log_warning
 
 # Set up logging
@@ -262,6 +263,7 @@ class WiQASRetriever:
         enable_mmr: bool = True,
         llm_analysis: bool = True,
         formatted: bool = True,
+        include_timing: bool = False,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -273,16 +275,19 @@ class WiQASRetriever:
             enable_reranking: Whether to apply reranking (default: True)
             enable_mmr: Whether to apply MMR diversity (default: True)
             llm_analysis: Whether to use LLM-based cultural analysis (default: True)
+            formatted: Whether to return formatted string or raw results (default: True)
+            include_timing: Whether to include timing breakdown in results (default: False)
 
         Returns:
-            Formatted string containing search results
+            Formatted string containing search results and optionally timing breakdown
 
         Raises:
             ValueError: If knowledge base is empty or search type is invalid
             RuntimeError: If retrieval components fail to initialize
         """
         try:
-            # Initialize components if needed
+            timing = TimingBreakdown()
+            
             self._initialize_components()
 
             # Check knowledge base
@@ -291,8 +296,20 @@ class WiQASRetriever:
             log_info(f"Knowledge base contains {doc_count} documents")
             log_info(f"Querying: '{query_text}' (type: {search_type}, k: {k})")
 
-            # Perform initial search
+            # Track embedding time
+            embedding_start = time.time()
+            if search_type in ["semantic", "hybrid"]:
+                # Time the query embedding generation
+                query_embedding = self._embedding_manager.encode_single(query_text)
+            else:
+                # For non-semantic searches, embedding time is 0
+                pass
+            timing.embedding_time = time.time() - embedding_start
+
+            # Perform initial search (includes vector similarity computation)
+            search_start = time.time()
             results = self._perform_search(query_text, k=k, search_type=search_type)
+            timing.search_time = time.time() - search_start
 
             if not results:
                 log_warning(f"No initial results found for query: {query_text}")
@@ -303,20 +320,36 @@ class WiQASRetriever:
             # Apply reranking if enabled
             if enable_reranking and results:
                 log_info("Applying reranking...")
+                rerank_start = time.time()
                 results = self._apply_reranking(query_text, results, k=k, llm_analysis=llm_analysis)
+                timing.reranking_time = time.time() - rerank_start
                 log_info(f"Reranking returned {len(results)} results")
 
             # Apply MMR diversity if enabled
             if enable_mmr and results and len(results) > 1:
                 log_info("Applying MMR diversity...")
+                mmr_start = time.time()
                 results = self._apply_mmr(query_text, results, k=k)
+                timing.mmr_time = time.time() - mmr_start
                 log_info(f"MMR returned {len(results)} diverse results")
+
+            # Total time
+            timing.total_time = timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time
 
             if formatted:
                 # Format and return results
-                return self._format_results(results)
+                formatted_results = self._format_results(results)
+                
+                if include_timing:
+                    # Add timing breakdown to the results
+                    formatted_results += f"\n\n{timing.format_timing_summary()}"
+                
+                return formatted_results
             
             log_info(f"Query completed successfully, returning {len(results)} results")
+            
+            if include_timing:
+                return {"results": results, "timing": timing}
             
             return results
 

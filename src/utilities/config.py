@@ -1,7 +1,7 @@
 import os
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Dict
 
 
 # ========== ENVIRONMENT VARIABLE HELPERS ==========
@@ -61,6 +61,85 @@ class ChunkerType(str, Enum):
     RECURSIVE = "recursive"
     SEMANTIC = "semantic"
     SMART = "smart"
+
+
+# ========== TIMING BREAKDOWN ==========
+@dataclass
+class TimingBreakdown:
+    """Container for component timing information."""
+    embedding_time: float = 0.0
+    search_time: float = 0.0 
+    reranking_time: float = 0.0
+    mmr_time: float = 0.0
+    total_time: float = 0.0
+    
+    def get_percentages(self) -> Dict[str, float]:
+        """Calculate percentage breakdown of timing."""
+        if self.total_time == 0:
+            return {
+                'embedding_percent': 0.0,
+                'search_percent': 0.0, 
+                'reranking_percent': 0.0,
+                'mmr_percent': 0.0
+            }
+        
+        return {
+            'embedding_percent': (self.embedding_time / self.total_time) * 100,
+            'search_percent': (self.search_time / self.total_time) * 100,
+            'reranking_percent': (self.reranking_time / self.total_time) * 100,
+            'mmr_percent': (self.mmr_time / self.total_time) * 100
+        }
+    
+    def format_timing_summary(self) -> str:
+        """Format timing breakdown as a readable string."""
+        component_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        
+        percentages = self.get_percentages_from_components()
+        
+        lines = [
+            f"Timing Breakdown",
+            f"embedding time = {self.embedding_time:.2f} s",
+            f"search time = {self.search_time:.2f} s",
+            f"reranking time = {self.reranking_time:.2f} s",
+        ]
+        
+        # Only show MMR timing if used
+        if self.mmr_time > 0:
+            lines.append(f"mmr time = {self.mmr_time:.2f} s")
+        
+        lines.extend([
+            f"total time = {component_sum:.2f} s",
+            "",
+            "Time % Breakdown",
+            f"embedding time = {percentages['embedding_percent']:.2f}%",
+            f"search time = {percentages['search_percent']:.2f}%",
+            f"reranking time = {percentages['reranking_percent']:.2f}%"
+        ])
+        
+        # Only show MMR percentage if used
+        if self.mmr_time > 0:
+            lines.append(f"mmr time = {percentages['mmr_percent']:.2f}%")
+        
+        return "\n".join(lines)
+    
+    def get_percentages_from_components(self) -> Dict[str, float]:
+        """Calculate percentage breakdown based on component times only."""
+        component_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        
+        if component_sum == 0:
+            return {
+                'embedding_percent': 0.0,
+                'search_percent': 0.0,
+                'reranking_percent': 0.0,
+                'mmr_percent': 0.0
+            }
+        
+        return {
+            'embedding_percent': (self.embedding_time / component_sum) * 100,
+            'search_percent': (self.search_time / component_sum) * 100,
+            'reranking_percent': (self.reranking_time / component_sum) * 100,
+            'mmr_percent': (self.mmr_time / component_sum) * 100
+        }
 
 
 # ========== BASE CONFIGURATION CLASS ==========

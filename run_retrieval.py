@@ -294,7 +294,8 @@ def search(
                 search_type=search_type,
                 enable_reranking=rerank,
                 enable_mmr=mmr,
-                llm_analysis=llm_analysis
+                llm_analysis=llm_analysis,
+                include_timing=True
             )
             
             progress.remove_task(task)
