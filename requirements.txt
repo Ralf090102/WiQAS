@@ -1,5 +1,5 @@
 # Core RAG & LLM
-ollama>=0.5.3
+ollama>=0.6.0
 langchain
 langchain-community
 langchain-ollama
@@ -13,7 +13,7 @@ transformers
 accelerate
 scikit-learn
 bs4
-googletrans==4.0.0-rc1
+deep-translator
 langdetect
 datasets
 ragas
