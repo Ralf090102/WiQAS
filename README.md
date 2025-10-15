@@ -71,6 +71,9 @@ WiQAS implements a **Retrieval-Augmented Generation (RAG) architecture** that:
    python set_dependencies.py --install base docs --test-imports --test-models --health-check
    python run_retrieval.py ingest data/knowledge_base/
    python run_retrieval.py search "<query>"
+
+   python run_generation.py ask "<query>"
+   python run_generation.py batch-ask <question text file directory> -o <output json directory>
    ```
 
 ## Project Structure
