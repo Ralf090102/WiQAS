@@ -43,8 +43,7 @@ Question:
 Respond in the following format:
 STATUS: [VALID/INVALID/PARTIAL]
 REASONING: [Brief explanation of why the question is or isn't answerable from the context]
-
-Be strict - the question should be answerable directly from the context without external knowledge."""
+"""
 
         try:
             response = ollama.chat(model=self.model, messages=[
@@ -89,8 +88,7 @@ Provided Answer:
 Respond in the following format:
 STATUS: [VALID/INVALID/PARTIAL]
 REASONING: [Brief explanation of whether the answer correctly and directly answers the question based on the context]
-
-Be strict - the answer should directly address the question using information from the context."""
+"""
 
         try:
             response = ollama.chat(model=self.model, messages=[
@@ -163,6 +161,9 @@ class DatasetValidator:
         print(f"Starting validation of {len(dataset)} items...")
         
         for i, item in enumerate(dataset, 1):
+            refinement = item.get('metadata', {}).get('refinement_info', {})
+
+
             print(f"\n[{i}/{len(dataset)}] Processing...")
             result = self.validate_item(item)
             self.results.append(result)
