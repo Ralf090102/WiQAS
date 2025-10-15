@@ -43,11 +43,11 @@ except ImportError:
     PYMUPDF_AVAILABLE = False
 
 from src.retrieval.embeddings import EmbeddingManager
-from src.utilities.gpu_utils import get_gpu_manager
 
 # Local imports
 from src.utilities.cohfie_json_loader import CohfieJsonLoader
 from src.utilities.config import ChunkerType, WiQASConfig
+from src.utilities.gpu_utils import get_gpu_manager
 from src.utilities.utils import ensure_config, log_debug, log_error, log_info, log_warning
 
 
@@ -541,9 +541,7 @@ class TextPreprocessor:
 
         removed_count = len(documents) - len(unique_documents)
         log_info(
-            f"Deduplication complete: {len(unique_documents)}/{len(documents)} documents kept "
-            f"(removed {duplicate_count} exact duplicates, {similar_count} similar, "
-            f"{removed_count - duplicate_count - similar_count} invalid)",
+            f"Deduplication complete: {len(unique_documents)}/{len(documents)} documents kept " f"(removed {duplicate_count} exact duplicates, {similar_count} similar, " f"{removed_count - duplicate_count - similar_count} invalid)",
             self.config,
         )
 
@@ -711,7 +709,7 @@ class VectorStoreManager:
         self.config = ensure_config(config)
         self.vectorstore_config = self.config.rag.vectorstore
         self.embedding_config = self.config.rag.embedding
-        
+
         # Use provided embedding manager or create new one
         self.embedding_manager = embedding_manager or EmbeddingManager(self.config)
 
@@ -741,9 +739,7 @@ class VectorStoreManager:
                 self.collection = self.client.get_collection(name=collection_name)
                 log_info(f"Connected to existing ChromaDB collection: {collection_name}", self.config)
             except Exception:
-                self.collection = self.client.create_collection(
-                    name=collection_name, metadata={"description": "WiQAS knowledge base collection"}
-                )
+                self.collection = self.client.create_collection(name=collection_name, metadata={"description": "WiQAS knowledge base collection"})
                 log_info(f"Created new ChromaDB collection: {collection_name}", self.config)
 
         except Exception as e:
@@ -789,9 +785,7 @@ class VectorStoreManager:
             all_embeddings = []
             for i in range(0, len(texts), batch_size):
                 batch_texts = texts[i : i + batch_size]
-                log_debug(
-                    f"Processing embedding batch {i//batch_size + 1}/{(len(texts) + batch_size - 1)//batch_size}", self.config
-                )
+                log_debug(f"Processing embedding batch {i//batch_size + 1}/{(len(texts) + batch_size - 1)//batch_size}", self.config)
                 batch_embeddings = self.embedding_manager.encode_batch(batch_texts)
                 all_embeddings.extend(batch_embeddings)
 
@@ -816,9 +810,7 @@ class VectorStoreManager:
                     self.config,
                 )
 
-                self.collection.add(
-                    ids=batch_ids, documents=batch_texts, metadatas=batch_metadatas, embeddings=batch_embeddings
-                )
+                self.collection.add(ids=batch_ids, documents=batch_texts, metadatas=batch_metadatas, embeddings=batch_embeddings)
 
                 total_added += len(batch_ids)
 
@@ -847,9 +839,7 @@ class VectorStoreManager:
         try:
             collection_name = self.collection.name
             self.client.delete_collection(name=collection_name)
-            self.collection = self.client.create_collection(
-                name=collection_name, metadata={"description": "WiQAS knowledge base collection"}
-            )
+            self.collection = self.client.create_collection(name=collection_name, metadata={"description": "WiQAS knowledge base collection"})
             log_info("Cleared vector store collection", self.config)
             return True
         except Exception as e:
@@ -866,13 +856,13 @@ class DocumentIngestor:
         self.processor = DocumentProcessor(config)
         self.preprocessor = TextPreprocessor(config)
         self.chunker = TextChunker(config)
-        
+
         # Create single embedding manager instance
         self.embedding_manager = EmbeddingManager(config)
-        
+
         # Pass embedding manager to vector store to avoid double creation
         self.vector_store = VectorStoreManager(config, self.embedding_manager)
-        
+
         # Initialize GPU manager for performance monitoring
         self.gpu_manager = get_gpu_manager(self.config)
         self._log_gpu_info()
@@ -880,14 +870,14 @@ class DocumentIngestor:
         # Setup knowledge base directory
         self.knowledge_base_path = Path(self.config.system.storage.knowledge_base_directory)
         self.knowledge_base_path.mkdir(parents=True, exist_ok=True)
-    
+
     def _log_gpu_info(self) -> None:
         """Log GPU configuration for ingestion."""
         if self.gpu_manager.is_nvidia_gpu:
             log_info("GPU-accelerated ingestion enabled (NVIDIA GPU detected)", config=self.config)
             memory_info = self.gpu_manager.get_memory_info()
-            if memory_info['memory_info']:
-                mem = memory_info['memory_info']
+            if memory_info["memory_info"]:
+                mem = memory_info["memory_info"]
                 log_info(f"GPU Memory available: {mem['total_mb'] - mem['allocated_mb']:.0f}MB", config=self.config)
         else:
             log_info("CPU-based ingestion (no NVIDIA GPU detected)", config=self.config)
@@ -1020,7 +1010,7 @@ class DocumentIngestor:
 
                     processed_count += 1
                     pbar.update(1)
-                    
+
                     # Clear GPU cache periodically for large batches
                     if self.gpu_manager.is_nvidia_gpu and processed_count % 10 == 0:
                         self.gpu_manager.clear_cache()
@@ -1105,7 +1095,7 @@ class DocumentIngestor:
             "gpu_acceleration": {
                 "enabled": self.gpu_manager.is_nvidia_gpu,
                 "device": str(self.gpu_manager.device),
-                "memory_info": gpu_info.get('memory_info'),
+                "memory_info": gpu_info.get("memory_info"),
             },
         }
 
@@ -1113,23 +1103,21 @@ class DocumentIngestor:
         """Cleanup resources and GPU memory."""
         try:
             # Cleanup vector store
-            if hasattr(self.vector_store, 'cleanup'):
+            if hasattr(self.vector_store, "cleanup"):
                 self.vector_store.cleanup()
-            
+
             # Cleanup GPU resources
             if self.gpu_manager:
                 self.gpu_manager.clear_cache()
-                
+
             log_debug("DocumentIngestor cleanup completed", config=self.config)
-            
+
         except Exception as e:
             log_warning(f"Error during DocumentIngestor cleanup: {e}", config=self.config)
 
 
 # ========== CONVENIENCE FUNCTIONS ==========
-def ingest_documents(
-    source_path: str | Path, config: WiQASConfig | None = None, clear_existing: bool = False
-) -> IngestionStats:
+def ingest_documents(source_path: str | Path, config: WiQASConfig | None = None, clear_existing: bool = False) -> IngestionStats:
     """
     Convenience function to ingest documents.
 

@@ -48,9 +48,7 @@ class SemanticSearcher:
     Pure vector similarity search using embeddings.
     """
 
-    def __init__(
-        self, embedding_manager: "EmbeddingManager", vector_store: "ChromaVectorStore", config: Optional["WiQASConfig"] = None
-    ):
+    def __init__(self, embedding_manager: "EmbeddingManager", vector_store: "ChromaVectorStore", config: Optional["WiQASConfig"] = None):
         self.embedding_manager = embedding_manager
         self.vector_store = vector_store
         self.config = ensure_config(config)
@@ -120,9 +118,7 @@ class SemanticSearcher:
                         )
                         search_results.append(search_result)
 
-            log_debug(
-                f"Semantic search returned {len(search_results)} results above threshold {similarity_threshold}", self.config
-            )
+            log_debug(f"Semantic search returned {len(search_results)} results above threshold {similarity_threshold}", self.config)
             return search_results
 
         except Exception as e:
@@ -198,9 +194,7 @@ class KeywordSearcher:
         return tokens
 
     @timer
-    def search(
-        self, query: str, k: int = 5, score_threshold: float = 0.0, metadata_filter: dict[str, Any] | None = None
-    ) -> list[SearchResult]:
+    def search(self, query: str, k: int = 5, score_threshold: float = 0.0, metadata_filter: dict[str, Any] | None = None) -> list[SearchResult]:
         """
         Perform keyword search using BM25.
 
@@ -269,9 +263,7 @@ class HybridSearcher:
     Provides comprehensive retrieval for Filipino cultural content.
     """
 
-    def __init__(
-        self, semantic_searcher: SemanticSearcher, keyword_searcher: KeywordSearcher, config: Optional["WiQASConfig"] = None
-    ):
+    def __init__(self, semantic_searcher: SemanticSearcher, keyword_searcher: KeywordSearcher, config: Optional["WiQASConfig"] = None):
         self.semantic_searcher = semantic_searcher
         self.keyword_searcher = keyword_searcher
         self.config = ensure_config(config)
@@ -329,9 +321,7 @@ class HybridSearcher:
 
             final_results = combined_results[:k]
 
-            log_debug(
-                f"Hybrid search combined {len(semantic_results)} semantic + {len(keyword_results)} keyword results", self.config
-            )
+            log_debug(f"Hybrid search combined {len(semantic_results)} semantic + {len(keyword_results)} keyword results", self.config)
             return final_results
 
         except Exception as e:
@@ -498,9 +488,7 @@ class MMRSearcher:
                 similarity_threshold=similarity_threshold,
             )
 
-            log_debug(
-                f"MMR selected {len(selected_results)} diverse results from {len(valid_candidates)} candidates", self.config
-            )
+            log_debug(f"MMR selected {len(selected_results)} diverse results from {len(valid_candidates)} candidates", self.config)
             return selected_results
 
         except Exception as e:
@@ -535,9 +523,7 @@ class MMRSearcher:
         candidate_vecs = np.array(candidate_embeddings)
 
         # Calculate relevance scores (cosine similarity with query)
-        relevance_scores = np.dot(candidate_vecs, query_vec) / (
-            np.linalg.norm(candidate_vecs, axis=1) * np.linalg.norm(query_vec)
-        )
+        relevance_scores = np.dot(candidate_vecs, query_vec) / (np.linalg.norm(candidate_vecs, axis=1) * np.linalg.norm(query_vec))
 
         # Filter by similarity threshold
         valid_indices = np.where(relevance_scores >= similarity_threshold)[0]
@@ -566,9 +552,7 @@ class MMRSearcher:
                     if selected_embeddings:
                         similarities = []
                         for selected_emb in selected_embeddings:
-                            sim = np.dot(candidate_vecs[idx], selected_emb) / (
-                                np.linalg.norm(candidate_vecs[idx]) * np.linalg.norm(selected_emb)
-                            )
+                            sim = np.dot(candidate_vecs[idx], selected_emb) / (np.linalg.norm(candidate_vecs[idx]) * np.linalg.norm(selected_emb))
                             similarities.append(sim)
                         max_similarity = max(similarities)
                     else:
@@ -596,9 +580,7 @@ class MMRSearcher:
         return selected_results
 
 
-def create_semantic_searcher(
-    embedding_manager: "EmbeddingManager", vector_store: "ChromaVectorStore", config: Optional["WiQASConfig"] = None
-) -> SemanticSearcher:
+def create_semantic_searcher(embedding_manager: "EmbeddingManager", vector_store: "ChromaVectorStore", config: Optional["WiQASConfig"] = None) -> SemanticSearcher:
     """Factory function for SemanticSearcher."""
     return SemanticSearcher(embedding_manager, vector_store, config)
 
@@ -608,9 +590,7 @@ def create_keyword_searcher(config: Optional["WiQASConfig"] = None) -> KeywordSe
     return KeywordSearcher(config)
 
 
-def create_hybrid_searcher(
-    semantic_searcher: SemanticSearcher, keyword_searcher: KeywordSearcher, config: Optional["WiQASConfig"] = None
-) -> HybridSearcher:
+def create_hybrid_searcher(semantic_searcher: SemanticSearcher, keyword_searcher: KeywordSearcher, config: Optional["WiQASConfig"] = None) -> HybridSearcher:
     """Factory function for HybridSearcher."""
     return HybridSearcher(semantic_searcher, keyword_searcher, config)
 

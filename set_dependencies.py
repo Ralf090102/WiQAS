@@ -493,16 +493,12 @@ Examples:
     parser.add_argument("--upgrade", action="store_true", help="Upgrade existing packages during installation")
 
     # Testing options
-    parser.add_argument(
-        "--test-imports", nargs="*", metavar="GROUP", help="Test imports for dependency groups (no args = test all)"
-    )
+    parser.add_argument("--test-imports", nargs="*", metavar="GROUP", help="Test imports for dependency groups (no args = test all)")
     parser.add_argument("--test-models", nargs="*", metavar="MODEL", help="Test model loading (no args = test all)")
 
     # System options
     parser.add_argument("--health-check", action="store_true", help="Run system health check")
-    parser.add_argument(
-        "--all", action="store_true", help="Run all operations (install base, test imports, test models, health check)"
-    )
+    parser.add_argument("--all", action="store_true", help="Run all operations (install base, test imports, test models, health check)")
 
     # Information options
     parser.add_argument("--list-groups", action="store_true", help="List available dependency groups")

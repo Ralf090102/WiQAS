@@ -1,5 +1,6 @@
 from src.generation.context_preparer import prepare_contexts
 
+
 def test_context_preparer_removes_exact_duplicates():
     """
     Test that exact duplicate contexts are removed.
@@ -17,7 +18,7 @@ def test_context_preparer_removes_exact_duplicates():
     result = prepare_contexts(contexts)
     assert len(result) == 1
     assert result[0] == "Fiesta is a celebration."
-    
+
 
 def test_context_preparer_prefers_higher_score():
     """
@@ -39,6 +40,7 @@ def test_context_preparer_prefers_higher_score():
     kept = result[0]
     assert kept["text"] == "Ati-Atihan Festival is celebrated."
     assert kept["score"] == 0.9
+
 
 def test_context_preparer_prefers_longer_context():
     """
@@ -169,13 +171,7 @@ def test_context_preparer_cleans_repetitions():
     """
     contexts = [
         {
-            "text": (
-                "Ang sinigang ay isang. Mga uri ng sinigang "
-                "Sinigang na Sinigang na Sinigang na "
-                "Ayon sa pampaasim na sangkap "
-                "Sinigang sa Sinigang sa Sinigang sa "
-                "Mga sanggunian"
-            ),
+            "text": ("Ang sinigang ay isang. Mga uri ng sinigang " "Sinigang na Sinigang na Sinigang na " "Ayon sa pampaasim na sangkap " "Sinigang sa Sinigang sa Sinigang sa " "Mga sanggunian"),
             "score": 0.8,
         }
     ]

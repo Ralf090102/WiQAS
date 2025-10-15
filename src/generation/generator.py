@@ -1,11 +1,11 @@
 import time
 from typing import Any
 
-from src.core.llm import generate_response
-from src.retrieval.retriever import WiQASRetriever
 from src.generation.context_preparer import ContextPreparer
 from src.generation.prompt_builder import PromptBuilder
-from src.utilities.config import AnswerGeneratorConfig, WiQASConfig, TimingBreakdown
+from src.retrieval.retriever import WiQASRetriever
+from src.utilities.config import AnswerGeneratorConfig, TimingBreakdown, WiQASConfig
+
 
 class WiQASGenerator:
     """
@@ -38,8 +38,8 @@ class WiQASGenerator:
 
     def _call_model(self, prompt: str) -> str:
         if self.answer_config.backend == "hf":
-            from transformers import AutoTokenizer, AutoModelForCausalLM
             import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
 
             model_id = self.answer_config.model
             if model_id == "gemma2:9b":
@@ -81,6 +81,7 @@ class WiQASGenerator:
 
         else:
             from src.core.llm import generate_response
+
             return generate_response(
                 prompt=prompt,
                 config=self.config,
@@ -88,7 +89,7 @@ class WiQASGenerator:
                 temperature=self.answer_config.temperature,
                 max_tokens=self.answer_config.max_tokens,
             )
-    
+
     def generate(
         self,
         query: str,
@@ -122,16 +123,13 @@ class WiQASGenerator:
         """
         # Initialize timing if requested
         timing = TimingBreakdown() if include_timing else None
-        
+
         # retrieve with timing
         self.retriever._initialize_components()
         if include_timing:
             # Get retrieval timing by calling with timing enabled
-            retrieval_result = self.retriever.query(
-                query, k=k, enable_mmr=True, llm_analysis=False, 
-                formatted=False, include_timing=True
-            )
-            
+            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False, include_timing=True)
+
             if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
                 # Extract retrieval timing
                 retrieval_timing = retrieval_result["timing"]
@@ -167,14 +165,14 @@ class WiQASGenerator:
         prepared_contexts = self.context_preparer.prepare(contexts, include_citations=True, return_full=True)
         if include_timing:
             timing.context_preparation_time = time.time() - context_start
-      
+
         # build prompt with timing
         if include_timing:
             prompt_start = time.time()
         prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
         if include_timing:
             timing.prompt_building_time = time.time() - prompt_start
-        
+
         # generate answer with timing
         if include_timing:
             llm_start = time.time()
@@ -182,17 +180,15 @@ class WiQASGenerator:
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
-            timing.total_time = (timing.embedding_time + timing.search_time + timing.reranking_time + 
-                               timing.mmr_time + timing.context_preparation_time + 
-                               timing.prompt_building_time + timing.llm_generation_time)
+            timing.total_time = timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time
 
         result = {
             "query": query,
             "answer": answer,
             "contexts": prepared_contexts if show_contexts else [],
         }
-        
+
         if include_timing:
             result["timing"] = timing
-            
+
         return result

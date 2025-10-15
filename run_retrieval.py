@@ -32,8 +32,8 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.vector_store import ChromaVectorStore
 from src.retrieval.evaluator import RetrievalEvaluator
+from src.retrieval.vector_store import ChromaVectorStore
 from src.utilities.config import WiQASConfig
 
 # Initialize CLI app and console
@@ -286,7 +286,7 @@ def search(
             console=console,
         ) as progress:
             task = progress.add_task("Searching knowledge base...", total=None)
-            
+
             # Use the convenience function with all the options
             result_text = query_knowledge_base(
                 query=query,
@@ -295,14 +295,14 @@ def search(
                 enable_reranking=rerank,
                 enable_mmr=mmr,
                 llm_analysis=llm_analysis,
-                include_timing=True
+                include_timing=True,
             )
-            
+
             progress.remove_task(task)
 
         # Display the formatted results
         console.print(result_text)
-        
+
         # Check if results were found (simple check for success message)
         if "No results found" not in result_text and "Error:" not in result_text:
             print_success("Search completed successfully!")
@@ -315,49 +315,30 @@ def search(
         print_error(f"Search failed: {e}")
         raise typer.Exit(1)
 
+
 # ========== EVALUATION COMMANDS ==========
 @app.command()
 def evaluate(
-    output: str = typer.Option(
-        None,
-        "--output", "-o",
-        help="Output file path for evaluation results (overrides config)"
-    ),
-    limit: int = typer.Option(
-        None,
-        "--limit", "-l", 
-        help="Limit number of evaluation items (overrides config)"
-    ),
-    no_cultural_llm: bool = typer.Option(
-        False,
-        "--no-cultural-llm",
-        help="Disable cultural LLM analysis (overrides config)"
-    ),
-    randomize: bool = typer.Option(
-        False,
-        "--randomize", "-r",
-        help="Randomize the evaluation dataset order (overrides config)"
-    ),
-    config_env: bool = typer.Option(
-        False, 
-        "--env", 
-        help="Load configuration from environment variables"
-    ),
+    output: str = typer.Option(None, "--output", "-o", help="Output file path for evaluation results (overrides config)"),
+    limit: int = typer.Option(None, "--limit", "-l", help="Limit number of evaluation items (overrides config)"),
+    no_cultural_llm: bool = typer.Option(False, "--no-cultural-llm", help="Disable cultural LLM analysis (overrides config)"),
+    randomize: bool = typer.Option(False, "--randomize", "-r", help="Randomize the evaluation dataset order (overrides config)"),
+    config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ) -> None:
     """
     Evaluate retrieval performance using cosine similarity with ground truth.
     """
+
     from rich.console import Console
+    from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn
     from rich.table import Table
-    from rich.panel import Panel
-    import json
-    
+
     console = Console()
-    
+
     # Display header
     console.print(Panel.fit("🔍 WiQAS Retrieval Evaluation", style="bold blue"))
-    
+
     try:
         # Load configuration
         if config_env:
@@ -366,10 +347,10 @@ def evaluate(
         else:
             config = WiQASConfig()
             console.print("ℹ️  Using default configuration", style="blue")
-            
+
         # Get evaluation config
         eval_config = config.rag.evaluation
-        
+
         # Apply CLI overrides to config
         if limit is not None:
             eval_config.limit = limit
@@ -377,23 +358,24 @@ def evaluate(
             eval_config.disable_cultural_llm_analysis = True
         if randomize:
             eval_config.randomize = True
-        
+
         # Output
         if output:
             output_path = output
         else:
             from datetime import datetime
+
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
             output_path = f"./data/evaluation/retrieval/{timestamp}.json"
-            
+
         output_file_path = Path(output_path)
         output_file_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         # Display configuration
         config_table = Table(title="📋 Evaluation Configuration")
         config_table.add_column("Setting", style="cyan")
         config_table.add_column("Value", style="green")
-        
+
         config_table.add_row("Dataset", eval_config.dataset_path)
         config_table.add_row("Limit", str(eval_config.limit) if eval_config.limit else "None (all items)")
         config_table.add_row("Randomize", str(eval_config.randomize))
@@ -404,10 +386,10 @@ def evaluate(
         config_table.add_row("Cultural LLM", str(not eval_config.disable_cultural_llm_analysis))
         config_table.add_row("Similarity Threshold", f"{eval_config.similarity_threshold:.2f}")
         config_table.add_row("Output File", output_path)
-        
+
         console.print(config_table)
         console.print()
-        
+
         # Run evaluation with progress indicator
         with Progress(
             SpinnerColumn(),
@@ -415,62 +397,62 @@ def evaluate(
             console=console,
         ) as progress:
             task = progress.add_task("Running evaluation...", total=None)
-            
+
             evaluator = RetrievalEvaluator(config)
             results = evaluator.evaluate()
-            
+
             progress.remove_task(task)
-        
+
         if "error" in results:
             console.print(f"❌ Evaluation failed: {results['error']}", style="red")
             raise typer.Exit(code=1)
-            
+
         # Display results summary
         console.print("📊 Evaluation Results", style="bold green")
         console.print()
-        
+
         # Dataset info
         dataset_info = results["dataset_info"]
         info_table = Table(title="Dataset Information")
         info_table.add_column("Metric", style="cyan")
         info_table.add_column("Value", style="white")
-        
+
         info_table.add_row("Total Items", str(dataset_info["total_items"]))
         info_table.add_row("Successful Evaluations", str(dataset_info["successful_evaluations"]))
         info_table.add_row("Errors", str(dataset_info["errors"]))
         info_table.add_row("Success Rate", dataset_info["success_rate"])
-        
+
         console.print(info_table)
         console.print()
-        
+
         # Similarity statistics
         similarity_stats = results["similarity_statistics"]
         stats_table = Table(title="Similarity Statistics")
         stats_table.add_column("Statistic", style="cyan")
         stats_table.add_column("Value", style="white")
-        
+
         stats_table.add_row("Average", similarity_stats["average"])
         stats_table.add_row("Median", similarity_stats["median"])
         stats_table.add_row("Std Deviation", similarity_stats["std_deviation"])
         stats_table.add_row("Minimum", similarity_stats["min"])
         stats_table.add_row("Maximum", similarity_stats["max"])
-        
+
         console.print(stats_table)
         console.print()
-        
+
         # Threshold analysis
         threshold_info = results["threshold_analysis"]
         threshold_table = Table(title="Threshold Analysis")
         threshold_table.add_column("Metric", style="cyan")
         threshold_table.add_column("Value", style="white")
-        
+
         threshold_table.add_row("Threshold", str(threshold_info["threshold"]))
         threshold_table.add_row("Above Threshold", str(threshold_info["above_threshold"]))
         threshold_table.add_row("Above Threshold Rate", threshold_info["above_threshold_rate"])
-        
+
         console.print(threshold_table)
         console.print()
-        
+
         # Save results
         with Progress(
             SpinnerColumn(),
@@ -480,17 +462,17 @@ def evaluate(
             task = progress.add_task("Saving results...", total=None)
             evaluator.save_results(results, output_path)
             progress.remove_task(task)
-            
+
         console.print(f"✅ Evaluation completed! Results saved to: {output_path}", style="green")
-        
+
         # Show top and bottom performing examples
         detailed_results = results["detailed_results"]
         valid_results = [r for r in detailed_results if "error" not in r]
-        
+
         if valid_results:
             # Sort by similarity score
             sorted_results = sorted(valid_results, key=lambda x: x["similarity_score"], reverse=True)
-            
+
             console.print("\n🔝 Top 3 Performing Queries:", style="bold green")
             for i, result in enumerate(sorted_results[:3]):
                 console.print(f"{i+1}. Similarity: {result['similarity_score']:.4f}")
@@ -498,7 +480,7 @@ def evaluate(
                 console.print(f"   Ground Truth Context: {result['ground_truth_context'][:60]}{'...' if len(result['ground_truth_context']) > 60 else ''}")
                 console.print(f"   Retrieved Content: {result['retrieved_content'][:60]}{'...' if len(result['retrieved_content']) > 60 else ''}")
                 console.print()
-                
+
             console.print("🔻 Bottom 3 Performing Queries:", style="bold red")
             for i, result in enumerate(sorted_results[-3:]):
                 console.print(f"{i+1}. Similarity: {result['similarity_score']:.4f}")
@@ -506,13 +488,14 @@ def evaluate(
                 console.print(f"   Ground Truth Context: {result['ground_truth_context'][:60]}{'...' if len(result['ground_truth_context']) > 60 else ''}")
                 console.print(f"   Retrieved Content: {result['retrieved_content'][:60]}{'...' if len(result['retrieved_content']) > 60 else ''}")
                 console.print()
-                
+
     except KeyboardInterrupt:
         console.print("\n⚠️ Evaluation interrupted by user", style="yellow")
         raise typer.Exit(code=1)
     except Exception as e:
         console.print(f"❌ Evaluation failed: {e}", style="red")
         raise typer.Exit(code=1)
+
 
 # ========== STATUS AND INFO COMMANDS ==========
 @app.command()
@@ -592,14 +575,8 @@ def sources(
                         title = source.get("title", "")
                         if not title or title == source["file_name"]:
                             title = "[dim]No title[/dim]"
-                        
-                        table.add_row(
-                            source["file_name"], 
-                            title,
-                            source["file_type"], 
-                            str(source["chunk_count"]), 
-                            source["source_file"]
-                        )
+
+                        table.add_row(source["file_name"], title, source["file_type"], str(source["chunk_count"]), source["source_file"])
                         total_chunks += source["chunk_count"]
 
                     console.print(table)

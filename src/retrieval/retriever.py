@@ -87,10 +87,7 @@ class WiQASRetriever:
         doc_count = stats.get("document_count", 0)
 
         if doc_count == 0:
-            raise ValueError(
-                "No documents found in knowledge base. "
-                "Please run ingestion first using 'python run_retrieval.py ingest <path>'"
-            )
+            raise ValueError("No documents found in knowledge base. " "Please run ingestion first using 'python run_retrieval.py ingest <path>'")
 
         log_info(f"Found {doc_count} documents in knowledge base")
         return doc_count
@@ -135,9 +132,7 @@ class WiQASRetriever:
         else:
             raise ValueError(f"Unsupported search type: {search_type}. Use 'semantic' or 'hybrid'.")
 
-    def _apply_reranking(
-        self, query: str, results: list[SearchResult], k: int, llm_analysis: bool = True
-    ) -> list[SearchResult]:
+    def _apply_reranking(self, query: str, results: list[SearchResult], k: int, llm_analysis: bool = True) -> list[SearchResult]:
         """
         Apply reranking to search results.
 
@@ -287,7 +282,7 @@ class WiQASRetriever:
         """
         try:
             timing = TimingBreakdown()
-            
+
             self._initialize_components()
 
             # Check knowledge base
@@ -300,7 +295,7 @@ class WiQASRetriever:
             embedding_start = time.time()
             if search_type in ["semantic", "hybrid"]:
                 # Time the query embedding generation
-                query_embedding = self._embedding_manager.encode_single(query_text)
+                self._embedding_manager.encode_single(query_text)
             else:
                 # For non-semantic searches, embedding time is 0
                 pass
@@ -339,18 +334,18 @@ class WiQASRetriever:
             if formatted:
                 # Format and return results
                 formatted_results = self._format_results(results)
-                
+
                 if include_timing:
                     # Add timing breakdown to the results
                     formatted_results += f"\n\n{timing.format_timing_summary()}"
-                
+
                 return formatted_results
-            
+
             log_info(f"Query completed successfully, returning {len(results)} results")
-            
+
             if include_timing:
                 return {"results": results, "timing": timing}
-            
+
             return results
 
         except ValueError as e:

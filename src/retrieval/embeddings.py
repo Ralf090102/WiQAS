@@ -45,15 +45,15 @@ class EmbeddingManager:
         self.config = ensure_config(config)
         self.model = None
         self.tokenizer = None
-        
+
         # Initialize GPU manager for optimal device selection
         self.gpu_manager = get_gpu_manager(self.config)
         self.device = self.gpu_manager.get_device()
-        
+
         # Optimize batch size based on available GPU memory
         base_batch_size = self.config.rag.embedding.batch_size
         self.batch_size = self.gpu_manager.get_optimal_batch_size(base_batch_size)
-        
+
         self.cache_dir = self._setup_cache_directory()
         self.embedding_cache = {}
 
@@ -65,16 +65,15 @@ class EmbeddingManager:
             gpu_name = torch.cuda.get_device_name(self.device.index or 0)
             log_info(f"Using NVIDIA GPU for embeddings: {gpu_name}", config=self.config)
             log_info(f"Optimized batch size: {self.batch_size} (base: {self.config.rag.embedding.batch_size})", config=self.config)
-            
+
             # Log memory info if verbose logging is enabled
-            if hasattr(self.config, 'logging') and self.config.logging.verbose:
+            if hasattr(self.config, "logging") and self.config.logging.verbose:
                 memory_info = self.gpu_manager.get_memory_info()
-                if memory_info['memory_info']:
-                    mem = memory_info['memory_info']
+                if memory_info["memory_info"]:
+                    mem = memory_info["memory_info"]
                     log_info(
-                        f"GPU Memory - Total: {mem['total_mb']:.0f}MB, "
-                        f"Available: {mem['total_mb'] - mem['allocated_mb']:.0f}MB",
-                        config=self.config
+                        f"GPU Memory - Total: {mem['total_mb']:.0f}MB, " f"Available: {mem['total_mb'] - mem['allocated_mb']:.0f}MB",
+                        config=self.config,
                     )
         else:
             log_info("Using CPU for embeddings (no NVIDIA GPU detected)", config=self.config)
@@ -128,11 +127,11 @@ class EmbeddingManager:
 
             # Set to evaluation mode for inference
             self.model.eval()
-            
+
             if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
-                if hasattr(self.model, '_modules'):
+                if hasattr(self.model, "_modules"):
                     for module in self.model._modules.values():
-                        if hasattr(module, 'half'):
+                        if hasattr(module, "half"):
                             try:
                                 # Use half precision for inference speedup on newer GPUs
                                 if torch.cuda.get_device_capability(self.device)[0] >= 7:  # Volta and newer
@@ -223,21 +222,21 @@ class EmbeddingManager:
                 if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
                     with self.gpu_manager.enable_mixed_precision():
                         embedding = self.model.encode(
-                            text, 
-                            convert_to_tensor=False, 
-                            normalize_embeddings=True, 
+                            text,
+                            convert_to_tensor=False,
+                            normalize_embeddings=True,
                             show_progress_bar=False,
-                            batch_size=self.batch_size
+                            batch_size=self.batch_size,
                         )
                 else:
                     embedding = self.model.encode(
-                        text, 
-                        convert_to_tensor=False, 
-                        normalize_embeddings=True, 
+                        text,
+                        convert_to_tensor=False,
+                        normalize_embeddings=True,
                         show_progress_bar=False,
-                        batch_size=self.batch_size
+                        batch_size=self.batch_size,
                     )
-                
+
                 if isinstance(embedding, np.ndarray):
                     embedding = embedding.tolist()
 
@@ -279,13 +278,16 @@ class EmbeddingManager:
         try:
             batch_size = self.batch_size
             all_embeddings = []
-            
+
             log_info(f"Processing {len(valid_texts)} texts with batch size {batch_size}", config=self.config)
 
             for i in range(0, len(valid_texts), batch_size):
                 batch_texts = valid_texts[i : i + batch_size]
 
-                log_debug(f"Processing batch {i//batch_size + 1}/{(len(valid_texts) + batch_size - 1) // batch_size} with {len(batch_texts)} texts", self.config)
+                log_debug(
+                    f"Processing batch {i//batch_size + 1}/{(len(valid_texts) + batch_size - 1) // batch_size} with {len(batch_texts)} texts",
+                    self.config,
+                )
 
                 with torch.no_grad():
                     if self.gpu_manager and self.gpu_manager.is_nvidia_gpu:
@@ -310,7 +312,7 @@ class EmbeddingManager:
                         batch_embeddings = batch_embeddings.tolist()
 
                     all_embeddings.extend(batch_embeddings)
-                    
+
                     # Clear GPU cache periodically for large batches
                     if self.gpu_manager and self.gpu_manager.is_nvidia_gpu and i > 0 and i % (batch_size * 10) == 0:
                         self.gpu_manager.clear_cache()
@@ -353,26 +355,26 @@ class EmbeddingManager:
 
         except Exception as e:
             log_error(f"Failed to clear cache: {e}", config=self.config)
-    
+
     def cleanup(self) -> None:
         """Cleanup resources and GPU memory."""
         try:
             if self.gpu_manager:
                 self.gpu_manager.clear_cache()
-            
+
             if self.model is not None:
                 del self.model
                 self.model = None
-                
+
             log_debug("EmbeddingManager cleanup completed", config=self.config)
-            
+
         except Exception as e:
             log_warning(f"Error during cleanup: {e}", config=self.config)
 
     def get_model_info(self) -> dict[str, any]:
         """Get information about the loaded model."""
         gpu_info = self.gpu_manager.get_memory_info() if self.gpu_manager else {}
-        
+
         return {
             "model_name": self.config.rag.embedding.model,
             "device": str(self.device),

@@ -72,11 +72,11 @@ dev = [
 ]
 
 [tool.black]
-line-length = 128
+line-length = 256
 target-version = ['py312']
 
 [tool.ruff]
-line-length = 128
+line-length = 256
 target-version = "py312"
 exclude = [
     ".git",

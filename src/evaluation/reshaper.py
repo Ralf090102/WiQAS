@@ -8,10 +8,9 @@ Handles input JSONs with metadata wrappers or flat lists.
 """
 import json
 import logging
-from dataclasses import dataclass, asdict
-from typing import Any, Dict, List, Optional
+from dataclasses import asdict, dataclass
 from pathlib import Path
-
+from typing import Any
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
 logger = logging.getLogger("Reshaper")
@@ -21,22 +20,22 @@ logger = logging.getLogger("Reshaper")
 class QAEntry:
     question: str
     ground_truth: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class DatasetReshaper:
     def __init__(self, input_path: str, output_path: str):
         self.input_path = Path(input_path)
         self.output_path = Path(output_path)
-        self.raw_data: Optional[List[Dict[str, Any]]] = None
-        self.reshaped: List[QAEntry] = []
+        self.raw_data: list[dict[str, Any]] | None = None
+        self.reshaped: list[QAEntry] = []
 
     # --------------------------- #
     #           LOAD              #
     # --------------------------- #
     def load(self) -> None:
         logger.info(f"Loading dataset from {self.input_path}")
-        with open(self.input_path, "r", encoding="utf-8") as f:
+        with open(self.input_path, encoding="utf-8") as f:
             data = json.load(f)
 
         # Handle wrapped format (metadata + qa_pairs)
@@ -52,14 +51,12 @@ class DatasetReshaper:
     # --------------------------- #
     #        RESHAPE ENTRY        #
     # --------------------------- #
-    def reshape_entry(self, record: Dict[str, Any]) -> QAEntry:
+    def reshape_entry(self, record: dict[str, Any]) -> QAEntry:
         """Convert a single record to a RAGAS-ready QAEntry."""
         question = record.get("question", "").strip()
 
         # Rename answer → ground_truth
-        ground_truth = (
-            record.get("answer")
-            or "").strip()
+        ground_truth = (record.get("answer") or "").strip()
 
         # Extract context (single string or list)
         context = record.get("context")
@@ -73,7 +70,7 @@ class DatasetReshaper:
                 context = ""
 
         # Build metadata (move context inside)
-        ignored_fields = {"question", "answer", "context"} # should stay outside of metadata
+        ignored_fields = {"question", "answer", "context"}  # should stay outside of metadata
         metadata = {k: v for k, v in record.items() if k not in ignored_fields}
         metadata["ground_truth_context"] = context
 
@@ -118,7 +115,7 @@ class DatasetReshaper:
         self.load()
         self.transform()
         self.save()
-    
+
     # --------------------------- #
     #         BATCH MODE          #
     # --------------------------- #

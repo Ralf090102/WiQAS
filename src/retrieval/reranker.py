@@ -17,10 +17,8 @@ import requests
 import torch
 from sentence_transformers import CrossEncoder
 
-from src.core.llm import generate_response
-from src.utilities.config import RerankerConfig, WiQASConfig
+from src.utilities.config import RerankerConfig
 from src.utilities.gpu_utils import get_gpu_manager
-from src.utilities.utils import ensure_config, log_debug, log_error, log_info
 
 logger = logging.getLogger(__name__)
 
@@ -86,17 +84,18 @@ class RerankerManager:
         self.config = config or RerankerConfig()
         self.model: CrossEncoder | None = None
         self._cultural_analysis_cache: dict[str, CulturalAnalysis] = {}
-        
+
         # Initialize GPU manager for optimal device selection and memory management
         try:
             from src.utilities.config import WiQASConfig
+
             wiqas_config = WiQASConfig()
             self.gpu_manager = get_gpu_manager(wiqas_config)
         except Exception:
             self.gpu_manager = get_gpu_manager()
-            
+
         self._device = str(self.gpu_manager.get_device())
-        
+
         # Optimize batch size based on available GPU memory
         base_batch_size = self.config.batch_size
         self.batch_size = self.gpu_manager.get_optimal_batch_size(base_batch_size)
@@ -201,9 +200,7 @@ Examples:
                 "options": {"top_k": 5, "top_p": 0.3, "num_predict": 100},
             }
 
-            response = requests.post(
-                f"{self.config.llm_base_url.rstrip('/')}/api/generate", json=payload, timeout=self.config.llm_timeout
-            )
+            response = requests.post(f"{self.config.llm_base_url.rstrip('/')}/api/generate", json=payload, timeout=self.config.llm_timeout)
 
             if response.status_code == 200:
                 result = response.json()
@@ -226,9 +223,7 @@ Examples:
                         # Calculate boost factor
                         boost_factor = self._calculate_boost_factor(confidence)
 
-                        return CulturalAnalysis(
-                            confidence=confidence, explanation=explanation, boost_factor=boost_factor, analyzed_at=time.time()
-                        )
+                        return CulturalAnalysis(confidence=confidence, explanation=explanation, boost_factor=boost_factor, analyzed_at=time.time())
 
                 except (json.JSONDecodeError, ValueError, KeyError) as e:
                     logger.warning(f"Failed to parse LLM cultural analysis response: {e}")
@@ -293,9 +288,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
                 "options": {"top_k": 5, "top_p": 0.3, "num_predict": 300},
             }
 
-            response = requests.post(
-                f"{self.config.llm_base_url.rstrip('/')}/api/generate", json=payload, timeout=self.config.llm_timeout
-            )
+            response = requests.post(f"{self.config.llm_base_url.rstrip('/')}/api/generate", json=payload, timeout=self.config.llm_timeout)
 
             if response.status_code == 200:
                 result = response.json()
@@ -400,11 +393,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
             analysis = CulturalAnalysis(
                 confidence=confidence,
-                explanation=(
-                    "LLM analysis failed, using basic keyword detection"
-                    if has_cultural_content
-                    else "No cultural keywords detected"
-                ),
+                explanation=("LLM analysis failed, using basic keyword detection" if has_cultural_content else "No cultural keywords detected"),
                 boost_factor=boost_factor,
                 analyzed_at=time.time(),
             )
@@ -457,23 +446,23 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
             try:
                 logger.info(f"Loading reranker model: {self.config.model}")
                 self.model = CrossEncoder(self.config.model, device=self._device, max_length=512)
-                
+
                 # Enable mixed precision
                 if self.gpu_manager.is_nvidia_gpu:
                     try:
                         self.model.model.eval()
-                        
+
                         # Enable half precision on newer GPUs for faster inference
                         if torch.cuda.get_device_capability(self.gpu_manager.device)[0] >= 7:  # Volta and newer
                             self.model.model.half()
                             logger.info("Enabled half precision for reranker model")
-                            
+
                         logger.info(f"Using NVIDIA GPU for reranking: {torch.cuda.get_device_name(self.gpu_manager.device.index or 0)}")
                     except Exception as e:
                         logger.warning(f"Could not enable GPU optimizations for reranker: {e}")
                 else:
                     logger.info("Using CPU for reranking (no NVIDIA GPU detected)")
-                
+
                 logger.info("Reranker model loaded successfully")
             except Exception as e:
                 logger.error(f"Failed to load reranker model: {e}")
@@ -520,7 +509,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
             for i in range(0, len(pairs), batch_size):
                 batch_pairs = pairs[i : i + batch_size]
-                
+
                 # Use mixed precision for GPU inference
                 if self.gpu_manager.is_nvidia_gpu:
                     with torch.no_grad():
@@ -529,14 +518,14 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
                 else:
                     with torch.no_grad():
                         batch_scores = self.model.predict(batch_pairs)
-                
+
                 # Ensure each score is a float
                 if hasattr(batch_scores, "__iter__") and not isinstance(batch_scores, str):
                     batch_scores = [float(score) for score in batch_scores]
                 else:
                     batch_scores = [float(batch_scores)]
                 all_scores.extend(batch_scores)
-                
+
                 # Clear GPU cache periodically for large batches
                 if self.gpu_manager.is_nvidia_gpu and i > 0 and i % (batch_size * 5) == 0:
                     self.gpu_manager.clear_cache()
@@ -553,10 +542,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
                 if cultural_analysis.boost_factor > 1.0:
                     cultural_boost_count += 1
-                    logger.debug(
-                        f"Cultural boost applied: {rerank_score:.3f} -> {final_score:.3f} "
-                        f"(confidence: {cultural_analysis.confidence:.2f})"
-                    )
+                    logger.debug(f"Cultural boost applied: {rerank_score:.3f} -> {final_score:.3f} " f"(confidence: {cultural_analysis.confidence:.2f})")
 
                 reranked_doc = Document(
                     content=doc.content,
@@ -586,10 +572,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
             result = filtered_docs[:top_k]
 
-            logger.info(
-                f"Reranking complete: {len(result)} documents returned "
-                f"(filtered from {len(documents)} original, {cultural_boost_count} culturally boosted)"
-            )
+            logger.info(f"Reranking complete: {len(result)} documents returned " f"(filtered from {len(documents)} original, {cultural_boost_count} culturally boosted)")
 
             if result and logger.isEnabledFor(logging.DEBUG):
                 logger.debug("Top reranked documents:")
@@ -651,7 +634,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
         # Get cross-encoder scores
         try:
             start_time = time.time()
-            
+
             # Use mixed precision
             if self.gpu_manager.is_nvidia_gpu:
                 with torch.no_grad():
@@ -660,7 +643,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
             else:
                 with torch.no_grad():
                     scores = self.model.predict(query_doc_pairs)
-                    
+
             inference_time = time.time() - start_time
 
             # Ensure scores is a list of floats
@@ -692,10 +675,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
                 if cultural_analysis.boost_factor > 1.0:
                     cultural_boost_count += 1
-                    logger.debug(
-                        f"Cultural boost applied: {relevance_score:.3f} -> {boosted_score:.3f} "
-                        f"(confidence: {cultural_analysis.confidence:.2f})"
-                    )
+                    logger.debug(f"Cultural boost applied: {relevance_score:.3f} -> {boosted_score:.3f} " f"(confidence: {cultural_analysis.confidence:.2f})")
 
                 result = RerankResult(
                     document=doc,
@@ -722,15 +702,11 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
 
         top_results = results[:top_k]
 
-        logger.info(
-            f"Reranking complete: returned {len(top_results)} documents " f"({cultural_boost_count} received cultural boost)"
-        )
+        logger.info(f"Reranking complete: returned {len(top_results)} documents " f"({cultural_boost_count} received cultural boost)")
 
         return top_results
 
-    def rerank_search_results(
-        self, query: str, search_results: list[dict[str, Any]], top_k: int | None = None
-    ) -> list[dict[str, Any]]:
+    def rerank_search_results(self, query: str, search_results: list[dict[str, Any]], top_k: int | None = None) -> list[dict[str, Any]]:
         """
         Rerank search results from the retrieval pipeline.
 
@@ -775,7 +751,7 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
             Dictionary containing model information
         """
         gpu_info = self.gpu_manager.get_memory_info() if self.gpu_manager else {}
-        
+
         info = {
             "model_name": self.config.model,
             "device": self._device,
@@ -809,14 +785,14 @@ Rate based on Filipino culture, language, traditions, food, places, values, or h
         try:
             if self.gpu_manager:
                 self.gpu_manager.clear_cache()
-            
+
             if self.model is not None:
                 del self.model
                 self.model = None
-                
+
             self._cultural_analysis_cache.clear()
             logger.debug("RerankerManager cleanup completed")
-            
+
         except Exception as e:
             logger.warning(f"Error during reranker cleanup: {e}")
 
@@ -834,9 +810,7 @@ def create_reranker(config: RerankerConfig | None = None) -> RerankerManager:
     return RerankerManager(config)
 
 
-def rerank_documents(
-    query: str, documents: list[Document], config: RerankerConfig | None = None, top_k: int | None = None
-) -> list[Document]:
+def rerank_documents(query: str, documents: list[Document], config: RerankerConfig | None = None, top_k: int | None = None) -> list[Document]:
     """
     Convenience function to rerank documents.
 
@@ -853,9 +827,7 @@ def rerank_documents(
     return reranker.rerank_documents(query, documents, top_k)
 
 
-def rerank_search_results(
-    query: str, search_results: list[dict[str, Any]], config: RerankerConfig | None = None, top_k: int | None = None
-) -> list[dict[str, Any]]:
+def rerank_search_results(query: str, search_results: list[dict[str, Any]], config: RerankerConfig | None = None, top_k: int | None = None) -> list[dict[str, Any]]:
     """
     Convenience function to rerank search results.
 

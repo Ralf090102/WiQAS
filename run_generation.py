@@ -4,7 +4,7 @@ WiQAS Generation CLI Interface
 Run end-to-end generation: retrieval + LLM answer generation.
 
 Usage:
-    python run_generator.py "<question>" 
+    python run_generator.py "<question>"
 """
 
 import json
@@ -13,8 +13,8 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 
-from src.utilities.config import WiQASConfig
 from src.generation.generator import WiQASGenerator
+from src.utilities.config import WiQASConfig
 
 app = typer.Typer(
     name="WiQAS Generator",
@@ -22,6 +22,7 @@ app = typer.Typer(
     add_completion=False,
 )
 console = Console()
+
 
 @app.command()
 def ask(
@@ -58,17 +59,11 @@ def ask(
                 title = c.get("title", "")
                 date = c.get("date", "")
                 url = c.get("url", "")
-                context_strings.append(
-                    f"[bold]{source_file} - {title} | {page} | {url} | {date}\n{final_score}\n[/bold]\n{text}\n"
-                )
+                context_strings.append(f"[bold]{source_file} - {title} | {page} | {url} | {date}\n{final_score}\n[/bold]\n{text}\n")
             else:
                 context_strings.append(str(c))
 
-        console.print(Panel(
-            "\n\n".join(context_strings),
-            title=f"Retrieved Contexts (top {len(contexts)})",
-            border_style="blue"
-        ))
+        console.print(Panel("\n\n".join(context_strings), title=f"Retrieved Contexts (top {len(contexts)})", border_style="blue"))
 
     if show_timing and timing:
         console.print(Panel(timing.format_timing_summary(), title="Performance Timing", border_style="blue"))
@@ -88,11 +83,12 @@ def ask(
                 "context_preparation_time": timing.context_preparation_time,
                 "prompt_building_time": timing.prompt_building_time,
                 "llm_generation_time": timing.llm_generation_time,
-                "total_time": timing.total_time
+                "total_time": timing.total_time,
             }
         console.print(json.dumps(output, indent=2, ensure_ascii=False))
     else:
         console.print(Panel(answer, title="Answer", border_style="green"))
+
 
 @app.command()
 def batch_ask(
@@ -109,7 +105,7 @@ def batch_ask(
     console.print(Panel("[bold blue]WiQAS Batch Answer Generation[/bold blue]"))
     generator = WiQASGenerator(WiQASConfig.from_env())
 
-    with open(input_file, "r", encoding="utf-8") as f:
+    with open(input_file, encoding="utf-8") as f:
         content = f.read()
 
     # Split by '?', clean up, and re-append '?' for each question if needed
@@ -141,18 +137,16 @@ def batch_ask(
                         except Exception:
                             continue
 
-                structured_contexts.append({
-                    "text": c.get("text", ""),
-                    "final_score": c.get("final_score", 0.0),
-                    "source_file": c.get("source_file", "")
-                })
+                structured_contexts.append(
+                    {
+                        "text": c.get("text", ""),
+                        "final_score": c.get("final_score", 0.0),
+                        "source_file": c.get("source_file", ""),
+                    }
+                )
 
-            result_entry = {
-                "question": query,
-                "contexts": structured_contexts,
-                "answer": result.get("answer", "")
-            }
-            
+            result_entry = {"question": query, "contexts": structured_contexts, "answer": result.get("answer", "")}
+
             if include_timing and "timing" in result:
                 timing = result["timing"]
                 result_entry["timing"] = {
@@ -163,28 +157,24 @@ def batch_ask(
                     "context_preparation_time": timing.context_preparation_time,
                     "prompt_building_time": timing.prompt_building_time,
                     "llm_generation_time": timing.llm_generation_time,
-                    "total_time": timing.total_time
+                    "total_time": timing.total_time,
                 }
-            
+
             results.append(result_entry)
 
         except Exception as e:
             console.print(f"[bold red]Error processing question '{query}': {e}[/bold red]")
-            results.append({
-                "question": query,
-                "contexts": [],
-                "answer": "",
-                "error": str(e)
-            })
+            results.append({"question": query, "contexts": [], "answer": "", "error": str(e)})
 
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     console.print(Panel(f"[bold green]Batch generation complete![/bold green]\nSaved to: {output_file}", border_style="green"))
 
+
 def main():
     app()
 
+
 if __name__ == "__main__":
     main()
-    
