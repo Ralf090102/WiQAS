@@ -32,9 +32,8 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 # Local imports
 from src.core.ingest import DocumentIngestor, clear_knowledge_base, get_supported_formats
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.reranker import Document
-from src.retrieval.search import MMRSearcher, SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
+from src.retrieval.evaluator import RetrievalEvaluator
 from src.utilities.config import WiQASConfig
 
 # Initialize CLI app and console
@@ -261,197 +260,258 @@ def clear(
 def search(
     query: str = typer.Argument(..., help="Search query"),
     k: int = typer.Option(5, "--results", "-k", help="Number of results to return"),
-    search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic, hybrid, or keyword"),
+    search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic or hybrid"),
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable reranking"),
-    mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search after reranking"),
-    cultural_boost: bool = typer.Option(True, "--cultural/--no-cultural", help="Enable cultural content boosting"),
+    mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search"),
     llm_analysis: bool = typer.Option(True, "--llm-analysis/--no-llm-analysis", help="Enable LLM-based cultural analysis"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
-    json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
 ):
-    """Search the knowledge base."""
+    """Search the knowledge base using the WiQAS retrieval pipeline."""
     print_header("WiQAS Document Search")
-
-    config = WiQASConfig.from_env() if config_env else WiQASConfig()
 
     print_info(f"Query: {query}")
     print_info(f"Search type: {search_type}")
     print_info(f"Results: {k}")
     print_info(f"Reranking: {rerank}")
     print_info(f"MMR diversity: {mmr}")
-    print_info(f"Cultural boost: {cultural_boost}")
     print_info(f"LLM analysis: {llm_analysis}")
 
     try:
-        # Initialize components
-        vector_store = ChromaVectorStore(config)
-        embedding_manager = EmbeddingManager(config)
+        # Import the convenience function
+        from src.retrieval.retriever import query_knowledge_base
 
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-
-            # Check if we have documents
-            task = progress.add_task("Checking knowledge base...", total=None)
-            stats = vector_store.get_collection_stats()
+            task = progress.add_task("Searching knowledge base...", total=None)
+            
+            # Use the convenience function with all the options
+            result_text = query_knowledge_base(
+                query=query,
+                k=k,
+                search_type=search_type,
+                enable_reranking=rerank,
+                enable_mmr=mmr,
+                llm_analysis=llm_analysis
+            )
+            
             progress.remove_task(task)
 
-            doc_count = stats.get("document_count", 0)
-            print_info(f"Found {doc_count} documents in knowledge base")
-
-            if doc_count == 0:
-                print_warning("No documents found in knowledge base. Run 'ingest' first.")
-                raise typer.Exit(1)
-
-            print_info(f"Searching {doc_count} documents...")
-
-            # Perform search
-            task = progress.add_task("Searching...", total=None)
-
-            if search_type == "semantic":
-                searcher = SemanticSearcher(embedding_manager, vector_store, config)
-                results = searcher.search(query, k=k)
-            elif search_type == "hybrid":
-                # Create semantic and keyword searchers
-                semantic_searcher = SemanticSearcher(embedding_manager, vector_store, config)
-                from src.retrieval.search import HybridSearcher, KeywordSearcher
-
-                keyword_searcher = KeywordSearcher(config)
-
-                # Get documents from vector store for keyword indexing
-                all_results = semantic_searcher.search(query, k=doc_count)  # Get all documents
-                documents = [r.content for r in all_results]
-                document_ids = [r.document_id for r in all_results]
-                metadatas = [r.metadata for r in all_results]
-
-                # Index documents for keyword search
-                keyword_searcher.index_documents(documents, document_ids, metadatas)
-
-                # Create hybrid searcher and search
-                hybrid_searcher = HybridSearcher(semantic_searcher, keyword_searcher, config)
-                results = hybrid_searcher.search(query, k=k)
-            else:
-                print_error(f"Unsupported search type: {search_type}")
-                raise typer.Exit(1)
-
-            progress.remove_task(task)
-
-            # Apply reranking if enabled
-            if rerank and results:
-                task = progress.add_task("Reranking results...", total=None)
-                from src.retrieval.reranker import RerankerManager
-
-                reranker_config = config.rag.reranker
-
-                # Override LLM analysis setting if specified
-                if not llm_analysis:
-                    # Create a copy of the config with LLM analysis disabled
-                    from dataclasses import replace
-
-                    reranker_config = replace(reranker_config, use_llm_cultural_analysis=False, score_threshold=0.0)
-
-                reranker = RerankerManager(reranker_config)
-
-                # Convert SearchResult objects to Document objects for reranking
-                docs_to_rerank = []
-                for result in results:
-                    doc = Document(
-                        content=result.content, metadata=result.metadata, score=result.score, doc_id=result.document_id
-                    )
-                    docs_to_rerank.append(doc)
-
-                # Rerank documents
-                reranked_docs = reranker.rerank_documents(query, docs_to_rerank, top_k=k)
-
-                # Convert back to SearchResult objects
-                from src.retrieval.search import SearchResult
-
-                results = []
-                for doc in reranked_docs:
-                    result = SearchResult(
-                        document_id=doc.doc_id,
-                        content=doc.content,
-                        metadata=doc.metadata,
-                        score=doc.score,
-                        search_type=f"{search_type}_reranked",
-                    )
-                    results.append(result)
-
-                progress.remove_task(task)
-
-            # Apply MMR diversity search after reranking if enabled
-            if mmr and results and len(results) > 1:
-                task = progress.add_task("Applying MMR diversity search...", total=None)
-
-                # Initialize MMR searcher
-                mmr_searcher = MMRSearcher(embedding_manager, config)
-
-                # Apply MMR to get diverse subset
-                mmr_results = mmr_searcher.search(query, candidate_results=results, k=k)
-
-                # Update search_type to indicate MMR was applied
-                for result in mmr_results:
-                    current_search_type = f"{search_type}"
-                    if rerank:
-                        current_search_type += "_reranked"
-                    current_search_type += "_mmr"
-                    result.search_type = current_search_type
-
-                results = mmr_results
-                progress.remove_task(task)
-
-        # Display results
-        if json_output:
-            output = {
-                "query": query,
-                "search_type": search_type,
-                "reranked": rerank,
-                "mmr_applied": mmr,
-                "cultural_boost": cultural_boost,
-                "llm_analysis": llm_analysis,
-                "total_results": len(results),
-                "results": [result.to_dict() for result in results],
-            }
-            console.print(json.dumps(output, indent=2))
+        # Display the formatted results
+        console.print(result_text)
+        
+        # Check if results were found (simple check for success message)
+        if "No results found" not in result_text and "Error:" not in result_text:
+            print_success("Search completed successfully!")
+        elif "Error:" in result_text:
+            print_error("Search encountered an error")
         else:
-            if not results:
-                print_warning("No results found")
-                return
-
-            console.print(f"\n[bold]Found {len(results)} results:[/bold]")
-
-            for i, result in enumerate(results, 1):
-                console.print(f"\n[bold cyan]Result {i}[/bold cyan] (Score: {result.score:.4f})")
-
-                # Create a table for result details
-                table = Table(show_header=False, box=None, padding=(0, 1))
-                table.add_column("Field", style="yellow", width=12)
-                table.add_column("Value", style="white")
-
-                table.add_row("Source", result.metadata.get("source_file", "Unknown"))
-                table.add_row("Type", result.metadata.get("file_type", "Unknown"))
-
-                if "chunk_index" in result.metadata:
-                    table.add_row(
-                        "Chunk", f"{result.metadata['chunk_index'] + 1}/{result.metadata.get('chunk_total', 'Unknown')}"
-                    )
-
-                table.add_row("Search", result.search_type)
-
-                console.print(table)
-
-                # Content preview
-                content_preview = result.content[:500] + "..." if len(result.content) > 500 else result.content
-                console.print(Panel(content_preview, title="Content", border_style="dim"))
-
-        print_success(f"Search completed! Found {len(results)} results.")
+            print_warning("No results found for your query")
 
     except Exception as e:
         print_error(f"Search failed: {e}")
         raise typer.Exit(1)
 
+# ========== EVALUATION COMMANDS ==========
+@app.command()
+def evaluate(
+    output: str = typer.Option(
+        None,
+        "--output", "-o",
+        help="Output file path for evaluation results (overrides config)"
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit", "-l", 
+        help="Limit number of evaluation items (overrides config)"
+    ),
+    no_cultural_llm: bool = typer.Option(
+        False,
+        "--no-cultural-llm",
+        help="Disable cultural LLM analysis (overrides config)"
+    ),
+    randomize: bool = typer.Option(
+        False,
+        "--randomize", "-r",
+        help="Randomize the evaluation dataset order (overrides config)"
+    ),
+    config_env: bool = typer.Option(
+        False, 
+        "--env", 
+        help="Load configuration from environment variables"
+    ),
+) -> None:
+    """
+    Evaluate retrieval performance using cosine similarity with ground truth.
+    """
+    from rich.console import Console
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+    from rich.table import Table
+    from rich.panel import Panel
+    import json
+    
+    console = Console()
+    
+    # Display header
+    console.print(Panel.fit("🔍 WiQAS Retrieval Evaluation", style="bold blue"))
+    
+    try:
+        # Load configuration
+        if config_env:
+            config = WiQASConfig.from_env()
+            console.print("ℹ️  Using configuration from environment variables", style="blue")
+        else:
+            config = WiQASConfig()
+            console.print("ℹ️  Using default configuration", style="blue")
+            
+        # Get evaluation config
+        eval_config = config.rag.evaluation
+        
+        # Apply CLI overrides to config
+        if limit is not None:
+            eval_config.limit = limit
+        if no_cultural_llm:
+            eval_config.disable_cultural_llm_analysis = True
+        if randomize:
+            eval_config.randomize = True
+        
+        # Output
+        if output:
+            output_path = output
+        else:
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+            output_path = f"./data/evaluation/retrieval/{timestamp}.json"
+            
+        output_file_path = Path(output_path)
+        output_file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Display configuration
+        config_table = Table(title="📋 Evaluation Configuration")
+        config_table.add_column("Setting", style="cyan")
+        config_table.add_column("Value", style="green")
+        
+        config_table.add_row("Dataset", eval_config.dataset_path)
+        config_table.add_row("Limit", str(eval_config.limit) if eval_config.limit else "None (all items)")
+        config_table.add_row("Randomize", str(eval_config.randomize))
+        config_table.add_row("Search Type", eval_config.search_type)
+        config_table.add_row("Results per Query", str(eval_config.k_results))
+        config_table.add_row("Reranking", str(eval_config.enable_reranking))
+        config_table.add_row("MMR Diversity", str(eval_config.enable_mmr))
+        config_table.add_row("Cultural LLM", str(not eval_config.disable_cultural_llm_analysis))
+        config_table.add_row("Similarity Threshold", f"{eval_config.similarity_threshold:.2f}")
+        config_table.add_row("Output File", output_path)
+        
+        console.print(config_table)
+        console.print()
+        
+        # Run evaluation with progress indicator
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console,
+        ) as progress:
+            task = progress.add_task("Running evaluation...", total=None)
+            
+            evaluator = RetrievalEvaluator(config)
+            results = evaluator.evaluate()
+            
+            progress.remove_task(task)
+        
+        if "error" in results:
+            console.print(f"❌ Evaluation failed: {results['error']}", style="red")
+            raise typer.Exit(code=1)
+            
+        # Display results summary
+        console.print("📊 Evaluation Results", style="bold green")
+        console.print()
+        
+        # Dataset info
+        dataset_info = results["dataset_info"]
+        info_table = Table(title="Dataset Information")
+        info_table.add_column("Metric", style="cyan")
+        info_table.add_column("Value", style="white")
+        
+        info_table.add_row("Total Items", str(dataset_info["total_items"]))
+        info_table.add_row("Successful Evaluations", str(dataset_info["successful_evaluations"]))
+        info_table.add_row("Errors", str(dataset_info["errors"]))
+        info_table.add_row("Success Rate", dataset_info["success_rate"])
+        
+        console.print(info_table)
+        console.print()
+        
+        # Similarity statistics
+        similarity_stats = results["similarity_statistics"]
+        stats_table = Table(title="Similarity Statistics")
+        stats_table.add_column("Statistic", style="cyan")
+        stats_table.add_column("Value", style="white")
+        
+        stats_table.add_row("Average", similarity_stats["average"])
+        stats_table.add_row("Median", similarity_stats["median"])
+        stats_table.add_row("Std Deviation", similarity_stats["std_deviation"])
+        stats_table.add_row("Minimum", similarity_stats["min"])
+        stats_table.add_row("Maximum", similarity_stats["max"])
+        
+        console.print(stats_table)
+        console.print()
+        
+        # Threshold analysis
+        threshold_info = results["threshold_analysis"]
+        threshold_table = Table(title="Threshold Analysis")
+        threshold_table.add_column("Metric", style="cyan")
+        threshold_table.add_column("Value", style="white")
+        
+        threshold_table.add_row("Threshold", str(threshold_info["threshold"]))
+        threshold_table.add_row("Above Threshold", str(threshold_info["above_threshold"]))
+        threshold_table.add_row("Above Threshold Rate", threshold_info["above_threshold_rate"])
+        
+        console.print(threshold_table)
+        console.print()
+        
+        # Save results
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console,
+        ) as progress:
+            task = progress.add_task("Saving results...", total=None)
+            evaluator.save_results(results, output_path)
+            progress.remove_task(task)
+            
+        console.print(f"✅ Evaluation completed! Results saved to: {output_path}", style="green")
+        
+        # Show top and bottom performing examples
+        detailed_results = results["detailed_results"]
+        valid_results = [r for r in detailed_results if "error" not in r]
+        
+        if valid_results:
+            # Sort by similarity score
+            sorted_results = sorted(valid_results, key=lambda x: x["similarity_score"], reverse=True)
+            
+            console.print("\n🔝 Top 3 Performing Queries:", style="bold green")
+            for i, result in enumerate(sorted_results[:3]):
+                console.print(f"{i+1}. Similarity: {result['similarity_score']:.4f}")
+                console.print(f"   Question: {result['question'][:80]}{'...' if len(result['question']) > 80 else ''}")
+                console.print(f"   Ground Truth Context: {result['ground_truth_context'][:60]}{'...' if len(result['ground_truth_context']) > 60 else ''}")
+                console.print(f"   Retrieved Content: {result['retrieved_content'][:60]}{'...' if len(result['retrieved_content']) > 60 else ''}")
+                console.print()
+                
+            console.print("🔻 Bottom 3 Performing Queries:", style="bold red")
+            for i, result in enumerate(sorted_results[-3:]):
+                console.print(f"{i+1}. Similarity: {result['similarity_score']:.4f}")
+                console.print(f"   Question: {result['question'][:80]}{'...' if len(result['question']) > 80 else ''}")
+                console.print(f"   Ground Truth Context: {result['ground_truth_context'][:60]}{'...' if len(result['ground_truth_context']) > 60 else ''}")
+                console.print(f"   Retrieved Content: {result['retrieved_content'][:60]}{'...' if len(result['retrieved_content']) > 60 else ''}")
+                console.print()
+                
+    except KeyboardInterrupt:
+        console.print("\n⚠️ Evaluation interrupted by user", style="yellow")
+        raise typer.Exit(code=1)
+    except Exception as e:
+        console.print(f"❌ Evaluation failed: {e}", style="red")
+        raise typer.Exit(code=1)
 
 # ========== STATUS AND INFO COMMANDS ==========
 @app.command()
@@ -521,14 +581,23 @@ def sources(
                     # Create table for sources
                     table = Table(show_header=True, header_style="bold magenta")
                     table.add_column("File Name", style="cyan", min_width=20)
+                    table.add_column("Title", style="bright_blue", min_width=25)
                     table.add_column("Type", style="yellow", width=10)
                     table.add_column("Chunks", style="green", width=8, justify="right")
                     table.add_column("Source Path", style="dim", no_wrap=False)
 
                     total_chunks = 0
                     for source in sources_list:
+                        title = source.get("title", "")
+                        if not title or title == source["file_name"]:
+                            title = "[dim]No title[/dim]"
+                        
                         table.add_row(
-                            source["file_name"], source["file_type"], str(source["chunk_count"]), source["source_file"]
+                            source["file_name"], 
+                            title,
+                            source["file_type"], 
+                            str(source["chunk_count"]), 
+                            source["source_file"]
                         )
                         total_chunks += source["chunk_count"]
 

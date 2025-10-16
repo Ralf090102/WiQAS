@@ -195,7 +195,7 @@ class RetrievalConfig(BaseConfig):
             enable_mmr=get_env_bool("WIQAS_RETRIEVAL_ENABLE_MMR", True),
             mmr_diversity_bias=get_env_float("WIQAS_RETRIEVAL_MMR_DIVERSITY_BIAS", 0.5),
             mmr_fetch_k=get_env_int("WIQAS_RETRIEVAL_MMR_FETCH_K", 20),
-            mmr_threshold=get_env_float("WIQAS_RETRIEVAL_MMR_THRESHOLD", 0.6),
+            mmr_threshold=get_env_float("WIQAS_RETRIEVAL_MMR_THRESHOLD", 0.475),
         )
 
     def validate(self) -> None:
@@ -373,6 +373,7 @@ class AnswerGeneratorConfig(BaseConfig):
     model: str = "gemma2:9b"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
+    backend: str = "ollama" # ollama | hf 
 
     # init gen params
     temperature: float = 0.7
@@ -386,10 +387,56 @@ class AnswerGeneratorConfig(BaseConfig):
             model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
             base_url = get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout = get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
+            backend = get_env_str("WIQAS_BACKEND", "ollama"), # ollama | hf 
             temperature = get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
             top_p = get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
             max_tokens = get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
         )
+
+# ========= EVALUATION CONFIGURATION ==========
+@dataclass
+class EvaluationConfig(BaseConfig):
+    """Evaluation configuration"""
+    
+    dataset_path: str = "./src/evaluation/evaluation_dataset.json"
+    limit: int | None = None
+    randomize: bool = False
+    disable_cultural_llm_analysis: bool = False
+    
+    # Retrieval settings
+    search_type: str = "hybrid"
+    k_results: int = 5
+    enable_reranking: bool = True
+    enable_mmr: bool = True
+    
+    similarity_threshold: float = 0.5
+    
+    @classmethod
+    def from_env(cls) -> "EvaluationConfig":
+        """Load evaluation configuration from environment variables"""
+        limit_str = get_env_str("WIQAS_EVALUATION_LIMIT", "")
+        limit = int(limit_str) if limit_str.isdigit() else None
+        
+        return cls(
+            dataset_path=get_env_str("WIQAS_EVALUATION_DATASET_PATH", "./src/evaluation/evaluation_dataset.json"),
+            limit=limit,
+            randomize=get_env_bool("WIQAS_EVALUATION_RANDOMIZE", False),
+            disable_cultural_llm_analysis=get_env_bool("WIQAS_EVALUATION_DISABLE_CULTURAL_LLM", False),
+            search_type=get_env_str("WIQAS_EVALUATION_SEARCH_TYPE", "hybrid"),
+            k_results=get_env_int("WIQAS_EVALUATION_K_RESULTS", 5),
+            enable_reranking=get_env_bool("WIQAS_EVALUATION_ENABLE_RERANKING", True),
+            enable_mmr=get_env_bool("WIQAS_EVALUATION_ENABLE_MMR", True),
+            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.5),
+        )
+
+    def validate(self) -> None:
+        """Validate evaluation configuration"""
+        if self.limit is not None and self.limit <= 0:
+            raise ValueError("limit must be positive when specified")
+        if not 0.0 <= self.similarity_threshold <= 1.0:
+            raise ValueError("similarity_threshold must be between 0.0 and 1.0")
+        if self.k_results <= 0:
+            raise ValueError("k_results must be positive")
 
 # ========== MAIN RAG CONFIGURATION ==========
 @dataclass
@@ -404,6 +451,7 @@ class RAGConfig(BaseConfig):
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
     generator: AnswerGeneratorConfig = field(default_factory=AnswerGeneratorConfig)
+    evaluation: EvaluationConfig = field(default_factory=EvaluationConfig)  # Add this line
 
     @classmethod
     def from_env(cls) -> "RAGConfig":
@@ -417,6 +465,7 @@ class RAGConfig(BaseConfig):
             llm=LLMConfig.from_env(),
             vectorstore=VectorStoreConfig.from_env(),
             generator=AnswerGeneratorConfig.from_env(),
+            evaluation=EvaluationConfig.from_env(),
         )
 
 

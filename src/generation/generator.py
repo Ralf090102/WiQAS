@@ -36,24 +36,57 @@ class WiQASGenerator:
         self.prompt_builder = PromptBuilder()
 
     def _call_model(self, prompt: str) -> str:
-        """
-        Call the LLM with the constructed prompt.
+        if self.answer_config.backend == "hf":
+            from transformers import AutoTokenizer, AutoModelForCausalLM
+            import torch
 
-        Args:
-            prompt (str): Fully rendered LLM prompt.
+            model_id = self.answer_config.model
+            if model_id == "gemma2:9b":
+                model_id = "aisingapore/Gemma-SEA-LION-v3-9B"
 
-        Returns:
-            str: Model-generated answer text.
-        """
-        # print(prompt)  # debugging hook
+            if torch.cuda.is_available():
+                device = "cuda"
+                dtype = torch.float16
+            elif torch.backends.mps.is_available():
+                device = "mps"
+                dtype = torch.float16
+            else:
+                device = "cpu"
+                dtype = torch.float32
 
-        return generate_response(
-            prompt=prompt,
-            config=self.config,
-            model=self.answer_config.model,
-            temperature=self.answer_config.temperature,
-            max_tokens=self.answer_config.max_tokens,
-        )
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+            hf_model = AutoModelForCausalLM.from_pretrained(
+                model_id,
+                dtype=dtype,
+                device_map="auto" if device == "cuda" else None,
+                low_cpu_mem_usage=True,
+            )
+            hf_model.to(device)
+
+            inputs = tokenizer(prompt, return_tensors="pt").to(device)
+
+            print("model prompted")
+
+            outputs = hf_model.generate(
+                **inputs,
+                max_new_tokens=self.answer_config.max_tokens,
+                temperature=self.answer_config.temperature,
+                do_sample=True,
+            )
+
+            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
+
+            return tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+
+        else:
+            from src.core.llm import generate_response
+            return generate_response(
+                prompt=prompt,
+                config=self.config,
+                model=self.answer_config.model,
+                temperature=self.answer_config.temperature,
+                max_tokens=self.answer_config.max_tokens,
+            )
     
     def generate(
         self,
@@ -85,19 +118,26 @@ class WiQASGenerator:
         """
         # retrieve
         self.retriever._initialize_components()
-        raw_results = self.retriever.query(query, k=k, enable_mmr=False, formatted=False)
+        raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
+
+        def get_meta(r, key):
+            return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
+
         contexts = [
             {
-            "text": r.content,
-            "score": getattr(r, "score", 0.0),
-            "document_id": getattr(r, "document_id", None),
-            "source": r.metadata.get("source") if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None,
+                "content": getattr(r, "content", None),
+                "final_score": get_meta(r, "final_score"),
+                "source_file": get_meta(r, "source_file"),
+                "page": get_meta(r, "page"),
+                "title": get_meta(r, "title"),
+                "date": get_meta(r, "date"),
+                "url": get_meta(r, "url"),
             }
             for r in raw_results
         ]
 
         # prepare contexts
-        prepared_contexts = self.context_preparer.prepare(contexts, return_full=True)
+        prepared_contexts = self.context_preparer.prepare(contexts, include_citations=True, return_full=True)
       
         # build prompt
         prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
