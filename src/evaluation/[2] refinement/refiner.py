@@ -231,7 +231,7 @@ class DatasetRefiner:
         
     def is_valid(self, status: str) -> bool:
         """Check if a status is considered valid."""
-        return status.lower() == "valid"
+        return status.lower() != "invalid"
     
     def determine_refinement_action(
         self, 
@@ -313,22 +313,22 @@ class DatasetRefiner:
                 
         if item.action == RefinementAction.REFINE_QUESTION:
             print("Refining question...")
-            # refined_q, reasoning = self.llm_refiner.refine_question(
-            #     item.question, context, q_feedback
-            # )
+            refined_q, reasoning = self.llm_refiner.refine_question(
+                item.question, context, q_feedback
+            )
   
-            # if self.interactive:
-            #     refined_q = self.get_user_approval(item.question, refined_q, "Question")
+            if self.interactive:
+                refined_q = self.get_user_approval(item.question, refined_q, "Question")
             
-            # item.refined_question = refined_q
-            # item.refined_answer = item.ground_truth
-            # item.refinement_reasoning = reasoning
+            item.refined_question = refined_q
+            item.refined_answer = item.ground_truth
+            item.refinement_reasoning = reasoning
             
-            # if self.verbose:
-            #     print(f"  Original: {item.question}")
-            #     print(f"  Refined:  {refined_q}")
+            if self.verbose:
+                print(f"  Original: {item.question}")
+                print(f"  Refined:  {refined_q}")
         
-        elif item.action == RefinementAction.REFINE_ANSWER or item.action == RefinementAction.REFINE_BOTH:
+        elif item.action == RefinementAction.REFINE_ANSWER:
             print("Refining answer...")
             refined_a, reasoning = self.llm_refiner.refine_answer(
                 item.question, item.ground_truth, context, a_feedback
@@ -347,23 +347,23 @@ class DatasetRefiner:
         
         elif item.action == RefinementAction.REFINE_BOTH:
             print("Refining both question and answer...")
-            # refined_q, refined_a, reasoning = self.llm_refiner.refine_both(
-            #     item.question, item.ground_truth, context, q_feedback, a_feedback
-            # )
+            refined_q, refined_a, reasoning = self.llm_refiner.refine_both(
+                item.question, item.ground_truth, context, q_feedback, a_feedback
+            )
             
-            # if self.interactive:
-            #     refined_q = self.get_user_approval(item.question, refined_q, "Question")
-            #     refined_a = self.get_user_approval(item.ground_truth, refined_a, "Answer")
+            if self.interactive:
+                refined_q = self.get_user_approval(item.question, refined_q, "Question")
+                refined_a = self.get_user_approval(item.ground_truth, refined_a, "Answer")
             
-            # item.refined_question = refined_q
-            # item.refined_answer = refined_a
-            # item.refinement_reasoning = reasoning
+            item.refined_question = refined_q
+            item.refined_answer = refined_a
+            item.refinement_reasoning = reasoning
             
-            # if self.verbose:
-            #     print(f"  Original Q: {item.question}")
-            #     print(f"  Refined Q:  {refined_q}")
-            #     print(f"  Original A: {item.ground_truth}")
-            #     print(f"  Refined A:  {refined_a}")
+            if self.verbose:
+                print(f"  Original Q: {item.question}")
+                print(f"  Refined Q:  {refined_q}")
+                print(f"  Original A: {item.ground_truth}")
+                print(f"  Refined A:  {refined_a}")
         
         return item
     

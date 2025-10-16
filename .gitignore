@@ -43,6 +43,7 @@ test-results/
 data/
 *.db
 *.sqlite
+*.pdf
 
 # OS-specific
 Thumbs.db
