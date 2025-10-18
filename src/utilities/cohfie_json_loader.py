@@ -23,25 +23,6 @@ class NewsSitesMetadata:
     url: str | None = None  #
     title: str | None = None  # Added title field
 
-
-# @dataclass
-# class OnlineForumsMetadata:
-#     author: str | None = None
-#     created_utc: str | None = None
-#     full_link: str | None = None
-#     text: str | None = None
-#     subreddit: str | None = None
-#     title: str | None = None
-#     created: float | None = None
-
-
-# @dataclass
-# class SocialMediaMetadata:
-#     text: str | None = None
-#     year: str | None = None
-#     month: str | None = None
-
-
 @dataclass
 class WikipediaMetadata:
     date: float | None = None  #
@@ -85,12 +66,13 @@ class CohfieJsonLoader:
         else:
             return "unknown"
 
-    def _extract_news_title_from_url(self, url: str) -> str:
+    def _extract_news_title_from_url(self, url: str, subfolder_path: str) -> str:
         """
         Extract article title from URL path or by fetching the page.
 
         Args:
             url: The URL to extract title from
+            subfolder_path: The subfolder path
 
         Returns:
             Article title extracted from URL path or page content
@@ -104,8 +86,8 @@ class CohfieJsonLoader:
             parsed = urlparse(url)
             path = parsed.path
 
-            # Handle GMA URLs by fetching the page title
-            if "gmanews.tv" in url.lower() or "gma" in url.lower():
+            # GMA Special Case
+            if "gma" in subfolder_path.lower() and ("gmanews.tv" in url.lower() or "gma" in url.lower()):
                 return self._fetch_gma_title_from_url(url)
 
             path_parts = [part for part in path.split("/") if part]
@@ -240,7 +222,7 @@ class CohfieJsonLoader:
             return item.get("title", f"Untitled {source_type.replace('_', ' ').title()}")
         elif source_type == "news_sites":
             url = item.get("url", "")
-            return self._extract_news_title_from_url(url)
+            return self._extract_news_title_from_url(url, subfolder_path)
         else:
             return item.get("title", "Unknown Source")
 
