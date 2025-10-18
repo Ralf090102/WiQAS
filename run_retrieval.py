@@ -12,6 +12,7 @@ Usage:
     python run_retrieval.py sources --file <path>   # Show chunks from specific source
     python run_retrieval.py status                  # Show system status
     python run_retrieval.py clear                   # Clear knowledge base
+    python run_retrieval.py evaluate -l <limit>     # Evaluate retrieval performance
     python run_retrieval.py config                  # Show configuration
 """
 
