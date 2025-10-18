@@ -90,6 +90,33 @@ class WiQASGenerator:
                 max_tokens=self.answer_config.max_tokens,
             )
 
+    def _detect_query_language(self, query: str) -> str:
+        """
+        Detect the primary language of the query using simple heuristics.
+        
+        Args:
+            query: Input query text
+            
+        Returns:
+            Language code ('en' or 'fil')
+        """
+        query_lower = query.lower()
+        
+        filipino_indicators = [
+            'ano', 'mga', 'sa', 'ng', 'at', 'na', 'ay', 'ko', 'mo', 'niya',
+            'kami', 'kayo', 'sila', 'ako', 'ikaw', 'siya', 'tayo', 'kita',
+            'ba', 'po', 'opo', 'hindi', 'oo', 'kung', 'kapag', 'para',
+            'bakit', 'paano', 'saan', 'kailan', 'sino', 'alin'
+        ]
+        
+        filipino_count = sum(1 for word in filipino_indicators if word in query_lower)
+        
+        # Check for common Filipino question patterns
+        if any(pattern in query_lower for pattern in ['ano ang', 'ano yung', 'paano ang', 'bakit ang']):
+            filipino_count += 2
+            
+        return 'fil' if filipino_count >= 2 else 'en'
+
     def generate(
         self,
         query: str,
@@ -137,6 +164,8 @@ class WiQASGenerator:
                 timing.search_time = retrieval_timing.search_time
                 timing.reranking_time = retrieval_timing.reranking_time
                 timing.mmr_time = retrieval_timing.mmr_time
+                timing.translation_time = retrieval_timing.translation_time
+                timing.language_detection_time = retrieval_timing.language_detection_time
                 raw_results = retrieval_result["results"]
             else:
                 raw_results = retrieval_result
@@ -166,10 +195,18 @@ class WiQASGenerator:
         if include_timing:
             timing.context_preparation_time = time.time() - context_start
 
-        # build prompt with timing
+        # detect query language for better prompt building
+        detected_language = self._detect_query_language(query)
+
+        # build prompt with timing and language awareness
         if include_timing:
             prompt_start = time.time()
-        prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type)
+        prompt = self.prompt_builder.build_prompt(
+            query, 
+            prepared_contexts, 
+            query_type=query_type,
+            language=detected_language
+        )
         if include_timing:
             timing.prompt_building_time = time.time() - prompt_start
 
@@ -180,7 +217,9 @@ class WiQASGenerator:
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
-            timing.total_time = timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time
+            timing.total_time = (timing.embedding_time + timing.search_time + timing.reranking_time + 
+                               timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + 
+                               timing.llm_generation_time + timing.translation_time + timing.language_detection_time)
 
         result = {
             "query": query,

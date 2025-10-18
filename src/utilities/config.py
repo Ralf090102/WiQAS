@@ -384,10 +384,10 @@ class RerankerConfig(BaseConfig):
     cultural_boost_factor: float = 1.2
 
     # LLM-based cultural content analysis
-    use_llm_cultural_analysis: bool = True
+    use_llm_cultural_analysis: bool = False
     llm_model: str = "mistral:latest"
     llm_base_url: str = "http://localhost:11434"
-    llm_timeout: int = 90
+    llm_timeout: int = 30
     llm_temperature: float = 0.1
 
     # Cultural analysis thresholds
@@ -399,7 +399,7 @@ class RerankerConfig(BaseConfig):
     # Caching and batch processing
     cache_cultural_analysis: bool = True
     cultural_cache_ttl: int = 7200
-    batch_analysis_size: int = 10
+    batch_analysis_size: int = 20
     enable_batch_processing: bool = True
 
     @classmethod
@@ -527,6 +527,12 @@ class AnswerGeneratorConfig(BaseConfig):
     temperature: float = 0.7
     top_p: float = 0.9
     max_tokens: int | None = 1024
+    
+    # Multilingual generation settings
+    enable_multilingual_generation: bool = True
+    enable_auto_language_detection: bool = True
+    prefer_code_switching: bool = True
+    cultural_context_boost: bool = True  # Emphasize cultural context in responses
 
     @classmethod
     def from_env(cls) -> "AnswerGeneratorConfig":
@@ -539,6 +545,10 @@ class AnswerGeneratorConfig(BaseConfig):
             temperature=get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
             top_p=get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
             max_tokens=get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
+            enable_multilingual_generation=get_env_bool("WIQAS_ANSWER_GENERATOR_ENABLE_MULTILINGUAL", True),
+            enable_auto_language_detection=get_env_bool("WIQAS_ANSWER_GENERATOR_AUTO_LANGUAGE_DETECTION", True),
+            prefer_code_switching=get_env_bool("WIQAS_ANSWER_GENERATOR_PREFER_CODE_SWITCHING", True),
+            cultural_context_boost=get_env_bool("WIQAS_ANSWER_GENERATOR_CULTURAL_CONTEXT_BOOST", True),
         )
 
 

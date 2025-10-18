@@ -83,6 +83,8 @@ def ask(
                 "context_preparation_time": timing.context_preparation_time,
                 "prompt_building_time": timing.prompt_building_time,
                 "llm_generation_time": timing.llm_generation_time,
+                "translation_time": timing.translation_time,
+                "language_detection_time": timing.language_detection_time,
                 "total_time": timing.total_time,
             }
         console.print(json.dumps(output, indent=2, ensure_ascii=False))
@@ -157,6 +159,8 @@ def batch_ask(
                     "context_preparation_time": timing.context_preparation_time,
                     "prompt_building_time": timing.prompt_building_time,
                     "llm_generation_time": timing.llm_generation_time,
+                    "translation_time": timing.translation_time,
+                    "language_detection_time": timing.language_detection_time,
                     "total_time": timing.total_time,
                 }
 

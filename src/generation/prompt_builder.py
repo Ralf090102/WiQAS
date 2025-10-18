@@ -258,8 +258,11 @@ class PromptTemplate:
             "for elaboration. Avoid unnecessary speculation or overgeneralization. Use specific details like "
             "dates, names, and locations when available in the context.\n\n"
             "4. **Context-Aware Language**: Pay attention to Filipino semantic and linguistic nuances, including "
-            "code-switching between Filipino and English. When relevant, explain terms, transliterations, or "
-            "culturally-specific phrases. Match the language of your response to the user's query language.\n\n"
+            "natural code-switching between Filipino and English as commonly practiced in Philippine discourse. "
+            "When relevant, explain terms, transliterations, or culturally-specific phrases. Match the primary "
+            "language of your response to the user's query language, but use the most appropriate language for "
+            "specific terms and concepts. Provide translations or explanations when using terms that might not "
+            "be familiar to the target audience.\n\n"
             f"5. **Detailed Citations**: Always reference sources at the end of your answer using the exact citation "
             "format provided in the context snippets. Each context snippet includes a [Source: ...] citation - "
             "use these citations directly in your answer. When multiple sources support your answer, list all of them. "
@@ -317,7 +320,21 @@ class PromptTemplate:
         """
         guideline = FUNCTIONAL_GUIDELINES.get(self.query_type)
 
-        language_instruction = "Respond in Filipino (Tagalog)" if self.language == "fil" else "Respond in English"
+        # Enhanced multilingual instructions
+        if self.language == "fil":
+            language_instruction = (
+                "Respond primarily in Filipino (Tagalog), but use code-switching with English when:\n"
+                "  • Technical terms are more commonly known in English\n"
+                "  • Proper nouns or specific terminology from the source context is in English\n"
+                "  • The context contains mixed language content that's better preserved as-is"
+            )
+        else:
+            language_instruction = (
+                "Respond in English, but include Filipino terms when:\n"
+                "  • The Filipino term is culturally significant or has no direct English equivalent\n"
+                "  • Proper nouns or cultural concepts are better understood in Filipino\n"
+                "  • Direct quotes from Filipino sources should be preserved"
+            )
 
         return (
             f"Response Guidelines ({self.query_type} Type):\n"
@@ -327,6 +344,7 @@ class PromptTemplate:
             f"- Use the EXACT citation format provided in each context snippet's [Source: ...] tag\n"
             f"- Maintain cultural sensitivity and authenticity\n"
             f"- If information is insufficient, state this clearly rather than speculating\n"
+            f"- When relevant, provide cultural context and explanations for Filipino-specific terms\n"
         )
 
     def build_exemplars(self) -> str:
