@@ -13,8 +13,11 @@ Usage:
 """
 
 import logging
+import re
 import time
+from typing import Optional
 
+from deep_translator import GoogleTranslator
 from src.retrieval.embeddings import EmbeddingManager
 from src.retrieval.reranker import Document, RerankerManager
 from src.retrieval.search import HybridSearcher, KeywordSearcher, MMRSearcher, SearchResult, SemanticSearcher
@@ -28,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 class WiQASRetriever:
     """
-    High-level document retriever for WiQAS.
+    High-level document retriever for WiQAS with cross-lingual support.
 
     Provides a simple interface to query the knowledge base using the full
     WiQAS retrieval pipeline: search → rerank → MMR → format results.
@@ -46,6 +49,8 @@ class WiQASRetriever:
         self._embedding_manager = None
         self._reranker = None
         self._mmr_searcher = None
+        self._translator = None
+        self._translation_cache = {}
         self._initialized = False
 
     def _initialize_components(self):
@@ -66,12 +71,170 @@ class WiQASRetriever:
             # Initialize MMR searcher
             self._mmr_searcher = MMRSearcher(self._embedding_manager, self.config)
 
+            # Initialize translator if multilingual is enabled
+            if self.config.rag.multilingual.enable_cross_lingual:
+                self._translator = GoogleTranslator()
+                log_info("Cross-lingual functionality enabled")
+
             self._initialized = True
             log_info("WiQAS retriever components initialized successfully")
 
         except Exception as e:
             log_error(f"Failed to initialize retriever components: {e}")
             raise
+
+    def _detect_language(self, query: str) -> str:
+        """
+        Detect query language using simple heuristics for English vs Tagalog.
+        
+        Args:
+            query: Input query text
+            
+        Returns:
+            Language code ('en' or 'tl')
+        """
+        # Simple heuristic-based language detection
+        query_lower = query.lower()
+        
+        # Common Tagalog words/patterns
+        tagalog_indicators = [
+            'ano', 'mga', 'sa', 'ng', 'at', 'na', 'ay', 'ko', 'mo', 'niya',
+            'kami', 'kayo', 'sila', 'ako', 'ikaw', 'siya', 'tayo', 'kita',
+            'ba', 'po', 'opo', 'hindi', 'oo', 'kung', 'kapag', 'para',
+            'bakit', 'paano', 'saan', 'kailan', 'sino', 'alin'
+        ]
+        
+        # Count Tagalog indicators
+        tagalog_count = sum(1 for word in tagalog_indicators if word in query_lower)
+        
+        # Use simple threshold: if 2+ Tagalog words found, classify as Tagalog
+        if tagalog_count >= 2:
+            return 'tl'
+        
+        # Check for common Tagalog question patterns
+        if any(pattern in query_lower for pattern in ['ano ang', 'ano yung', 'paano ang', 'bakit ang']):
+            return 'tl'
+            
+        # Default to English
+        return 'en'
+
+    def _translate_text(self, text: str, source_lang: str, target_lang: str) -> Optional[str]:
+        """
+        Translate text from source language to target language with caching.
+        
+        Args:
+            text: Text to translate
+            source_lang: Source language code
+            target_lang: Target language code
+            
+        Returns:
+            Translated text or None if translation fails
+        """
+        if source_lang == target_lang:
+            return text
+            
+        # Check cache first
+        cache_key = f"{text}:{source_lang}:{target_lang}"
+        if (self.config.rag.multilingual.enable_translation_cache and 
+            cache_key in self._translation_cache):
+            return self._translation_cache[cache_key]
+        
+        try:
+            # Truncate text if too long
+            max_length = self.config.rag.multilingual.max_translation_length
+            if len(text) > max_length:
+                text = text[:max_length]
+            
+            # Perform translation
+            translated = self._translator.translate(text, source=source_lang, target=target_lang)
+            
+            # Cache the result
+            if self.config.rag.multilingual.enable_translation_cache:
+                self._translation_cache[cache_key] = translated
+            
+            return translated
+            
+        except Exception as e:
+            log_warning(f"Translation failed from {source_lang} to {target_lang}: {e}")
+            return None
+
+    def _generate_multi_queries(self, original_query: str, detected_lang: str) -> list[tuple[str, float]]:
+        """
+        Generate multiple queries for cross-lingual retrieval.
+        
+        Args:
+            original_query: Original user query
+            detected_lang: Detected language of the query
+            
+        Returns:
+            List of (query, weight) tuples
+        """
+        queries = [(original_query, self.config.rag.multilingual.query_weight_original)]
+        
+        if not self.config.rag.multilingual.enable_multi_query:
+            return queries
+        
+        # Determine target language for translation
+        target_lang = 'en' if detected_lang == 'tl' else 'tl'
+        
+        # Translate query
+        translated_query = self._translate_text(original_query, detected_lang, target_lang)
+        
+        if translated_query and translated_query != original_query:
+            queries.append((translated_query, self.config.rag.multilingual.query_weight_translated))
+            log_info(f"Generated translated query: '{translated_query}' (weight: {self.config.rag.multilingual.query_weight_translated})")
+        
+        return queries
+
+    def _merge_and_deduplicate_results(self, multi_results: list[tuple[list[SearchResult], float]]) -> list[SearchResult]:
+        """
+        Merge results from multiple queries and deduplicate based on content similarity.
+        
+        Args:
+            multi_results: List of (results, weight) tuples from different queries
+            
+        Returns:
+            Merged and deduplicated results with weighted scores
+        """
+        if not multi_results:
+            return []
+        
+        # If only one query, return results directly
+        if len(multi_results) == 1:
+            return multi_results[0][0]
+        
+        # Collect all results with weighted scores
+        all_results = {}
+        
+        for results, weight in multi_results:
+            for result in results:
+                doc_id = result.document_id
+                
+                if doc_id in all_results:
+                    # Update score with weighted average
+                    existing_result = all_results[doc_id]
+                    combined_score = (existing_result.score + result.score * weight) / 2
+                    existing_result.score = combined_score
+                    
+                    # Update search type to indicate multilingual
+                    if not existing_result.search_type.endswith('_multilingual'):
+                        existing_result.search_type += '_multilingual'
+                else:
+                    # Create new result with weighted score
+                    new_result = SearchResult(
+                        document_id=result.document_id,
+                        content=result.content,
+                        metadata=result.metadata,
+                        score=result.score * weight,
+                        search_type=f"{result.search_type}_multilingual"
+                    )
+                    all_results[doc_id] = new_result
+        
+        # Sort by score and return
+        merged_results = list(all_results.values())
+        merged_results.sort(key=lambda x: x.score, reverse=True)
+        
+        return merged_results
 
     def _check_knowledge_base(self) -> int:
         """
@@ -87,7 +250,10 @@ class WiQASRetriever:
         doc_count = stats.get("document_count", 0)
 
         if doc_count == 0:
-            raise ValueError("No documents found in knowledge base. " "Please run ingestion first using 'python run_retrieval.py ingest <path>'")
+            raise ValueError(
+                "No documents found in knowledge base. "
+                "Please run ingestion first using 'python run_retrieval.py ingest <path>'"
+            )
 
         log_info(f"Found {doc_count} documents in knowledge base")
         return doc_count
@@ -259,6 +425,7 @@ class WiQASRetriever:
         llm_analysis: bool = True,
         formatted: bool = True,
         include_timing: bool = False,
+        enable_cross_lingual: bool = None,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -272,6 +439,7 @@ class WiQASRetriever:
             llm_analysis: Whether to use LLM-based cultural analysis (default: True)
             formatted: Whether to return formatted string or raw results (default: True)
             include_timing: Whether to include timing breakdown in results (default: False)
+            enable_cross_lingual: Whether to enable cross-lingual retrieval (default: None, uses config)
 
         Returns:
             Formatted string containing search results and optionally timing breakdown
@@ -291,26 +459,63 @@ class WiQASRetriever:
             log_info(f"Knowledge base contains {doc_count} documents")
             log_info(f"Querying: '{query_text}' (type: {search_type}, k: {k})")
 
-            # Track embedding time
-            embedding_start = time.time()
-            if search_type in ["semantic", "hybrid"]:
-                # Time the query embedding generation
-                self._embedding_manager.encode_single(query_text)
-            else:
-                # For non-semantic searches, embedding time is 0
-                pass
-            timing.embedding_time = time.time() - embedding_start
+            # Determine if cross-lingual retrieval should be used
+            use_cross_lingual = (enable_cross_lingual 
+                               if enable_cross_lingual is not None 
+                               else self.config.rag.multilingual.enable_cross_lingual)
 
-            # Perform initial search (includes vector similarity computation)
-            search_start = time.time()
-            results = self._perform_search(query_text, k=k, search_type=search_type)
-            timing.search_time = time.time() - search_start
+            # Language detection and query preparation
+            detected_lang = 'en'  # Default
+            multi_queries = [(query_text, 1.0)]  # Default single query
 
-            if not results:
-                log_warning(f"No initial results found for query: {query_text}")
+            if use_cross_lingual and self.config.rag.multilingual.enable_language_detection:
+                lang_detect_start = time.time()
+                detected_lang = self._detect_language(query_text)
+                timing.language_detection_time = time.time() - lang_detect_start
+                log_info(f"Detected language: {detected_lang}")
+
+                # Generate multiple queries for cross-lingual retrieval
+                translate_start = time.time()
+                multi_queries = self._generate_multi_queries(query_text, detected_lang)
+                timing.translation_time = time.time() - translate_start
+
+            log_info(f"Using {len(multi_queries)} queries for retrieval")
+
+            # Perform multi-query search
+            all_multi_results = []
+            total_embedding_time = 0
+            total_search_time = 0
+
+            for query, weight in multi_queries:
+                log_info(f"Searching with query: '{query}' (weight: {weight})")
+
+                # Track embedding time for this query
+                embedding_start = time.time()
+                if search_type in ["semantic", "hybrid"]:
+                    # Time the query embedding generation
+                    self._embedding_manager.encode_single(query)
+                total_embedding_time += time.time() - embedding_start
+
+                # Perform search for this query
+                search_start = time.time()
+                query_results = self._perform_search(query, k=k, search_type=search_type)
+                total_search_time += time.time() - search_start
+
+                if query_results:
+                    all_multi_results.append((query_results, weight))
+                    log_info(f"Query returned {len(query_results)} results")
+
+            # Set timing for all queries
+            timing.embedding_time = total_embedding_time
+            timing.search_time = total_search_time
+
+            # Merge and deduplicate results from multiple queries
+            if not all_multi_results:
+                log_warning(f"No results found for any query variant")
                 return "No results found for your query."
 
-            log_info(f"Initial search returned {len(results)} results")
+            results = self._merge_and_deduplicate_results(all_multi_results)
+            log_info(f"Merged search returned {len(results)} unique results")
 
             # Apply reranking if enabled
             if enable_reranking and results:
@@ -329,7 +534,9 @@ class WiQASRetriever:
                 log_info(f"MMR returned {len(results)} diverse results")
 
             # Total time
-            timing.total_time = timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time
+            timing.total_time = (timing.embedding_time + timing.search_time + 
+                               timing.reranking_time + timing.mmr_time + 
+                               timing.translation_time + timing.language_detection_time)
 
             if formatted:
                 # Format and return results
@@ -378,6 +585,9 @@ class WiQASRetriever:
                     "llm_model": self.config.rag.llm.model,
                     "reranking_enabled": self.config.rag.retrieval.enable_reranking,
                     "chunk_size": self.config.rag.chunking.chunk_size,
+                    "cross_lingual_enabled": self.config.rag.multilingual.enable_cross_lingual,
+                    "supported_languages": self.config.rag.multilingual.supported_languages,
+                    "auto_translate_queries": self.config.rag.multilingual.auto_translate_queries,
                 },
             }
         except Exception as e:
