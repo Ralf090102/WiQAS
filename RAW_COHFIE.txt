@@ -12,5 +12,8 @@ https://drive.google.com/file/d/1QsQnuNMOWhs_3fs4QgvOcN6JGgjjJTKr/view?usp=shari
 chroma pdf + wiki, books
 https://drive.google.com/file/d/1-3ilEhoYpDbOY3IWPye2-tWouza-RMN9/view?usp=sharing
 
+chroma pdf + all
+https://drive.google.com/file/d/1xBFDVgLcQIzc-pnB7TtoGCnxZuJsFpdZ/view?usp=sharing
+
 GPU Acceleration
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
