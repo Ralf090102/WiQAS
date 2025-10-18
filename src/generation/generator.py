@@ -93,29 +93,57 @@ class WiQASGenerator:
     def _detect_query_language(self, query: str) -> str:
         """
         Detect the primary language of the query using simple heuristics.
-        
+
         Args:
             query: Input query text
-            
+
         Returns:
             Language code ('en' or 'fil')
         """
         query_lower = query.lower()
-        
+
         filipino_indicators = [
-            'ano', 'mga', 'sa', 'ng', 'at', 'na', 'ay', 'ko', 'mo', 'niya',
-            'kami', 'kayo', 'sila', 'ako', 'ikaw', 'siya', 'tayo', 'kita',
-            'ba', 'po', 'opo', 'hindi', 'oo', 'kung', 'kapag', 'para',
-            'bakit', 'paano', 'saan', 'kailan', 'sino', 'alin'
+            "ano",
+            "mga",
+            "sa",
+            "ng",
+            "at",
+            "na",
+            "ay",
+            "ko",
+            "mo",
+            "niya",
+            "kami",
+            "kayo",
+            "sila",
+            "ako",
+            "ikaw",
+            "siya",
+            "tayo",
+            "kita",
+            "ba",
+            "po",
+            "opo",
+            "hindi",
+            "oo",
+            "kung",
+            "kapag",
+            "para",
+            "bakit",
+            "paano",
+            "saan",
+            "kailan",
+            "sino",
+            "alin",
         ]
-        
+
         filipino_count = sum(1 for word in filipino_indicators if word in query_lower)
-        
+
         # Check for common Filipino question patterns
-        if any(pattern in query_lower for pattern in ['ano ang', 'ano yung', 'paano ang', 'bakit ang']):
+        if any(pattern in query_lower for pattern in ["ano ang", "ano yung", "paano ang", "bakit ang"]):
             filipino_count += 2
-            
-        return 'fil' if filipino_count >= 2 else 'en'
+
+        return "fil" if filipino_count >= 2 else "en"
 
     def generate(
         self,
@@ -201,12 +229,7 @@ class WiQASGenerator:
         # build prompt with timing and language awareness
         if include_timing:
             prompt_start = time.time()
-        prompt = self.prompt_builder.build_prompt(
-            query, 
-            prepared_contexts, 
-            query_type=query_type,
-            language=detected_language
-        )
+        prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type, language=detected_language)
         if include_timing:
             timing.prompt_building_time = time.time() - prompt_start
 
@@ -217,9 +240,9 @@ class WiQASGenerator:
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
-            timing.total_time = (timing.embedding_time + timing.search_time + timing.reranking_time + 
-                               timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + 
-                               timing.llm_generation_time + timing.translation_time + timing.language_detection_time)
+            timing.total_time = (
+                timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time + timing.translation_time + timing.language_detection_time
+            )
 
         result = {
             "query": query,

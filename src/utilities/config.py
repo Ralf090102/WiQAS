@@ -527,7 +527,7 @@ class AnswerGeneratorConfig(BaseConfig):
     temperature: float = 0.7
     top_p: float = 0.9
     max_tokens: int | None = 1024
-    
+
     # Multilingual generation settings
     enable_multilingual_generation: bool = True
     enable_auto_language_detection: bool = True
@@ -556,27 +556,27 @@ class AnswerGeneratorConfig(BaseConfig):
 @dataclass
 class MultilingualConfig(BaseConfig):
     """Multilingual retrieval configuration"""
-    
+
     enable_cross_lingual: bool = True
     auto_translate_queries: bool = True
     supported_languages: list[str] = field(default_factory=lambda: ["en", "tl"])
-    
+
     enable_language_detection: bool = True
     language_boost_same: float = 1.0
     language_boost_cross: float = 1.0
-    
+
     # Translation settings
     translation_service: str = "deep_translator"
     translation_cache_ttl: int = 1800
     max_translation_length: int = 500
     enable_translation_cache: bool = True
-    
+
     # Multi-query approach
     enable_multi_query: bool = True
     max_queries_per_request: int = 2  # Original + translated
     query_weight_original: float = 1.0
     query_weight_translated: float = 0.8
-    
+
     @classmethod
     def from_env(cls) -> "MultilingualConfig":
         """Load multilingual configuration from environment variables"""

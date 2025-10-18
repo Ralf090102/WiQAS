@@ -23,6 +23,7 @@ class NewsSitesMetadata:
     url: str | None = None  #
     title: str | None = None  # Added title field
 
+
 @dataclass
 class WikipediaMetadata:
     date: float | None = None  #

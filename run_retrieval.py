@@ -481,12 +481,7 @@ def evaluate(
 
             for k_key, metrics in retrieval_at_k.items():
                 k_value = k_key.replace("k_", "")
-                retrieval_table.add_row(
-                    k_value,
-                    f"{metrics['precision']:.4f}",
-                    f"{metrics['recall']:.4f}",
-                    str(metrics['relevant_found'])
-                )
+                retrieval_table.add_row(k_value, f"{metrics['precision']:.4f}", f"{metrics['recall']:.4f}", str(metrics["relevant_found"]))
 
             console.print(retrieval_table)
             console.print()
