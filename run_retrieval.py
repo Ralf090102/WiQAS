@@ -440,6 +440,56 @@ def evaluate(
         console.print(stats_table)
         console.print()
 
+        # Classification metrics
+        if "classification_metrics" in results:
+            classification_metrics = results["classification_metrics"]
+            classification_table = Table(title="Classification Metrics")
+            classification_table.add_column("Metric", style="cyan")
+            classification_table.add_column("Value", style="white")
+
+            classification_table.add_row("Accuracy", classification_metrics["accuracy"])
+            classification_table.add_row("Precision", classification_metrics["precision"])
+            classification_table.add_row("Recall", classification_metrics["recall"])
+            classification_table.add_row("F1-Score", classification_metrics["f1_score"])
+
+            console.print(classification_table)
+            console.print()
+
+            # Confusion matrix
+            confusion_matrix = classification_metrics["confusion_matrix"]
+            confusion_table = Table(title="Confusion Matrix")
+            confusion_table.add_column("Metric", style="cyan")
+            confusion_table.add_column("Count", style="white")
+
+            confusion_table.add_row("True Positives", str(confusion_matrix["true_positives"]))
+            confusion_table.add_row("False Positives", str(confusion_matrix["false_positives"]))
+            confusion_table.add_row("True Negatives", str(confusion_matrix["true_negatives"]))
+            confusion_table.add_row("False Negatives", str(confusion_matrix["false_negatives"]))
+
+            console.print(confusion_table)
+            console.print()
+
+        # Retrieval metrics at K
+        if "retrieval_metrics_at_k" in results and results["retrieval_metrics_at_k"]:
+            retrieval_at_k = results["retrieval_metrics_at_k"]
+            retrieval_table = Table(title="Retrieval Metrics at Different K Values")
+            retrieval_table.add_column("K", style="cyan")
+            retrieval_table.add_column("Precision@K", style="white")
+            retrieval_table.add_column("Recall@K", style="white")
+            retrieval_table.add_column("Relevant Found", style="white")
+
+            for k_key, metrics in retrieval_at_k.items():
+                k_value = k_key.replace("k_", "")
+                retrieval_table.add_row(
+                    k_value,
+                    f"{metrics['precision']:.4f}",
+                    f"{metrics['recall']:.4f}",
+                    str(metrics['relevant_found'])
+                )
+
+            console.print(retrieval_table)
+            console.print()
+
         # Threshold analysis
         threshold_info = results["threshold_analysis"]
         threshold_table = Table(title="Threshold Analysis")

@@ -218,6 +218,132 @@ class RetrievalEvaluator:
 
         return best_similarity, best_content, best_index
 
+    def calculate_classification_metrics(self, results: list[dict[str, Any]]) -> dict[str, float]:
+        """
+        Calculate classification metrics (accuracy, precision, recall, F1) for retrieval evaluation.
+        
+        Args:
+            results: List of evaluation results from evaluate_single_item
+            
+        Returns:
+            Dictionary containing classification metrics
+        """
+        # Filter out results with errors
+        valid_results = [r for r in results if "error" not in r]
+        
+        if not valid_results:
+            return {
+                "accuracy": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1_score": 0.0,
+                "true_positives": 0,
+                "false_positives": 0,
+                "true_negatives": 0,
+                "false_negatives": 0,
+                "total_queries": 0
+            }
+        
+        threshold = self.eval_config.similarity_threshold
+        
+        true_positives = 0
+        false_positives = 0
+        true_negatives = 0
+        false_negatives = 0
+
+        for result in valid_results:
+            similarity = result["similarity_score"]
+            total_results = result["total_results"]
+            
+            has_ground_truth = bool(result["ground_truth_context"].strip())
+            
+            if has_ground_truth:
+                # Ground truth exists, so we expect to find a relevant document
+                if similarity >= threshold:
+                    true_positives += 1
+                else:
+                    false_negatives += 1
+            else:
+                # No ground truth (edge case), treat as negative case
+                if similarity >= threshold:
+                    false_positives += 1
+                else:
+                    true_negatives += 1
+        
+        total_queries = len(valid_results)
+        
+        accuracy = (true_positives + true_negatives) / total_queries if total_queries > 0 else 0.0
+        
+        precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0.0
+        
+        recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0.0
+        
+        f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+        
+        return {
+            "accuracy": accuracy,
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1_score,
+            "true_positives": true_positives,
+            "false_positives": false_positives,
+            "true_negatives": true_negatives,
+            "false_negatives": false_negatives,
+            "total_queries": total_queries
+        }
+
+    def calculate_retrieval_metrics_at_k(self, results: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
+        """
+        Calculate retrieval metrics at different k values (Precision@K, Recall@K).
+        
+        Args:
+            results: List of evaluation results from evaluate_single_item
+            
+        Returns:
+            Dictionary containing metrics at different k values
+        """
+        valid_results = [r for r in results if "error" not in r]
+        
+        if not valid_results:
+            return {}
+        
+        k_values = [1, 3, 5, 10]
+        threshold = self.eval_config.similarity_threshold
+        metrics_at_k = {}
+        
+        for k in k_values:
+            if k > self.eval_config.k_results:
+                continue
+                
+            relevant_found_at_k = 0
+            total_relevant = 0
+            total_retrieved_at_k = 0
+            
+            for result in valid_results:
+                has_ground_truth = bool(result["ground_truth_context"].strip())
+                
+                if has_ground_truth:
+                    total_relevant += 1
+                    
+                    # Best match among top-k results
+                    if result["result_index"] != -1 and result["result_index"] < k:
+                        if result["similarity_score"] >= threshold:
+                            relevant_found_at_k += 1
+                    
+                    total_retrieved_at_k += min(k, result["total_results"])
+            
+            precision_at_k = relevant_found_at_k / (len(valid_results) * k) if len(valid_results) > 0 else 0.0
+            recall_at_k = relevant_found_at_k / total_relevant if total_relevant > 0 else 0.0
+            
+            metrics_at_k[f"k_{k}"] = {
+                "precision": precision_at_k,
+                "recall": recall_at_k,
+                "relevant_found": relevant_found_at_k,
+                "total_relevant": total_relevant
+            }
+        
+        return metrics_at_k
+
     def evaluate_single_item(self, item: dict[str, Any], item_number: int) -> dict[str, Any]:
         """
         Evaluate a single item from the dataset.
@@ -366,6 +492,12 @@ class RetrievalEvaluator:
         evaluation_time = time.time() - evaluation_start
         avg_time_per_item = evaluation_time / len(dataset) if dataset else 0.0
 
+        log_info("Calculating classification metrics...", config=self.config)
+        classification_metrics = self.calculate_classification_metrics(results)
+        
+        log_info("Calculating retrieval metrics at different k values...", config=self.config)
+        retrieval_metrics_at_k = self.calculate_retrieval_metrics_at_k(results)
+
         evaluation_summary = {
             "dataset_info": {
                 "total_items": len(dataset),
@@ -380,6 +512,20 @@ class RetrievalEvaluator:
                 "min": f"{min_similarity:.4f}",
                 "max": f"{max_similarity:.4f}",
             },
+            "classification_metrics": {
+                "accuracy": f"{classification_metrics['accuracy']:.4f}",
+                "precision": f"{classification_metrics['precision']:.4f}",
+                "recall": f"{classification_metrics['recall']:.4f}",
+                "f1_score": f"{classification_metrics['f1_score']:.4f}",
+                "confusion_matrix": {
+                    "true_positives": classification_metrics['true_positives'],
+                    "false_positives": classification_metrics['false_positives'],
+                    "true_negatives": classification_metrics['true_negatives'],
+                    "false_negatives": classification_metrics['false_negatives'],
+                    "total_queries": classification_metrics['total_queries']
+                }
+            },
+            "retrieval_metrics_at_k": retrieval_metrics_at_k,
             "threshold_analysis": {
                 "threshold": self.eval_config.similarity_threshold,
                 "above_threshold": above_threshold_count,
@@ -404,7 +550,6 @@ class RetrievalEvaluator:
             "detailed_results": results,
         }
 
-        # Final cleanup
         if self.gpu_manager.is_nvidia_gpu:
             self.gpu_manager.clear_cache()
 
@@ -421,6 +566,13 @@ class RetrievalEvaluator:
             f"Items above threshold ({self.eval_config.similarity_threshold}): {above_threshold_count}/{len(similarities)} ({threshold_rate:.1f}%)",
             config=self.config,
         )
+        
+        # Log classification metrics
+        log_info(f"Classification Metrics:", config=self.config)
+        log_info(f"  Accuracy: {classification_metrics['accuracy']:.4f}", config=self.config)
+        log_info(f"  Precision: {classification_metrics['precision']:.4f}", config=self.config)
+        log_info(f"  Recall: {classification_metrics['recall']:.4f}", config=self.config)
+        log_info(f"  F1-Score: {classification_metrics['f1_score']:.4f}", config=self.config)
 
         return evaluation_summary
 
