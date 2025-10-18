@@ -628,7 +628,7 @@ class EvaluationConfig(BaseConfig):
     enable_reranking: bool = True
     enable_mmr: bool = True
 
-    similarity_threshold: float = 0.5
+    similarity_threshold: float = 0.675
 
     @classmethod
     def from_env(cls) -> "EvaluationConfig":
@@ -645,7 +645,7 @@ class EvaluationConfig(BaseConfig):
             k_results=get_env_int("WIQAS_EVALUATION_K_RESULTS", 5),
             enable_reranking=get_env_bool("WIQAS_EVALUATION_ENABLE_RERANKING", True),
             enable_mmr=get_env_bool("WIQAS_EVALUATION_ENABLE_MMR", True),
-            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.5),
+            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.675),
         )
 
     def validate(self) -> None:
