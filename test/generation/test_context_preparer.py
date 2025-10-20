@@ -392,3 +392,21 @@ def test_context_preparer_similarity_threshold():
     result = prepare_contexts(contexts, similarity_threshold=0.5, include_citations=False)
     # With a lower threshold, these should be considered similar
     assert len(result) == 1
+
+def test_context_preparer_containment_check():
+    """
+    Test that shorter text contained in longer text is detected as duplicate.
+
+    Input:
+        - Short context fully contained in longer context.
+    Expectation:
+        - Only one context remains (the longer one with higher score).
+    """
+    contexts = [
+        {"content": "Filipino cuisine is diverse and flavorful with influences from Spain.", "final_score": 0.9},
+        {"content": "Filipino cuisine is diverse and flavorful with influences from Spain, China, and America.", "final_score": 0.7},
+    ]
+    result = prepare_contexts(contexts, include_citations=False)
+    assert len(result) == 1
+    # Higher score wins even though it's shorter
+    assert result[0] == "Filipino cuisine is diverse and flavorful with influences from Spain."
