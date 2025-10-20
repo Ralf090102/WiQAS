@@ -129,3 +129,81 @@ class TestQueryClassifier:
         result = classifier.classify(query)
         
         assert result.query_type == "Procedural"
+
+    # === Procedural Query Tests ===
+    
+    def test_classify_procedural_filipino(self, classifier):
+        """Test procedural query classification in Filipino."""
+        query = "Paano gumawa ng adobo?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+        assert result.language == "fil"
+
+    def test_classify_procedural_english(self, classifier):
+        """Test procedural query classification in English."""
+        query = "How to make lumpia?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+        assert result.language == "en"
+
+    def test_classify_procedural_steps(self, classifier):
+        """Test procedural query asking for steps."""
+        query = "What are the steps to prepare sinigang?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+
+    def test_classify_procedural_process(self, classifier):
+        """Test procedural query asking about process."""
+        query = "Ano ang proseso ng paggawa ng bibingka?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+
+    def test_classify_procedural_instructions(self, classifier):
+        """Test procedural query asking for instructions."""
+        query = "Give me instructions on how to cook lechon kawali."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+
+    # === Comparative Query Tests ===
+    
+    def test_classify_comparative_filipino(self, classifier):
+        """Test comparative query classification in Filipino."""
+        query = "Ano ang pagkakaiba ng Sinulog at Ati-Atihan?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Comparative"
+        assert result.language == "fil"
+
+    def test_classify_comparative_english(self, classifier):
+        """Test comparative query classification in English."""
+        query = "What is the difference between adobo and sinigang?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Comparative"
+        assert result.language == "en"
+
+    def test_classify_comparative_vs(self, classifier):
+        """Test comparative query with 'vs' or 'versus'."""
+        query = "Lumpia vs spring rolls: what's the difference?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Comparative"
+
+    def test_classify_comparative_similar(self, classifier):
+        """Test comparative query asking about similarity."""
+        query = "How similar are Filipino and Spanish cultures?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Comparative"
+
+    def test_classify_comparative_contrast(self, classifier):
+        """Test comparative query with 'contrast' keyword."""
+        query = "Compare and contrast Tagalog and Bisaya languages."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Comparative"
