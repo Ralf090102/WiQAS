@@ -322,7 +322,7 @@ class ContextPreparer:
         cleaned = []
         for c in contexts:
             cleaned_ctx = self._clean_context(c)
-            if cleaned_ctx:
+            if cleaned_ctx and cleaned_ctx["text"].strip():
                 cleaned.append(cleaned_ctx)
 
         if not cleaned:
