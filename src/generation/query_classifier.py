@@ -22,7 +22,7 @@ class QueryClassifier:
             # Filipino
             r"\b(bakit|paano|ano\s+ang\s+kahalagahan|ano\s+ang\s+papel)\b",
             r"\b(impluwensya|epekto|dahilan|resulta)\b",
-            r"\b(simbolismo|kahulugan|representasyon)\b",
+            r"\b(simbolismo|sinisimbolo|kahulugan|representasyon)\b",
             # English
             r"\b(why|how\s+did|significance|importance|role|impact)\b",
             r"\b(analyze|explain|symbolism|represent|meaning|influence)\b",
@@ -78,7 +78,7 @@ class QueryClassifier:
     ]
 
     ENGLISH_PATTERNS = [
-        r"\b(what|who|where|when|which|define|meaning)\b",
+        r"\b(what|who|where|when|which|define|meaning|is|the|they|this|these|those)\b",
         r"\b(is|are|was|were)\b.*\b(definition|called)\b",
         r"\b(why|how\s+did|significance|importance|role|impact)\b",
         r"\b(analyze|explain|symbolism|represent|meaning|influence)\b",
