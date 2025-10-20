@@ -374,3 +374,21 @@ def test_context_preparer_handles_string_contexts():
     result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1
     assert result[0] == "Simple string context."
+
+def test_context_preparer_similarity_threshold():
+    """
+    Test that custom similarity threshold affects deduplication.
+
+    Input:
+        - Two somewhat similar contexts.
+        - Low similarity threshold (0.5).
+    Expectation:
+        - Contexts are considered duplicates with low threshold.
+    """
+    contexts = [
+        {"content": "The quick brown fox jumps.", "final_score": 0.7},
+        {"content": "The quick brown fox leaps.", "final_score": 0.8},
+    ]
+    result = prepare_contexts(contexts, similarity_threshold=0.5, include_citations=False)
+    # With a lower threshold, these should be considered similar
+    assert len(result) == 1
