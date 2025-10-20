@@ -12,10 +12,10 @@ def test_context_preparer_removes_exact_duplicates():
         - The surviving context text is unchanged.
     """
     contexts = [
-        {"text": "Fiesta is a celebration.", "score": 0.8},
-        {"text": "Fiesta is a celebration.", "score": 0.8},
+        {"content": "Fiesta is a celebration.", "final_score": 0.8},
+        {"content": "Fiesta is a celebration.", "final_score": 0.8},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1
     assert result[0] == "Fiesta is a celebration."
 
