@@ -207,3 +207,42 @@ class TestQueryClassifier:
         result = classifier.classify(query)
         
         assert result.query_type == "Comparative"
+
+    # === Exploratory Query Tests ===
+    
+    def test_classify_exploratory_filipino(self, classifier):
+        """Test exploratory query classification in Filipino."""
+        query = "Pakipaliwanag ang konteksto ng kasaysayan ng Pilipinas."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Exploratory"
+        assert result.language == "fil"
+
+    def test_classify_exploratory_english(self, classifier):
+        """Test exploratory query classification in English."""
+        query = "Tell me about the background of Filipino festivals."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Exploratory"
+        assert result.language == "en"
+
+    def test_classify_exploratory_overview(self, classifier):
+        """Test exploratory query asking for overview."""
+        query = "Give me an overview of Philippine history."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Exploratory"
+
+    def test_classify_exploratory_describe(self, classifier):
+        """Test exploratory query asking to describe."""
+        query = "Describe Filipino cuisine."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Exploratory"
+
+    def test_classify_exploratory_context(self, classifier):
+        """Test exploratory query asking for context."""
+        query = "What is the context of the Philippine Revolution?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Exploratory"
