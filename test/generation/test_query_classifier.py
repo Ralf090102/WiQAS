@@ -51,3 +51,42 @@ class TestQueryClassifier:
         result = classifier.classify(query)
         
         assert result.query_type == "Factual"
+
+        # === Analytical Query Tests ===
+    
+    def test_classify_analytical_filipino(self, classifier):
+        """Test analytical query classification in Filipino."""
+        query = "Bakit mahalaga ang Ati-Atihan Festival sa kultura?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Analytical"
+        assert result.language == "fil"
+
+    def test_classify_analytical_english(self, classifier):
+        """Test analytical query classification in English."""
+        query = "Why are beliefs highly regarded in Philippine culture?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Analytical"
+        assert result.language == "en"
+
+    def test_classify_analytical_how_did(self, classifier):
+        """Test analytical query with 'how did' pattern."""
+        query = "How did Spanish colonization influence Filipino cuisine?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Analytical"
+
+    def test_classify_analytical_importance(self, classifier):
+        """Test analytical query asking about importance."""
+        query = "What is the importance of family in Filipino culture?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Analytical"
+
+    def test_classify_analytical_symbolism(self, classifier):
+        """Test analytical query about symbolism."""
+        query = "Ano ang sinisimbolo ng Philippine flag?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Analytical"
