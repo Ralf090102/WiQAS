@@ -17,6 +17,7 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
+from src.generation.query_classifier import QueryClassifier 
 
 FUNCTIONAL_GUIDELINES = {
     "Factual": "Provide clear, concise, and accurate definitions, facts, or explanations. Focus on established knowledge and avoid unnecessary speculation. Use specific dates, names, and verifiable details when available.",
