@@ -61,15 +61,37 @@ class QueryClassifier:
     }
 
     FILIPINO_PATTERNS = [
-        r"\b(ang|ng|sa|mga|ay|na|at|para|kung|mga)\b",
-        r"\b(ano|sino|saan|kailan|paano|bakit)\b",
-        r"\b(ito|iyan|ako|ikaw|siya|kami|tayo|sila)\b",
+        r"\b(ano|anong|sino|sinong|saan|saang|kailan|ilan|ilang|alin|aling)\b",
+        r"\b(tawag|ibig\s+sabihin|kahulugan|depinisyon)\b",
+        r"\b(bakit|paano|ano\s+ang\s+kahalagahan|ano\s+ang\s+papel)\b",
+        r"\b(impluwensya|epekto|dahilan|resulta)\b",
+        r"\b(simbolismo|kahulugan|representasyon)\b",
+        r"\b(paano\s+(gumawa|magluto|gawin|mag))\b",
+        r"\b(hakbang|proseso|paraan|instruksyon)\b",
+        r"\b(mga\s+hakbang|sundin|gawin)\b",
+        r"\b(pagkakaiba|pagkakatulad|ihambing)\b",
+        r"\b(mas|kaysa|kumpara)\b",
+        r"\b(katulad|kaiba)\b",
+        r"\b(paki(paliwanag|bigay\s+ng\s+overview))\b",
+        r"\b(konteksto|background|kasaysayan)\b",
+        r"\b(ano\s+ang\s+tungkol)\b",
     ]
 
     ENGLISH_PATTERNS = [
-        r"\b(the|is|are|was|were|has|have|had)\b",
-        r"\b(what|who|where|when|how|why)\b",
-        r"\b(this|that|these|those|I|you|he|she|we|they)\b",
+        r"\b(what|who|where|when|which|define|meaning)\b",
+        r"\b(is|are|was|were)\b.*\b(definition|called)\b",
+        r"\b(why|how\s+did|significance|importance|role|impact)\b",
+        r"\b(analyze|explain|symbolism|represent|meaning|influence)\b",
+        r"\b(cultural\s+significance|historical\s+context)\b",
+        r"\b(how\s+to|steps|process|procedure|instructions)\b",
+        r"\b(make|cook|create|prepare|perform)\b",
+        r"\b(guide|tutorial|method)\b",
+        r"\b(difference|similar|compare|contrast|versus|vs)\b",
+        r"\b(alike|unlike|comparison|distinguish)\b",
+        r"\b(better|worse|more|less)\s+than\b",
+        r"\b(overview|describe|tell\s+me\s+about|background)\b",
+        r"\b(discuss|elaborate|explore|context)\b",
+        r"\b(general|broad|comprehensive)\b",
     ]
 
     def __init__(self):
