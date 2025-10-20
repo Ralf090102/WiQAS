@@ -77,7 +77,10 @@ class WiQASGenerator:
 
             print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
 
-            return tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+            if decoded.startswith(prompt):
+                decoded = decoded[len(prompt):].strip()
+            return decoded
 
         else:
             from src.core.llm import generate_response
