@@ -128,9 +128,9 @@ def test_context_preparer_removes_empty_after_cleaning():
         - No contexts remain after cleaning.
     """
     contexts = [
-        {"text": "    \n   ", "score": 0.5},
+        {"content": "    \n   ", "final_score": 0.5},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 0
 
 
