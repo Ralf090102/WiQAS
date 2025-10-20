@@ -410,3 +410,25 @@ def test_context_preparer_containment_check():
     assert len(result) == 1
     # Higher score wins even though it's shorter
     assert result[0] == "Filipino cuisine is diverse and flavorful with influences from Spain."
+
+def test_context_preparer_timestamp_milliseconds():
+    """
+    Test that timestamps in milliseconds are correctly converted to dates.
+
+    Input:
+        - Context with timestamp in milliseconds (13 digits).
+    Expectation:
+        - Date is correctly formatted.
+    """
+    contexts = [
+        {
+            "content": "Test content.",
+            "final_score": 0.8,
+            "source_file": "news_site/article.html",
+            "title": "Test Article",
+            "date": 1704067200000,  # Milliseconds
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "January 01, 2024" in result[0]
