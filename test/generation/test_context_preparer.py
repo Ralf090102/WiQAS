@@ -293,3 +293,25 @@ def test_context_preparer_books_citation():
     assert len(result) == 1
     assert "Deep learning revolutionized computer vision." in result[0]
     assert "[Source: Deep Learning, p. 42]" in result[0]
+
+def test_context_preparer_no_citations():
+    """
+    Test that citations can be disabled via include_citations parameter.
+
+    Input:
+        - Context with source metadata, but include_citations=False.
+    Expectation:
+        - Result contains only text, no citation.
+    """
+    contexts = [
+        {
+            "content": "Context without citation.",
+            "final_score": 0.7,
+            "source_file": "data/knowledge_base/sample.pdf",
+            "page": 10,
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=False)
+    assert len(result) == 1
+    assert result[0] == "Context without citation."
+    assert "[Source:" not in result[0]
