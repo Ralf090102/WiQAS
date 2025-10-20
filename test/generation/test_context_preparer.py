@@ -432,3 +432,25 @@ def test_context_preparer_timestamp_milliseconds():
     result = prepare_contexts(contexts, include_citations=True)
     assert len(result) == 1
     assert "January 01, 2024" in result[0]
+
+def test_context_preparer_iso_date_format():
+    """
+    Test that ISO format date strings are correctly parsed.
+
+    Input:
+        - Context with ISO format date string.
+    Expectation:
+        - Date is correctly formatted.
+    """
+    contexts = [
+        {
+            "content": "Test content.",
+            "final_score": 0.8,
+            "source_file": "news_site/article.html",
+            "title": "Test Article",
+            "date": "2024-06-15T10:30:00Z",
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "June 15, 2024" in result[0]
