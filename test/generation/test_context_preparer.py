@@ -92,10 +92,10 @@ def test_context_preparer_handles_non_similar_contexts():
         - Both contexts survive without merging.
     """
     contexts = [
-        {"text": "Bayanihan is a Filipino tradition.", "score": 0.8},
-        {"text": "Lechon is often served at fiestas.", "score": 0.7},
+        {"content": "Bayanihan is a Filipino tradition.", "final_score": 0.8},
+        {"content": "Lechon is often served at fiestas.", "final_score": 0.7},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 2
     assert "Bayanihan is a Filipino tradition." in result
     assert "Lechon is often served at fiestas." in result
