@@ -90,68 +90,15 @@ class WiQASGenerator:
                 max_tokens=self.answer_config.max_tokens,
             )
 
-    def _detect_query_language(self, query: str) -> str:
-        """
-        Detect the primary language of the query using simple heuristics.
-
-        Args:
-            query: Input query text
-
-        Returns:
-            Language code ('en' or 'fil')
-        """
-        query_lower = query.lower()
-
-        filipino_indicators = [
-            "ano",
-            "mga",
-            "sa",
-            "ng",
-            "at",
-            "na",
-            "ay",
-            "ko",
-            "mo",
-            "niya",
-            "kami",
-            "kayo",
-            "sila",
-            "ako",
-            "ikaw",
-            "siya",
-            "tayo",
-            "kita",
-            "ba",
-            "po",
-            "opo",
-            "hindi",
-            "oo",
-            "kung",
-            "kapag",
-            "para",
-            "bakit",
-            "paano",
-            "saan",
-            "kailan",
-            "sino",
-            "alin",
-        ]
-
-        filipino_count = sum(1 for word in filipino_indicators if word in query_lower)
-
-        # Check for common Filipino question patterns
-        if any(pattern in query_lower for pattern in ["ano ang", "ano yung", "paano ang", "bakit ang"]):
-            filipino_count += 2
-
-        return "fil" if filipino_count >= 2 else "en"
-
     def generate(
         self,
         query: str,
         k: int = 5,
-        query_type: str = "Factual",
+        query_type: str | None = None,
+        language: str | None = None,
         show_contexts: bool = False,
         include_timing: bool = False,
+        include_classification: bool = False,
     ) -> dict[str, Any]:
         """
         Run the full WiQAS RAG pipeline and return a structured result.
@@ -178,6 +125,36 @@ class WiQASGenerator:
         """
         # Initialize timing if requested
         timing = TimingBreakdown() if include_timing else None
+
+        classification_info = None
+        if self.query_classifier:
+            if include_timing:
+                classification_start = time.time()
+            
+            classification = self.query_classifier.classify(query)
+            
+            if include_timing:
+                timing.classification_time = time.time() - classification_start
+            
+            # Use classification results if not explicitly provided
+            if query_type is None:
+                query_type = classification.query_type
+            if language is None:
+                language = classification.language
+            
+            # Store classification info if requested
+            if include_classification:
+                classification_info = {
+                    "detected_type": classification.query_type,
+                    "detected_language": classification.language,
+                    "confidence": classification.confidence,
+                    "used_type": query_type,
+                    "used_language": language,
+                }
+        else:
+            # Use defaults if classifier not available
+            query_type = query_type or "Factual"
+            language = language or "fil"
 
         # retrieve with timing
         self.retriever._initialize_components()
@@ -241,14 +218,21 @@ class WiQASGenerator:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
             timing.total_time = (
-                timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time + timing.translation_time + timing.language_detection_time
+                timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time + timing.translation_time + timing.language_detection_time + getattr(timing, 'classification_time', 0.0)
             )
 
         result = {
             "query": query,
             "answer": answer,
-            "contexts": prepared_contexts if show_contexts else [],
+            "query_type": query_type,
+            "language": language,
         }
+
+        if show_contexts:
+            result["contexts"] = prepared_contexts
+
+        if include_classification and classification_info:
+            result["classification"] = classification_info
 
         if include_timing:
             result["timing"] = timing
