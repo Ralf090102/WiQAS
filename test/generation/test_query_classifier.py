@@ -90,3 +90,42 @@ class TestQueryClassifier:
         result = classifier.classify(query)
         
         assert result.query_type == "Analytical"
+
+    # === Procedural Query Tests ===
+    
+    def test_classify_procedural_filipino(self, classifier):
+        """Test procedural query classification in Filipino."""
+        query = "Paano gumawa ng adobo?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+        assert result.language == "fil"
+
+    def test_classify_procedural_english(self, classifier):
+        """Test procedural query classification in English."""
+        query = "How to make lumpia?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+        assert result.language == "en"
+
+    def test_classify_procedural_steps(self, classifier):
+        """Test procedural query asking for steps."""
+        query = "What are the steps to prepare sinigang?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+
+    def test_classify_procedural_process(self, classifier):
+        """Test procedural query asking about process."""
+        query = "Ano ang proseso ng paggawa ng bibingka?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
+
+    def test_classify_procedural_instructions(self, classifier):
+        """Test procedural query asking for instructions."""
+        query = "Give me instructions on how to cook lechon kawali."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Procedural"
