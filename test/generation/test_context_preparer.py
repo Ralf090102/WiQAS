@@ -199,3 +199,26 @@ def test_context_preparer_cleans_repetitions():
     assert "Ang sinigang ay isang" in cleaned, "intro missing after cleaning"
     assert "Mga uri ng sinigang" in cleaned, "section header missing"
     assert "Mga sanggunian" in cleaned, "ending missing"
+
+def test_context_preparer_pdf_citation():
+    """
+    Test that PDF sources generate proper citations with title and page number.
+
+    Input:
+        - Context from a PDF file with page metadata.
+    Expectation:
+        - Citation includes formatted title and page number.
+    """
+    contexts = [
+        {
+            "content": "Machine learning is a subset of AI.",
+            "final_score": 0.8,
+            "source_file": "data/knowledge_base/machine-learning-intro.pdf",
+            "page": 15,
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "Machine learning is a subset of AI." in result[0]
+    assert "[Source: Machine Learning Intro, p. 15]" in result[0]
+
