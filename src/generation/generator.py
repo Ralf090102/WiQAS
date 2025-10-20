@@ -200,13 +200,10 @@ class WiQASGenerator:
         if include_timing:
             timing.context_preparation_time = time.time() - context_start
 
-        # detect query language for better prompt building
-        detected_language = self._detect_query_language(query)
-
         # build prompt with timing and language awareness
         if include_timing:
             prompt_start = time.time()
-        prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type, language=detected_language)
+        prompt = self.prompt_builder.build_prompt(query, prepared_contexts, query_type=query_type, language=language)
         if include_timing:
             timing.prompt_building_time = time.time() - prompt_start
 
