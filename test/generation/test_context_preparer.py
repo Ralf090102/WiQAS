@@ -360,3 +360,17 @@ def test_context_preparer_return_scores():
     assert result[0]["final_score"] == 0.8
     assert result[0]["source_file"] == "test.pdf"
     assert result[0]["page"] == 5
+
+def test_context_preparer_handles_string_contexts():
+    """
+    Test that plain string contexts (without metadata) are handled correctly.
+
+    Input:
+        - Simple string context.
+    Expectation:
+        - String is cleaned and returned with default score of 0.0.
+    """
+    contexts = ["Simple string context."]
+    result = prepare_contexts(contexts, include_citations=False)
+    assert len(result) == 1
+    assert result[0] == "Simple string context."
