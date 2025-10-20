@@ -271,3 +271,25 @@ def test_context_preparer_news_site_citation():
     assert "June 15, 2024" in result[0]
     assert "https://example.com/ai-regulation" in result[0]
 
+def test_context_preparer_books_citation():
+    """
+    Test that book sources generate proper citations with title and page.
+
+    Input:
+        - Context from a book with page metadata.
+    Expectation:
+        - Citation includes title and page number.
+    """
+    contexts = [
+        {
+            "content": "Deep learning revolutionized computer vision.",
+            "final_score": 0.9,
+            "source_file": "books/deep_learning_textbook.pdf",
+            "title": "Deep Learning",
+            "page": 42,
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "Deep learning revolutionized computer vision." in result[0]
+    assert "[Source: Deep Learning, p. 42]" in result[0]
