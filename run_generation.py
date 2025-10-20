@@ -98,7 +98,7 @@ def ask(
         
         console.print(context_table)
 
-   if show_timing and timing:
+    if show_timing and timing:
         timing_table = Table(title="Performance Timing", show_header=True, header_style="bold yellow")
         timing_table.add_column("Component", style="cyan")
         timing_table.add_column("Time (s)", style="green", justify="right")
@@ -160,11 +160,14 @@ def ask(
 
 @app.command()
 def batch_ask(
-    input_file: str = typer.Argument(..., help="Path to input text file with questions delimited by '?'"),
+    input_file: str = typer.Argument(..., help="Path to input text file with questions (one per line or delimited by '?')"),
     output_file: str = typer.Option("batch_output.json", "--output", "-o", help="Path to output JSON file"),
     k: int = typer.Option(5, "--results", "-k", help="Number of retrieval results per question"),
-    query_type: str = typer.Option("Factual", "--type", "-t", help="Query type for all questions"),
+    query_type: str = typer.Option(None, "--type", "-t", help="Query type for all questions (auto-detected if not specified)"),
+    language: str = typer.Option(None, "--language", "-l", help="Response language for all questions (auto-detected if not specified)"),
     include_timing: bool = typer.Option(False, "--timing", help="Include timing information in output"),
+    include_classification: bool = typer.Option(True, "--classification", help="Include classification info in output"),
+    delimiter: str = typer.Option("?", "--delimiter", "-d", help="Question delimiter (default: '?')"),
 ):
     """
     Run batch question answering from a text file delimited by '?'.
@@ -177,24 +180,39 @@ def batch_ask(
         content = f.read()
 
     # Split by '?', clean up, and re-append '?' for each question if needed
-    raw_questions = [q.strip() for q in content.split("?") if q.strip()]
-    questions = [q + "?" if not q.endswith("?") else q for q in raw_questions]
+    if delimiter == "\\n":
+        # Handle newline as delimiter
+        raw_questions = [q.strip() for q in content.split("\n") if q.strip()]
+    else:
+        raw_questions = [q.strip() for q in content.split(delimiter) if q.strip()]
 
+    questions = []
+    for q in raw_questions:
+        if not q.endswith("?") and delimiter == "?":
+            q = q + "?"
+        questions.append(q)
+
+    console.print(f"[bold]Found {len(questions)} questions to process[/bold]")
+    
     results = []
 
     for i, query in enumerate(questions, 1):
-        console.print(f"[bold green]Processing {i}/{len(questions)}:[/bold green] {query}")
+        console.print(f"\n[bold green]Processing {i}/{len(questions)}:[/bold green] {query[:80]}{'...' if len(query) > 80 else ''}")
+        
         try:
             result = generator.generate(
                 query=query,
                 k=k,
                 query_type=query_type,
+                language=language,
                 show_contexts=True,
                 include_timing=include_timing,
+                include_classification=include_classification,
             )
 
             contexts = result.get("contexts", [])
             structured_contexts = []
+            
             for c in contexts:
                 if not isinstance(c, dict):
                     try:
@@ -210,14 +228,25 @@ def batch_ask(
                         "text": c.get("text", ""),
                         "final_score": c.get("final_score", 0.0),
                         "source_file": c.get("source_file", ""),
+                        "citation_text": c.get("citation_text", ""),
                     }
                 )
 
-            result_entry = {"question": query, "contexts": structured_contexts, "answer": result.get("answer", "")}
+            result_entry = {
+                "question": query,
+                "answer": result.get("answer", ""),
+                "query_type": result.get("query_type", ""),
+                "language": result.get("language", ""),
+                "contexts": structured_contexts,
+            }
+
+            if include_classification and "classification" in result:
+                result_entry["classification"] = result["classification"]
 
             if include_timing and "timing" in result:
                 timing = result["timing"]
                 result_entry["timing"] = {
+                    "classification_time": getattr(timing, 'classification_time', 0.0),
                     "embedding_time": timing.embedding_time,
                     "search_time": timing.search_time,
                     "reranking_time": timing.reranking_time,
@@ -231,15 +260,39 @@ def batch_ask(
                 }
 
             results.append(result_entry)
+            
+            console.print(f"[green]✓ Processed successfully[/green]")
 
         except Exception as e:
-            console.print(f"[bold red]Error processing question '{query}': {e}[/bold red]")
-            results.append({"question": query, "contexts": [], "answer": "", "error": str(e)})
+            console.print(f"[bold red]✗ Error processing question: {e}[/bold red]")
+            results.append({
+                "question": query,
+                "answer": "",
+                "query_type": "",
+                "language": "",
+                "contexts": [],
+                "error": str(e)
+            })
 
+    # Save results
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
-    console.print(Panel(f"[bold green]Batch generation complete![/bold green]\nSaved to: {output_file}", border_style="green"))
+    # Summary
+    successful = len([r for r in results if "error" not in r])
+    failed = len(results) - successful
+    
+    summary_table = Table(title="Batch Processing Summary", show_header=True, header_style="bold cyan")
+    summary_table.add_column("Metric", style="cyan")
+    summary_table.add_column("Value", style="green")
+    
+    summary_table.add_row("Total Questions", str(len(questions)))
+    summary_table.add_row("Successful", str(successful))
+    summary_table.add_row("Failed", str(failed))
+    summary_table.add_row("Output File", output_file)
+    
+    console.print(summary_table)
+    console.print(Panel(f"[bold green]Batch generation complete![/bold green]", border_style="green"))
 
 
 def main():
