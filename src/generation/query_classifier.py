@@ -193,3 +193,43 @@ class QueryClassifier:
         # Should default to Filipino with low confidence
         assert language in ["fil", "en"]
         assert 0.0 <= confidence <= 1.0
+
+    # === Edge Cases and Special Scenarios ===
+    
+    def test_classify_ambiguous_defaults_to_factual(self, classifier):
+        """Test that ambiguous queries default to Factual."""
+        query = "Fiesta."
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Factual"
+        assert result.confidence >= 0.0
+
+    def test_classify_empty_query(self, classifier):
+        """Test classification with empty query."""
+        query = ""
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Factual"
+        assert result.language in ["fil", "en"]
+
+    def test_classify_very_short_query(self, classifier):
+        """Test classification with very short query."""
+        query = "Adobo?"
+        result = classifier.classify(query)
+        
+        assert result.query_type == "Factual"
+
+    def test_classify_query_type_confidence(self, classifier):
+        """Test that confidence scores are calculated correctly."""
+        query = "Bakit bakit bakit mahalaga ang kultura?"
+        query_type, confidence = classifier.classify_query_type(query)
+        
+        assert query_type == "Analytical"
+        assert 0.0 <= confidence <= 1.0
+
+    def test_classify_multiple_type_indicators(self, classifier):
+        """Test query with indicators for multiple types."""
+        query = "Why and how to make adobo?"
+        result = classifier.classify(query)
+        
+        assert result.query_type in ["Procedural", "Analytical"]
