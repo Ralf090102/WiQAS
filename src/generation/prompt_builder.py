@@ -23,7 +23,6 @@ FUNCTIONAL_GUIDELINES = {
     "Factual": "Provide clear, concise, and accurate definitions, facts, or explanations. Focus on established knowledge and avoid unnecessary speculation. Use specific dates, names, and verifiable details when available.",
     "Analytical": "Offer thoughtful interpretation, highlight symbolism, make comparisons, and explain relationships or deeper meanings. Support reasoning with evidence or logical connections. Discuss cultural significance and historical context.",
     "Procedural": "Give structured, step-by-step instructions or processes. Ensure clarity, logical order, and completeness so the user can follow easily. Include materials needed and expected outcomes when relevant.",
-    "Creative": "Generate original and engaging content such as stories, poems, dialogues, or imaginative scenarios. Emphasize creativity, style, and coherence while maintaining cultural authenticity.",
     "Exploratory": "Deliver broad, contextual, and descriptive overviews. Provide background, key themes, and relevant connections without going too narrow or rigid. Explore multiple perspectives when appropriate.",
     "Comparative": "Compare and contrast different concepts, practices, traditions, or historical elements. Highlight similarities, differences, and cultural significance. Provide balanced analysis of each element being compared.",
 }
