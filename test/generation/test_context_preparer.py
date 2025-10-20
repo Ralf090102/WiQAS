@@ -244,3 +244,30 @@ def test_context_preparer_wikipedia_citation():
     assert len(result) == 1
     assert "Python is a programming language." in result[0]
     assert "[Source: Python (programming language) (Wikipedia, accessed January 01, 2024)]" in result[0]
+
+def test_context_preparer_news_site_citation():
+    """
+    Test that news site sources generate proper citations with title, date, and URL.
+
+    Input:
+        - Context from a news site with full metadata.
+    Expectation:
+        - Citation includes quoted title, date, and URL.
+    """
+    contexts = [
+        {
+            "content": "New AI regulations announced.",
+            "final_score": 0.85,
+            "source_file": "news_site/tech_news.html",
+            "title": "AI Regulation Update",
+            "date": "2024-06-15",
+            "url": "https://example.com/ai-regulation",
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "New AI regulations announced." in result[0]
+    assert '"AI Regulation Update"' in result[0]
+    assert "June 15, 2024" in result[0]
+    assert "https://example.com/ai-regulation" in result[0]
+
