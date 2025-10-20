@@ -222,3 +222,25 @@ def test_context_preparer_pdf_citation():
     assert "Machine learning is a subset of AI." in result[0]
     assert "[Source: Machine Learning Intro, p. 15]" in result[0]
 
+def test_context_preparer_wikipedia_citation():
+    """
+    Test that Wikipedia sources generate proper citations with title and date.
+
+    Input:
+        - Context from Wikipedia with title and date metadata.
+    Expectation:
+        - Citation includes title, "Wikipedia", and formatted date.
+    """
+    contexts = [
+        {
+            "content": "Python is a programming language.",
+            "final_score": 0.9,
+            "source_file": "wikipedia/python_programming.html",
+            "title": "Python (programming language)",
+            "date": 1704067200,  # UNIX timestamp
+        }
+    ]
+    result = prepare_contexts(contexts, include_citations=True)
+    assert len(result) == 1
+    assert "Python is a programming language." in result[0]
+    assert "[Source: Python (programming language) (Wikipedia, accessed January 01, 2024)]" in result[0]
