@@ -315,3 +315,23 @@ def test_context_preparer_no_citations():
     assert len(result) == 1
     assert result[0] == "Context without citation."
     assert "[Source:" not in result[0]
+
+def test_context_preparer_sorts_by_score():
+    """
+    Test that contexts are sorted by final_score in descending order.
+
+    Input:
+        - Three contexts with different scores.
+    Expectation:
+        - Results are ordered from highest to lowest score.
+    """
+    contexts = [
+        {"content": "An example of a Low score context.", "final_score": 0.3},
+        {"content": "This is a High score context.", "final_score": 0.9},
+        {"content": "Medium score context that falls in between.", "final_score": 0.6},
+    ]
+    result = prepare_contexts(contexts, include_citations=False)
+    assert len(result) == 3
+    assert result[0] == "This is a High score context."
+    assert result[1] == "Medium score context that falls in between."
+    assert result[2] == "An example of a Low score context."
