@@ -147,14 +147,15 @@ def test_context_preparer_mixed_duplicates_and_uniques():
         - Final result contains exactly two contexts.
     """
     contexts = [
-        {"text": "Jeepneys are a mode of transport.", "score": 0.7},
-        {"text": "Jeepneys are a mode of transport.", "score": 0.6},  # duplicate
-        {"text": "Harana is a traditional serenade.", "score": 0.9},
+        {"content": "Jeepneys are a mode of transport.", "final_score": 0.7},
+        {"content": "Jeepneys are a mode of transport.", "final_score": 0.6},  # duplicate
+        {"content": "Harana is a traditional serenade.", "final_score": 0.9},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 2
     assert "Jeepneys are a mode of transport." in result
     assert "Harana is a traditional serenade." in result
+
 
 
 def test_context_preparer_cleans_repetitions():
