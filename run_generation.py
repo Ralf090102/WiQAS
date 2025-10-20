@@ -12,6 +12,8 @@ import json
 import typer
 from rich.console import Console
 from rich.panel import Panel
+from rich.table import Table
+from rich.markdown import Markdown
 
 from src.generation.generator import WiQASGenerator
 from src.utilities.config import WiQASConfig
@@ -28,54 +30,119 @@ console = Console()
 def ask(
     query: str = typer.Argument(..., help="The question to ask"),
     k: int = typer.Option(5, "--results", "-k", help="Number of retrieval results"),
-    query_type: str = typer.Option("Factual", "--type", "-t", help="Query type: Factual, Analytical, Procedural, Creative, Exploratory"),
+    query_type: str = typer.Option(None, "--type", "-t", help="Query type: Factual, Analytical, Procedural, Comparative, Exploratory (auto-detected if not specified)"),
+    language: str = typer.Option(None, "--language", "-l", help="Response language: fil or en (auto-detected if not specified)"),
     json_output: bool = typer.Option(False, "--json", help="Output result as JSON"),
     show_contexts: bool = typer.Option(True, "--show-contexts/--hide-contexts", help="Show retrieved contexts in console"),
     show_timing: bool = typer.Option(True, "--timing/--no-timing", help="Show timing breakdown"),
+    show_classification: bool = typer.Option(True, "--classification/--no-classification", help="Show query classification info"),
 ):
     console.print(Panel("[bold blue]WiQAS Answer Generation[/bold blue]"))
-    generator = WiQASGenerator(WiQASConfig.from_env())
+    generator = WiQASGenerator(WiQASConfig.from_env(), use_query_classifier=True)
 
     result = generator.generate(
         query=query,
         k=k,
         query_type=query_type,
+        language=language,
         show_contexts=True,
         include_timing=show_timing,
+        include_classification=show_classification,
     )
 
     answer = result["answer"]
     contexts = result.get("contexts", [])
     timing = result.get("timing")
+    classification = result.get("classification")
+    detected_type = result.get("query_type")
+    detected_language = result.get("language")
 
-    if show_contexts:
-        context_strings = []
-        for c in contexts:
+    if show_classification and classification:
+        class_table = Table(title="Query Classification", show_header=True, header_style="bold magenta")
+        class_table.add_column("Property", style="cyan")
+        class_table.add_column("Value", style="green")
+        
+        class_table.add_row("Detected Type", classification.get("detected_type", "N/A"))
+        class_table.add_row("Used Type", classification.get("used_type", "N/A"))
+        class_table.add_row("Detected Language", classification.get("detected_language", "N/A"))
+        class_table.add_row("Used Language", classification.get("used_language", "N/A"))
+        class_table.add_row("Confidence", f"{classification.get('confidence', 0.0):.2%}")
+        
+        console.print(class_table)
+    elif not show_classification:
+        console.print(f"[bold cyan]Query Type:[/bold cyan] {detected_type} | [bold cyan]Language:[/bold cyan] {detected_language.upper()}")
+
+    if show_contexts and contexts:
+        context_table = Table(title=f"Retrieved Contexts (top {len(contexts)})", show_header=True, header_style="bold blue")
+        context_table.add_column("#", style="cyan", width=3)
+        context_table.add_column("Text", style="white", width=60)
+        context_table.add_column("Score", style="green", width=6)
+        context_table.add_column("Source", style="yellow", width=30)
+        
+        for idx, c in enumerate(contexts, 1):
             if isinstance(c, dict):
-                text = c.get("text", "")
+                text = c.get("text", "")[:200] + "..." if len(c.get("text", "")) > 200 else c.get("text", "")
                 final_score = c.get("final_score", 0.0)
-                source_file = c.get("source_file", "")
-                page = c.get("page", "")
-                title = c.get("title", "")
-                date = c.get("date", "")
-                url = c.get("url", "")
-                context_strings.append(f"[bold]{source_file} - {title} | {page} | {url} | {date}\n{final_score}\n[/bold]\n{text}\n")
-            else:
-                context_strings.append(str(c))
+                citation_text = c.get("citation_text", "")
+                source_file = c.get("source_file", "Unknown")
+                
+                # Use citation if available, otherwise use source file
+                source_display = citation_text if citation_text else source_file
+                
+                context_table.add_row(
+                    str(idx),
+                    text,
+                    f"{final_score:.3f}",
+                    source_display[:30] + "..." if len(source_display) > 30 else source_display
+                )
+        
+        console.print(context_table)
 
-        console.print(Panel("\n\n".join(context_strings), title=f"Retrieved Contexts (top {len(contexts)})", border_style="blue"))
-
-    if show_timing and timing:
-        console.print(Panel(timing.format_timing_summary(), title="Performance Timing", border_style="blue"))
+   if show_timing and timing:
+        timing_table = Table(title="Performance Timing", show_header=True, header_style="bold yellow")
+        timing_table.add_column("Component", style="cyan")
+        timing_table.add_column("Time (s)", style="green", justify="right")
+        timing_table.add_column("% of Total", style="magenta", justify="right")
+        
+        total_time = timing.total_time if timing.total_time > 0 else 1.0
+        
+        components = [
+            ("Embedding", timing.embedding_time),
+            ("Search", timing.search_time),
+            ("Reranking", timing.reranking_time),
+            ("MMR", timing.mmr_time),
+            ("Language Detection", timing.language_detection_time),
+            ("Translation", timing.translation_time),
+            ("Context Preparation", timing.context_preparation_time),
+            ("Query Classification", getattr(timing, 'classification_time', 0.0)),
+            ("Prompt Building", timing.prompt_building_time),
+            ("LLM Generation", timing.llm_generation_time),
+        ]
+        
+        for name, time_val in components:
+            if time_val > 0:
+                percentage = (time_val / total_time) * 100
+                timing_table.add_row(name, f"{time_val:.4f}", f"{percentage:.1f}%")
+        
+        timing_table.add_row("[bold]TOTAL[/bold]", f"[bold]{total_time:.4f}[/bold]", "[bold]100.0%[/bold]")
+        
+        console.print(timing_table)
 
     if json_output:
         output = {
             "query": query,
             "answer": answer,
+            "query_type": detected_type,
+            "language": detected_language,
             "contexts": contexts,
         }
+        
+        if show_classification and classification:
+            output["classification"] = classification
+        
         if show_timing and timing:
             output["timing"] = {
+                "classification_time": getattr(timing, 'classification_time', 0.0),
                 "embedding_time": timing.embedding_time,
                 "search_time": timing.search_time,
                 "reranking_time": timing.reranking_time,
@@ -89,8 +156,7 @@ def ask(
             }
         console.print(json.dumps(output, indent=2, ensure_ascii=False))
     else:
-        console.print(Panel(answer, title="Answer", border_style="green"))
-
+        console.print(Panel(answer, title="[bold green]Answer[/bold green]", border_style="green"))
 
 @app.command()
 def batch_ask(
