@@ -335,3 +335,28 @@ def test_context_preparer_sorts_by_score():
     assert result[0] == "This is a High score context."
     assert result[1] == "Medium score context that falls in between."
     assert result[2] == "An example of a Low score context."
+
+def test_context_preparer_return_scores():
+    """
+    Test that return_scores=True returns full metadata dictionaries.
+
+    Input:
+        - Contexts with various metadata.
+    Expectation:
+        - Result contains dicts with text, final_score, and metadata.
+    """
+    contexts = [
+        {
+            "content": "Scored context.",
+            "final_score": 0.8,
+            "source_file": "test.pdf",
+            "page": 5,
+        }
+    ]
+    result = prepare_contexts(contexts, return_scores=True, include_citations=False)
+    assert len(result) == 1
+    assert isinstance(result[0], dict)
+    assert result[0]["text"] == "Scored context."
+    assert result[0]["final_score"] == 0.8
+    assert result[0]["source_file"] == "test.pdf"
+    assert result[0]["page"] == 5
