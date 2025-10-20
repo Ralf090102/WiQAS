@@ -3,6 +3,7 @@ from typing import Any
 
 from src.generation.context_preparer import ContextPreparer
 from src.generation.prompt_builder import PromptBuilder
+from src.generation.query_classifier import QueryClassifier
 from src.retrieval.retriever import WiQASRetriever
 from src.utilities.config import AnswerGeneratorConfig, TimingBreakdown, WiQASConfig
 
@@ -19,7 +20,7 @@ class WiQASGenerator:
         prompt_builder (PromptBuilder): Constructs the final structured prompt.
     """
 
-    def __init__(self, config: WiQASConfig, answer_config: AnswerGeneratorConfig | None = None):
+    def __init__(self, config: WiQASConfig, answer_config: AnswerGeneratorConfig | None = None, use_query_classifier: bool = True,):
         """
         Initialize WiQASGenerator with system and answer configs.
 
@@ -34,7 +35,8 @@ class WiQASGenerator:
         self.retriever = WiQASRetriever(self.config)
 
         self.context_preparer = ContextPreparer()
-        self.prompt_builder = PromptBuilder()
+        self.prompt_builder = PromptBuilder(use_classifier=use_query_classifier)
+        self.query_classifier = QueryClassifier() if use_query_classifier else None
 
     def _call_model(self, prompt: str) -> str:
         if self.answer_config.backend == "hf":
@@ -65,8 +67,6 @@ class WiQASGenerator:
             hf_model.to(device)
 
             inputs = tokenizer(prompt, return_tensors="pt").to(device)
-
-            print("model prompted")
 
             outputs = hf_model.generate(
                 **inputs,
