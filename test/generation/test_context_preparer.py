@@ -172,12 +172,18 @@ def test_context_preparer_cleans_repetitions():
     """
     contexts = [
         {
-            "text": ("Ang sinigang ay isang. Mga uri ng sinigang " "Sinigang na Sinigang na Sinigang na " "Ayon sa pampaasim na sangkap " "Sinigang sa Sinigang sa Sinigang sa " "Mga sanggunian"),
-            "score": 0.8,
+            "content": (
+                "Ang sinigang ay isang. Mga uri ng sinigang "
+                "Sinigang na Sinigang na Sinigang na "
+                "Ayon sa pampaasim na sangkap "
+                "Sinigang sa Sinigang sa Sinigang sa "
+                "Mga sanggunian"
+            ),
+            "final_score": 0.8,
         }
     ]
 
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1, f"Expected 1 context, got {len(result)}"
     cleaned = result[0]
 
