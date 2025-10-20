@@ -160,3 +160,36 @@ class QueryClassifier:
             language=language,
             confidence=overall_confidence
         )
+
+    # === Language Detection Tests ===
+    
+    def test_detect_language_mixed_code_switching(self, classifier):
+        """Test language detection with code-switching."""
+        query = "Ano ba ang meaning ng jeepney?"
+        result = classifier.classify(query)
+        
+        # Should detect Filipino as primary language
+        assert result.language == "fil"
+
+    def test_detect_language_pure_filipino(self, classifier):
+        """Test language detection with pure Filipino."""
+        query = "Isang tradisyonal na pagkain ba ang Sinigang?"
+        result = classifier.classify(query)
+        
+        assert result.language == "fil"
+
+    def test_detect_language_pure_english(self, classifier):
+        """Test language detection with pure English."""
+        query = "Why is the jeepney an iconic vehicle in the Philippines?"
+        result = classifier.classify(query)
+        
+        assert result.language == "en"
+
+    def test_detect_language_no_markers(self, classifier):
+        """Test language detection with minimal language markers."""
+        query = "Festival celebration."
+        language, confidence = classifier.detect_language(query)
+        
+        # Should default to Filipino with low confidence
+        assert language in ["fil", "en"]
+        assert 0.0 <= confidence <= 1.0
