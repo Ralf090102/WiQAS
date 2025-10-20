@@ -1,0 +1,140 @@
+import re
+from dataclasses import dataclass
+
+@dataclass
+class QueryClassification:
+    query_type: str
+    language: str
+    confidence: float = 0.0
+
+
+class QueryClassifier:
+    QUERY_TYPE_KEYWORDS = {
+        "Factual": [
+            # Filipino
+            r"\b(ano|sino|saan|kailan|ilan|alin)\b",
+            r"\b(tawag|ibig\s+sabihin|kahulugan|depinisyon)\b",
+            # English
+            r"\b(what|who|where|when|which|define|meaning)\b",
+            r"\b(is|are|was|were)\b.*\b(definition|called)\b",
+        ],
+        "Analytical": [
+            # Filipino
+            r"\b(bakit|paano|ano\s+ang\s+kahalagahan|ano\s+ang\s+papel)\b",
+            r"\b(impluwensya|epekto|dahilan|resulta)\b",
+            r"\b(simbolismo|kahulugan|representasyon)\b",
+            # English
+            r"\b(why|how\s+did|significance|importance|role|impact)\b",
+            r"\b(analyze|explain|symbolism|represent|meaning|influence)\b",
+            r"\b(cultural\s+significance|historical\s+context)\b",
+        ],
+        "Procedural": [
+            # Filipino
+            r"\b(paano\s+(gumawa|magluto|gawin|mag))\b",
+            r"\b(hakbang|proseso|paraan|instruksyon)\b",
+            r"\b(mga\s+hakbang|sundin|gawin)\b",
+            # English
+            r"\b(how\s+to|steps|process|procedure|instructions)\b",
+            r"\b(make|cook|create|prepare|perform)\b",
+            r"\b(guide|tutorial|method)\b",
+        ],
+        "Comparative": [
+            # Filipino
+            r"\b(pagkakaiba|pagkakatulad|ihambing)\b",
+            r"\b(mas|kaysa|kumpara)\b",
+            r"\b(katulad|kaiba)\b",
+            # English
+            r"\b(difference|similar|compare|contrast|versus|vs)\b",
+            r"\b(alike|unlike|comparison|distinguish)\b",
+            r"\b(better|worse|more|less)\s+than\b",
+        ],
+        "Exploratory": [
+            # Filipino
+            r"\b(paki(paliwanag|bigay\s+ng\s+overview))\b",
+            r"\b(konteksto|background|kasaysayan)\b",
+            r"\b(ano\s+ang\s+tungkol)\b",
+            # English
+            r"\b(overview|describe|tell\s+me\s+about|background)\b",
+            r"\b(discuss|elaborate|explore|context)\b",
+            r"\b(general|broad|comprehensive)\b",
+        ],
+    }
+
+    FILIPINO_PATTERNS = [
+        r"\b(ang|ng|sa|mga|ay|na|at|para|kung|mga)\b",
+        r"\b(ano|sino|saan|kailan|paano|bakit)\b",
+        r"\b(ito|iyan|ako|ikaw|siya|kami|tayo|sila)\b",
+    ]
+
+    ENGLISH_PATTERNS = [
+        r"\b(the|is|are|was|were|has|have|had)\b",
+        r"\b(what|who|where|when|how|why)\b",
+        r"\b(this|that|these|those|I|you|he|she|we|they)\b",
+    ]
+
+    def __init__(self):
+        self.type_patterns = {
+            qtype: [re.compile(pattern, re.IGNORECASE) for pattern in patterns]
+            for qtype, patterns in self.QUERY_TYPE_KEYWORDS.items()
+        }
+        self.fil_patterns = [re.compile(p, re.IGNORECASE) for p in self.FILIPINO_PATTERNS]
+        self.en_patterns = [re.compile(p, re.IGNORECASE) for p in self.ENGLISH_PATTERNS]
+
+    def classify_query_type(self, query: str) -> tuple[str, float]:
+        scores = {qtype: 0 for qtype in self.type_patterns.keys()}
+
+        for qtype, patterns in self.type_patterns.items():
+            for pattern in patterns:
+                matches = len(pattern.findall(query))
+                scores[qtype] += matches
+
+        query_lower = query.lower()
+
+        analytical_triggers = ["why", "bakit", "how did", "significance", "importance", "role", "impact", "influence"]
+        if any(t in query_lower for t in analytical_triggers):
+            scores["Analytical"] += 3
+
+        procedural_triggers = ["how to", "paano", "steps", "hakbang", "process", "procedure"]
+        if any(t in query_lower for t in procedural_triggers):
+            scores["Procedural"] += 3
+
+        comparative_triggers = ["difference", "pagkakaiba", "compare", "contrast", "vs", "versus"]
+        if any(t in query_lower for t in comparative_triggers):
+            scores["Comparative"] += 3
+
+        if max(scores.values()) == 0:
+            return "Factual", 0.5
+
+        priority_order = ["Analytical", "Procedural", "Comparative", "Exploratory", "Factual"]
+        best_type = sorted(scores.items(), key=lambda kv: (-kv[1], priority_order.index(kv[0])))[0][0]
+
+        total_matches = sum(scores.values())
+        confidence = scores[best_type] / total_matches if total_matches > 0 else 0.5
+
+        return best_type, min(confidence, 1.0)
+
+    def detect_language(self, query: str) -> tuple[str, float]:
+        fil_score = sum(1 for pattern in self.fil_patterns if pattern.search(query))
+        en_score = sum(1 for pattern in self.en_patterns if pattern.search(query))
+
+        total = fil_score + en_score
+
+        if total == 0:
+            return "fil", 0.5
+
+        if fil_score > en_score:
+            return "fil", fil_score / total
+        else:
+            return "en", en_score / total
+
+    def classify(self, query: str) -> QueryClassification:
+        query_type, type_confidence = self.classify_query_type(query)
+        language, lang_confidence = self.detect_language(query)
+
+        overall_confidence = (type_confidence + lang_confidence) / 2
+
+        return QueryClassification(
+            query_type=query_type,
+            language=language,
+            confidence=overall_confidence
+        )
