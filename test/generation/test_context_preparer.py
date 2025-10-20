@@ -111,9 +111,9 @@ def test_context_preparer_cleans_whitespace():
         - Cleaned context contains single spaces only.
     """
     contexts = [
-        {"text": "   Filipino    culture \n is diverse. ", "score": 0.8},
+        {"content": "   Filipino    culture \n is diverse. ", "final_score": 0.8},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1
     assert result[0] == "Filipino culture is diverse."
 
