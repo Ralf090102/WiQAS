@@ -54,10 +54,10 @@ def test_context_preparer_prefers_longer_context():
         - Only the longer sentence remains.
     """
     contexts = [
-        {"text": "Karaoke is a popular pastime.", "score": 0.5},
-        {"text": "Karaoke is a popular pastime in the Philippines.", "score": 0.5},
+        {"content": "Karaoke is a popular pastime.", "final_score": 0.5},
+        {"content": "Karaoke is a popular pastime in the Philippines.", "final_score": 0.5},
     ]
-    result = prepare_contexts(contexts)
+    result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1
     assert result[0] == "Karaoke is a popular pastime in the Philippines."
 
