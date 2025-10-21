@@ -32,6 +32,10 @@ dependencies = [
     "psutil",
     "scikit-learn",
     "bs4",
+    "deep-translator",
+    "langdetect",
+    "datasets",
+    "ragas",
 ]
 
 [[project.authors]]
@@ -50,6 +54,7 @@ email = "ralf_hernandez@dlsu.edu.ph"
 nvidia-gpu = [
  "torch>=2.7.1",
  "torchvision>=0.22.0",
+ "nvidia-ml-py",
 ]
 
 media = [
@@ -69,11 +74,11 @@ dev = [
 ]
 
 [tool.black]
-line-length = 128
+line-length = 256
 target-version = ['py312']
 
 [tool.ruff]
-line-length = 128
+line-length = 256
 target-version = "py312"
 exclude = [
     ".git",

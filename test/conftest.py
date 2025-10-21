@@ -241,9 +241,7 @@ def mock_ollama_api():
     with patch("ollama.list") as mock_list, patch("ollama.show") as mock_show, patch("ollama.chat") as mock_chat:
 
         # Mock model list
-        mock_list.return_value = {
-            "models": [{"name": "mistral:latest", "size": 2000000000}, {"name": "mistral:7b", "size": 4000000000}]
-        }
+        mock_list.return_value = {"models": [{"name": "mistral:latest", "size": 2000000000}, {"name": "mistral:7b", "size": 4000000000}]}
 
         # Mock model info
         mock_show.return_value = {

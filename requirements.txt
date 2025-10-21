@@ -1,5 +1,5 @@
 # Core RAG & LLM
-ollama>=0.5.3
+ollama>=0.6.0
 langchain
 langchain-community
 langchain-ollama
@@ -13,6 +13,10 @@ transformers
 accelerate
 scikit-learn
 bs4
+deep-translator
+langdetect
+datasets
+ragas
 
 # Document processing
 pymupdf
@@ -39,6 +43,7 @@ typer
 # Pillow
 # easyocr
 
+<<<<<<< HEAD
 # Nvidia GPU support (Uncomment if using Nvidia GPU ensure correct CUDA version)
 # torch>=2.7.1+cu121
 # torchvision>=0.22.0+cu121
@@ -47,3 +52,13 @@ typer
 # evaluation
 ragas
 datasets
+=======
+# PyTorch - Install CUDA version manually with:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+
+# For CPU-only installation, just use: pip install torch torchvision
+# torch>=2.7.1
+# torchvision>=0.22.1
+# GPU monitoring (optional)
+nvidia-ml-py
+>>>>>>> generator

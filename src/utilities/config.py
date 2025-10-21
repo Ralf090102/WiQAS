@@ -63,6 +63,157 @@ class ChunkerType(str, Enum):
     SMART = "smart"
 
 
+# ========== TIMING BREAKDOWN ==========
+@dataclass
+class TimingBreakdown:
+    """Container for component timing information."""
+
+    # Retrieval components
+    embedding_time: float = 0.0
+    search_time: float = 0.0
+    reranking_time: float = 0.0
+    mmr_time: float = 0.0
+
+    # Generation components
+    context_preparation_time: float = 0.0
+    prompt_building_time: float = 0.0
+    llm_generation_time: float = 0.0
+
+    # Multilingual components
+    translation_time: float = 0.0
+    language_detection_time: float = 0.0
+
+    total_time: float = 0.0
+
+    def get_percentages(self) -> dict[str, float]:
+        """Calculate percentage breakdown of timing."""
+        if self.total_time == 0:
+            return {
+                "embedding_percent": 0.0,
+                "search_percent": 0.0,
+                "reranking_percent": 0.0,
+                "mmr_percent": 0.0,
+                "context_preparation_percent": 0.0,
+                "prompt_building_percent": 0.0,
+                "llm_generation_percent": 0.0,
+                "translation_percent": 0.0,
+                "language_detection_percent": 0.0,
+            }
+
+        return {
+            "embedding_percent": (self.embedding_time / self.total_time) * 100,
+            "search_percent": (self.search_time / self.total_time) * 100,
+            "reranking_percent": (self.reranking_time / self.total_time) * 100,
+            "mmr_percent": (self.mmr_time / self.total_time) * 100,
+            "context_preparation_percent": (self.context_preparation_time / self.total_time) * 100,
+            "prompt_building_percent": (self.prompt_building_time / self.total_time) * 100,
+            "llm_generation_percent": (self.llm_generation_time / self.total_time) * 100,
+            "translation_percent": (self.translation_time / self.total_time) * 100,
+            "language_detection_percent": (self.language_detection_time / self.total_time) * 100,
+        }
+
+    def format_timing_summary(self) -> str:
+        """Format timing breakdown as a readable string."""
+        retrieval_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        generation_sum = self.context_preparation_time + self.prompt_building_time + self.llm_generation_time
+        multilingual_sum = self.translation_time + self.language_detection_time
+        component_sum = retrieval_sum + generation_sum + multilingual_sum
+
+        percentages = self.get_percentages_from_components()
+
+        lines = [
+            "Timing Breakdown",
+            f"embedding time = {self.embedding_time:.2f} s",
+            f"search time = {self.search_time:.2f} s",
+            f"reranking time = {self.reranking_time:.2f} s",
+        ]
+
+        if self.mmr_time > 0:
+            lines.append(f"mmr time = {self.mmr_time:.2f} s")
+
+        if generation_sum > 0:
+            lines.extend(
+                [
+                    f"context preparation time = {self.context_preparation_time:.2f} s",
+                    f"prompt building time = {self.prompt_building_time:.2f} s",
+                    f"llm generation time = {self.llm_generation_time:.2f} s",
+                ]
+            )
+
+        if multilingual_sum > 0:
+            lines.extend(
+                [
+                    f"translation time = {self.translation_time:.2f} s",
+                    f"language detection time = {self.language_detection_time:.2f} s",
+                ]
+            )
+
+        lines.extend(
+            [
+                f"total time = {component_sum:.2f} s",
+                "",
+                "Time % Breakdown",
+                f"embedding time = {percentages['embedding_percent']:.2f}%",
+                f"search time = {percentages['search_percent']:.2f}%",
+                f"reranking time = {percentages['reranking_percent']:.2f}%",
+            ]
+        )
+
+        if self.mmr_time > 0:
+            lines.append(f"mmr time = {percentages['mmr_percent']:.2f}%")
+
+        if generation_sum > 0:
+            lines.extend(
+                [
+                    f"context preparation time = {percentages['context_preparation_percent']:.2f}%",
+                    f"prompt building time = {percentages['prompt_building_percent']:.2f}%",
+                    f"llm generation time = {percentages['llm_generation_percent']:.2f}%",
+                ]
+            )
+
+        if multilingual_sum > 0:
+            lines.extend(
+                [
+                    f"translation time = {percentages['translation_percent']:.2f}%",
+                    f"language detection time = {percentages['language_detection_percent']:.2f}%",
+                ]
+            )
+
+        return "\n".join(lines)
+
+    def get_percentages_from_components(self) -> dict[str, float]:
+        """Calculate percentage breakdown based on component times only."""
+        retrieval_sum = self.embedding_time + self.search_time + self.reranking_time + self.mmr_time
+        generation_sum = self.context_preparation_time + self.prompt_building_time + self.llm_generation_time
+        multilingual_sum = self.translation_time + self.language_detection_time
+        component_sum = retrieval_sum + generation_sum + multilingual_sum
+
+        if component_sum == 0:
+            return {
+                "embedding_percent": 0.0,
+                "search_percent": 0.0,
+                "reranking_percent": 0.0,
+                "mmr_percent": 0.0,
+                "context_preparation_percent": 0.0,
+                "prompt_building_percent": 0.0,
+                "llm_generation_percent": 0.0,
+                "translation_percent": 0.0,
+                "language_detection_percent": 0.0,
+            }
+
+        return {
+            "embedding_percent": (self.embedding_time / component_sum) * 100,
+            "search_percent": (self.search_time / component_sum) * 100,
+            "reranking_percent": (self.reranking_time / component_sum) * 100,
+            "mmr_percent": (self.mmr_time / component_sum) * 100,
+            "context_preparation_percent": (self.context_preparation_time / component_sum) * 100,
+            "prompt_building_percent": (self.prompt_building_time / component_sum) * 100,
+            "llm_generation_percent": (self.llm_generation_time / component_sum) * 100,
+            "translation_percent": (self.translation_time / component_sum) * 100,
+            "language_detection_percent": (self.language_detection_time / component_sum) * 100,
+        }
+
+
 # ========== BASE CONFIGURATION CLASS ==========
 @dataclass
 class BaseConfig:
@@ -233,10 +384,10 @@ class RerankerConfig(BaseConfig):
     cultural_boost_factor: float = 1.2
 
     # LLM-based cultural content analysis
-    use_llm_cultural_analysis: bool = True
+    use_llm_cultural_analysis: bool = False
     llm_model: str = "mistral:latest"
     llm_base_url: str = "http://localhost:11434"
-    llm_timeout: int = 90
+    llm_timeout: int = 30
     llm_temperature: float = 0.1
 
     # Cultural analysis thresholds
@@ -248,7 +399,7 @@ class RerankerConfig(BaseConfig):
     # Caching and batch processing
     cache_cultural_analysis: bool = True
     cultural_cache_ttl: int = 7200
-    batch_analysis_size: int = 10
+    batch_analysis_size: int = 20
     enable_batch_processing: bool = True
 
     @classmethod
@@ -315,10 +466,7 @@ class LLMConfig(BaseConfig):
     max_tokens: int | None = None
 
     # RAG prompt
-    system_prompt: str = (
-        "You are WiQAS, a helpful AI assistant with access to a knowledge base. "
-        "Use the provided context to answer questions accurately and cite sources when appropriate."
-    )
+    system_prompt: str = "You are WiQAS, a helpful AI assistant with access to a knowledge base. " "Use the provided context to answer questions accurately and cite sources when appropriate."
 
     @classmethod
     def from_env(cls) -> "LLMConfig":
@@ -335,8 +483,7 @@ class LLMConfig(BaseConfig):
             max_tokens=max_tokens,
             system_prompt=get_env_str(
                 "WIQAS_LLM_SYSTEM_PROMPT",
-                "You are WiQAS, a helpful AI assistant with access to a knowledge base. "
-                "Use the provided context to answer questions accurately and cite sources when appropriate.",
+                "You are WiQAS, a helpful AI assistant with access to a knowledge base. " "Use the provided context to answer questions accurately and cite sources when appropriate.",
             ),
         )
 
@@ -365,7 +512,8 @@ class VectorStoreConfig(BaseConfig):
             use_gpu=get_env_bool("WIQAS_VECTORSTORE_USE_GPU", False),
             batch_size=get_env_int("WIQAS_VECTORSTORE_BATCH_SIZE", 64),
         )
-    
+
+
 @dataclass
 class AnswerGeneratorConfig(BaseConfig):
     """Answer generation configuration"""
@@ -373,50 +521,121 @@ class AnswerGeneratorConfig(BaseConfig):
     model: str = "gemma2:9b"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
-    backend: str = "ollama" # ollama | hf 
+    backend: str = "ollama"  # ollama | hf
 
     # init gen params
     temperature: float = 0.7
     top_p: float = 0.9
     max_tokens: int | None = 1024
 
+    # Multilingual generation settings
+    enable_multilingual_generation: bool = True
+    enable_auto_language_detection: bool = True
+    prefer_code_switching: bool = True
+    cultural_context_boost: bool = True  # Emphasize cultural context in responses
+
     @classmethod
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model = get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
-            base_url = get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
-            timeout = get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
-            backend = get_env_str("WIQAS_BACKEND", "ollama"), # ollama | hf 
-            temperature = get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
-            top_p = get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
-            max_tokens = get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
+            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "gemma2:9b"),
+            base_url=get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
+            timeout=get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
+            backend=get_env_str("WIQAS_BACKEND", "ollama"),  # ollama | hf
+            temperature=get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
+            top_p=get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
+            max_tokens=get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),
+            enable_multilingual_generation=get_env_bool("WIQAS_ANSWER_GENERATOR_ENABLE_MULTILINGUAL", True),
+            enable_auto_language_detection=get_env_bool("WIQAS_ANSWER_GENERATOR_AUTO_LANGUAGE_DETECTION", True),
+            prefer_code_switching=get_env_bool("WIQAS_ANSWER_GENERATOR_PREFER_CODE_SWITCHING", True),
+            cultural_context_boost=get_env_bool("WIQAS_ANSWER_GENERATOR_CULTURAL_CONTEXT_BOOST", True),
         )
+
+
+# ========== MULTILINGUAL CONFIGURATION ==========
+@dataclass
+class MultilingualConfig(BaseConfig):
+    """Multilingual retrieval configuration"""
+
+    enable_cross_lingual: bool = True
+    auto_translate_queries: bool = True
+    supported_languages: list[str] = field(default_factory=lambda: ["en", "tl"])
+
+    enable_language_detection: bool = True
+    language_boost_same: float = 1.0
+    language_boost_cross: float = 1.0
+
+    # Translation settings
+    translation_service: str = "deep_translator"
+    translation_cache_ttl: int = 1800
+    max_translation_length: int = 500
+    enable_translation_cache: bool = True
+
+    # Multi-query approach
+    enable_multi_query: bool = True
+    max_queries_per_request: int = 2  # Original + translated
+    query_weight_original: float = 1.0
+    query_weight_translated: float = 0.8
+
+    @classmethod
+    def from_env(cls) -> "MultilingualConfig":
+        """Load multilingual configuration from environment variables"""
+        return cls(
+            enable_cross_lingual=get_env_bool("WIQAS_MULTILINGUAL_ENABLE_CROSS_LINGUAL", True),
+            auto_translate_queries=get_env_bool("WIQAS_MULTILINGUAL_AUTO_TRANSLATE", True),
+            enable_language_detection=get_env_bool("WIQAS_MULTILINGUAL_LANGUAGE_DETECTION", True),
+            language_boost_same=get_env_float("WIQAS_MULTILINGUAL_BOOST_SAME", 1.2),
+            language_boost_cross=get_env_float("WIQAS_MULTILINGUAL_BOOST_CROSS", 1.0),
+            translation_service=get_env_str("WIQAS_MULTILINGUAL_TRANSLATION_SERVICE", "deep_translator"),
+            translation_cache_ttl=get_env_int("WIQAS_MULTILINGUAL_TRANSLATION_CACHE_TTL", 3600),
+            max_translation_length=get_env_int("WIQAS_MULTILINGUAL_MAX_TRANSLATION_LENGTH", 500),
+            enable_translation_cache=get_env_bool("WIQAS_MULTILINGUAL_ENABLE_CACHE", True),
+            enable_multi_query=get_env_bool("WIQAS_MULTILINGUAL_ENABLE_MULTI_QUERY", True),
+            max_queries_per_request=get_env_int("WIQAS_MULTILINGUAL_MAX_QUERIES", 2),
+            query_weight_original=get_env_float("WIQAS_MULTILINGUAL_WEIGHT_ORIGINAL", 1.0),
+            query_weight_translated=get_env_float("WIQAS_MULTILINGUAL_WEIGHT_TRANSLATED", 0.8),
+        )
+
+    def validate(self) -> None:
+        """Validate multilingual configuration"""
+        if self.language_boost_same < 0.0:
+            raise ValueError("language_boost_same must be non-negative")
+        if self.language_boost_cross < 0.0:
+            raise ValueError("language_boost_cross must be non-negative")
+        if self.translation_cache_ttl <= 0:
+            raise ValueError("translation_cache_ttl must be positive")
+        if self.max_translation_length <= 0:
+            raise ValueError("max_translation_length must be positive")
+        if self.max_queries_per_request <= 0:
+            raise ValueError("max_queries_per_request must be positive")
+        if not self.supported_languages:
+            raise ValueError("supported_languages cannot be empty")
+
 
 # ========= EVALUATION CONFIGURATION ==========
 @dataclass
 class EvaluationConfig(BaseConfig):
     """Evaluation configuration"""
-    
+
     dataset_path: str = "./src/evaluation/evaluation_dataset.json"
     limit: int | None = None
     randomize: bool = False
     disable_cultural_llm_analysis: bool = False
-    
+
     # Retrieval settings
     search_type: str = "hybrid"
     k_results: int = 5
     enable_reranking: bool = True
     enable_mmr: bool = True
-    
-    similarity_threshold: float = 0.5
-    
+
+    similarity_threshold: float = 0.675
+
     @classmethod
     def from_env(cls) -> "EvaluationConfig":
         """Load evaluation configuration from environment variables"""
         limit_str = get_env_str("WIQAS_EVALUATION_LIMIT", "")
         limit = int(limit_str) if limit_str.isdigit() else None
-        
+
         return cls(
             dataset_path=get_env_str("WIQAS_EVALUATION_DATASET_PATH", "./src/evaluation/evaluation_dataset.json"),
             limit=limit,
@@ -426,7 +645,7 @@ class EvaluationConfig(BaseConfig):
             k_results=get_env_int("WIQAS_EVALUATION_K_RESULTS", 5),
             enable_reranking=get_env_bool("WIQAS_EVALUATION_ENABLE_RERANKING", True),
             enable_mmr=get_env_bool("WIQAS_EVALUATION_ENABLE_MMR", True),
-            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.5),
+            similarity_threshold=get_env_float("WIQAS_EVALUATION_SIMILARITY_THRESHOLD", 0.675),
         )
 
     def validate(self) -> None:
@@ -437,6 +656,7 @@ class EvaluationConfig(BaseConfig):
             raise ValueError("similarity_threshold must be between 0.0 and 1.0")
         if self.k_results <= 0:
             raise ValueError("k_results must be positive")
+
 
 # ========== MAIN RAG CONFIGURATION ==========
 @dataclass
@@ -451,7 +671,8 @@ class RAGConfig(BaseConfig):
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
     generator: AnswerGeneratorConfig = field(default_factory=AnswerGeneratorConfig)
-    evaluation: EvaluationConfig = field(default_factory=EvaluationConfig)  # Add this line
+    multilingual: MultilingualConfig = field(default_factory=MultilingualConfig)
+    evaluation: EvaluationConfig = field(default_factory=EvaluationConfig)
 
     @classmethod
     def from_env(cls) -> "RAGConfig":
@@ -466,6 +687,7 @@ class RAGConfig(BaseConfig):
             vectorstore=VectorStoreConfig.from_env(),
             generator=AnswerGeneratorConfig.from_env(),
             evaluation=EvaluationConfig.from_env(),
+            multilingual=MultilingualConfig.from_env(),
         )
 
 
@@ -517,6 +739,10 @@ class GPUConfig(BaseConfig):
     auto_detect: bool = True
     preferred_device: str = "auto"  # "auto", "cpu", "cuda:0"
     fallback_to_cpu: bool = True
+    memory_fraction: float = 0.9  # Fraction of GPU memory to use (0.1-1.0)
+    clear_cache_frequency: int = 10
+    enable_mixed_precision: bool = True  # Enable mixed precision training for faster inference
+    batch_size_multiplier: float = 2.0
 
     @classmethod
     def from_env(cls) -> "GPUConfig":
@@ -526,7 +752,20 @@ class GPUConfig(BaseConfig):
             auto_detect=get_env_bool("WIQAS_GPU_AUTO_DETECT", True),
             preferred_device=get_env_str("WIQAS_GPU_PREFERRED_DEVICE", "auto"),
             fallback_to_cpu=get_env_bool("WIQAS_GPU_FALLBACK_TO_CPU", True),
+            memory_fraction=get_env_float("WIQAS_GPU_MEMORY_FRACTION", 0.9),
+            clear_cache_frequency=get_env_int("WIQAS_GPU_CLEAR_CACHE_FREQUENCY", 10),
+            enable_mixed_precision=get_env_bool("WIQAS_GPU_ENABLE_MIXED_PRECISION", True),
+            batch_size_multiplier=get_env_float("WIQAS_GPU_BATCH_SIZE_MULTIPLIER", 2.0),
         )
+
+    def validate(self) -> None:
+        """Validate GPU configuration values"""
+        if self.memory_fraction <= 0 or self.memory_fraction > 1.0:
+            raise ValueError("memory_fraction must be between 0.1 and 1.0")
+        if self.clear_cache_frequency <= 0:
+            raise ValueError("clear_cache_frequency must be positive")
+        if self.batch_size_multiplier <= 0:
+            raise ValueError("batch_size_multiplier must be positive")
 
 
 # ========== LOGGING CONFIGURATION ==========
@@ -620,8 +859,17 @@ def get_config(from_env: bool = False) -> WiQASConfig:
             WIQAS_RETRIEVAL_DEFAULT_K=5        System Configuration:
             WIQAS_STORAGE_DATA_DIRECTORY="./wiqas-data"
             WIQAS_SYSTEM_REQUIRE_OLLAMA=true
-            WIQAS_GPU_ENABLED=true
             WIQAS_LOGGING_LEVEL="info"
+
+        GPU Configuration:
+            WIQAS_GPU_ENABLED=true
+            WIQAS_GPU_AUTO_DETECT=true
+            WIQAS_GPU_PREFERRED_DEVICE="auto"
+            WIQAS_GPU_FALLBACK_TO_CPU=true
+            WIQAS_GPU_MEMORY_FRACTION=0.9
+            WIQAS_GPU_CLEAR_CACHE_FREQUENCY=10
+            WIQAS_GPU_ENABLE_MIXED_PRECISION=true
+            WIQAS_GPU_BATCH_SIZE_MULTIPLIER=2.0
     """
     if from_env:
         return WiQASConfig.from_env()

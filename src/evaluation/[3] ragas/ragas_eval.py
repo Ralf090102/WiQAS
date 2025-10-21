@@ -11,11 +11,11 @@ Dependencies:
 Usage:
     # Using command line argument
     python ragas_eval.py --input sample.json --model llama3.1
-    
+
     # Using environment variable
     export OLLAMA_MODEL=llama3.1
     python ragas_eval.py --input sample.json
-    
+
     # Evaluate multiple files in a folder
     python ragas_eval.py --input ./samples/ --model llama3.1 --output ./results/
 
@@ -35,37 +35,45 @@ How it works:
     - RAGAS calls Ollama internally for reasoning steps in metrics like faithfulness
 """
 
+<<<<<<< HEAD
 import logging,os
-import sys
-import json
+=======
 import argparse
+import json
+import os
+>>>>>>> generator
+import sys
 import time
-from pathlib import Path
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, asdict
-import pandas as pd
-from datetime import datetime
 import warnings
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import pandas as pd
 
 # Suppress warnings
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
 # RAGAS imports
 try:
     from datasets import Dataset
-    from ragas import evaluate
-    from ragas.metrics import (
-        faithfulness,
-        answer_correctness,
-        context_recall,
-        context_precision,
-        answer_relevancy,
-        answer_similarity,
-    )
     from langchain_community.chat_models import ChatOllama
     from langchain_community.embeddings import OllamaEmbeddings
+<<<<<<< HEAD
     from ragas import RunConfig
+=======
+    from ragas import evaluate
+    from ragas.metrics import (
+        answer_correctness,
+        answer_relevancy,
+        answer_similarity,
+        context_precision,
+        context_recall,
+        faithfulness,
+    )
+>>>>>>> generator
 except ImportError as e:
     print("Error: Required packages not installed.")
     print("Install with: pip install ragas datasets langchain langchain-community pandas")
@@ -91,19 +99,22 @@ os.environ["RAGAS_DEBUG"] = "true"
 # Data Models
 # ============================================================================
 
+
 @dataclass
 class EvaluationInput:
     """Structure for evaluation input data"""
+
     question: str
     ground_truth: str
     answer: str  # RAGAS uses 'answer' not 'model_answer'
-    contexts: List[str]
-    metadata: Optional[Dict[str, Any]] = None
+    contexts: list[str]
+    metadata: dict[str, Any] | None = None
 
 
 @dataclass
 class EvaluationResult:
     """Structure for evaluation results"""
+
     question: str
     faithfulness: float
     answer_correctness: float
@@ -112,7 +123,7 @@ class EvaluationResult:
     answer_relevancy: float
     answer_similarity: float
     overall_score: float
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: dict[str, Any] | None = None
     evaluation_time: float = 0.0
     model_used: str = ""
 
@@ -121,17 +132,18 @@ class EvaluationResult:
 # Ollama Integration with RAGAS
 # ============================================================================
 
+
 def setup_ollama_for_ragas(model_name: str = DEFAULT_MODEL):
     """
     Setup Ollama as LLM and embeddings provider for RAGAS.
-    
+
     Returns:
         tuple: (llm, embeddings) ready for RAGAS evaluation
     """
-    print(f"Initializing Ollama integration...")
+    print("Initializing Ollama integration...")
     print(f"  Model: {model_name}")
     print(f"  Base URL: {OLLAMA_BASE_URL}")
-    
+
     try:
         # Create ChatOllama instance for LLM calls
         # RAGAS will use this for reasoning steps in metrics
@@ -140,21 +152,21 @@ def setup_ollama_for_ragas(model_name: str = DEFAULT_MODEL):
             base_url=OLLAMA_BASE_URL,
             temperature=0,  # Deterministic for evaluation
         )
-        
+
         # Create OllamaEmbeddings for semantic similarity
         # RAGAS uses embeddings for metrics like answer_similarity
         embeddings = OllamaEmbeddings(
             model="nomic-embed-text",
             base_url=OLLAMA_BASE_URL,
         )
-        
+
         # Test connection
-        print(f"  Testing connection...", end=" ", flush=True)
-        test_response = llm.invoke("test")
+        print("  Testing connection...", end=" ", flush=True)
+        llm.invoke("test")
         print("✓")
-        
+
         return llm, embeddings
-        
+
     except Exception as e:
         print(f"\n✗ Error connecting to Ollama: {e}")
         print("\nTroubleshooting:")
@@ -169,11 +181,12 @@ def setup_ollama_for_ragas(model_name: str = DEFAULT_MODEL):
 # Input/Output Handling
 # ============================================================================
 
-def load_evaluation_data(input_path: str) -> List[EvaluationInput]:
+
+def load_evaluation_data(input_path: str) -> list[EvaluationInput]:
     """Load evaluation data from JSON file or directory"""
     path = Path(input_path)
     data_items = []
-    
+
     if path.is_file():
         files = [path]
     elif path.is_dir():
@@ -182,80 +195,82 @@ def load_evaluation_data(input_path: str) -> List[EvaluationInput]:
             raise ValueError(f"No JSON files found in directory: {input_path}")
     else:
         raise ValueError(f"Invalid path: {input_path}")
-    
+
     for file_path in files:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 data = json.load(f)
-                
+
                 # Handle both single object and array
                 if isinstance(data, list):
                     items = data
                 else:
                     items = [data]
-                
+
                 for item in items:
                     # Validate required fields
                     # RAGAS expects: question, answer, contexts, ground_truth
-                    required_fields = ['question', 'ground_truth', 'contexts']
-                    
+                    required_fields = ["question", "ground_truth", "contexts"]
+
                     # Accept either 'model_answer' or 'answer'
-                    if 'model_answer' not in item and 'answer' not in item:
+                    if "model_answer" not in item and "answer" not in item:
                         print(f"Warning: Skipping item in {file_path} - missing 'answer' or 'model_answer'")
                         continue
-                    
+
                     missing_fields = [f for f in required_fields if f not in item]
                     if missing_fields:
                         print(f"Warning: Skipping item in {file_path} - missing fields: {missing_fields}")
                         continue
-                    
+
                     # Normalize field names
-                    answer = item.get('answer') or item.get('model_answer')
-                    
-                    data_items.append(EvaluationInput(
-                        question=item['question'],
-                        ground_truth=item['ground_truth'],
-                        answer=answer,
-                        contexts=item['contexts'],
-                        metadata=item.get('metadata', {})
-                    ))
-        
+                    answer = item.get("answer") or item.get("model_answer")
+
+                    data_items.append(
+                        EvaluationInput(
+                            question=item["question"],
+                            ground_truth=item["ground_truth"],
+                            answer=answer,
+                            contexts=item["contexts"],
+                            metadata=item.get("metadata", {}),
+                        )
+                    )
+
         except json.JSONDecodeError as e:
             print(f"Error: Invalid JSON in {file_path}: {e}")
             continue
         except Exception as e:
             print(f"Error loading {file_path}: {e}")
             continue
-    
+
     if not data_items:
         raise ValueError("No valid evaluation data found")
-    
+
     return data_items
 
 
-def save_results(results: List[EvaluationResult], output_dir: str = "."):
+def save_results(results: list[EvaluationResult], output_dir: str = "."):
     """Save results to JSON and CSV files"""
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
-    
+
     # Save to JSON
     json_path = output_path / "ragas_results.json"
-    with open(json_path, 'w', encoding='utf-8') as f:
+    with open(json_path, "w", encoding="utf-8") as f:
         json_data = [asdict(r) for r in results]
         json.dump(json_data, f, indent=2, ensure_ascii=False)
-    
+
     print(f"\n✓ Results saved to {json_path}")
-    
+
     # Save to CSV
     csv_path = output_path / "ragas_results.csv"
     df = pd.DataFrame([asdict(r) for r in results])
-    
+
     # Flatten metadata if present
-    if 'metadata' in df.columns:
-        metadata_df = pd.json_normalize(df['metadata'])
-        metadata_df.columns = [f'metadata_{col}' for col in metadata_df.columns]
-        df = pd.concat([df.drop('metadata', axis=1), metadata_df], axis=1)
-    
+    if "metadata" in df.columns:
+        metadata_df = pd.json_normalize(df["metadata"])
+        metadata_df.columns = [f"metadata_{col}" for col in metadata_df.columns]
+        df = pd.concat([df.drop("metadata", axis=1), metadata_df], axis=1)
+
     df.to_csv(csv_path, index=False)
     print(f"✓ Results saved to {csv_path}")
 
@@ -264,11 +279,11 @@ def save_results(results: List[EvaluationResult], output_dir: str = "."):
 # Main Evaluation Pipeline
 # ============================================================================
 
-def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings, 
-                       model_name: str) -> List[EvaluationResult]:
+
+def evaluate_with_ragas(items: list[EvaluationInput], llm, embeddings, model_name: str) -> list[EvaluationResult]:
     """
     Evaluate items using RAGAS with Ollama backend.
-    
+
     This function:
     1. Converts items to RAGAS Dataset format
     2. Runs RAGAS evaluate() with all metrics
@@ -276,45 +291,48 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
        - LLM reasoning (faithfulness, context_precision, etc.)
        - Embeddings (answer_similarity)
     """
-    
+
     # Convert to RAGAS dataset format
     dataset_dict = {
-        'question': [],
-        'answer': [],
-        'contexts': [],
-        'ground_truth': [],
+        "question": [],
+        "answer": [],
+        "contexts": [],
+        "ground_truth": [],
     }
-    
+
     for item in items:
-        dataset_dict['question'].append(item.question)
-        dataset_dict['answer'].append(item.answer)
-        dataset_dict['contexts'].append(item.contexts)
-        dataset_dict['ground_truth'].append(item.ground_truth)
-    
+        dataset_dict["question"].append(item.question)
+        dataset_dict["answer"].append(item.answer)
+        dataset_dict["contexts"].append(item.contexts)
+        dataset_dict["ground_truth"].append(item.ground_truth)
+
     dataset = Dataset.from_dict(dataset_dict)
-    
+
     print(f"\nRunning RAGAS evaluation on {len(items)} items...")
     print("RAGAS will call Ollama for:")
     print("  - LLM reasoning: faithfulness, context_precision, answer_relevancy")
     print("  - Embeddings: answer_similarity, answer_correctness")
     print("\nThis may take several minutes...\n")
-    
+
     start_time = time.time()
-    
+
     # Define metrics to evaluate
     # RAGAS handles all the computation internally
     metrics = [
-        faithfulness,           # Measures if answer is grounded in contexts
-        answer_correctness,     # F1-based correctness vs ground truth
-        context_recall,         # How much of ground_truth is in contexts
-        context_precision,      # Precision of retrieved contexts
-        answer_relevancy,       # Relevance of answer to question
-        answer_similarity,      # Semantic similarity to ground_truth
+        faithfulness,  # Measures if answer is grounded in contexts
+        answer_correctness,  # F1-based correctness vs ground truth
+        context_recall,  # How much of ground_truth is in contexts
+        context_precision,  # Precision of retrieved contexts
+        answer_relevancy,  # Relevance of answer to question
+        answer_similarity,  # Semantic similarity to ground_truth
     ]
 
+<<<<<<< HEAD
     run_config = RunConfig(timeout=120, log_tenacity=True)
 
     
+=======
+>>>>>>> generator
     try:
         # Run RAGAS evaluation
         # RAGAS will use Ollama (via llm and embeddings) for all metric computations
@@ -325,42 +343,42 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
             embeddings=embeddings,
             run_config=run_config
         )
-        
+
         eval_time = time.time() - start_time
-        
+
         # Convert RAGAS results to our format
         results = []
         for i, item in enumerate(items):
             # RAGAS returns a DataFrame-like object
             row_data = evaluation_result.to_pandas().iloc[i]
-            
+
             # Calculate overall score (average of all metrics)
             metric_scores = {
-                'faithfulness': float(row_data.get('faithfulness', 0)),
-                'answer_correctness': float(row_data.get('answer_correctness', 0)),
-                'context_recall': float(row_data.get('context_recall', 0)),
-                'context_precision': float(row_data.get('context_precision', 0)),
-                'answer_relevancy': float(row_data.get('answer_relevancy', 0)),
-                'answer_similarity': float(row_data.get('answer_similarity', 0)),
+                "faithfulness": float(row_data.get("faithfulness", 0)),
+                "answer_correctness": float(row_data.get("answer_correctness", 0)),
+                "context_recall": float(row_data.get("context_recall", 0)),
+                "context_precision": float(row_data.get("context_precision", 0)),
+                "answer_relevancy": float(row_data.get("answer_relevancy", 0)),
+                "answer_similarity": float(row_data.get("answer_similarity", 0)),
             }
-            
+
             overall = sum(metric_scores.values()) / len(metric_scores)
-            
+
             result = EvaluationResult(
                 question=item.question,
-                faithfulness=metric_scores['faithfulness'],
-                answer_correctness=metric_scores['answer_correctness'],
-                context_recall=metric_scores['context_recall'],
-                context_precision=metric_scores['context_precision'],
-                answer_relevancy=metric_scores['answer_relevancy'],
-                answer_similarity=metric_scores['answer_similarity'],
+                faithfulness=metric_scores["faithfulness"],
+                answer_correctness=metric_scores["answer_correctness"],
+                context_recall=metric_scores["context_recall"],
+                context_precision=metric_scores["context_precision"],
+                answer_relevancy=metric_scores["answer_relevancy"],
+                answer_similarity=metric_scores["answer_similarity"],
                 overall_score=overall,
                 metadata=item.metadata,
                 evaluation_time=eval_time / len(items),
-                model_used=model_name
+                model_used=model_name,
             )
             results.append(result)
-            
+
             # Print per-item results
             print(f"\n{'='*80}")
             print(f"Item {i+1}/{len(items)}")
@@ -374,9 +392,9 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
             print(f"  Answer Similarity:   {result.answer_similarity:.2f}")
             print(f"  {'─'*78}")
             print(f"  Overall Score:       {result.overall_score:.2f}")
-        
+
         return results
-        
+
     except Exception as e:
         print(f"\n✗ Error during RAGAS evaluation: {e}")
         print("\nThis could be due to:")
@@ -386,19 +404,18 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
         raise
 
 
-def run_evaluation(input_path: str, model_name: Optional[str] = None, 
-                   output_dir: str = ".") -> List[EvaluationResult]:
+def run_evaluation(input_path: str, model_name: str | None = None, output_dir: str = ".") -> list[EvaluationResult]:
     """Main evaluation pipeline"""
-    
+
     print(f"\n{'='*80}")
-    print(f"RAGAS Evaluation Pipeline with Ollama")
+    print("RAGAS Evaluation Pipeline with Ollama")
     print(f"{'='*80}")
     print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
+
     # Setup Ollama for RAGAS
     model = model_name or DEFAULT_MODEL
     llm, embeddings = setup_ollama_for_ragas(model)
-    
+
     # Load data
     print(f"\nLoading evaluation data from: {input_path}")
     try:
@@ -407,20 +424,20 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
     except Exception as e:
         print(f"✗ Error loading data: {e}")
         sys.exit(1)
-    
+
     # Run RAGAS evaluation
     try:
         results = evaluate_with_ragas(items, llm, embeddings, model)
     except Exception as e:
         print(f"✗ Evaluation failed: {e}")
         sys.exit(1)
-    
+
     # Print summary
     print(f"\n{'='*80}")
-    print(f"EVALUATION SUMMARY")
+    print("EVALUATION SUMMARY")
     print(f"{'='*80}")
     print(f"Total Items: {len(results)}")
-    
+
     if results:
         avg_faithfulness = sum(r.faithfulness for r in results) / len(results)
         avg_correctness = sum(r.answer_correctness for r in results) / len(results)
@@ -430,8 +447,8 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
         avg_similarity = sum(r.answer_similarity for r in results) / len(results)
         avg_overall = sum(r.overall_score for r in results) / len(results)
         total_time = sum(r.evaluation_time for r in results)
-        
-        print(f"\nAverage Scores:")
+
+        print("\nAverage Scores:")
         print(f"  Faithfulness:        {avg_faithfulness:.2f}")
         print(f"  Answer Correctness:  {avg_correctness:.2f}")
         print(f"  Context Recall:      {avg_recall:.2f}")
@@ -442,14 +459,14 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
         print(f"  Overall Score:       {avg_overall:.2f}")
         print(f"\nTotal Time: {total_time:.2f}s")
         print(f"Avg Time per Item: {total_time/len(results):.2f}s")
-    
+
     # Save results
     save_results(results, output_dir)
-    
+
     print(f"\n{'='*80}")
-    print(f"Evaluation complete!")
+    print("Evaluation complete!")
     print(f"{'='*80}\n")
-    
+
     return results
 
 
@@ -457,9 +474,10 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
 # CLI Interface
 # ============================================================================
 
+
 def main():
     parser = argparse.ArgumentParser(
-        description='RAGAS Evaluation Pipeline with Ollama',
+        description="RAGAS Evaluation Pipeline with Ollama",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -480,14 +498,14 @@ How Ollama is Used:
 
 Integration with Live RAG Pipeline:
   To integrate this evaluator into a live RAG pipeline:
-  
+
   1. Import the evaluation functions:
      from ragas_eval import setup_ollama_for_ragas, evaluate_with_ragas
      from ragas_eval import EvaluationInput
-  
+
   2. Setup Ollama once at startup:
      llm, embeddings = setup_ollama_for_ragas("llama3.1")
-  
+
   3. After your RAG generates responses, create evaluation batch:
      eval_items = [
          EvaluationInput(
@@ -498,49 +516,34 @@ Integration with Live RAG Pipeline:
          )
          for query, expected, rag_response, retrieved_docs in test_set
      ]
-  
+
   4. Run evaluation:
      results = evaluate_with_ragas(eval_items, llm, embeddings, "llama3.1")
-  
+
   5. Monitor metrics in production:
      - Track faithfulness to detect hallucinations
      - Monitor answer_relevancy for off-topic responses
      - Use context_precision to optimize retrieval
-        """
+        """,
     )
-    
-    parser.add_argument(
-        '--input', '-i',
-        required=True,
-        help='Path to JSON file or directory containing evaluation data'
-    )
-    
-    parser.add_argument(
-        '--model', '-m',
-        default=None,
-        help=f'Ollama model to use (default: {DEFAULT_MODEL} or OLLAMA_MODEL env var)'
-    )
-    
-    parser.add_argument(
-        '--output', '-o',
-        default='.',
-        help='Output directory for results (default: current directory)'
-    )
-    
+
+    parser.add_argument("--input", "-i", required=True, help="Path to JSON file or directory containing evaluation data")
+
+    parser.add_argument("--model", "-m", default=None, help=f"Ollama model to use (default: {DEFAULT_MODEL} or OLLAMA_MODEL env var)")
+
+    parser.add_argument("--output", "-o", default=".", help="Output directory for results (default: current directory)")
+
     args = parser.parse_args()
-    
+
     try:
-        run_evaluation(
-            input_path=args.input,
-            model_name=args.model,
-            output_dir=args.output
-        )
+        run_evaluation(input_path=args.input, model_name=args.model, output_dir=args.output)
     except KeyboardInterrupt:
         print("\n\nEvaluation interrupted by user")
         sys.exit(0)
     except Exception as e:
         print(f"\nError: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)
 

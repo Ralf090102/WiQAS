@@ -77,7 +77,7 @@ def ensure_config(config: Optional["WiQASConfig"] = None, from_env: bool = True)
         try:
             return get_config(from_env=from_env)
         except Exception as e:
-            log_warning(f"Failed to load config from environment: {e}. Using defaults.")
+            print(f"⚠️  Failed to load config from environment: {e}. Using defaults.")
             return get_config(from_env=False)
     return config
 
