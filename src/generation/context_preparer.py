@@ -72,10 +72,10 @@ class ContextPreparer:
             return "wikipedia"
         elif "news_site" in source_lower or "news-site" in source_lower:
             return "news_site"
-        elif "books" in source_lower or "book" in source_lower:
-            return "books"
         elif source_file.endswith(".pdf"):
             return "pdf"
+        elif "books" in source_lower or "book" in source_lower:
+            return "books"
         else:
             return "unknown"
 
