@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
 """
 RAGAS Evaluation with Ollama via OpenAI-Compatible Endpoint
-
-Uses Ollama's OpenAI-compatible API endpoint to avoid parameter compatibility issues.
-This is the most reliable way to use Ollama with RAGAS.
 
 Requirements:
     pip install ragas datasets langchain langchain-openai pandas
@@ -15,7 +11,7 @@ import json
 import argparse
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Union
 from dataclasses import dataclass, asdict
 import pandas as pd
 from datetime import datetime
@@ -69,12 +65,12 @@ class EvaluationInput:
 class EvaluationResult:
     """Structure for evaluation results"""
     question: str
-    faithfulness: float
-    answer_correctness: float
-    context_recall: float
-    context_precision: float
-    answer_relevancy: float
-    answer_similarity: float
+    faithfulness: Optional[float]
+    answer_correctness: Optional[float]
+    context_recall: Optional[float]
+    context_precision: Optional[float]
+    answer_relevancy: Optional[float]
+    answer_similarity: Optional[float]
     overall_score: float
     metadata: Optional[Dict[str, Any]] = None
     evaluation_time: float = 0.0
@@ -264,11 +260,13 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
         for i, item in enumerate(items):
             row_data = df.iloc[i]
             
-            # Extract scores with NaN handling
+            # Extract scores with NaN handling - None means no value was generated
             def get_score(col_name):
+                if col_name not in row_data.index:
+                    return None  # Metric wasn't run
                 val = row_data.get(col_name)
                 if pd.isna(val):
-                    return 0.0
+                    return None  # RAGAS couldn't generate value
                 return float(val)
             
             metric_scores = {
@@ -280,9 +278,9 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
                 'answer_similarity': get_score('answer_similarity'),
             }
             
-            # Calculate overall only from non-zero scores
-            non_zero = [v for v in metric_scores.values() if v > 0]
-            overall = sum(non_zero) / len(non_zero) if non_zero else 0.0
+            # Calculate overall only from valid scores
+            valid_scores = [v for v in metric_scores.values() if v is not None]
+            overall = sum(valid_scores) / len(valid_scores) if valid_scores else 0.0
             
             result = EvaluationResult(
                 question=item.question,
@@ -305,8 +303,10 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
             logger.info(f"Question: {item.question[:100]}...")
             logger.info(f"{'='*80}")
             for metric_name, score in metric_scores.items():
-                if score > 0:
+                if score is not None:
                     logger.info(f"  {metric_name:20s}: {score:.3f}")
+                else:
+                    logger.info(f"  {metric_name:20s}: N/A (not generated)")
             logger.info(f"  {'─'*78}")
             logger.info(f"  Overall Score:       {result.overall_score:.3f}")
         
@@ -324,7 +324,7 @@ def save_results(results: List[EvaluationResult], output_dir: str = "."):
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
     
-    # Save to JSON
+    # Save to JSON (with None values preserved)
     json_path = output_path / "ragas_results.json"
     with open(json_path, 'w', encoding='utf-8') as f:
         json_data = [asdict(r) for r in results]
@@ -332,7 +332,7 @@ def save_results(results: List[EvaluationResult], output_dir: str = "."):
     
     logger.info(f"\n✓ Results saved to {json_path}")
     
-    # Save to CSV
+    # Save to CSV (None becomes empty string)
     csv_path = output_path / "ragas_results.csv"
     df = pd.DataFrame([asdict(r) for r in results])
     
@@ -381,12 +381,12 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
     logger.info(f"Total Items: {len(results)}")
     
     if results:
-        # Calculate averages only for non-zero scores
-        def avg_nonzero(scores):
-            non_zero = [s for s in scores if s > 0]
-            return sum(non_zero) / len(non_zero) if non_zero else 0.0
+        # Calculate averages only for valid scores
+        def avg_valid(scores):
+            valid = [s for s in scores if s is not None]
+            return sum(valid) / len(valid) if valid else None
         
-        logger.info(f"\nAverage Scores (non-zero only):")
+        logger.info(f"\nAverage Scores:")
         
         metrics_data = [
             ('Answer Similarity', [r.answer_similarity for r in results]),
@@ -398,9 +398,12 @@ def run_evaluation(input_path: str, model_name: Optional[str] = None,
         ]
         
         for metric_name, scores in metrics_data:
-            avg = avg_nonzero(scores)
-            if avg > 0:
-                logger.info(f"  {metric_name:20s}: {avg:.3f}")
+            avg = avg_valid(scores)
+            valid_count = sum(1 for s in scores if s is not None)
+            if avg is not None:
+                logger.info(f"  {metric_name:20s}: {avg:.3f} ({valid_count}/{len(results)} items)")
+            else:
+                logger.info(f"  {metric_name:20s}: N/A (no valid scores)")
         
         total_time = sum(r.evaluation_time for r in results)
         logger.info(f"\nTotal Time: {total_time:.2f}s")
@@ -435,6 +438,7 @@ Note:
 - By default, only answer_similarity is used (it's the only one that works)
 - Use --all-metrics to try all metrics (but expect timeouts)
 - Ollama must support OpenAI-compatible endpoint (Ollama 0.1.0+)
+- Missing values (None/null in JSON, empty in CSV) indicate RAGAS couldn't generate that score
         """
     )
     

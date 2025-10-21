@@ -42,3 +42,8 @@ typer
 # Nvidia GPU support (Uncomment if using Nvidia GPU ensure correct CUDA version)
 # torch>=2.7.1+cu121
 # torchvision>=0.22.0+cu121
+
+
+# evaluation
+ragas
+datasets
