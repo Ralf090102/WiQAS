@@ -35,13 +35,7 @@ How it works:
     - RAGAS calls Ollama internally for reasoning steps in metrics like faithfulness
 """
 
-<<<<<<< HEAD
 import logging,os
-=======
-import argparse
-import json
-import os
->>>>>>> generator
 import sys
 import time
 import warnings
@@ -61,19 +55,7 @@ try:
     from datasets import Dataset
     from langchain_community.chat_models import ChatOllama
     from langchain_community.embeddings import OllamaEmbeddings
-<<<<<<< HEAD
     from ragas import RunConfig
-=======
-    from ragas import evaluate
-    from ragas.metrics import (
-        answer_correctness,
-        answer_relevancy,
-        answer_similarity,
-        context_precision,
-        context_recall,
-        faithfulness,
-    )
->>>>>>> generator
 except ImportError as e:
     print("Error: Required packages not installed.")
     print("Install with: pip install ragas datasets langchain langchain-community pandas")
@@ -327,12 +309,9 @@ def evaluate_with_ragas(items: list[EvaluationInput], llm, embeddings, model_nam
         answer_similarity,  # Semantic similarity to ground_truth
     ]
 
-<<<<<<< HEAD
     run_config = RunConfig(timeout=120, log_tenacity=True)
 
     
-=======
->>>>>>> generator
     try:
         # Run RAGAS evaluation
         # RAGAS will use Ollama (via llm and embeddings) for all metric computations
