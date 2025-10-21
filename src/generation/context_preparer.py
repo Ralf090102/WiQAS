@@ -35,10 +35,12 @@ class ContextPreparer:
         if not source_file:
             return ""
 
+        source_file = source_file.replace("\\", "/")
+
         patterns = [
-            r"^[Dd]ata[\\/][Kk]nowledge_?[Bb]ase[\\/]",
-            r"^[Dd]ata[\\/]",
-            r"^[Kk]nowledge_?[Bb]ase[\\/]",
+            r"^[Dd]ata/[Kk]nowledge_?[Bb]ase/",
+            r"^[Dd]ata/",
+            r"^[Kk]nowledge_?[Bb]ase/",
         ]
 
         normalized = source_file
