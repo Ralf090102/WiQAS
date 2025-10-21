@@ -34,6 +34,7 @@ import argparse
 from dataclasses import dataclass, asdict
 from typing import Any, Dict, List, Optional
 from pathlib import Path
+import csv
 
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
@@ -202,6 +203,40 @@ class DatasetReshaper:
         save_json(all_entries, Path(output_path))
         logger.info(f"Combined {len(all_entries)} entries into {output_path}")
 
+# --------------------------- #
+#       CONTEXT MERGER        #
+# --------------------------- #
+class ContextMerger:
+    def __init__(self, base_path: Path, merge_path: Path, output_path: Path):
+        self.base_data = load_json(base_path)
+        self.merge_data = load_json(merge_path)
+        self.output_path = output_path
+
+    def _index_by_question(self, data):
+        return {item["question"]: item for item in data}
+
+    def merge(self):
+        merge_index = self._index_by_question(self.merge_data)
+        merged_count = 0
+
+        for entry in self.base_data:
+            q = entry.get("question")
+            if q in merge_index:
+                m = merge_index[q]
+
+                # Add model answer
+                entry["model_answer"] = m.get("answer", "")
+
+                # Extract only text fields from contexts
+                if "contexts" in m and isinstance(m["contexts"], list):
+                    entry["contexts"] = [c.get("text", "") for c in m["contexts"] if "text" in c]
+
+                merged_count += 1
+
+        save_json(self.base_data, self.output_path)
+        logger.info(f"Merged {merged_count} entries with contexts (texts only) and model answers.")
+        logger.info(f"Saved to {self.output_path}")
+
 
 # --------------------------- #
 #     EXTRACT QUESTIONS        #
@@ -242,6 +277,63 @@ def extract_questions(json_path: str, output_path: Optional[str] = None):
 
     logger.info(f"Extracted {len(questions)} questions to {output_path}")
 
+
+
+# --------------------------- #
+#         CSV MERGER           #
+# --------------------------- #
+import csv
+
+class CSVJSONMerger:
+    def __init__(self, csv_path: Path, json_path: Path, output_path: Path):
+        self.csv_path = csv_path
+        self.json_path = json_path
+        self.output_path = output_path
+        self.csv_data = []
+        self.json_data = []
+
+    def load(self):
+        with open(self.csv_path, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            self.csv_data = list(reader)
+        self.json_data = load_json(self.json_path)
+
+    def _index_json_by_question(self):
+        return {item["question"]: item for item in self.json_data}
+
+    def merge(self):
+        self.load()
+        json_index = self._index_json_by_question()
+        merged_rows = []
+
+        for row in self.csv_data:
+            q = row.get("question", "").strip()
+            if q in json_index:
+                j = json_index[q]
+                row["ground_truth"] = j.get("ground_truth", "")
+                row["model_answer"] = j.get("model_answer", "")
+                # Flatten contexts if list
+                contexts = j.get("contexts", [])
+                if isinstance(contexts, list):
+                    row["contexts"] = " ||| ".join(contexts)
+                else:
+                    row["contexts"] = str(contexts)
+            else:
+                row["ground_truth"] = ""
+                row["model_answer"] = ""
+                row["contexts"] = ""
+            merged_rows.append(row)
+
+        # Write out merged CSV
+        fieldnames = list(merged_rows[0].keys()) if merged_rows else []
+        with open(self.output_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(merged_rows)
+
+        logger.info(f"Merged {len(merged_rows)} CSV rows with JSON data by question.")
+        logger.info(f"Saved merged CSV to {self.output_path}")
+
 # --------------------------- #
 #           CLI MAIN          #
 # --------------------------- #
@@ -265,6 +357,12 @@ def main():
     merge_p.add_argument("--q", required=True, help="Path to q_refined.json")
     merge_p.add_argument("--out", required=True, help="Output JSON path")
 
+    # Merge contexts + model answers
+    merge_c = subparsers.add_parser("merge-contexts", help="Merge contexts (texts only) and answers via question")
+    merge_c.add_argument("--base", required=True, help="Base JSON (with ground_truth etc.)")
+    merge_c.add_argument("--merge", required=True, help="JSON containing contexts and answers")
+    merge_c.add_argument("--out", required=True, help="Output merged JSON path")
+
     # Clean
     clean_p = subparsers.add_parser("clean", help="Remove refinement_info from JSON")
     clean_p.add_argument("json_path", help="Path to JSON file")
@@ -274,6 +372,12 @@ def main():
     extract_p = subparsers.add_parser("extract-questions", help="Extract all questions to a text file delimited by '?'")
     extract_p.add_argument("json_path", help="Path to dataset JSON")
     extract_p.add_argument("--out", help="Output text file path")
+    
+    # Merge CSV with JSON
+    merge_csv = subparsers.add_parser("merge-csv", help="Merge CSV with JSON via question")
+    merge_csv.add_argument("--csv", required=True, help="Path to CSV file")
+    merge_csv.add_argument("--json", required=True, help="Path to JSON file")
+    merge_csv.add_argument("--out", required=True, help="Output CSV path")
 
     args = parser.parse_args()
 
@@ -291,6 +395,13 @@ def main():
 
     elif args.command == "extract-questions":
         extract_questions(args.json_path, args.out)
+    
+    elif args.command == "merge-contexts":
+        ContextMerger(Path(args.base), Path(args.merge), Path(args.out)).merge()
+
+
+    elif args.command == "merge-csv":
+        CSVJSONMerger(Path(args.csv), Path(args.json), Path(args.out)).merge()
 
     else:
         parser.print_help()
