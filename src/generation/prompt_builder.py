@@ -253,7 +253,7 @@ class PromptTemplate:
             '- For News: [Source: "Article Title", January 15, 2024. Retrieved from URL]\n'
             "- For Books: [Source: Book Title, p. 45]\n"
             '- Multiple sources: [Sources: Food Of The Philippines, p. 23; Article Title (Wikipedia, accessed January 15, 2024); "Article Title", January 15, 2024. Retrieved from URL]\n'
-            "- No sources:\n\n"
+            "- No sources: do not put any citations\n\n"
         )
 
         return (
@@ -282,7 +282,7 @@ class PromptTemplate:
             "be familiar to the target audience.\n\n"
 
             f"5. **Detailed Citations**: Always reference sources at the end of your answer using the exact citation in the citation "
-            "format provided in the context snippets. Each context snippet includes a [Source: ...] citation - "
+            "format provided in the context snippets unless there are unsufficient information for a response. Each context snippet includes a [Source: ...] citation - "
             "use these citations directly in your answer. When multiple sources support your answer, list all of them. "
             "Citations must be accurate, detailed, and traceable. The generated answer should always end with the citation, unless No relevant documents found.\n\n"
             f"{citation_examples}"
