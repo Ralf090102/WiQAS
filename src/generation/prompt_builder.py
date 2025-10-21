@@ -281,7 +281,7 @@ class PromptTemplate:
             "specific terms and concepts. Provide translations or explanations when using terms that might not "
             "be familiar to the target audience.\n\n"
 
-            f"5. **Detailed Citations**: Always reference sources at the end of your answer using the exact citation "
+            f"5. **Detailed Citations**: Always reference sources at the end of your answer using the exact citation in the citation "
             "format provided in the context snippets. Each context snippet includes a [Source: ...] citation - "
             "use these citations directly in your answer. When multiple sources support your answer, list all of them. "
             "Citations must be accurate, detailed, and traceable. The generated answer should always end with the citation, unless No relevant documents found.\n\n"
