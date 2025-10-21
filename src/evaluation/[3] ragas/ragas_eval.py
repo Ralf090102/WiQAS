@@ -35,7 +35,7 @@ How it works:
     - RAGAS calls Ollama internally for reasoning steps in metrics like faithfulness
 """
 
-import os
+import logging,os
 import sys
 import json
 import argparse
@@ -49,6 +49,7 @@ import warnings
 
 # Suppress warnings
 warnings.filterwarnings('ignore')
+
 
 # RAGAS imports
 try:
@@ -64,6 +65,7 @@ try:
     )
     from langchain_community.chat_models import ChatOllama
     from langchain_community.embeddings import OllamaEmbeddings
+    from ragas import RunConfig
 except ImportError as e:
     print("Error: Required packages not installed.")
     print("Install with: pip install ragas datasets langchain langchain-community pandas")
@@ -78,6 +80,12 @@ except ImportError as e:
 DEFAULT_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
 
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
+logging.getLogger("ragas").setLevel(logging.DEBUG)
+logging.getLogger("langchain").setLevel(logging.DEBUG)
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["RAGAS_PARALLEL"] = "false"
+os.environ["RAGAS_DEBUG"] = "true"
 
 # ============================================================================
 # Data Models
@@ -131,13 +139,12 @@ def setup_ollama_for_ragas(model_name: str = DEFAULT_MODEL):
             model=model_name,
             base_url=OLLAMA_BASE_URL,
             temperature=0,  # Deterministic for evaluation
-            num_predict=512,  # Limit response length
         )
         
         # Create OllamaEmbeddings for semantic similarity
         # RAGAS uses embeddings for metrics like answer_similarity
         embeddings = OllamaEmbeddings(
-            model=model_name,
+            model="nomic-embed-text",
             base_url=OLLAMA_BASE_URL,
         )
         
@@ -304,6 +311,9 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
         answer_relevancy,       # Relevance of answer to question
         answer_similarity,      # Semantic similarity to ground_truth
     ]
+
+    run_config = RunConfig(timeout=120, log_tenacity=True)
+
     
     try:
         # Run RAGAS evaluation
@@ -313,6 +323,7 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
             metrics=metrics,
             llm=llm,
             embeddings=embeddings,
+            run_config=run_config
         )
         
         eval_time = time.time() - start_time
@@ -353,7 +364,7 @@ def evaluate_with_ragas(items: List[EvaluationInput], llm, embeddings,
             # Print per-item results
             print(f"\n{'='*80}")
             print(f"Item {i+1}/{len(items)}")
-            print(f"Question: {item.question[:100]}...")
+            print(f"Question: {item.question}...")
             print(f"{'='*80}")
             print(f"  Faithfulness:        {result.faithfulness:.2f}")
             print(f"  Answer Correctness:  {result.answer_correctness:.2f}")
