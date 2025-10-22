@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 WiQAS Dataset Utility CLI
 
@@ -282,7 +281,6 @@ def extract_questions(json_path: str, output_path: Optional[str] = None):
 # --------------------------- #
 #         CSV MERGER           #
 # --------------------------- #
-import csv
 
 class CSVJSONMerger:
     def __init__(self, csv_path: Path, json_path: Path, output_path: Path):
@@ -335,6 +333,45 @@ class CSVJSONMerger:
         logger.info(f"Saved merged CSV to {self.output_path}")
 
 # --------------------------- #
+#   CULTURAL GOLDEN UPDATER   #
+# --------------------------- #
+class CulturalGoldenUpdater:
+    """
+    Updates the 'metadata.cultural_golden_answer' field of an evaluation dataset
+    using entries from a refined JSON file that contains updated golden answers.
+
+    Usage:
+        python reshaper.py update-cga --base evaluation_dataset.json --refined refined.json --out updated.json
+    """
+    def __init__(self, base_path: Path, refined_path: Path, output_path: Path):
+        self.base_path = base_path
+        self.refined_path = refined_path
+        self.output_path = output_path
+        self.base_data = load_json(base_path)
+        self.refined_data = load_json(refined_path)
+
+    def _index_by_question(self, data):
+        return {item["question"]: item for item in data}
+
+    def update(self):
+        refined_index = self._index_by_question(self.refined_data)
+        updated_count = 0
+
+        for entry in self.base_data:
+            q = entry.get("question")
+            if q in refined_index:
+                refined_entry = refined_index[q]
+                refined_cga = refined_entry.get("metadata", {}).get("cultural_golden_answer")
+                if refined_cga:
+                    entry.setdefault("metadata", {})["cultural_golden_answer"] = refined_cga
+                    updated_count += 1
+
+        save_json(self.base_data, self.output_path)
+        logger.info(f"Updated {updated_count} entries with new cultural_golden_answer values.")
+        logger.info(f"Saved updated dataset to {self.output_path}")
+
+
+# --------------------------- #
 #           CLI MAIN          #
 # --------------------------- #
 def main():
@@ -379,6 +416,12 @@ def main():
     merge_csv.add_argument("--json", required=True, help="Path to JSON file")
     merge_csv.add_argument("--out", required=True, help="Output CSV path")
 
+    # Update cultural golden answers
+    update_cga = subparsers.add_parser("update-cga", help="Update cultural golden answers in base dataset")
+    update_cga.add_argument("--base", required=True, help="Path to evaluation_dataset.json")
+    update_cga.add_argument("--refined", required=True, help="Path to refined JSON with correct cultural_golden_answer")
+    update_cga.add_argument("--out", required=True, help="Output JSON file path")
+
     args = parser.parse_args()
 
     if args.command == "reshape":
@@ -402,6 +445,10 @@ def main():
 
     elif args.command == "merge-csv":
         CSVJSONMerger(Path(args.csv), Path(args.json), Path(args.out)).merge()
+
+    elif args.command == "update-cga":
+        CulturalGoldenUpdater(Path(args.base), Path(args.refined), Path(args.out)).update()
+
 
     else:
         parser.print_help()

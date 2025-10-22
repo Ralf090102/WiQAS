@@ -1,0 +1,58 @@
+
+resources/first_iteration
+
+1. qa_pairs = most refined dataset excluding the question and answers. extract the questions here for batch-ask
+2. questions = questions to feed for run_generation
+3. wiqas_answers_old = output of run_generation, old because this has the old KB and not multilingual
+4. ragas_dataset = merged wiqas_answers to qa_pairs = for ragas evaluation
+5. prelim_eval_500_gemma = results of evaluation
+
+
+resources/second_iteration
+
+1. qa_pairs = with the refined culturally golden answer
+2. wiqas_answers = 
+3. ragas_dataset
+
+
+*same questions.txt was used here as questions were not changed
+
+============================
+QA PAIR GENERATION
+/source_ingest = books
+/raw_generated = raw questions generated 
+
+
+==============================
+Refinement and Evaluation
+/first/old_evaluation_dataset_context_500 = context not preprocessed
+/first/evaluation_dataset_context_full = preprocessed context
+/first/validation_results-gemma
+/first/validation_results-llama
+
+(this does not have the prompt to be strict)
+/second/refined = refined based on the validation results feedback
+/second/refined_eval_gemma = reevaluating the refined dataset using gemma
+/second/refined_eval_llama = reevaluating the refined dataset using llama
+/raw/ = with refinement info 
+
+
+(refinement of the question for those invalid questions or both)
+/question/q_refined = refined based on the validation results feedback
+/question/q_refined_eval_gemma
+/question/q_refined_eval_llama
+/q_refined_raw = validation results that contains with refinement info from last iteration
+
+(refinement of the answer for those invalid answer or both)
+/answer/a_refined = refined based on the validation results feedback but only 823 queries
+/answer/refined_eval_gemma 
+/answer/refined_eval_llama
+
+/third/raw_merged_refined = merge the refined answer into refined questions
+/third/merged_refined_final = removes the refinement info 
+/third/third_refined_validation_results_gemma
+/third/third_refined_validation_results_llama
+
+
+evaluation_dataset = final 2037 queries
+

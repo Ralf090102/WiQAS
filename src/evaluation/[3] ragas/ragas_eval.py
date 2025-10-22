@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 RAGAS Evaluation Pipeline with Ollama Backend
 

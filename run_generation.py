@@ -165,7 +165,7 @@ def batch_ask(
     k: int = typer.Option(5, "--results", "-k", help="Number of retrieval results per question"),
     query_type: str = typer.Option(None, "--type", "-t", help="Query type for all questions (auto-detected if not specified)"),
     language: str = typer.Option(None, "--language", "-l", help="Response language for all questions (auto-detected if not specified)"),
-    include_timing: bool = typer.Option(False, "--timing", help="Include timing information in output"),
+    include_timing: bool = typer.Option(True, "--timing", help="Include timing information in output"),
     include_classification: bool = typer.Option(True, "--classification", help="Include classification info in output"),
     delimiter: str = typer.Option("?", "--delimiter", "-d", help="Question delimiter (default: '?')"),
 ):
