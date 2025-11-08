@@ -67,6 +67,7 @@ class WiQASGenerator:
             hf_model.to(device)
 
             inputs = tokenizer(prompt, return_tensors="pt").to(device)
+            input_length = inputs.input_ids.shape[1]  # Get the length of the input
 
             outputs = hf_model.generate(
                 **inputs,
@@ -75,11 +76,15 @@ class WiQASGenerator:
                 do_sample=True,
             )
 
-            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
+            print(f"Input length: {input_length}")
+            print(f"Output length: {outputs[0].shape[0]}")
+            print(f"Full output: {tokenizer.decode(outputs[0], skip_special_tokens=True)[:200]}...")
+            
+            generated_tokens = outputs[0][input_length:]
+            decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+            
+            print(f"Generated Response (new tokens only): {decoded[:200]}...")
 
-            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
-            if decoded.startswith(prompt):
-                decoded = decoded[len(prompt):].strip()
             return decoded
 
         else:
@@ -178,7 +183,7 @@ class WiQASGenerator:
             else:
                 raw_results = retrieval_result
         else:
-            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
+            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=True, formatted=False)
 
         def get_meta(r, key):
             return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
