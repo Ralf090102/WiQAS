@@ -56,23 +56,6 @@ def ask(
     classification = result.get("classification")
     detected_type = result.get("query_type")
     detected_language = result.get("language")
-    
-    try:
-        if getattr(generator, "answer_config", None) and generator.answer_config.backend == "hf":
-            try:
-                reconstructed_prompt = generator.prompt_builder.build_prompt(
-                    query=query,
-                    context=contexts,
-                    query_type=detected_type,
-                    language=detected_language,
-                )
-            except TypeError:
-                reconstructed_prompt = generator.prompt_builder.build_prompt(query, contexts, detected_type, detected_language)
-
-            if isinstance(answer, str) and reconstructed_prompt and answer.startswith(reconstructed_prompt):
-                answer = answer[len(reconstructed_prompt):].lstrip()
-    except Exception as _e:
-        console.print(f"[yellow]Warning: failed to strip prompt from HF output: {_e}[/yellow]")
 
     if show_classification and classification:
         class_table = Table(title="Query Classification", show_header=True, header_style="bold magenta")
