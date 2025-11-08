@@ -75,11 +75,11 @@ class WiQASGenerator:
                 do_sample=True,
             )
 
-            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
-
-            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
-            if decoded.startswith(prompt):
-                decoded = decoded[len(prompt):].strip()
+            generated_tokens = outputs[0][inputs['input_ids'].shape[1]:]
+            decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+            
+            print("Generated Response:", decoded)
+            
             return decoded
 
         else:
