@@ -75,16 +75,10 @@ class WiQASGenerator:
                 temperature=self.answer_config.temperature,
                 do_sample=True,
             )
-
-            print(f"Input length: {input_length}")
-            print(f"Output length: {outputs[0].shape[0]}")
-            print(f"Full output: {tokenizer.decode(outputs[0], skip_special_tokens=True)[:200]}...")
             
             generated_tokens = outputs[0][input_length:]
             decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
             
-            print(f"Generated Response (new tokens only): {decoded[:200]}...")
-
             return decoded
 
         else:
