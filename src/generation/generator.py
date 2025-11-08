@@ -75,11 +75,11 @@ class WiQASGenerator:
                 do_sample=True,
             )
 
-            generated_tokens = outputs[0][inputs['input_ids'].shape[1]:]
-            decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
-            
-            print("Generated Response:", decoded)
-            
+            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
+
+            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+            if decoded.startswith(prompt):
+                decoded = decoded[len(prompt):].strip()
             return decoded
 
         else:
@@ -213,7 +213,13 @@ class WiQASGenerator:
         # generate answer with timing
         if include_timing:
             llm_start = time.time()
-        answer = self._call_model(prompt)
+        raw_answer = self._call_model(prompt)
+        
+        # Remove prompt from answer if it was echoed by the model
+        answer = raw_answer
+        if raw_answer.startswith(prompt):
+            answer = raw_answer[len(prompt):].lstrip()
+        
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
