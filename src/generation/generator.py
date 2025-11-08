@@ -177,7 +177,7 @@ class WiQASGenerator:
             else:
                 raw_results = retrieval_result
         else:
-            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=True, formatted=False)
+            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
 
         def get_meta(r, key):
             return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
