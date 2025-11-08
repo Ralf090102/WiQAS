@@ -75,11 +75,11 @@ class WiQASGenerator:
                 do_sample=True,
             )
 
-            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
-
-            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
-            if decoded.startswith(prompt):
-                decoded = decoded[len(prompt):].strip()
+            generated_tokens = outputs[0][inputs['input_ids'].shape[1]:]
+            decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+            
+            print("Generated Response:", decoded)
+            
             return decoded
 
         else:
@@ -163,7 +163,7 @@ class WiQASGenerator:
         self.retriever._initialize_components()
         if include_timing:
             # Get retrieval timing by calling with timing enabled
-            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=True, formatted=False, include_timing=True)
+            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False, include_timing=True)
 
             if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
                 # Extract retrieval timing
