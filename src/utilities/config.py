@@ -380,27 +380,6 @@ class RerankerConfig(BaseConfig):
     timeout: int = 30
     top_k: int = 10
     score_threshold: float = 0.5
-    enable_cultural_boost: bool = True
-    cultural_boost_factor: float = 1.2
-
-    # LLM-based cultural content analysis
-    use_llm_cultural_analysis: bool = False
-    llm_model: str = "mistral:latest"
-    llm_base_url: str = "http://localhost:11434"
-    llm_timeout: int = 30
-    llm_temperature: float = 0.1
-
-    # Cultural analysis thresholds
-    cultural_confidence_threshold: float = 0.6
-    high_confidence_threshold: float = 0.8
-    low_confidence_boost: float = 1.1
-    high_confidence_boost: float = 1.5
-
-    # Caching and batch processing
-    cache_cultural_analysis: bool = True
-    cultural_cache_ttl: int = 7200
-    batch_analysis_size: int = 20
-    enable_batch_processing: bool = True
 
     @classmethod
     def from_env(cls) -> "RerankerConfig":
@@ -411,21 +390,6 @@ class RerankerConfig(BaseConfig):
             timeout=get_env_int("WIQAS_RERANKER_TIMEOUT", 30),
             top_k=get_env_int("WIQAS_RERANKER_TOP_K", 10),
             score_threshold=get_env_float("WIQAS_RERANKER_SCORE_THRESHOLD", 0.5),
-            enable_cultural_boost=get_env_bool("WIQAS_RERANKER_ENABLE_CULTURAL_BOOST", True),
-            cultural_boost_factor=get_env_float("WIQAS_RERANKER_CULTURAL_BOOST_FACTOR", 1.2),
-            use_llm_cultural_analysis=get_env_bool("WIQAS_RERANKER_USE_LLM_CULTURAL_ANALYSIS", True),
-            llm_model=get_env_str("WIQAS_RERANKER_LLM_MODEL", "mistral:latest"),
-            llm_base_url=get_env_str("WIQAS_RERANKER_LLM_BASE_URL", "http://localhost:11434"),
-            llm_timeout=get_env_int("WIQAS_RERANKER_LLM_TIMEOUT", 90),
-            llm_temperature=get_env_float("WIQAS_RERANKER_LLM_TEMPERATURE", 0.1),
-            cultural_confidence_threshold=get_env_float("WIQAS_RERANKER_CULTURAL_CONFIDENCE_THRESHOLD", 0.6),
-            high_confidence_threshold=get_env_float("WIQAS_RERANKER_HIGH_CONFIDENCE_THRESHOLD", 0.8),
-            low_confidence_boost=get_env_float("WIQAS_RERANKER_LOW_CONFIDENCE_BOOST", 1.1),
-            high_confidence_boost=get_env_float("WIQAS_RERANKER_HIGH_CONFIDENCE_BOOST", 1.5),
-            cache_cultural_analysis=get_env_bool("WIQAS_RERANKER_CACHE_CULTURAL_ANALYSIS", True),
-            cultural_cache_ttl=get_env_int("WIQAS_RERANKER_CULTURAL_CACHE_TTL", 7200),
-            batch_analysis_size=get_env_int("WIQAS_RERANKER_BATCH_ANALYSIS_SIZE", 10),
-            enable_batch_processing=get_env_bool("WIQAS_RERANKER_ENABLE_BATCH_PROCESSING", True),
         )
 
     def validate(self) -> None:
@@ -436,20 +400,6 @@ class RerankerConfig(BaseConfig):
             raise ValueError("top_k must be positive")
         if not 0.0 <= self.score_threshold <= 1.0:
             raise ValueError("score_threshold must be between 0.0 and 1.0")
-        if self.cultural_boost_factor < 0.0:
-            raise ValueError("cultural_boost_factor must be non-negative")
-        if self.llm_timeout <= 0:
-            raise ValueError("llm_timeout must be positive")
-        if not 0.0 <= self.cultural_confidence_threshold <= 1.0:
-            raise ValueError("cultural_confidence_threshold must be between 0.0 and 1.0")
-        if not 0.0 <= self.high_confidence_threshold <= 1.0:
-            raise ValueError("high_confidence_threshold must be between 0.0 and 1.0")
-        if self.cultural_confidence_threshold > self.high_confidence_threshold:
-            raise ValueError("cultural_confidence_threshold must be <= high_confidence_threshold")
-        if self.batch_analysis_size <= 0:
-            raise ValueError("batch_analysis_size must be positive")
-        if self.cultural_cache_ttl <= 0:
-            raise ValueError("cultural_cache_ttl must be positive")
 
 
 @dataclass
@@ -620,7 +570,6 @@ class EvaluationConfig(BaseConfig):
     dataset_path: str = "./src/evaluation/evaluation_dataset.json"
     limit: int | None = None
     randomize: bool = False
-    disable_cultural_llm_analysis: bool = False
 
     # Retrieval settings
     search_type: str = "hybrid"
@@ -640,7 +589,6 @@ class EvaluationConfig(BaseConfig):
             dataset_path=get_env_str("WIQAS_EVALUATION_DATASET_PATH", "./src/evaluation/evaluation_dataset.json"),
             limit=limit,
             randomize=get_env_bool("WIQAS_EVALUATION_RANDOMIZE", False),
-            disable_cultural_llm_analysis=get_env_bool("WIQAS_EVALUATION_DISABLE_CULTURAL_LLM", False),
             search_type=get_env_str("WIQAS_EVALUATION_SEARCH_TYPE", "hybrid"),
             k_results=get_env_int("WIQAS_EVALUATION_K_RESULTS", 5),
             enable_reranking=get_env_bool("WIQAS_EVALUATION_ENABLE_RERANKING", True),

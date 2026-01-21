@@ -315,7 +315,7 @@ class WiQASRetriever:
         else:
             raise ValueError(f"Unsupported search type: {search_type}. Use 'semantic' or 'hybrid'.")
 
-    def _apply_reranking(self, query: str, results: list[SearchResult], k: int, llm_analysis: bool = True) -> list[SearchResult]:
+    def _apply_reranking(self, query: str, results: list[SearchResult], k: int) -> list[SearchResult]:
         """
         Apply reranking to search results.
 
@@ -323,7 +323,6 @@ class WiQASRetriever:
             query: Original search query
             results: Initial search results
             k: Number of top results to return
-            llm_analysis: Whether to use LLM-based cultural analysis
 
         Returns:
             Reranked search results
@@ -331,15 +330,8 @@ class WiQASRetriever:
         if not results:
             return results
 
-        # Create a copy of reranker config if we need to disable LLM analysis
-        reranker_config = self.config.rag.reranker
-        if not llm_analysis:
-            from dataclasses import replace
-
-            reranker_config = replace(reranker_config, use_llm_cultural_analysis=False, score_threshold=0.0)
-            reranker = RerankerManager(reranker_config)
-        else:
-            reranker = self._reranker
+        # Use the configured reranker
+        reranker = self._reranker
 
         # Convert SearchResult objects to Document objects for reranking
         docs_to_rerank = []
@@ -439,7 +431,6 @@ class WiQASRetriever:
         search_type: str = "hybrid",
         enable_reranking: bool = True,
         enable_mmr: bool = True,
-        llm_analysis: bool = True,
         formatted: bool = True,
         include_timing: bool = False,
         enable_cross_lingual: bool = None,
@@ -453,7 +444,6 @@ class WiQASRetriever:
             search_type: Type of search - 'semantic' or 'hybrid' (default: 'hybrid')
             enable_reranking: Whether to apply reranking (default: True)
             enable_mmr: Whether to apply MMR diversity (default: True)
-            llm_analysis: Whether to use LLM-based cultural analysis (default: True)
             formatted: Whether to return formatted string or raw results (default: True)
             include_timing: Whether to include timing breakdown in results (default: False)
             enable_cross_lingual: Whether to enable cross-lingual retrieval (default: None, uses config)
@@ -536,7 +526,7 @@ class WiQASRetriever:
             if enable_reranking and results:
                 log_info("Applying reranking...")
                 rerank_start = time.time()
-                results = self._apply_reranking(query_text, results, k=k, llm_analysis=llm_analysis)
+                results = self._apply_reranking(query_text, results, k=k)
                 timing.reranking_time = time.time() - rerank_start
                 log_info(f"Reranking returned {len(results)} results")
 
