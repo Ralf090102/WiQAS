@@ -264,7 +264,6 @@ def search(
     search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: semantic or hybrid"),
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable reranking"),
     mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR diversity search"),
-    llm_analysis: bool = typer.Option(True, "--llm-analysis/--no-llm-analysis", help="Enable LLM-based cultural analysis"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ):
     """Search the knowledge base using the WiQAS retrieval pipeline."""
@@ -275,7 +274,6 @@ def search(
     print_info(f"Results: {k}")
     print_info(f"Reranking: {rerank}")
     print_info(f"MMR diversity: {mmr}")
-    print_info(f"LLM analysis: {llm_analysis}")
 
     try:
         # Import the convenience function
@@ -295,7 +293,6 @@ def search(
                 search_type=search_type,
                 enable_reranking=rerank,
                 enable_mmr=mmr,
-                llm_analysis=llm_analysis,
                 include_timing=True,
             )
 
@@ -322,7 +319,6 @@ def search(
 def evaluate(
     output: str = typer.Option(None, "--output", "-o", help="Output file path for evaluation results (overrides config)"),
     limit: int = typer.Option(None, "--limit", "-l", help="Limit number of evaluation items (overrides config)"),
-    no_cultural_llm: bool = typer.Option(False, "--no-cultural-llm", help="Disable cultural LLM analysis (overrides config)"),
     randomize: bool = typer.Option(False, "--randomize", "-r", help="Randomize the evaluation dataset order (overrides config)"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ) -> None:
@@ -355,8 +351,6 @@ def evaluate(
         # Apply CLI overrides to config
         if limit is not None:
             eval_config.limit = limit
-        if no_cultural_llm:
-            eval_config.disable_cultural_llm_analysis = True
         if randomize:
             eval_config.randomize = True
 
@@ -384,7 +378,6 @@ def evaluate(
         config_table.add_row("Results per Query", str(eval_config.k_results))
         config_table.add_row("Reranking", str(eval_config.enable_reranking))
         config_table.add_row("MMR Diversity", str(eval_config.enable_mmr))
-        config_table.add_row("Cultural LLM", str(not eval_config.disable_cultural_llm_analysis))
         config_table.add_row("Similarity Threshold", f"{eval_config.similarity_threshold:.2f}")
         config_table.add_row("Output File", output_path)
 
