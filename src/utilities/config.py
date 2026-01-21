@@ -468,10 +468,10 @@ class VectorStoreConfig(BaseConfig):
 class AnswerGeneratorConfig(BaseConfig):
     """Answer generation configuration"""
 
-    model: str = "aisingapore/Gemma-SEA-LION-v3-9B"
+    model: str = "mistral:latest"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
-    backend: str = "hf"  # ollama | hf
+    backend: str = "ollama"  # ollama | hf
 
     # init gen params
     temperature: float = 0.7
@@ -488,10 +488,10 @@ class AnswerGeneratorConfig(BaseConfig):
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "aisingapore/Gemma-SEA-LION-v3-9B"),
+            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "mistral:latest"),
             base_url=get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout=get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
-            backend=get_env_str("WIQAS_BACKEND", "hf"),  # ollama | hf
+            backend=get_env_str("WIQAS_BACKEND", "ollama"),  # ollama | hf
             temperature=get_env_float("WIQAS_ANSWER_GENERATOR_TEMPERATURE", 0.7),
             top_p=get_env_float("WIQAS_ANSWER_GENERATOR_TOP_P", 0.9),
             max_tokens=get_env_int("WIQAS_ANSWER_GENERATOR_MAX_TOKENS", 1024),

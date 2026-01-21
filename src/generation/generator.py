@@ -67,7 +67,6 @@ class WiQASGenerator:
             hf_model.to(device)
 
             inputs = tokenizer(prompt, return_tensors="pt").to(device)
-            input_length = inputs.input_ids.shape[1]  # Get the length of the input
 
             outputs = hf_model.generate(
                 **inputs,
@@ -75,10 +74,12 @@ class WiQASGenerator:
                 temperature=self.answer_config.temperature,
                 do_sample=True,
             )
-            
-            generated_tokens = outputs[0][input_length:]
-            decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
-            
+
+            print("Generated Response:", tokenizer.decode(outputs[0], skip_special_tokens=True).strip())
+
+            decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+            if decoded.startswith(prompt):
+                decoded = decoded[len(prompt):].strip()
             return decoded
 
         else:
@@ -162,7 +163,7 @@ class WiQASGenerator:
         self.retriever._initialize_components()
         if include_timing:
             # Get retrieval timing by calling with timing enabled
-            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False, include_timing=True)
+            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, formatted=False, include_timing=True)
 
             if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
                 # Extract retrieval timing
@@ -177,7 +178,7 @@ class WiQASGenerator:
             else:
                 raw_results = retrieval_result
         else:
-            raw_results = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False)
+            raw_results = self.retriever.query(query, k=k, enable_mmr=True, formatted=False)
 
         def get_meta(r, key):
             return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
