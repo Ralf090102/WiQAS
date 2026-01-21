@@ -20,7 +20,12 @@ class WiQASGenerator:
         prompt_builder (PromptBuilder): Constructs the final structured prompt.
     """
 
-    def __init__(self, config: WiQASConfig, answer_config: AnswerGeneratorConfig | None = None, use_query_classifier: bool = True,):
+    def __init__(
+        self,
+        config: WiQASConfig,
+        answer_config: AnswerGeneratorConfig | None = None,
+        use_query_classifier: bool = True,
+    ):
         """
         Initialize WiQASGenerator with system and answer configs.
 
@@ -79,7 +84,7 @@ class WiQASGenerator:
 
             decoded = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
             if decoded.startswith(prompt):
-                decoded = decoded[len(prompt):].strip()
+                decoded = decoded[len(prompt) :].strip()
             return decoded
 
         else:
@@ -133,18 +138,18 @@ class WiQASGenerator:
         if self.query_classifier:
             if include_timing:
                 classification_start = time.time()
-            
+
             classification = self.query_classifier.classify(query)
-            
+
             if include_timing:
                 timing.classification_time = time.time() - classification_start
-            
+
             # Use classification results if not explicitly provided
             if query_type is None:
                 query_type = classification.query_type
             if language is None:
                 language = classification.language
-            
+
             # Store classification info if requested
             if include_classification:
                 classification_info = {
@@ -214,17 +219,26 @@ class WiQASGenerator:
         if include_timing:
             llm_start = time.time()
         raw_answer = self._call_model(prompt)
-        
+
         # Remove prompt from answer if it was echoed by the model
         answer = raw_answer
         if raw_answer.startswith(prompt):
-            answer = raw_answer[len(prompt):].lstrip()
-        
+            answer = raw_answer[len(prompt) :].lstrip()
+
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
             timing.total_time = (
-                timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.context_preparation_time + timing.prompt_building_time + timing.llm_generation_time + timing.translation_time + timing.language_detection_time + getattr(timing, 'classification_time', 0.0)
+                timing.embedding_time
+                + timing.search_time
+                + timing.reranking_time
+                + timing.mmr_time
+                + timing.context_preparation_time
+                + timing.prompt_building_time
+                + timing.llm_generation_time
+                + timing.translation_time
+                + timing.language_detection_time
+                + getattr(timing, "classification_time", 0.0)
             )
 
         result = {

@@ -15,23 +15,23 @@ Usage:
         --clear                                              # Clear existing data before ingesting
         --recursive/--no-recursive                           # Search subdirectories (default: True)
         --workers <n>                                        # Number of parallel workers (default: 4)
-    
+
     python run.py clear --yes                                # Clear knowledge base (skip confirmation)
     python run.py sources                                    # List all sources
     python run.py sources --file <path>                      # Show chunks from specific source
-    
+
     # Retrieval
     python run.py search "<query>"                           # Search documents
         --results <k>                                        # Number of results (default: 5)
         --type <semantic|hybrid>                             # Search type (default: hybrid)
         --rerank/--no-rerank                                 # Enable/disable reranking (default: enabled)
         --mmr/--no-mmr                                       # Enable/disable MMR diversity (default: enabled)
-    
+
     python run.py evaluate                                   # Evaluate retrieval performance
         --limit <n>                                          # Limit evaluation items
         --randomize                                          # Randomize dataset order
         --output <file>                                      # Output file path
-    
+
     # Answer Generation
     python run.py ask "<question>"                           # Ask a question (retrieval + LLM)
         --results <k>                                        # Number of retrieval results (default: 5)
@@ -41,12 +41,12 @@ Usage:
         --show-contexts/--hide-contexts                      # Show/hide retrieved contexts (default: show)
         --timing/--no-timing                                 # Show/hide timing breakdown (default: show)
         --classification/--no-classification                 # Show/hide query classification (default: show)
-    
+
     python run.py batch-ask <input_file>                     # Batch question answering
         --output <file>                                      # Output JSON file (default: batch_output.json)
         --delimiter <char>                                   # Question delimiter (default: '?')
         --timing/--classification                            # Include timing/classification info
-    
+
     # System Management
     python run.py status                                     # Show system status
     python run.py config                                     # Show configuration
@@ -197,10 +197,10 @@ def ingest(
 ):
     """
     Ingest documents into the knowledge base.
-    
+
     Processes documents (PDF, DOCX, TXT, etc.) and stores them as vector embeddings.
     Supports both single files and entire directories with recursive scanning.
-    
+
     Examples:
         python run.py ingest ./data/documents
         python run.py ingest document.pdf --clear
@@ -373,10 +373,10 @@ def search(
 ):
     """
     Search the knowledge base using the WiQAS retrieval pipeline.
-    
+
     Performs semantic search with optional reranking and diversity optimization.
     Supports both English and Filipino queries with automatic language detection.
-    
+
     Examples:
         python run.py search "What is bayanihan?"
         python run.py search "Filipino culture" --results 10 --type semantic
@@ -444,6 +444,7 @@ def evaluate(
             output_path = output
         else:
             from datetime import datetime
+
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
             output_path = f"./data/evaluation/retrieval/{timestamp}.json"
 
@@ -537,14 +538,14 @@ def ask(
 ):
     """
     Ask a question and get an AI-generated answer using retrieval + LLM.
-    
+
     Performs full RAG (Retrieval-Augmented Generation) pipeline:
     1. Retrieves relevant context from knowledge base
     2. Classifies query type and detects language
     3. Generates answer using LLM with retrieved context
-    
+
     Supports both English and Filipino questions with automatic detection.
-    
+
     Examples:
         python run.py ask "What is bayanihan?"
         python run.py ask "Ano ang pakikisama?" --language fil
@@ -552,7 +553,7 @@ def ask(
         python run.py ask "How to show respect?" --json --no-timing
     """
     console.print(Panel("[bold blue]WiQAS Answer Generation[/bold blue]"))
-    
+
     generator = WiQASGenerator(WiQASConfig.from_env(), use_query_classifier=True)
 
     result = generator.generate(
@@ -576,13 +577,13 @@ def ask(
         class_table = Table(title="Query Classification", show_header=True, header_style="bold magenta")
         class_table.add_column("Property", style="cyan")
         class_table.add_column("Value", style="green")
-        
+
         class_table.add_row("Detected Type", classification.get("detected_type", "N/A"))
         class_table.add_row("Used Type", classification.get("used_type", "N/A"))
         class_table.add_row("Detected Language", classification.get("detected_language", "N/A"))
         class_table.add_row("Used Language", classification.get("used_language", "N/A"))
         class_table.add_row("Confidence", f"{classification.get('confidence', 0.0):.2%}")
-        
+
         console.print(class_table)
     elif not show_classification:
         console.print(f"[bold cyan]Query Type:[/bold cyan] {detected_type} | [bold cyan]Language:[/bold cyan] {detected_language.upper()}")
@@ -593,23 +594,18 @@ def ask(
         context_table.add_column("Text", style="white", width=60)
         context_table.add_column("Score", style="green", width=6)
         context_table.add_column("Source", style="yellow", width=30)
-        
+
         for idx, c in enumerate(contexts, 1):
             if isinstance(c, dict):
                 text = c.get("text", "")[:200] + "..." if len(c.get("text", "")) > 200 else c.get("text", "")
                 final_score = c.get("final_score", 0.0)
                 citation_text = c.get("citation_text", "")
                 source_file = c.get("source_file", "Unknown")
-                
+
                 source_display = citation_text if citation_text else source_file
-                
-                context_table.add_row(
-                    str(idx),
-                    text,
-                    f"{final_score:.3f}",
-                    source_display[:30] + "..." if len(source_display) > 30 else source_display
-                )
-        
+
+                context_table.add_row(str(idx), text, f"{final_score:.3f}", source_display[:30] + "..." if len(source_display) > 30 else source_display)
+
         console.print(context_table)
 
     if show_timing and timing:
@@ -617,9 +613,9 @@ def ask(
         timing_table.add_column("Component", style="cyan")
         timing_table.add_column("Time (s)", style="green", justify="right")
         timing_table.add_column("% of Total", style="magenta", justify="right")
-        
+
         total_time = timing.total_time if timing.total_time > 0 else 1.0
-        
+
         components = [
             ("Embedding", timing.embedding_time),
             ("Search", timing.search_time),
@@ -628,18 +624,18 @@ def ask(
             ("Language Detection", timing.language_detection_time),
             ("Translation", timing.translation_time),
             ("Context Preparation", timing.context_preparation_time),
-            ("Query Classification", getattr(timing, 'classification_time', 0.0)),
+            ("Query Classification", getattr(timing, "classification_time", 0.0)),
             ("Prompt Building", timing.prompt_building_time),
             ("LLM Generation", timing.llm_generation_time),
         ]
-        
+
         for name, time_val in components:
             if time_val > 0:
                 percentage = (time_val / total_time) * 100
                 timing_table.add_row(name, f"{time_val:.4f}", f"{percentage:.1f}%")
-        
+
         timing_table.add_row("[bold]TOTAL[/bold]", f"[bold]{total_time:.4f}[/bold]", "[bold]100.0%[/bold]")
-        
+
         console.print(timing_table)
 
     if json_output:
@@ -650,13 +646,13 @@ def ask(
             "language": detected_language,
             "contexts": contexts,
         }
-        
+
         if show_classification and classification:
             output["classification"] = classification
-        
+
         if show_timing and timing:
             output["timing"] = {
-                "classification_time": getattr(timing, 'classification_time', 0.0),
+                "classification_time": getattr(timing, "classification_time", 0.0),
                 "embedding_time": timing.embedding_time,
                 "search_time": timing.search_time,
                 "reranking_time": timing.reranking_time,
@@ -686,7 +682,7 @@ def batch_ask(
 ):
     """Run batch question answering from a text file."""
     console.print(Panel("[bold blue]WiQAS Batch Answer Generation[/bold blue]"))
-    
+
     generator = WiQASGenerator(WiQASConfig.from_env())
 
     with open(input_file, encoding="utf-8") as f:
@@ -704,12 +700,12 @@ def batch_ask(
         questions.append(q)
 
     console.print(f"[bold]Found {len(questions)} questions to process[/bold]")
-    
+
     results = []
 
     for i, query in enumerate(questions, 1):
         console.print(f"\n[bold green]Processing {i}/{len(questions)}:[/bold green] {query[:80]}{'...' if len(query) > 80 else ''}")
-        
+
         try:
             result = generator.generate(
                 query=query,
@@ -723,7 +719,7 @@ def batch_ask(
 
             contexts = result.get("contexts", [])
             structured_contexts = []
-            
+
             for c in contexts:
                 if not isinstance(c, dict):
                     try:
@@ -734,12 +730,14 @@ def batch_ask(
                         except Exception:
                             continue
 
-                structured_contexts.append({
-                    "text": c.get("text", ""),
-                    "final_score": c.get("final_score", 0.0),
-                    "source_file": c.get("source_file", ""),
-                    "citation_text": c.get("citation_text", ""),
-                })
+                structured_contexts.append(
+                    {
+                        "text": c.get("text", ""),
+                        "final_score": c.get("final_score", 0.0),
+                        "source_file": c.get("source_file", ""),
+                        "citation_text": c.get("citation_text", ""),
+                    }
+                )
 
             result_entry = {
                 "question": query,
@@ -755,7 +753,7 @@ def batch_ask(
             if include_timing and "timing" in result:
                 timing = result["timing"]
                 result_entry["timing"] = {
-                    "classification_time": getattr(timing, 'classification_time', 0.0),
+                    "classification_time": getattr(timing, "classification_time", 0.0),
                     "embedding_time": timing.embedding_time,
                     "search_time": timing.search_time,
                     "reranking_time": timing.reranking_time,
@@ -769,36 +767,29 @@ def batch_ask(
                 }
 
             results.append(result_entry)
-            console.print(f"[green]✓ Processed successfully[/green]")
+            console.print("[green]✓ Processed successfully[/green]")
 
         except Exception as e:
             console.print(f"[bold red]✗ Error processing question: {e}[/bold red]")
-            results.append({
-                "question": query,
-                "answer": "",
-                "query_type": "",
-                "language": "",
-                "contexts": [],
-                "error": str(e)
-            })
+            results.append({"question": query, "answer": "", "query_type": "", "language": "", "contexts": [], "error": str(e)})
 
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     successful = len([r for r in results if "error" not in r])
     failed = len(results) - successful
-    
+
     summary_table = Table(title="Batch Processing Summary", show_header=True, header_style="bold cyan")
     summary_table.add_column("Metric", style="cyan")
     summary_table.add_column("Value", style="green")
-    
+
     summary_table.add_row("Total Questions", str(len(questions)))
     summary_table.add_row("Successful", str(successful))
     summary_table.add_row("Failed", str(failed))
     summary_table.add_row("Output File", output_file)
-    
+
     console.print(summary_table)
-    console.print(Panel(f"[bold green]Batch generation complete![/bold green]", border_style="green"))
+    console.print(Panel("[bold green]Batch generation complete![/bold green]", border_style="green"))
 
 
 # ========== SYSTEM MANAGEMENT COMMANDS ==========
@@ -880,20 +871,20 @@ def config(
         system_table = Table(title="System Configuration", show_header=True, header_style="bold cyan")
         system_table.add_column("Setting", style="yellow", width=30)
         system_table.add_column("Value", style="white")
-        
+
         system_table.add_row("Data Directory", config.system.storage.data_directory)
         system_table.add_row("Knowledge Base Directory", config.system.storage.knowledge_base_directory)
         system_table.add_row("Log Level", config.system.logging.log_level)
         system_table.add_row("Log File", config.system.logging.log_file)
-        
+
         console.print(system_table)
         console.print()
-        
+
         # RAG Configuration
         rag_table = Table(title="RAG Configuration", show_header=True, header_style="bold cyan")
         rag_table.add_column("Setting", style="yellow", width=30)
         rag_table.add_column("Value", style="white")
-        
+
         rag_table.add_row("LLM Model", config.rag.llm.model)
         rag_table.add_row("LLM Base URL", config.rag.llm.base_url)
         rag_table.add_row("LLM Temperature", str(config.rag.llm.temperature))
@@ -904,21 +895,21 @@ def config(
         rag_table.add_row("Reranking Enabled", str(config.rag.retrieval.enable_reranking))
         rag_table.add_row("Reranker Model", config.rag.reranker.model)
         rag_table.add_row("Cross-Lingual Enabled", str(config.rag.multilingual.enable_cross_lingual))
-        
+
         console.print(rag_table)
         console.print()
-        
+
         # Vector Store Configuration
         vector_table = Table(title="Vector Store Configuration", show_header=True, header_style="bold cyan")
         vector_table.add_column("Setting", style="yellow", width=30)
         vector_table.add_column("Value", style="white")
-        
+
         vector_table.add_row("Persist Directory", config.rag.vectorstore.persist_directory)
         vector_table.add_row("Collection Name", config.rag.vectorstore.collection_name)
         vector_table.add_row("Distance Metric", config.rag.vectorstore.distance_metric)
-        
+
         console.print(vector_table)
-        
+
         console.print("\n[dim]Use --format json for complete configuration in JSON format[/dim]")
 
 

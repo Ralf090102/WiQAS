@@ -34,7 +34,8 @@ How it works:
     - RAGAS calls Ollama internally for reasoning steps in metrics like faithfulness
 """
 
-import logging,os
+import logging
+import os
 import sys
 import time
 import warnings
@@ -310,17 +311,10 @@ def evaluate_with_ragas(items: list[EvaluationInput], llm, embeddings, model_nam
 
     run_config = RunConfig(timeout=120, log_tenacity=True)
 
-    
     try:
         # Run RAGAS evaluation
         # RAGAS will use Ollama (via llm and embeddings) for all metric computations
-        evaluation_result = evaluate(
-            dataset=dataset,
-            metrics=metrics,
-            llm=llm,
-            embeddings=embeddings,
-            run_config=run_config
-        )
+        evaluation_result = evaluate(dataset=dataset, metrics=metrics, llm=llm, embeddings=embeddings, run_config=run_config)
 
         eval_time = time.time() - start_time
 

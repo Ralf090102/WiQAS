@@ -27,14 +27,13 @@ Usage Examples:
   python reshaper.py extract-questions dataset.json --out questions.txt
 """
 
+import argparse
+import csv
 import json
 import logging
-import argparse
-from dataclasses import dataclass, asdict
-from typing import Any, Dict, List, Optional
+from dataclasses import asdict, dataclass
 from pathlib import Path
-import csv
-
+from typing import Any
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
 logger = logging.getLogger("WiQAS-Tool")
@@ -44,7 +43,7 @@ logger = logging.getLogger("WiQAS-Tool")
 #        JSON LOADING         #
 # --------------------------- #
 def load_json(path: Path):
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -64,7 +63,7 @@ def remove_refinement_info(json_path: str, overwrite: bool = False):
 
     data = load_json(path)
 
-    def clean_item(item: Dict[str, Any]):
+    def clean_item(item: dict[str, Any]):
         meta = item.get("metadata", {})
         if "refinement_info" in meta:
             meta.pop("refinement_info")
@@ -125,15 +124,15 @@ class JSONRefiner:
 class QAEntry:
     question: str
     ground_truth: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class DatasetReshaper:
     def __init__(self, input_path: str, output_path: str):
         self.input_path = Path(input_path)
         self.output_path = Path(output_path)
-        self.raw_data: Optional[List[Dict[str, Any]]] = None
-        self.reshaped: List[QAEntry] = []
+        self.raw_data: list[dict[str, Any]] | None = None
+        self.reshaped: list[QAEntry] = []
 
     def load(self) -> None:
         logger.info(f"Loading dataset from {self.input_path}")
@@ -148,7 +147,7 @@ class DatasetReshaper:
 
         logger.info(f"Loaded {len(self.raw_data)} QA pairs.")
 
-    def reshape_entry(self, record: Dict[str, Any]) -> QAEntry:
+    def reshape_entry(self, record: dict[str, Any]) -> QAEntry:
         question = record.get("question", "").strip()
         ground_truth = (record.get("answer") or "").strip()
         context = record.get("context") or record.get("contexts", [])
@@ -202,6 +201,7 @@ class DatasetReshaper:
         save_json(all_entries, Path(output_path))
         logger.info(f"Combined {len(all_entries)} entries into {output_path}")
 
+
 # --------------------------- #
 #       CONTEXT MERGER        #
 # --------------------------- #
@@ -240,7 +240,7 @@ class ContextMerger:
 # --------------------------- #
 #     EXTRACT QUESTIONS        #
 # --------------------------- #
-def extract_questions(json_path: str, output_path: Optional[str] = None):
+def extract_questions(json_path: str, output_path: str | None = None):
     """
     Extract all 'question' fields from a JSON dataset and save to a text file
     delimited by '?'.
@@ -251,7 +251,7 @@ def extract_questions(json_path: str, output_path: Optional[str] = None):
         return
 
     data = None
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = json.load(f)
 
     # Try to extract questions from either list or 'detailed_results'
@@ -277,10 +277,10 @@ def extract_questions(json_path: str, output_path: Optional[str] = None):
     logger.info(f"Extracted {len(questions)} questions to {output_path}")
 
 
-
 # --------------------------- #
 #         CSV MERGER           #
 # --------------------------- #
+
 
 class CSVJSONMerger:
     def __init__(self, csv_path: Path, json_path: Path, output_path: Path):
@@ -291,7 +291,7 @@ class CSVJSONMerger:
         self.json_data = []
 
     def load(self):
-        with open(self.csv_path, "r", encoding="utf-8") as f:
+        with open(self.csv_path, encoding="utf-8") as f:
             reader = csv.DictReader(f)
             self.csv_data = list(reader)
         self.json_data = load_json(self.json_path)
@@ -332,6 +332,7 @@ class CSVJSONMerger:
         logger.info(f"Merged {len(merged_rows)} CSV rows with JSON data by question.")
         logger.info(f"Saved merged CSV to {self.output_path}")
 
+
 # --------------------------- #
 #   CULTURAL GOLDEN UPDATER   #
 # --------------------------- #
@@ -343,6 +344,7 @@ class CulturalGoldenUpdater:
     Usage:
         python reshaper.py update-cga --base evaluation_dataset.json --refined refined.json --out updated.json
     """
+
     def __init__(self, base_path: Path, refined_path: Path, output_path: Path):
         self.base_path = base_path
         self.refined_path = refined_path
@@ -409,7 +411,7 @@ def main():
     extract_p = subparsers.add_parser("extract-questions", help="Extract all questions to a text file delimited by '?'")
     extract_p.add_argument("json_path", help="Path to dataset JSON")
     extract_p.add_argument("--out", help="Output text file path")
-    
+
     # Merge CSV with JSON
     merge_csv = subparsers.add_parser("merge-csv", help="Merge CSV with JSON via question")
     merge_csv.add_argument("--csv", required=True, help="Path to CSV file")
@@ -438,17 +440,15 @@ def main():
 
     elif args.command == "extract-questions":
         extract_questions(args.json_path, args.out)
-    
+
     elif args.command == "merge-contexts":
         ContextMerger(Path(args.base), Path(args.merge), Path(args.out)).merge()
-
 
     elif args.command == "merge-csv":
         CSVJSONMerger(Path(args.csv), Path(args.json), Path(args.out)).merge()
 
     elif args.command == "update-cga":
         CulturalGoldenUpdater(Path(args.base), Path(args.refined), Path(args.out)).update()
-
 
     else:
         parser.print_help()

@@ -6,7 +6,6 @@ which pairs well with BGE-M3 embeddings.
 """
 
 import logging
-import time
 from typing import Any
 
 import torch

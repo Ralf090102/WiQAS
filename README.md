@@ -129,6 +129,18 @@ See [Configuration Guide](docs/configuration.md) for detailed options.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Cloud Deployment
+
+WiQAS can be deployed on cloud platforms with GPU support for better performance:
+
+- **[GCP Deployment Guide](docs/GCP_DEPLOYMENT.md)** - Complete guide for Google Cloud Platform with GPU
+- **[Setup Scripts](scripts/)** - Automated setup scripts for cloud deployment
+
+See the [GCP Deployment Guide](docs/GCP_DEPLOYMENT.md) for detailed instructions on:
+- Setting up VM with CUDA-enabled GPU
+- Transferring your knowledge base
+- Configuring the system for production use
+
 ## Acknowledgments
 
 - Filipino cultural experts and educators

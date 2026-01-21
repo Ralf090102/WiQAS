@@ -157,7 +157,6 @@ def test_context_preparer_mixed_duplicates_and_uniques():
     assert "Harana is a traditional serenade." in result
 
 
-
 def test_context_preparer_cleans_repetitions():
     """
     Test that repeated phrases (unigrams to 4-grams) are collapsed.
@@ -172,13 +171,7 @@ def test_context_preparer_cleans_repetitions():
     """
     contexts = [
         {
-            "content": (
-                "Ang sinigang ay isang. Mga uri ng sinigang "
-                "Sinigang na Sinigang na Sinigang na "
-                "Ayon sa pampaasim na sangkap "
-                "Sinigang sa Sinigang sa Sinigang sa "
-                "Mga sanggunian"
-            ),
+            "content": ("Ang sinigang ay isang. Mga uri ng sinigang " "Sinigang na Sinigang na Sinigang na " "Ayon sa pampaasim na sangkap " "Sinigang sa Sinigang sa Sinigang sa " "Mga sanggunian"),
             "final_score": 0.8,
         }
     ]
@@ -199,6 +192,7 @@ def test_context_preparer_cleans_repetitions():
     assert "Ang sinigang ay isang" in cleaned, "intro missing after cleaning"
     assert "Mga uri ng sinigang" in cleaned, "section header missing"
     assert "Mga sanggunian" in cleaned, "ending missing"
+
 
 def test_context_preparer_pdf_citation():
     """
@@ -222,6 +216,7 @@ def test_context_preparer_pdf_citation():
     assert "Machine learning is a subset of AI." in result[0]
     assert "[Source: Machine Learning Intro, p. 15]" in result[0]
 
+
 def test_context_preparer_wikipedia_citation():
     """
     Test that Wikipedia sources generate proper citations with title and date.
@@ -244,6 +239,7 @@ def test_context_preparer_wikipedia_citation():
     assert len(result) == 1
     assert "Python is a programming language." in result[0]
     assert "[Source: Python (programming language) (Wikipedia, accessed January 01, 2024)]" in result[0]
+
 
 def test_context_preparer_news_site_citation():
     """
@@ -271,6 +267,7 @@ def test_context_preparer_news_site_citation():
     assert "June 15, 2024" in result[0]
     assert "https://example.com/ai-regulation" in result[0]
 
+
 def test_context_preparer_books_citation():
     """
     Test that book sources generate proper citations with title and page.
@@ -294,6 +291,7 @@ def test_context_preparer_books_citation():
     assert "Deep learning revolutionized computer vision." in result[0]
     assert "[Source: Deep Learning, p. 42]" in result[0]
 
+
 def test_context_preparer_no_citations():
     """
     Test that citations can be disabled via include_citations parameter.
@@ -316,6 +314,7 @@ def test_context_preparer_no_citations():
     assert result[0] == "Context without citation."
     assert "[Source:" not in result[0]
 
+
 def test_context_preparer_sorts_by_score():
     """
     Test that contexts are sorted by final_score in descending order.
@@ -335,6 +334,7 @@ def test_context_preparer_sorts_by_score():
     assert result[0] == "This is a High score context."
     assert result[1] == "Medium score context that falls in between."
     assert result[2] == "An example of a Low score context."
+
 
 def test_context_preparer_return_scores():
     """
@@ -361,6 +361,7 @@ def test_context_preparer_return_scores():
     assert result[0]["source_file"] == "test.pdf"
     assert result[0]["page"] == 5
 
+
 def test_context_preparer_handles_string_contexts():
     """
     Test that plain string contexts (without metadata) are handled correctly.
@@ -374,6 +375,7 @@ def test_context_preparer_handles_string_contexts():
     result = prepare_contexts(contexts, include_citations=False)
     assert len(result) == 1
     assert result[0] == "Simple string context."
+
 
 def test_context_preparer_similarity_threshold():
     """
@@ -393,6 +395,7 @@ def test_context_preparer_similarity_threshold():
     # With a lower threshold, these should be considered similar
     assert len(result) == 1
 
+
 def test_context_preparer_containment_check():
     """
     Test that shorter text contained in longer text is detected as duplicate.
@@ -410,6 +413,7 @@ def test_context_preparer_containment_check():
     assert len(result) == 1
     # Higher score wins even though it's shorter
     assert result[0] == "Filipino cuisine is diverse and flavorful with influences from Spain."
+
 
 def test_context_preparer_timestamp_milliseconds():
     """
@@ -432,6 +436,7 @@ def test_context_preparer_timestamp_milliseconds():
     result = prepare_contexts(contexts, include_citations=True)
     assert len(result) == 1
     assert "January 01, 2024" in result[0]
+
 
 def test_context_preparer_iso_date_format():
     """
