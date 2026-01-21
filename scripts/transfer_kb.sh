@@ -74,10 +74,8 @@ case $choice in
         read -p "Enter GCS bucket name (or press Enter for default 'wiqas-kb'): " input_bucket
         BUCKET_NAME=${input_bucket:-"wiqas-kb-$(date +%s)"}
         
-        prini in "${!TARGET_VMS[@]}"; do
-            VM_NAME="${TARGET_VMS[$i]}"
-            ZONE="${TARGET_ZONES[$i]}"
-            print_info "Downloading to VM: $VM_NAME (zone: $ZONE)NAME" 2>/dev/null || print_info "Bucket already exists"
+        print_info "Creating bucket in asia-southeast1: gs://$BUCKET_NAME"
+        gsutil mb -l asia-southeast1 "gs://$BUCKET_NAME" 2>/dev/null || print_info "Bucket already exists"
         
         print_info "Uploading knowledge base to GCS (5GB - this may take several minutes)..."
         gsutil -m cp -r "$LOCAL_KB_PATH"/* "gs://$BUCKET_NAME/"
@@ -85,8 +83,10 @@ case $choice in
         print_success "Upload to GCS complete!"
         
         # Download to each VM
-        for VM_NAME in "${TARGET_VMS[@]}"; do
-            print_info "Downloading to VM: $VM_NAME"
+        for i in "${!TARGET_VMS[@]}"; do
+            VM_NAME="${TARGET_VMS[$i]}"
+            ZONE="${TARGET_ZONES[$i]}"
+            print_info "Downloading to VM: $VM_NAME (zone: $ZONE)"
             gcloud compute ssh "$VM_NAME" --zone="$ZONE" --command="
                 mkdir -p ~/WiQAS/data/knowledge_base && 
                 echo 'Downloading from GCS...' &&
@@ -106,12 +106,12 @@ case $choice in
         
         KB_SIZE=$(du -h knowledge_base.tar.gz | cut -f1)
         print_success "Compressed to: $KB_SIZE"
-        i in "${!TARGET_VMS[@]}"; do
+        
+        # Transfer to each VM
+        for i in "${!TARGET_VMS[@]}"; do
             VM_NAME="${TARGET_VMS[$i]}"
             ZONE="${TARGET_ZONES[$i]}"
-            print_info "Transferring to VM: $VM_NAME (zone: $ZONE)
-        for VM_NAME in "${TARGET_VMS[@]}"; do
-            print_info "Transferring to VM: $VM_NAME"
+            print_info "Transferring to VM: $VM_NAME (zone: $ZONE)"
             
             gcloud compute scp knowledge_base.tar.gz "$VM_NAME:~/WiQAS/data/" --zone="$ZONE"
             
@@ -132,13 +132,13 @@ case $choice in
         ;;
         
     3)
+        print_info "Using rsync (incremental transfer)..."
+        
         # Sync to each VM
         for i in "${!TARGET_VMS[@]}"; do
             VM_NAME="${TARGET_VMS[$i]}"
             ZONE="${TARGET_ZONES[$i]}"
-            print_info "Syncing to VM: $VM_NAME (zone: $ZONE)re'"
-echo "
-            print_info "Syncing to VM: $VM_NAME"
+            print_info "Syncing to VM: $VM_NAME (zone: $ZONE)"
             
             rsync -avz --progress -e "gcloud compute ssh --zone=$ZONE" \
                 "$LOCAL_KB_PATH/" \
@@ -155,10 +155,7 @@ echo "
 esac
 
 echo ""
-print_success "Knowledge base transfer completed!"
-print_info "Next step: Ingest documents on VM with:"
-echo "  python run.py ingest ./data/knowledge_base/ --workers 8"
-=========================================="
+print_success "=========================================="
 print_success "Knowledge base transfer completed!"
 print_success "=========================================="
 echo ""
@@ -182,4 +179,4 @@ echo ""
 echo "  5. Test:"
 echo "     python run.py status"
 echo "     python run.py search 'Filipino culture'"
-echo "
+echo ""

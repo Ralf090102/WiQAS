@@ -148,7 +148,23 @@ clone_repository() {
     
     if [ -d "$INSTALL_DIR" ]; then
         print_warning "Directory $INSTALL_DIR already exists"
-        read -p "Delete and 12.8
+        read -p "Delete and re-clone? [y/N]: " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            rm -rf "$INSTALL_DIR"
+        else
+            print_info "Using existing directory"
+            cd "$INSTALL_DIR"
+            return 0
+        fi
+    fi
+    
+    git clone "$REPO_URL" "$INSTALL_DIR"
+    cd "$INSTALL_DIR"
+    print_success "Repository cloned to $INSTALL_DIR"
+}
+
+# Install PyTorch with CUDA 12.8
 install_pytorch() {
     print_info "Installing PyTorch with CUDA 12.8 support..."
     
@@ -159,7 +175,7 @@ install_pytorch() {
     
     # Verify installation
     print_info "Verifying PyTorch CUDA installation..."
-    python -c "import torch; print(f'PyTorch version: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA version: {torch.version.cuda}'); print(f'GPU: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"None\"}')"
+    python -c 'import torch; print(f"PyTorch version: {torch.__version__}"); print(f"CUDA available: {torch.cuda.is_available()}"); print(f"CUDA version: {torch.version.cuda}"); print(f"GPU: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"None\"}")'
     
     print_success "PyTorch installed with CUDA support"
 }
@@ -181,18 +197,20 @@ install_wiqas_deps() {
     # Verify key packages
     print_info "Verifying key dependencies..."
     python -c "import sentence_transformers, chromadb, langchain; print('✅ Core packages OK')" || print_warning "Some packages may need attention"
-    print_success "PyTorch installed with CUDA support"
 }
 
-# Install WiQAS dependencies
-install_wiqas_deps() {
-    print_info "Installing WiQAS dependencies..."
+# Create data directories
+create_directories() {
+    print_info "Creating data directories..."
     
-    source .venv/bin/activate
+    mkdir -p data/knowledge_base
+    mkdir -p data/chroma-data
+    mkdir -p logs
     
-    if [ -f "requirements.txt" ]; then
-        pip install -r requirements.txt
-        print_suc based on VM role
+    print_success "Directories created"
+}
+
+# Configure WiQAS based on VM role
 configure_wiqas() {
     print_info "Configuring WiQAS for $VM_ROLE..."
     
@@ -223,7 +241,32 @@ WIQAS_LLM_MAX_TOKENS=512
 WIQAS_CHUNK_SIZE=512
 WIQAS_CHUNK_OVERLAP=50
 WIQAS_CHUNKING_STRATEGY=recursive
-Check Ollama models
+
+# Vector Store Configuration
+WIQAS_VECTORSTORE_PERSIST_DIRECTORY=./data/chroma-data
+WIQAS_EMBEDDING_MODEL=BAAI/bge-m3
+
+# Retrieval Configuration
+WIQAS_RETRIEVAL_DEFAULT_K=5
+WIQAS_RETRIEVAL_TYPE=hybrid
+
+# GPU Configuration
+CUDA_VISIBLE_DEVICES=0
+EOF
+        print_success "Configuration file created: .env"
+    else
+        print_warning ".env file already exists"
+        read -p "Overwrite with new configuration? [y/N]: " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mv .env .env.backup
+            print_info "Backed up existing .env to .env.backup"
+            configure_wiqas  # Recursive call to create new config
+        fi
+    fi
+}
+
+# Check Ollama models
 check_ollama_models() {
     print_info "Checking Ollama models..."
     
@@ -317,50 +360,7 @@ main() {
     print_info "Monitoring commands:"
     echo "  - GPU usage: nvidia-smi  (or ./monitor_gpu.sh)"
     echo "  - Ollama models: ollama list"
-    echo "  - Ollama status
-    print_info "Creating data directories..."
-    
-    mkdir -p data/knowledge_base
-    mkdir -p data/chroma-data
-    mkdir -p logs
-    
-    print_success "Directories created"
-}
-
-# Main setup function
-main() {
-    echo ""
-    print_info "Starting WiQAS GCP setup..."
-    echo ""
-    
-    # Change to script directory
-    cd "$(dirname "$0")/.." || exit
-    
-    # Run setup steps
-    check_gcp
-    install_system_deps
-    setup_nvidia
-    install_ollama
-    pull_ollama_model "mistral:latest"
-    setup_python_env
-    install_pytorch
-    install_wiqas_deps
-    create_directories
-    configure_wiqas
-    
-    echo ""
-    print_success "=========================================="
-    print_success "   WiQAS Setup Complete!"
-    print_success "=========================================="
-    echo ""
-    print_info "Next steps:"
-    echo "  1. Transfer your knowledge base to ./data/knowledge_base/"
-    echo "  2. Activate virtual environment: source .venv/bin/activate"
-    echo "  3. Ingest documents: python run.py ingest ./data/knowledge_base/"
-    echo "  4. Test the system: python run.py ask 'What is bayanihan?'"
-    echo ""
-    print_info "To monitor GPU usage: nvidia-smi"
-    print_info "To check Ollama: curl http://localhost:11434/api/tags"
+    echo "  - Ollama status: curl http://localhost:11434/api/tags"
     echo ""
 }
 
