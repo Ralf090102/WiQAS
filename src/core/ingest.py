@@ -25,7 +25,7 @@ from typing import Any
 # Vector store
 import chromadb
 from chromadb.config import Settings
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 # Document loaders
 from langchain_community.document_loaders import (

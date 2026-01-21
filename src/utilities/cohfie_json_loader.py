@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 
 @dataclass
