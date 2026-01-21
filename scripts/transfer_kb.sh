@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Knowledge Base Transfer Script for GCP
-# Helps transfer the 5GB knowledge base to GCP VM
+# Chroma Vector Database Transfer Script for GCP
+# Helps transfer the embedded chroma-data to GCP VM
 
 set -e
 
 echo "=========================================="
-echo "   WiQAS Knowledge Base Transfer"
+echo "   WiQAS Vector Database Transfer"
 echo "=========================================="
 echo ""
 
 # Configuration - Update these based on your target VM
-LOCAL_KB_PATH="./data/knowledge_base"
-REMOTE_KB_PATH="~/WiQAS/data/knowledge_base"
+LOCAL_CHROMA_PATH="./data/chroma-data"
+REMOTE_CHROMA_PATH="~/WiQAS/data/chroma-data"
 BUCKET_NAME=""
 
 # VM Names and Zones
@@ -60,7 +60,7 @@ esac
 
 echo ""
 echo "Choose transfer method:"
-echo "  1) Google Cloud Storage (Recommended for 5GB)"
+echo "  1) Google Cloud Storage (Recommended for large chroma-data)"
 echo "  2) Direct SCP via gcloud (Slower but simpler)"
 echo "  3) rsync (Best for incremental updates)"
 echo ""
@@ -71,14 +71,14 @@ case $choice in
         print_info "Using Google Cloud Storage..."
         
         # Get or create bucket name
-        read -p "Enter GCS bucket name (or press Enter for default 'wiqas-kb'): " input_bucket
-        BUCKET_NAME=${input_bucket:-"wiqas-kb-$(date +%s)"}
+        read -p "Enter GCS bucket name (or press Enter for default 'wiqas-chroma'): " input_bucket
+        BUCKET_NAME=${input_bucket:-"wiqas-chroma-$(date +%s)"}
         
         print_info "Creating bucket in asia-southeast1: gs://$BUCKET_NAME"
         gsutil mb -l asia-southeast1 "gs://$BUCKET_NAME" 2>/dev/null || print_info "Bucket already exists"
         
-        print_info "Uploading knowledge base to GCS (5GB - this may take several minutes)..."
-        gsutil -m cp -r "$LOCAL_KB_PATH"/* "gs://$BUCKET_NAME/"
+        print_info "Uploading chroma-data to GCS (this may take several minutes)..."
+        gsutil -m cp -r "$LOCAL_CHROMA_PATH"/* "gs://$BUCKET_NAME/"
         
         print_success "Upload to GCS complete!"
         
@@ -88,10 +88,10 @@ case $choice in
             ZONE="${TARGET_ZONES[$i]}"
             print_info "Downloading to VM: $VM_NAME (zone: $ZONE)"
             gcloud compute ssh "$VM_NAME" --zone="$ZONE" --command="
-                mkdir -p ~/WiQAS/data/knowledge_base && 
+                mkdir -p ~/WiQAS/data/chroma-data && 
                 echo 'Downloading from GCS...' &&
-                gsutil -m cp -r gs://$BUCKET_NAME/* ~/WiQAS/data/knowledge_base/ &&
-                echo '✅ Knowledge base downloaded successfully'
+                gsutil -m cp -r gs://$BUCKET_NAME/* ~/WiQAS/data/chroma-data/ &&
+                echo '✅ Chroma database downloaded successfully'
             "
             print_success "Transfer complete to $VM_NAME"
         done
@@ -101,11 +101,11 @@ case $choice in
         print_info "Using direct SCP transfer..."
         
         # Compress first
-        print_info "Compressing knowledge base (5GB - this may take a few minutes)..."
-        tar -czf knowledge_base.tar.gz -C ./data knowledge_base
+        print_info "Compressing chroma-data (this may take a few minutes)..."
+        tar -czf chroma-data.tar.gz -C ./data chroma-data
         
-        KB_SIZE=$(du -h knowledge_base.tar.gz | cut -f1)
-        print_success "Compressed to: $KB_SIZE"
+        CHROMA_SIZE=$(du -h chroma-data.tar.gz | cut -f1)
+        print_success "Compressed to: $CHROMA_SIZE"
         
         # Transfer to each VM
         for i in "${!TARGET_VMS[@]}"; do
@@ -113,21 +113,21 @@ case $choice in
             ZONE="${TARGET_ZONES[$i]}"
             print_info "Transferring to VM: $VM_NAME (zone: $ZONE)"
             
-            gcloud compute scp knowledge_base.tar.gz "$VM_NAME:~/WiQAS/data/" --zone="$ZONE"
+            gcloud compute scp chroma-data.tar.gz "$VM_NAME:~/WiQAS/data/" --zone="$ZONE"
             
             print_info "Extracting on VM..."
             gcloud compute ssh "$VM_NAME" --zone="$ZONE" --command="
                 cd ~/WiQAS/data && 
-                tar -xzf knowledge_base.tar.gz && 
-                rm knowledge_base.tar.gz &&
-                echo '✅ Knowledge base extracted successfully'
+                tar -xzf chroma-data.tar.gz && 
+                rm chroma-data.tar.gz &&
+                echo '✅ Chroma database extracted successfully'
             "
             
             print_success "Transfer complete to $VM_NAME"
         done
         
         # Clean up local compressed file
-        rm knowledge_base.tar.gz
+        rm chroma-data.tar.gz
         print_info "Cleaned up local compressed file"
         ;;
         
@@ -141,8 +141,8 @@ case $choice in
             print_info "Syncing to VM: $VM_NAME (zone: $ZONE)"
             
             rsync -avz --progress -e "gcloud compute ssh --zone=$ZONE" \
-                "$LOCAL_KB_PATH/" \
-                "$VM_NAME:$REMOTE_KB_PATH/"
+                "$LOCAL_CHROMA_PATH/" \
+                "$VM_NAME:$REMOTE_CHROMA_PATH/"
             
             print_success "Sync complete to $VM_NAME"
         done
@@ -156,7 +156,7 @@ esac
 
 echo ""
 print_success "=========================================="
-print_success "Knowledge base transfer completed!"
+print_success "Chroma database transfer completed!"
 print_success "=========================================="
 echo ""
 print_info "Next steps on each VM:"
@@ -169,14 +169,12 @@ echo "  2. Activate environment:"
 echo "     source ~/wiqas-venv/bin/activate"
 echo "     cd ~/WiQAS"
 echo ""
-echo "  3. Verify knowledge base:"
-echo "     ls -lh data/knowledge_base/"
-echo "     du -sh data/knowledge_base/"
+echo "  3. Verify chroma database:"
+echo "     ls -lh data/chroma-data/"
+echo "     du -sh data/chroma-data/"
 echo ""
-echo "  4. Ingest documents:"
-echo "     python run.py ingest ./data/knowledge_base/ --workers 8"
-echo ""
-echo "  5. Test:"
+echo "  4. Test the system (no ingestion needed!):"
 echo "     python run.py status"
 echo "     python run.py search 'Filipino culture'"
+echo "     python run.py ask 'What is bayanihan?'"
 echo ""
