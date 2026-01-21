@@ -78,7 +78,8 @@ case $choice in
         gsutil mb -l asia-southeast1 "gs://$BUCKET_NAME" 2>/dev/null || print_info "Bucket already exists"
         
         print_info "Uploading chroma-data to GCS (this may take several minutes)..."
-        gsutil -m cp -r "$LOCAL_CHROMA_PATH"/* "gs://$BUCKET_NAME/"
+        # Use -r to recursively copy the entire directory including subdirectories
+        gsutil -m rsync -r "$LOCAL_CHROMA_PATH" "gs://$BUCKET_NAME/"
         
         print_success "Upload to GCS complete!"
         
@@ -90,7 +91,7 @@ case $choice in
             gcloud compute ssh "$VM_NAME" --zone="$ZONE" --command="
                 mkdir -p ~/WiQAS/data/chroma-data && 
                 echo 'Downloading from GCS...' &&
-                gsutil -m cp -r gs://$BUCKET_NAME/* ~/WiQAS/data/chroma-data/ &&
+                gsutil -m rsync -r gs://$BUCKET_NAME/ ~/WiQAS/data/chroma-data/ &&
                 echo '✅ Chroma database downloaded successfully'
             "
             print_success "Transfer complete to $VM_NAME"

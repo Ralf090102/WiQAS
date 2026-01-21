@@ -43,19 +43,16 @@ typer
 # Pillow
 # easyocr
 
-# Nvidia GPU support (Uncomment if using Nvidia GPU ensure correct CUDA version)
-# torch>=2.7.1+cu121
-# torchvision>=0.22.0+cu121
-
+# PyTorch with CUDA support (required for BGE-M3 embeddings)
+# NOTE: PyTorch 2.6+ required for security (CVE-2025-32434)
+# Install with: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+torch>=2.6.0
+torchvision>=0.21.0
+torchaudio>=2.6.0
 
 # evaluation
 ragas
 datasets
-# PyTorch - Install CUDA version manually with:
-# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 
-# For CPU-only installation, just use: pip install torch torchvision
-# torch>=2.7.1
-# torchvision>=0.22.1
 # GPU monitoring (optional)
 nvidia-ml-py
