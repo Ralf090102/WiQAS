@@ -114,7 +114,7 @@ case $choice in
             ZONE="${TARGET_ZONES[$i]}"
             print_info "Transferring to VM: $VM_NAME (zone: $ZONE)"
             
-            gcloud compute scp chroma-data.tar.gz "$VM_NAME:~/WiQAS/data/" --zone="$ZONE"
+            gcloud compute scp chroma-data.tar.gz "$VM_NAME:/WiQAS/data/" --zone="$ZONE"
             
             print_info "Extracting on VM..."
             gcloud compute ssh "$VM_NAME" --zone="$ZONE" --command="
