@@ -626,6 +626,7 @@ def ask(
             ("Search", timing.search_time),
             ("Reranking", timing.reranking_time),
             ("MMR", timing.mmr_time),
+            ("Query Decomposition", timing.query_decomposition_time),
             ("Language Detection", timing.language_detection_time),
             ("Translation", timing.translation_time),
             ("Context Preparation", timing.context_preparation_time),
