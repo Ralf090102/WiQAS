@@ -11,7 +11,7 @@ from typing import Any
 from langchain_community.llms import Ollama
 
 from src.utilities.config import WiQASConfig
-from src.utilities.gpu_utils import get_device_info
+from src.utilities.gpu_utils import get_gpu_manager, detect_gpu_info
 
 
 class QueryDecomposer:
@@ -50,9 +50,14 @@ class QueryDecomposer:
         try:
             # Get GPU device info
             if self.gpu_config.enabled:
-                self._device_info = get_device_info()
-                if self._device_info['gpu_available']:
-                    print(f"✅ Query Decomposer using GPU: {self._device_info['device_name']}")
+                gpu_available, device_name, gpu_info = detect_gpu_info()
+                self._device_info = {
+                    'gpu_available': gpu_available,
+                    'device_name': device_name,
+                    'gpu_info': gpu_info
+                }
+                if gpu_available:
+                    print(f"✅ Query Decomposer using GPU: {device_name}")
                 else:
                     print("ℹ️ Query Decomposer using CPU (GPU not available)")
             
