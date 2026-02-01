@@ -18,7 +18,7 @@ import time
 from deep_translator import GoogleTranslator
 
 from src.retrieval.embeddings import EmbeddingManager
-from src.retrieval.fusion import ReciprocalRankFusion
+from src.retrieval.fusion import reciprocal_rank_fusion
 from src.retrieval.query_decomposer import QueryDecomposer
 from src.retrieval.reranker import Document, RerankerManager
 from src.retrieval.search import HybridSearcher, KeywordSearcher, MMRSearcher, SearchResult, SemanticSearcher
@@ -52,8 +52,8 @@ class WiQASRetriever:
         self._mmr_searcher = None
         self._translator = None
         self._query_decomposer = None
-        self._fusion = None
         self._translation_cache = {}
+        self._fusion_k = 60  # RRF constant for fusion
         self._initialized = False
 
     def _initialize_components(self):
@@ -82,10 +82,8 @@ class WiQASRetriever:
             # Initialize query decomposer if enabled
             if self.config.rag.query_decomposition.enabled:
                 self._query_decomposer = QueryDecomposer(self.config)
+                self._fusion_k = self.config.rag.query_decomposition.fusion_k
                 log_info("Query decomposition enabled")
-
-            # Initialize fusion for merging multi-query results
-            self._fusion = ReciprocalRankFusion(k=self.config.rag.query_decomposition.fusion_k)
 
             self._initialized = True
             log_info("WiQAS retriever components initialized successfully")
@@ -446,6 +444,9 @@ class WiQASRetriever:
         formatted: bool = True,
         include_timing: bool = False,
         enable_cross_lingual: bool = None,
+        enable_query_decomposition: bool = False,
+        decomposition_strategy: str = "simple",
+        max_subqueries: int = 3,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -459,6 +460,9 @@ class WiQASRetriever:
             formatted: Whether to return formatted string or raw results (default: True)
             include_timing: Whether to include timing breakdown in results (default: False)
             enable_cross_lingual: Whether to enable cross-lingual retrieval (default: None, uses config)
+            enable_query_decomposition: Whether to decompose complex queries (default: False)
+            decomposition_strategy: Strategy for decomposition - 'simple', 'detailed', 'comprehensive' (default: 'simple')
+            max_subqueries: Maximum number of subqueries to generate (default: 3)
 
         Returns:
             Formatted string containing search results and optionally timing breakdown
@@ -500,8 +504,23 @@ class WiQASRetriever:
 
             # QUERY DECOMPOSITION: Break complex queries into sub-queries if enabled
             decomposition_queries = []
-            if self.config.rag.query_decomposition.enabled and self._query_decomposer:
+            should_decompose = enable_query_decomposition
+            
+            if should_decompose:
+                # Initialize decomposer if not already initialized and needed
+                if self._query_decomposer is None:
+                    log_info("Initializing query decomposer for this query")
+                    self._query_decomposer = QueryDecomposer(self.config)
+                    self._fusion_k = self.config.rag.query_decomposition.fusion_k
+                
                 decompose_start = time.time()
+                
+                # Temporarily override config for this query
+                original_strategy = self.config.rag.query_decomposition.strategy
+                original_max_subqueries = self.config.rag.query_decomposition.max_subqueries
+                
+                self.config.rag.query_decomposition.strategy = decomposition_strategy
+                self.config.rag.query_decomposition.max_subqueries = max_subqueries
                 
                 # Decompose each query variant (including translated queries)
                 for query, weight in multi_queries:
@@ -516,6 +535,10 @@ class WiQASRetriever:
                     else:
                         # Simple query - use as-is
                         decomposition_queries.append((query, weight))
+                
+                # Restore original config
+                self.config.rag.query_decomposition.strategy = original_strategy
+                self.config.rag.query_decomposition.max_subqueries = original_max_subqueries
                 
                 timing.query_decomposition_time = time.time() - decompose_start
                 log_info(f"Query decomposition completed: {len(multi_queries)} → {len(decomposition_queries)} queries")
@@ -562,31 +585,44 @@ class WiQASRetriever:
                 # Use RRF fusion for better result merging
                 log_info(f"Applying RRF fusion to {len(all_multi_results)} result sets")
                 
-                # Prepare results for fusion
-                result_sets = []
+                # Prepare results for fusion - convert SearchResult to dict format
+                fusion_input = []
+                doc_id_to_result = {}  # Keep mapping for reconstruction
+                
                 for query_results, weight in all_multi_results:
-                    # Convert to list of (doc_id, score, result) tuples
-                    scored_results = [
-                        (r.document_id, r.score * weight, r) for r in query_results
-                    ]
-                    result_sets.append(scored_results)
-                
-                # Apply fusion
-                fused_doc_ids = self._fusion.fuse(result_sets)
-                
-                # Reconstruct SearchResults from fused doc_ids
-                doc_id_to_result = {}
-                for query_results, _ in all_multi_results:
+                    query_docs = []
                     for r in query_results:
+                        # Store mapping
                         if r.document_id not in doc_id_to_result:
                             doc_id_to_result[r.document_id] = r
+                        
+                        # Convert to dict format for fusion
+                        doc_dict = {
+                            "page_content": r.document_id,  # Use doc_id as identifier
+                            "metadata": {
+                                "original_score": r.score * weight,
+                                "document_id": r.document_id,
+                                "source": r.metadata.get("source", "unknown"),
+                            }
+                        }
+                        query_docs.append(doc_dict)
+                    fusion_input.append(query_docs)
                 
+                # Apply reciprocal rank fusion
+                fused_docs = reciprocal_rank_fusion(
+                    fusion_input,
+                    k=self._fusion_k,
+                    deduplicate=True
+                )
+                
+                # Reconstruct SearchResults from fused documents
                 results = []
-                for doc_id, fused_score in fused_doc_ids[:k * 2]:  # Get extra for reranking
+                for fused_doc in fused_docs[:k * 2]:  # Get extra for reranking
+                    doc_id = fused_doc["metadata"]["document_id"]
                     if doc_id in doc_id_to_result:
                         result = doc_id_to_result[doc_id]
-                        # Update score with fused score
-                        result.score = fused_score
+                        # Update score with RRF score
+                        result.score = fused_doc["metadata"]["rrf_score"]
                         result.search_type = f"{result.search_type}_fused"
                         results.append(result)
                 
