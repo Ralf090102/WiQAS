@@ -369,6 +369,9 @@ def search(
     search_type: str = typer.Option("hybrid", "--type", "-t", help="Search type: 'semantic' (vector similarity) or 'hybrid' (semantic + keyword)"),
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable cross-encoder reranking for better relevance (default: enabled)"),
     mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR (Maximal Marginal Relevance) for diverse results (default: enabled)"),
+    decompose: bool = typer.Option(False, "--decompose/--no-decompose", help="Enable query decomposition for complex queries (default: disabled)"),
+    decomposition_strategy: str = typer.Option("simple", "--strategy", help="Decomposition strategy: 'simple', 'detailed', or 'comprehensive' (default: simple)"),
+    max_subqueries: int = typer.Option(3, "--max-subqueries", help="Maximum number of subqueries to generate (default: 3, recommended: 2-5)"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ):
     """
@@ -389,6 +392,10 @@ def search(
     print_info(f"Results: {k}")
     print_info(f"Reranking: {rerank}")
     print_info(f"MMR diversity: {mmr}")
+    print_info(f"Query decomposition: {decompose}")
+    if decompose:
+        print_info(f"  Strategy: {decomposition_strategy}")
+        print_info(f"  Max subqueries: {max_subqueries}")
 
     try:
         from src.retrieval.retriever import query_knowledge_base
@@ -402,6 +409,9 @@ def search(
                 search_type=search_type,
                 enable_reranking=rerank,
                 enable_mmr=mmr,
+                enable_query_decomposition=decompose,
+                decomposition_strategy=decomposition_strategy,
+                max_subqueries=max_subqueries,
                 formatted=True,
             )
 
@@ -535,6 +545,9 @@ def ask(
     show_contexts: bool = typer.Option(True, "--show-contexts/--hide-contexts", help="Show retrieved context documents with scores (default: show)"),
     show_timing: bool = typer.Option(True, "--timing/--no-timing", help="Show performance timing breakdown (default: show)"),
     show_classification: bool = typer.Option(True, "--classification/--no-classification", help="Show query classification details (default: show)"),
+    decompose: bool = typer.Option(False, "--decompose/--no-decompose", help="Enable query decomposition for complex questions (default: disabled)"),
+    decomposition_strategy: str = typer.Option("simple", "--strategy", help="Decomposition strategy: 'simple', 'detailed', or 'comprehensive' (default: simple)"),
+    max_subqueries: int = typer.Option(3, "--max-subqueries", help="Maximum number of subqueries to generate (default: 3, recommended: 2-5)"),
 ):
     """
     Ask a question and get an AI-generated answer using retrieval + LLM.
@@ -564,6 +577,9 @@ def ask(
         show_contexts=True,
         include_timing=show_timing,
         include_classification=show_classification,
+        enable_query_decomposition=decompose,
+        decomposition_strategy=decomposition_strategy,
+        max_subqueries=max_subqueries,
     )
 
     answer = result["answer"]

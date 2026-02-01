@@ -73,6 +73,7 @@ class TimingBreakdown:
     search_time: float = 0.0
     reranking_time: float = 0.0
     mmr_time: float = 0.0
+    query_decomposition_time: float = 0.0
 
     # Generation components
     context_preparation_time: float = 0.0
@@ -110,6 +111,7 @@ class TimingBreakdown:
             "llm_generation_percent": (self.llm_generation_time / self.total_time) * 100,
             "translation_percent": (self.translation_time / self.total_time) * 100,
             "language_detection_percent": (self.language_detection_time / self.total_time) * 100,
+            "query_decomposition_percent": (self.query_decomposition_time / self.total_time) * 100,
         }
 
     def format_timing_summary(self) -> str:
@@ -127,6 +129,9 @@ class TimingBreakdown:
             f"search time = {self.search_time:.2f} s",
             f"reranking time = {self.reranking_time:.2f} s",
         ]
+        
+        if self.query_decomposition_time > 0:
+            lines.append(f"query decomposition time = {self.query_decomposition_time:.2f} s")
 
         if self.mmr_time > 0:
             lines.append(f"mmr time = {self.mmr_time:.2f} s")
@@ -158,6 +163,9 @@ class TimingBreakdown:
                 f"reranking time = {percentages['reranking_percent']:.2f}%",
             ]
         )
+        
+        if self.query_decomposition_time > 0:
+            lines.append(f"query decomposition time = {percentages['query_decomposition_percent']:.2f}%")
 
         if self.mmr_time > 0:
             lines.append(f"mmr time = {percentages['mmr_percent']:.2f}%")
@@ -199,6 +207,7 @@ class TimingBreakdown:
                 "llm_generation_percent": 0.0,
                 "translation_percent": 0.0,
                 "language_detection_percent": 0.0,
+                "query_decomposition_percent": 0.0,
             }
 
         return {
@@ -211,6 +220,7 @@ class TimingBreakdown:
             "llm_generation_percent": (self.llm_generation_time / component_sum) * 100,
             "translation_percent": (self.translation_time / component_sum) * 100,
             "language_detection_percent": (self.language_detection_time / component_sum) * 100,
+            "query_decomposition_percent": (self.query_decomposition_time / component_sum) * 100,
         }
 
 
@@ -400,6 +410,51 @@ class RerankerConfig(BaseConfig):
             raise ValueError("top_k must be positive")
         if not 0.0 <= self.score_threshold <= 1.0:
             raise ValueError("score_threshold must be between 0.0 and 1.0")
+
+
+@dataclass
+class QueryDecompositionConfig(BaseConfig):
+    """Query decomposition configuration"""
+
+    enabled: bool = True
+    model: str = "TeeZee/gemma-2-9b-it-abliterated"
+    temperature: float = 0.3  # Lower temperature for more focused decomposition
+    context_window: int = 2048
+    
+    # Decomposition thresholds
+    min_query_length: int = 5  # Minimum words to consider decomposition
+    max_sub_queries: int = 3  # Maximum sub-queries to generate
+    
+    # Retrieval strategy for decomposed queries
+    enable_fusion: bool = True  # Use Reciprocal Rank Fusion to merge results
+    fusion_k: int = 60  # RRF constant
+    deduplicate_results: bool = True
+
+    @classmethod
+    def from_env(cls) -> "QueryDecompositionConfig":
+        """Load query decomposition configuration from environment variables"""
+        return cls(
+            enabled=get_env_bool("WIQAS_QUERY_DECOMPOSITION_ENABLED", True),
+            model=get_env_str("WIQAS_QUERY_DECOMPOSITION_MODEL", "TeeZee/gemma-2-9b-it-abliterated"),
+            temperature=get_env_float("WIQAS_QUERY_DECOMPOSITION_TEMPERATURE", 0.3),
+            context_window=get_env_int("WIQAS_QUERY_DECOMPOSITION_CONTEXT_WINDOW", 2048),
+            min_query_length=get_env_int("WIQAS_QUERY_DECOMPOSITION_MIN_QUERY_LENGTH", 5),
+            max_sub_queries=get_env_int("WIQAS_QUERY_DECOMPOSITION_MAX_SUB_QUERIES", 3),
+            enable_fusion=get_env_bool("WIQAS_QUERY_DECOMPOSITION_ENABLE_FUSION", True),
+            fusion_k=get_env_int("WIQAS_QUERY_DECOMPOSITION_FUSION_K", 60),
+            deduplicate_results=get_env_bool("WIQAS_QUERY_DECOMPOSITION_DEDUPLICATE", True),
+        )
+
+    def validate(self) -> None:
+        """Validate query decomposition configuration"""
+        if self.min_query_length <= 0:
+            raise ValueError("min_query_length must be positive")
+        if self.max_sub_queries <= 0:
+            raise ValueError("max_sub_queries must be positive")
+        if not 0.0 <= self.temperature <= 1.0:
+            raise ValueError("temperature must be between 0.0 and 1.0")
+        if self.fusion_k <= 0:
+            raise ValueError("fusion_k must be positive")
 
 
 @dataclass
@@ -616,6 +671,7 @@ class RAGConfig(BaseConfig):
     chunking: ChunkingConfig = field(default_factory=ChunkingConfig)
     retrieval: RetrievalConfig = field(default_factory=RetrievalConfig)
     reranker: RerankerConfig = field(default_factory=RerankerConfig)
+    query_decomposition: QueryDecompositionConfig = field(default_factory=QueryDecompositionConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
     generator: AnswerGeneratorConfig = field(default_factory=AnswerGeneratorConfig)
@@ -624,6 +680,23 @@ class RAGConfig(BaseConfig):
 
     @classmethod
     def from_env(cls) -> "RAGConfig":
+        """Load RAG configuration from environment variables"""
+        return cls(
+            embedding=EmbeddingConfig.from_env(),
+            preprocessing=PreprocessingConfig.from_env(),
+            chunking=ChunkingConfig.from_env(),
+            retrieval=RetrievalConfig.from_env(),
+            reranker=RerankerConfig.from_env(),
+            query_decomposition=QueryDecompositionConfig.from_env(),
+            llm=LLMConfig.from_env(),
+            vectorstore=VectorStoreConfig.from_env(),
+            generator=AnswerGeneratorConfig.from_env(),
+            multilingual=MultilingualConfig.from_env(),
+            evaluation=EvaluationConfig.from_env(),
+        )
+
+    @classmethod
+    def _old_from_env(cls) -> "RAGConfig":
         """Load RAG configuration from environment variables"""
         return cls(
             embedding=EmbeddingConfig.from_env(),
