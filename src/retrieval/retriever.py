@@ -445,8 +445,6 @@ class WiQASRetriever:
         include_timing: bool = False,
         enable_cross_lingual: bool = None,
         enable_query_decomposition: bool = False,
-        decomposition_strategy: str = "simple",
-        max_subqueries: int = 3,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -461,8 +459,6 @@ class WiQASRetriever:
             include_timing: Whether to include timing breakdown in results (default: False)
             enable_cross_lingual: Whether to enable cross-lingual retrieval (default: None, uses config)
             enable_query_decomposition: Whether to decompose complex queries (default: False)
-            decomposition_strategy: Strategy for decomposition - 'simple', 'detailed', 'comprehensive' (default: 'simple')
-            max_subqueries: Maximum number of subqueries to generate (default: 3)
 
         Returns:
             Formatted string containing search results and optionally timing breakdown
@@ -504,9 +500,8 @@ class WiQASRetriever:
 
             # QUERY DECOMPOSITION: Break complex queries into sub-queries if enabled
             decomposition_queries = []
-            should_decompose = enable_query_decomposition
             
-            if should_decompose:
+            if enable_query_decomposition:
                 # Initialize decomposer if not already initialized and needed
                 if self._query_decomposer is None:
                     log_info("Initializing query decomposer for this query")
@@ -515,16 +510,9 @@ class WiQASRetriever:
                 
                 decompose_start = time.time()
                 
-                # Temporarily override config for this query
-                original_strategy = self.config.rag.query_decomposition.strategy
-                original_max_subqueries = self.config.rag.query_decomposition.max_subqueries
-                
-                self.config.rag.query_decomposition.strategy = decomposition_strategy
-                self.config.rag.query_decomposition.max_subqueries = max_subqueries
-                
                 # Decompose each query variant (including translated queries)
                 for query, weight in multi_queries:
-                    sub_queries = self._query_decomposer.decompose_query(query)
+                    sub_queries, _ = self._query_decomposer.decompose(query)
                     
                     if len(sub_queries) > 1:
                         # Query was decomposed - use sub-queries with adjusted weights
@@ -535,10 +523,6 @@ class WiQASRetriever:
                     else:
                         # Simple query - use as-is
                         decomposition_queries.append((query, weight))
-                
-                # Restore original config
-                self.config.rag.query_decomposition.strategy = original_strategy
-                self.config.rag.query_decomposition.max_subqueries = original_max_subqueries
                 
                 timing.query_decomposition_time = time.time() - decompose_start
                 log_info(f"Query decomposition completed: {len(multi_queries)} → {len(decomposition_queries)} queries")
