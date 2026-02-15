@@ -133,9 +133,12 @@ class TimingBreakdown(BaseModel):
     search_time: float = Field(default=0.0, description="Vector search time")
     reranking_time: float = Field(default=0.0, description="Reranking time")
     mmr_time: float = Field(default=0.0, description="MMR selection time")
+    query_decomposition_time: float = Field(default=0.0, description="Query decomposition time")
     context_preparation_time: float = Field(default=0.0, description="Context prep time")
     prompt_building_time: float = Field(default=0.0, description="Prompt building time")
     llm_generation_time: float = Field(default=0.0, description="LLM generation time")
+    translation_time: float = Field(default=0.0, description="Translation time")
+    language_detection_time: float = Field(default=0.0, description="Language detection time")
     total_time: float = Field(default=0.0, description="Total processing time")
 
     class Config:
@@ -145,9 +148,12 @@ class TimingBreakdown(BaseModel):
                 "search_time": 0.045,
                 "reranking_time": 0.234,
                 "mmr_time": 0.012,
+                "query_decomposition_time": 0.056,
                 "context_preparation_time": 0.008,
                 "prompt_building_time": 0.015,
                 "llm_generation_time": 1.904,
+                "translation_time": 0.034,
+                "language_detection_time": 0.011,
                 "total_time": 2.341,
             }
         }

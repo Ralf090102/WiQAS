@@ -99,7 +99,6 @@ async def query_knowledge_base(
         )
         
         # Perform retrieval (matches run.py pattern)
-        # Note: WiQAS retriever.query() can return formatted string or dict with results
         retrieval_result = retriever.query(
             query_text=query,
             k=k,
@@ -288,9 +287,12 @@ async def ask_question(
                 search_time=getattr(timing_obj, "search_time", 0.0),
                 reranking_time=getattr(timing_obj, "reranking_time", 0.0),
                 mmr_time=getattr(timing_obj, "mmr_time", 0.0),
+                query_decomposition_time=getattr(timing_obj, "query_decomposition_time", 0.0),
                 context_preparation_time=getattr(timing_obj, "context_preparation_time", 0.0),
                 prompt_building_time=getattr(timing_obj, "prompt_building_time", 0.0),
                 llm_generation_time=getattr(timing_obj, "llm_generation_time", 0.0),
+                translation_time=getattr(timing_obj, "translation_time", 0.0),
+                language_detection_time=getattr(timing_obj, "language_detection_time", 0.0),
                 total_time=getattr(timing_obj, "total_time", 0.0),
             )
         
