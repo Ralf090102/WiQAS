@@ -1,0 +1,149 @@
+<script lang="ts">
+	import { goto, replaceState } from "$app/navigation";
+	import { base } from "$app/paths";
+	import { page } from "$app/state";
+	import { usePublicConfig } from "$lib/utils/PublicConfig.svelte";
+
+	const publicConfig = usePublicConfig();
+
+	import ChatWindow from "$lib/components/chat/ChatWindow.svelte";
+	import { ERROR_MESSAGES, error } from "$lib/stores/errors";
+	import { pendingMessage } from "$lib/stores/pendingMessage";
+	import { useSettingsStore } from "$lib/stores/settings.js";
+	import { findCurrentModel } from "$lib/utils/models";
+	import { sanitizeUrlParam } from "$lib/utils/urlParams";
+	import { onMount, tick } from "svelte";
+	import { loading } from "$lib/stores/loading.js";
+	import { loadAttachmentsFromUrls } from "$lib/utils/loadAttachmentsFromUrls";
+
+	let { data } = $props();
+
+	let hasModels = $derived(Boolean(data.models?.length));
+	let files: File[] = $state([]);
+	let draft = $state("");
+
+	const settings = useSettingsStore();
+	const BACKEND_URL = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8000';
+
+	async function createConversation(message: string) {
+		try {
+			$loading = true;
+
+			// Create a new session using FastAPI backend
+			const createSessionRes = await fetch(`${BACKEND_URL}/api/chat/sessions`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					metadata: {
+						model: $settings.activeModel || 'default',
+						title: 'New Chat',  // Temporary title, will be auto-generated after first message
+					}
+				}),
+			});
+
+			if (!createSessionRes.ok) {
+				const errorText = await createSessionRes.text();
+				throw new Error(`Failed to create session: ${errorText}`);
+			}
+
+			const responseData = await createSessionRes.json();
+			const sessionId = responseData.session?.session_id || responseData.session_id;
+
+			if (!sessionId) {
+				throw new Error('No session ID returned from server');
+			}
+
+			// Store the pending message for the conversation page
+			pendingMessage.set({
+				content: message,
+				files,
+			});
+
+			// Navigate to the conversation page
+			await goto(`${base}/conversation/${sessionId}`, { invalidateAll: true });
+		} catch (err) {
+			error.set((err as Error).message || ERROR_MESSAGES.default);
+			console.error(err);
+		} finally {
+			$loading = false;
+		}
+	}
+
+	onMount(async () => {
+		try {
+			// Check URL parameters
+			const hasQ = page.url.searchParams.has("q");
+			const hasPrompt = page.url.searchParams.has("prompt");
+			const hasAttachments = page.url.searchParams.has("attachments");
+
+			// Handle attachments parameter first
+			if (hasAttachments) {
+				const result = await loadAttachmentsFromUrls(page.url.searchParams);
+				files = result.files;
+
+				// Show errors if any
+				if (result.errors.length > 0) {
+					console.error("Failed to load some attachments:", result.errors);
+					error.set(
+						`Failed to load ${result.errors.length} attachment(s). Check console for details.`
+					);
+				}
+
+				// Clean up URL
+				const url = new URL(page.url);
+				url.searchParams.delete("attachments");
+				history.replaceState({}, "", url);
+			}
+
+			const query = sanitizeUrlParam(page.url.searchParams.get("q"));
+			if (query) {
+				void createConversation(query);
+				const url = new URL(page.url);
+				url.searchParams.delete("q");
+				tick().then(() => {
+					replaceState(url, page.state);
+				});
+				return;
+			}
+
+			const promptQuery = sanitizeUrlParam(page.url.searchParams.get("prompt"));
+			if (promptQuery && !draft) {
+				draft = promptQuery;
+				const url = new URL(page.url);
+				url.searchParams.delete("prompt");
+				tick().then(() => {
+					replaceState(url, page.state);
+				});
+			}
+		} catch (err) {
+			console.error("Failed to process URL parameters:", err);
+		}
+	});
+
+	let currentModel = $derived(findCurrentModel(data.models, data.oldModels, $settings.activeModel));
+</script>
+
+<svelte:head>
+	<title>{publicConfig.PUBLIC_APP_NAME}</title>
+</svelte:head>
+
+{#if hasModels}
+	<ChatWindow
+		onmessage={(message) => createConversation(message)}
+		loading={$loading}
+		{currentModel}
+		models={data.models}
+		bind:files
+		bind:draft
+	/>
+{:else}
+	<div class="mx-auto my-20 max-w-xl rounded-xl border p-6 text-center dark:border-gray-700">
+		<h2 class="mb-2 text-xl font-semibold">No models available</h2>
+		<p class="text-gray-600 dark:text-gray-300">
+			No chat models are configured. Set `OPENAI_BASE_URL` and ensure the server can reach the
+			endpoint, then reload. If unset, the app defaults to the Hugging Face router.
+		</p>
+	</div>
+{/if}

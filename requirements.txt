@@ -18,6 +18,14 @@ langdetect
 datasets
 ragas
 
+# Full Stack
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+requests
+
+
 # Document processing
 pymupdf
 pypdf
