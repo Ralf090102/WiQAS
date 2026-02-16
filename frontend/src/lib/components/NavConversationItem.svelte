@@ -27,19 +27,19 @@
 	data-sveltekit-noscroll
 	data-sveltekit-preload-data="tap"
 	href="{base}/conversation/{conv.id}"
-	class="group flex h-9 flex-none items-center gap-2 rounded-lg border border-transparent px-3 text-gray-700 transition-all hover:border-gray-300 hover:bg-white hover:shadow-sm dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800
+	class="group flex h-10 flex-none items-center gap-2 rounded-xl border px-3 text-gray-700 transition-all hover:scale-[1.02] hover:shadow-md dark:text-gray-300
 		{conv.id === page.params.id 
-			? 'border-blue-200 bg-gradient-to-r from-blue-50 to-white shadow-sm dark:border-blue-700 dark:from-blue-950/70 dark:to-blue-900/40' 
-			: 'bg-white/60 dark:bg-gray-800/50'}"
+			? 'border-blue-300 bg-gradient-to-r from-blue-100 to-indigo-100 shadow-sm dark:border-blue-700 dark:from-blue-950/80 dark:to-indigo-950/80' 
+			: 'border-gray-200 bg-white hover:border-blue-200 hover:bg-blue-50/50 dark:border-gray-700 dark:bg-gray-800/70 dark:hover:border-blue-800 dark:hover:bg-gray-700'}"
 >
 	<div class="min-w-0 flex-1 truncate first-letter:uppercase">
-		<span class="font-medium {conv.id === page.params.id ? 'text-blue-700 dark:text-blue-300' : ''}">{conv.title}</span>
+		<span class="text-sm font-medium {conv.id === page.params.id ? 'text-blue-700 dark:text-blue-300' : ''}">{conv.title}</span>
 	</div>
 
 	{#if !readOnly}
 		<button
 			type="button"
-			class="flex size-6 items-center justify-center rounded transition-colors md:opacity-0 md:group-hover:opacity-100 hover:bg-gray-200 dark:hover:bg-gray-600"
+			class="flex size-7 items-center justify-center rounded-lg transition-all md:opacity-0 md:group-hover:opacity-100 hover:bg-blue-100 hover:scale-110 dark:hover:bg-blue-900/50"
 			title="Edit conversation title"
 			onclick={(e) => {
 				e.preventDefault();
@@ -47,12 +47,12 @@
 				renameOpen = true;
 			}}
 		>
-			<CarbonEdit class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" />
+			<CarbonEdit class="text-sm text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-300" />
 		</button>
 
 		<button
 			type="button"
-			class="flex size-6 items-center justify-center rounded transition-colors md:opacity-0 md:group-hover:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30"
+			class="flex size-7 items-center justify-center rounded-lg transition-all md:opacity-0 md:group-hover:opacity-100 hover:bg-red-100 hover:scale-110 dark:hover:bg-red-900/40"
 			title="Delete conversation"
 			onclick={(event) => {
 				event.preventDefault();

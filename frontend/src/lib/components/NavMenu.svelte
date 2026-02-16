@@ -145,19 +145,23 @@
 
 <!-- Header Section -->
 <div
-	class="sticky top-0 z-10 flex flex-none touch-none items-center justify-between border-b border-r border-gray-200/80 bg-gray-50/95 px-4 py-3.5 backdrop-blur-sm dark:border-gray-700/80 dark:bg-gray-950/95 max-sm:pt-0"
+	class="sticky top-0 z-10 flex flex-none touch-none items-center justify-between border-b border-r border-blue-100/50 bg-white/90 px-4 py-4 backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/90 max-sm:pt-0"
 >
 	<a
-		class="flex select-none items-center rounded-xl text-lg font-semibold transition-opacity hover:opacity-80"
+		class="flex select-none items-center gap-2 rounded-xl text-lg font-semibold transition-opacity hover:opacity-80"
 		href="{publicConfig.PUBLIC_ORIGIN}{base}/"
 	>
-		<Logo classNames="dark:invert mr-[2px]" />
-		{publicConfig.PUBLIC_APP_NAME}
+		<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/30">
+			<span class="text-lg font-bold text-white">W</span>
+		</div>
+		<span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
+			{publicConfig.PUBLIC_APP_NAME}
+		</span>
 	</a>
 	<a
 		href={`${base}/`}
 		onclick={handleNewChatClick}
-		class="flex rounded-lg border border-blue-200 bg-gradient-to-b from-blue-50 to-white px-3 py-1.5 text-center text-sm font-medium text-blue-700 shadow-sm transition-all hover:shadow-md hover:border-blue-300 dark:border-blue-800 dark:from-blue-950 dark:to-gray-800 dark:text-blue-300 dark:hover:border-blue-700"
+		class="flex rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/40 dark:border-blue-800 dark:from-blue-700 dark:to-indigo-700"
 		title="Ctrl/Cmd + Shift + O"
 	>
 		New Chat
@@ -166,7 +170,7 @@
 
 <!-- Conversations Section -->
 <div
-	class="scrollbar-custom flex flex-1 touch-pan-y flex-col gap-1 overflow-y-auto border-r border-gray-200/80 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 px-3 pb-3 pt-3 text-[.9rem] dark:border-gray-700/80 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+	class="scrollbar-custom flex flex-1 touch-pan-y flex-col gap-1 overflow-y-auto border-r border-blue-100/50 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 px-3 pb-3 pt-3 text-[.9rem] dark:border-gray-800/50 dark:from-gray-950 dark:via-blue-950/10 dark:to-gray-950"
 >
 	<div class="flex flex-col gap-0.5">
 		{#each Object.entries(groupedConversations) as [group, convs]}
@@ -191,17 +195,17 @@
 
 <!-- Bottom Navigation Section -->
 <div
-	class="flex touch-none flex-col gap-2 border-t border-r border-gray-200/80 bg-gray-50/95 p-3 text-sm backdrop-blur-sm dark:border-gray-700/80 dark:bg-gray-950/95"
+	class="flex touch-none flex-col gap-2 border-t border-r border-blue-100/50 bg-white/90 p-3 text-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/90"
 >
 	<!-- Models Link -->
 	<a
 		href="{base}/models"
-		class="group flex h-10 flex-none items-center gap-2 rounded-lg border border-transparent bg-white/90 px-3 text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-white hover:shadow-md dark:bg-gray-900/80 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800"
+		class="group flex h-10 flex-none items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 		onclick={handleNavItemClick}
 	>
 		<span class="font-medium">Models</span>
 		<span
-			class="ml-auto rounded-md bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700 transition-colors group-hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:group-hover:bg-blue-900"
+			class="ml-auto rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm transition-all group-hover:scale-105 group-hover:shadow-md dark:from-blue-700 dark:to-indigo-700"
 			>{nModels}</span
 		>
 	</a>
@@ -210,7 +214,7 @@
 	<div class="flex gap-2">
 		<a
 			href="{base}/settings/application"
-			class="flex h-10 flex-1 items-center gap-2 rounded-lg border border-transparent bg-white/90 px-3 font-medium text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-white hover:shadow-md dark:bg-gray-900/80 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800"
+			class="flex h-10 flex-1 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 font-medium text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 			onclick={handleNavItemClick}
 		>
 			Settings
@@ -220,7 +224,7 @@
 				switchTheme();
 			}}
 			aria-label="Toggle theme"
-			class="flex size-10 flex-none items-center justify-center rounded-lg border border-transparent bg-white/90 p-2 text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-white hover:shadow-md dark:bg-gray-900/80 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800"
+			class="flex size-10 flex-none items-center justify-center rounded-xl border border-gray-200 bg-white p-2 text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 		>
 			{#if browser}
 				{#if isDark}

@@ -70,16 +70,30 @@ app = FastAPI(
 
 # ========== CORS MIDDLEWARE ==========
 # Allow frontend to communicate with backend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+# For GCP/Cloud deployment: Set CORS_ORIGINS environment variable
+# Example: CORS_ORIGINS=http://your-vm-ip:3000,http://your-vm-ip:5173
+import os
+
+cors_origins_env = os.getenv("CORS_ORIGINS", "")
+if cors_origins_env:
+    # Parse comma-separated origins from environment variable
+    cors_origins = [origin.strip() for origin in cors_origins_env.split(",")]
+    logger.info(f"Using CORS origins from environment: {cors_origins}")
+else:
+    # Default to localhost for development
+    cors_origins = [
         "http://localhost:3000",  # Svelte dev server
         "http://localhost:5173",  # Vite dev server
         "http://localhost:8080",  # Alternative frontend port
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:8080",
-    ],
+    ]
+    logger.info("Using default CORS origins for local development")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
