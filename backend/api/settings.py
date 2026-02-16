@@ -92,17 +92,17 @@ def _config_to_settings_response(config: WiQASConfig) -> SettingsResponse:
             score_threshold=config.rag.reranker.score_threshold,
         ),
         generation=GenerationSettings(
-            mode=config.rag.generation.mode,
-            enable_citations=config.rag.generation.enable_citations,
-            citation_format=config.rag.generation.citation_format,
-            max_context_chunks=config.rag.generation.max_context_chunks,
-            validate_citations=config.rag.generation.validate_citations,
-            expand_citations=config.rag.generation.expand_citations,
-            max_history_messages=config.rag.generation.max_history_messages,
-            enable_rag_augmentation=config.rag.generation.enable_rag_augmentation,
-            rag_trigger_mode=config.rag.generation.rag_trigger_mode,
-            max_total_tokens=config.rag.generation.max_total_tokens,
-            reserve_tokens_for_response=config.rag.generation.reserve_tokens_for_response,
+            mode="rag",  # Fixed mode for WiQAS
+            enable_citations=True,  # Default for WiQAS
+            citation_format="[{index}]",  # Default format
+            max_context_chunks=5,  # Default value
+            validate_citations=True,  # Default
+            expand_citations=False,  # Default
+            max_history_messages=10,  # Default
+            enable_rag_augmentation=True,  # Default
+            rag_trigger_mode="auto",  # Default
+            max_total_tokens=config.rag.generator.max_tokens or 4096,
+            reserve_tokens_for_response=1024,  # Default
         ),
         vectorstore=VectorStoreSettings(
             collection_name=config.rag.vectorstore.collection_name,
@@ -209,32 +209,13 @@ def _apply_settings_updates(
         if updates.reranker.score_threshold is not None:
             config.rag.reranker.score_threshold = updates.reranker.score_threshold
     
-    # Generation updates
+    # Generation updates (read-only in current WiQAS implementation)
     if updates.generation:
         updated_categories.append("generation")
-        if updates.generation.mode is not None:
-            config.rag.generation.mode = updates.generation.mode
-            logger.info(f"Generation mode changed to: {updates.generation.mode}")
-        if updates.generation.enable_citations is not None:
-            config.rag.generation.enable_citations = updates.generation.enable_citations
-        if updates.generation.citation_format is not None:
-            config.rag.generation.citation_format = updates.generation.citation_format
-        if updates.generation.max_context_chunks is not None:
-            config.rag.generation.max_context_chunks = updates.generation.max_context_chunks
-        if updates.generation.validate_citations is not None:
-            config.rag.generation.validate_citations = updates.generation.validate_citations
-        if updates.generation.expand_citations is not None:
-            config.rag.generation.expand_citations = updates.generation.expand_citations
-        if updates.generation.max_history_messages is not None:
-            config.rag.generation.max_history_messages = updates.generation.max_history_messages
-        if updates.generation.enable_rag_augmentation is not None:
-            config.rag.generation.enable_rag_augmentation = updates.generation.enable_rag_augmentation
-        if updates.generation.rag_trigger_mode is not None:
-            config.rag.generation.rag_trigger_mode = updates.generation.rag_trigger_mode
-        if updates.generation.max_total_tokens is not None:
-            config.rag.generation.max_total_tokens = updates.generation.max_total_tokens
-        if updates.generation.reserve_tokens_for_response is not None:
-            config.rag.generation.reserve_tokens_for_response = updates.generation.reserve_tokens_for_response
+        warnings.append("Generation settings are read-only in the current WiQAS implementation")
+        # Note: Generation config is managed through AnswerGeneratorConfig (config.rag.generator)
+        # These settings are not directly configurable via the settings API
+        logger.info("Generation settings update ignored - read-only configuration")
     
     # Vector store updates
     if updates.vectorstore:

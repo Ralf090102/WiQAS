@@ -3,7 +3,6 @@
 	import CarbonChevronRight from "~icons/carbon/chevron-right";
 	import CarbonDocumentTasks from "~icons/carbon/document-tasks";
 	import CarbonUpload from "~icons/carbon/upload";
-	import CarbonVolumeUp from "~icons/carbon/volume-up";
 
 	const settingsCategories = [
 		{
@@ -22,14 +21,6 @@
 			path: '/settings/ingestion',
 			enabled: true
 		},
-		{
-			id: 'speech',
-			title: 'Speech & Audio',
-			description: 'Configure speech-to-text (STT) and text-to-speech (TTS) settings',
-			icon: CarbonVolumeUp,
-			path: '/settings/speech',
-			enabled: true
-		},
 		// Future settings categories will be added here
 		// {
 		//   id: 'backend',
@@ -43,7 +34,7 @@
 </script>
 
 <svelte:head>
-	<title>Settings - Orion</title>
+	<title>Settings - WiQAS</title>
 </svelte:head>
 
 <div class="flex h-full flex-col gap-y-6 overflow-y-auto px-5 py-8 sm:px-8">
