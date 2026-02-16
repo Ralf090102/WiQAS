@@ -543,7 +543,7 @@ class AnswerGeneratorConfig(BaseConfig):
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "TeeZee/gemma-2-9b-it-abliterated"),
+            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "mistral:latest"),
             base_url=get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout=get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
             backend=get_env_str("WIQAS_BACKEND", "ollama"),  # ollama | hf

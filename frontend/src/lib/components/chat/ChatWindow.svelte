@@ -671,7 +671,7 @@
 							{#if transcriptionEnabled}
 								<button
 									type="button"
-									class="btn absolute bottom-2.5 right-13 size-9 self-end rounded-xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-600 shadow-sm transition-all hover:from-gray-100 hover:to-gray-200 hover:text-gray-800 hover:shadow-md dark:from-gray-700 dark:to-gray-600 dark:text-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-500 sm:right-12 sm:size-8"
+									class="btn absolute bottom-2.5 left-1/2 -translate-x-20 size-9 self-end rounded-xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-600 shadow-sm transition-all hover:from-gray-100 hover:to-gray-200 hover:text-gray-800 hover:shadow-md dark:from-gray-700 dark:to-gray-600 dark:text-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-500 sm:-translate-x-16 sm:size-8"
 									disabled={isReadOnly}
 									onclick={() => {
 										isRecording = true;
@@ -682,7 +682,7 @@
 								</button>
 							{/if}
 							<button
-								class="btn absolute bottom-2.5 right-2.5 size-9 self-end rounded-xl border-0 bg-gradient-to-br shadow-md transition-all sm:size-8 {!draft ||
+								class="btn absolute bottom-2.5 left-1/2 -translate-x-1/2 size-9 self-end rounded-xl border-0 bg-gradient-to-br shadow-md transition-all sm:size-8 {!draft ||
 								isReadOnly
 									? 'from-gray-100 to-gray-200 text-gray-400 dark:from-gray-700 dark:to-gray-600 dark:text-gray-500 cursor-not-allowed'
 									: 'from-blue-600 to-blue-700 text-white shadow-blue-500/30 hover:from-blue-700 hover:to-blue-800 hover:shadow-lg hover:shadow-blue-500/40 dark:from-blue-500 dark:to-blue-600 dark:shadow-blue-400/30 dark:hover:from-blue-600 dark:hover:to-blue-700'}"
