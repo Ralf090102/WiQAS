@@ -303,10 +303,11 @@
 				<button
 					on:click={handleSubmit}
 					disabled={loading || !query.trim()}
-					class="absolute bottom-2 right-2 flex size-9 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/30 transition-all hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+					aria-label="Send"
+					class="absolute right-1 top-1 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/30 transition-transform hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
 				>
 					{#if loading}
-						<div class="size-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+						<div class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
 					{:else}
 						<CarbonSend class="size-4" />
 					{/if}
