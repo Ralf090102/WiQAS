@@ -1,5 +1,5 @@
 /**
- * WebSocket chat client for Orion backend
+ * WebSocket chat client for WIQAS backend
  * Connects to FastAPI WebSocket endpoint at /ws/chat/{session_id}
  */
 

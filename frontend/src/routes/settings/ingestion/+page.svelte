@@ -388,7 +388,7 @@
 </script>
 
 <svelte:head>
-	<title>Document Ingestion - Orion</title>
+	<title>Document Ingestion - WiQAS</title>
 </svelte:head>
 
 <div class="flex h-full flex-col gap-y-6 overflow-y-auto px-5 py-8 sm:px-8">

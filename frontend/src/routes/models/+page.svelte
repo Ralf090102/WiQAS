@@ -129,7 +129,7 @@
 </script>
 
 <svelte:head>
-	<title>Models - Orion</title>
+	<title>Models - WiQAS</title>
 </svelte:head>
 
 {#if showParametersModal}

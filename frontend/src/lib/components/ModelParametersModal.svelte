@@ -20,7 +20,7 @@
 	const DEFAULT_TOP_P = 0.9;
 	const DEFAULT_MAX_TOKENS = null;
 	const DEFAULT_TIMEOUT = 90;
-	const DEFAULT_SYSTEM_PROMPT = "You are Orion, a helpful AI assistant with access to a knowledge base. Use the provided context to answer questions accurately and cite sources when appropriate.";
+	const DEFAULT_SYSTEM_PROMPT = "You are WiQAS, a helpful AI assistant with access to a knowledge base. Use the provided context to answer questions accurately and cite sources when appropriate.";
 
 	// Model parameters
 	let temperature = $state(DEFAULT_TEMPERATURE);

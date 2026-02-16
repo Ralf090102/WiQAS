@@ -55,7 +55,7 @@
 			reserve_tokens_for_response: 1024
 		},
 		vectorstore: {
-			collection_name: "orion_knowledge_base",
+			collection_name: "wiqas_knowledge_base",
 			persist_directory: "./data/chroma-data",
 			distance_metric: "cosine",
 			batch_size: 64
@@ -201,7 +201,7 @@
 </script>
 
 <svelte:head>
-	<title>RAG Settings - Orion</title>
+	<title>RAG Settings - WiQAS</title>
 </svelte:head>
 
 <div class="flex h-full flex-col gap-y-6 overflow-y-auto px-5 py-8 sm:px-8">

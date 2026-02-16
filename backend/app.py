@@ -1,5 +1,5 @@
 """
-Orion Backend API - FastAPI Application
+WiQAS Backend API - FastAPI Application
 
 Main FastAPI application with CORS, lifespan events, and route registration.
 """
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
         - Cleanup resources
         - Close database connections
     """
-    logger.info("🚀 Starting Orion Backend API...")
+    logger.info("🚀 Starting WiQAS Backend API...")
     
     try:
         # Initialize shared resources
@@ -52,15 +52,15 @@ async def lifespan(app: FastAPI):
     yield
     
     # Shutdown: cleanup resources
-    logger.info("🛑 Shutting down Orion Backend API...")
+    logger.info("🛑 Shutting down WiQAS Backend API...")
     cleanup_resources()
     logger.info("✅ Cleanup complete")
 
 
 # ========== FASTAPI APP ==========
 app = FastAPI(
-    title="Orion RAG Assistant API",
-    description="Backend API for Orion - Local RAG Assistant with chat capabilities",
+    title="WiQAS RAG Assistant API",
+    description="Backend API for WiQAS - Local RAG Assistant with chat capabilities",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -123,7 +123,7 @@ async def root():
     Root endpoint - API information.
     """
     return {
-        "name": "Orion RAG Assistant API",
+        "name": "WiQAS RAG Assistant API",
         "version": "1.0.0",
         "status": "running",
         "docs": "/docs",
@@ -205,7 +205,7 @@ async def websocket_chat(websocket: WebSocket, session_id: str):
 async def startup_message():
     """Print startup information."""
     logger.info("=" * 60)
-    logger.info("Orion Backend API is ready!")
+    logger.info("WiQAS Backend API is ready!")
     logger.info("Docs: http://localhost:8000/docs")
     logger.info("=" * 60)
 

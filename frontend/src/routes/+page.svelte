@@ -71,7 +71,7 @@
 
 <div class="flex h-full flex-col overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-gray-950 dark:via-blue-950/20 dark:to-gray-950">
 	<!-- Header -->
-	<div class="border-b border-blue-100/50 bg-white/80 px-6 py-6 shadow-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/80">
+	<div class="border-b border-blue-100/50 bg-white/80 px-6 h-[4rem] shadow-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/80">
 		<div class="mx-auto max-w-4xl">
 			<div class="flex items-center gap-3">
 				<div class="flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg shadow-blue-500/30">
@@ -145,7 +145,7 @@
 								{response.query}
 							</p>
 							{#if response.detected_language}
-								<p class="mt-2 inline-block rounded-full bg-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
+								<p class="mt-2 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
 									{response.detected_language === 'fil' ? '🇵🇭 Filipino' : '🇬🇧 English'}
 								</p>
 							{/if}
@@ -291,26 +291,24 @@
 	<!-- Input Area (Fixed at bottom) -->
 	<div class="border-t border-blue-100/50 bg-white/90 px-6 py-5 shadow-lg backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/90">
 		<div class="mx-auto max-w-4xl">
-			<div class="flex gap-3">
-				<div class="relative flex-1">
-					<textarea
-						bind:value={query}
-						on:keydown={handleKeydown}
-						placeholder="Ask a question in English or Filipino..."
-						rows="2"
-						disabled={loading}
-						class="w-full resize-none rounded-xl border-2 border-gray-200 bg-white px-5 py-4 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-blue-600"
-					></textarea>
-				</div>
+			<div class="relative">
+				<textarea
+					bind:value={query}
+					on:keydown={handleKeydown}
+					placeholder="Ask a question in English or Filipino..."
+					rows="1"
+					disabled={loading}
+					class="w-full resize-none rounded-xl border-2 border-gray-200 bg-white px-5 py-3 pr-14 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-blue-600"
+				></textarea>
 				<button
 					on:click={handleSubmit}
 					disabled={loading || !query.trim()}
-					class="flex h-full min-w-[4rem] items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 text-white shadow-lg shadow-blue-500/30 transition-all hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:shadow-blue-500/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+					class="absolute bottom-2 right-2 flex size-9 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/30 transition-all hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 				>
 					{#if loading}
-						<div class="size-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+						<div class="size-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
 					{:else}
-						<CarbonSend class="size-5" />
+						<CarbonSend class="size-4" />
 					{/if}
 				</button>
 			</div>

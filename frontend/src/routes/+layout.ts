@@ -59,7 +59,7 @@ export const load = async ({ depends, fetch }) => {
 
 	// Mock public config
 	const publicConfig = {
-		PUBLIC_APP_NAME: import.meta.env.PUBLIC_APP_NAME || 'Orion',
+		PUBLIC_APP_NAME: import.meta.env.PUBLIC_APP_NAME || 'WiQAS',
 		PUBLIC_APP_DESCRIPTION: import.meta.env.PUBLIC_APP_DESCRIPTION || 'Local RAG Chat',
 		PUBLIC_ORIGIN: import.meta.env.PUBLIC_ORIGIN || 'http://localhost:5173',
 		isHuggingChat: false,

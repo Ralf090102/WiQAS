@@ -145,26 +145,18 @@
 
 <!-- Header Section -->
 <div
-	class="sticky top-0 z-10 flex flex-none touch-none items-center justify-between border-b border-r border-blue-100/50 bg-white/90 px-4 py-4 backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/90 max-sm:pt-0"
+	class="sticky top-0 z-10 flex flex-none touch-none items-center justify-between border-b border-r border-blue-100/50 bg-white/80 px-6 h-[4rem] shadow-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/80 max-sm:pt-0"
 >
 	<a
-		class="flex select-none items-center gap-2 rounded-xl text-lg font-semibold transition-opacity hover:opacity-80"
+		class="flex select-none items-center ga-p2 rounded-xl text-lg font-semibold transition-opacity hover:opacity-80"
 		href="{publicConfig.PUBLIC_ORIGIN}{base}/"
 	>
 		<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/30">
 			<span class="text-lg font-bold text-white">W</span>
 		</div>
-		<span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
+		<span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400 p-2">
 			{publicConfig.PUBLIC_APP_NAME}
 		</span>
-	</a>
-	<a
-		href={`${base}/`}
-		onclick={handleNewChatClick}
-		class="flex rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/40 dark:border-blue-800 dark:from-blue-700 dark:to-indigo-700"
-		title="Ctrl/Cmd + Shift + O"
-	>
-		New Chat
 	</a>
 </div>
 
@@ -195,7 +187,7 @@
 
 <!-- Bottom Navigation Section -->
 <div
-	class="flex touch-none flex-col gap-2 border-t border-r border-blue-100/50 bg-white/90 p-3 text-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/90"
+	class="flex touch-none flex-col gap-2 border-t border-r border-blue-100/50 bg-white/80 p-3 text-sm backdrop-blur-sm dark:border-gray-800/50 dark:bg-gray-900/80"
 >
 	<!-- Models Link -->
 	<a

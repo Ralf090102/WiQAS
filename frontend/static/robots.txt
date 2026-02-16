@@ -1,4 +1,4 @@
-# Orion RAG - Personal Knowledge Assistant
+# WiQAS RAG - Personal Knowledge Assistant
 # This is a local/private application - block all crawlers
 User-agent: *
 Disallow: /
