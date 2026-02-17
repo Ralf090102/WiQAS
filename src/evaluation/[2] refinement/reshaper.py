@@ -361,10 +361,11 @@ class CulturalGoldenUpdater:
             q = entry.get("question")
             if q in refined_index:
                 refined_entry = refined_index[q]
-                refined_cga = refined_entry.get("metadata", {}).get("cultural_golden_answer")
+                refined_cga = refined_entry.get("metadata", {}).get("cultural_gold_answer")
                 if refined_cga:
-                    entry.setdefault("metadata", {})["cultural_golden_answer"] = refined_cga
+                    entry.setdefault("metadata", {})["cultural_gold_answer"] = refined_cga
                     updated_count += 1
+
 
         save_json(self.base_data, self.output_path)
         logger.info(f"Updated {updated_count} entries with new cultural_golden_answer values.")
@@ -410,7 +411,7 @@ def main():
     extract_p.add_argument("json_path", help="Path to dataset JSON")
     extract_p.add_argument("--out", help="Output text file path")
     
-    # Merge CSV with JSON
+    # Merge CSV with JSON (add the ground truth and model answer)
     merge_csv = subparsers.add_parser("merge-csv", help="Merge CSV with JSON via question")
     merge_csv.add_argument("--csv", required=True, help="Path to CSV file")
     merge_csv.add_argument("--json", required=True, help="Path to JSON file")

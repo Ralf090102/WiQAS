@@ -1,0 +1,20 @@
+======================================================================
+Q&A SYSTEM EDUCATIONAL SUITABILITY (FULL SEMANTIC)
+======================================================================
+Total Questions Evaluated: 2037
+
+----------------------------------------------------------------------
+SEMANTIC ACCURACY (Answer vs Truth)
+----------------------------------------------------------------------
+Average BERTScore:       0.7477
+Legacy F1 Score:         0.2247
+
+Overall Pass Rate:       6.48%
+
+----------------------------------------------------------------------
+SEMANTIC RELIABILITY (Answer vs Context)
+----------------------------------------------------------------------
+Method: Semantic Entailment (BERTScore)
+Grounding Rate:          3.83%
+Context Availability:    72.75%
+Hallucination Gap:       68.92%

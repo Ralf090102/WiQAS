@@ -38,7 +38,7 @@ class LLMRefiner:
     def __init__(self, model: str = "llama3.2"):
         self.model = model
     
-    def refine_question(self, question: str, context: str, judge_feedback: str) -> Tuple[str, str]:
+    def refine_question(self, question: str, context: str, judge_feedback: str, language: str) -> Tuple[str, str]:
         """Use LLM to refine a question based on context and judge feedback."""
         prompt = f"""You are refining a question for a QA dataset.  Keep the **same language** (Filipino, English, or mixed) as the original answer. Do NOT translate. The question must be answerable SOLELY from the provided context.
 
@@ -51,6 +51,9 @@ Original Question (NOT ANSWERABLE or PARTIALLY ANSWERABLE from context):
 Why This Question Failed:
 {judge_feedback}
 
+Language:
+{language}
+
 CRITICAL REQUIREMENTS:
 1. Read the context carefully and identify what information IS actually present
 2. The question MUST ask about information that EXPLICITLY EXISTS in the context above
@@ -60,6 +63,16 @@ CRITICAL REQUIREMENTS:
 6. Questions should start with  why, who, when, what, where (factoid)
 7. Avoid generic lead-ins like "According to the text," "Based on the passage," etc.
 8. If the question is in Filipino, then it must stay in Filipino. Keep the same original language.
+9. The question must NOT refer to "the passage," "the text," "the document," or any structural element such as lists, tables, or sections.
+10. The question must refer directly to real-world entities (people, places, works, events, objects) and not to the structure of the passage.
+11. DO NOT ask about what is "listed," "mentioned," "included," "stated," or "shown" in the text. 
+    Instead, ask directly about the actual entities themselves.
+    For example, instead of:
+        "What books are listed?"
+    Ask:
+        "Which books did [person] write?"
+        or
+        "What titles were published in 1995?"
 
 
 Example of GOOD refinement:
@@ -71,7 +84,7 @@ Example of addressing judge feedback:
 - Feedback: "The context doesn't explain the significance, only describes the event"
 - Solution: Change question from asking "why" to asking "what happened" or "when did it occur"
 
-Now refine the question to be DIRECTLY and COMPLETELY answerable from the context alone.
+Now refine the question to be DIRECTLY and COMPLETELY answerable from the context alone. The question must sound like a standalone trivia or quiz question. Retain the language of the original question.
 
 Respond in the following format:
 REFINED_QUESTION: [Your refined question here]
@@ -303,6 +316,7 @@ class DatasetRefiner:
         print(f"Question: {item.question[:80]}...")
         
         context = item.metadata.get('ground_truth_context', item.context_snippet)
+        language = item.metadata.get('language', item.context_snippet)
         
         # Combine judge feedback
         q_feedback = f"Judge 1 ({item.judge1_question_status}): {item.judge1_question_reasoning}\nJudge 2 ({item.judge2_question_status}): {item.judge2_question_reasoning}"
@@ -311,24 +325,24 @@ class DatasetRefiner:
         print(q_feedback)
         print(a_feedback)
                 
-        if item.action == RefinementAction.REFINE_QUESTION:
-            print("Refining question...")
-            refined_q, reasoning = self.llm_refiner.refine_question(
-                item.question, context, q_feedback
-            )
+        # if item.action == RefinementAction.REFINE_QUESTION:
+        #     print("Refining question...")
+        #     refined_q, reasoning = self.llm_refiner.refine_question(
+        #         item.question, context, q_feedback, language
+        #     )
   
-            if self.interactive:
-                refined_q = self.get_user_approval(item.question, refined_q, "Question")
+        #     if self.interactive:
+        #         refined_q = self.get_user_approval(item.question, refined_q, "Question")
             
-            item.refined_question = refined_q
-            item.refined_answer = item.ground_truth
-            item.refinement_reasoning = reasoning
+        #     item.refined_question = refined_q
+        #     item.refined_answer = item.ground_truth
+        #     item.refinement_reasoning = reasoning
             
-            if self.verbose:
-                print(f"  Original: {item.question}")
-                print(f"  Refined:  {refined_q}")
+        #     if self.verbose:
+        #         print(f"  Original: {item.question}")
+        #         print(f"  Refined:  {refined_q}")
         
-        elif item.action == RefinementAction.REFINE_ANSWER:
+        if item.action == RefinementAction.REFINE_ANSWER or item.action == RefinementAction.REFINE_BOTH:
             print("Refining answer...")
             refined_a, reasoning = self.llm_refiner.refine_answer(
                 item.question, item.ground_truth, context, a_feedback
@@ -345,25 +359,25 @@ class DatasetRefiner:
                 print(f"  Original: {item.ground_truth}")
                 print(f"  Refined:  {refined_a}")
         
-        elif item.action == RefinementAction.REFINE_BOTH:
-            print("Refining both question and answer...")
-            refined_q, refined_a, reasoning = self.llm_refiner.refine_both(
-                item.question, item.ground_truth, context, q_feedback, a_feedback
-            )
+        # elif item.action == RefinementAction.REFINE_BOTH:
+        #     print("Refining both question and answer...")
+        #     refined_q, refined_a, reasoning = self.llm_refiner.refine_both(
+        #         item.question, item.ground_truth, context, q_feedback, a_feedback
+        #     )
             
-            if self.interactive:
-                refined_q = self.get_user_approval(item.question, refined_q, "Question")
-                refined_a = self.get_user_approval(item.ground_truth, refined_a, "Answer")
+        #     if self.interactive:
+        #         refined_q = self.get_user_approval(item.question, refined_q, "Question")
+        #         refined_a = self.get_user_approval(item.ground_truth, refined_a, "Answer")
             
-            item.refined_question = refined_q
-            item.refined_answer = refined_a
-            item.refinement_reasoning = reasoning
+        #     item.refined_question = refined_q
+        #     item.refined_answer = refined_a
+        #     item.refinement_reasoning = reasoning
             
-            if self.verbose:
-                print(f"  Original Q: {item.question}")
-                print(f"  Refined Q:  {refined_q}")
-                print(f"  Original A: {item.ground_truth}")
-                print(f"  Refined A:  {refined_a}")
+        #     if self.verbose:
+        #         print(f"  Original Q: {item.question}")
+        #         print(f"  Refined Q:  {refined_q}")
+        #         print(f"  Original A: {item.ground_truth}")
+        #         print(f"  Refined A:  {refined_a}")
         
         return item
     

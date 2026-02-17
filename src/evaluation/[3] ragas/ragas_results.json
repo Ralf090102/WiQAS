@@ -1,0 +1,21 @@
+[
+  {
+    "question": "Saang lugar ay naninirahan ang mga Igorot?",
+    "faithfulness": 0.5,
+    "answer_correctness": 0.501739492068971,
+    "context_recall": 1.0,
+    "context_precision": 0.0,
+    "answer_relevancy": null,
+    "answer_similarity": 0.8069579682758836,
+    "overall_score": 0.5617394920689709,
+    "metadata": {
+      "cultural_golden_answer": "Saang lugar ay naninirahan ang mga Igorot?  Ang lupain ng Hilagang Luzon, katabing sa Cordilleras.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "ground_truth_context": ". And for the most part they did. Tribes such as the T’Boli, the Mandaya, the Manobo, and the Bagobo, because they lived in the highlands, never converted wholesale to Islam. In Mindoro Island, off the western coast of Luzon, live the Mangyan in the rugged, mountainous in terior, whose Hanunoo branch was ment ioned earlier in connection with the use of baybayin, the pre-Hispanic script. Scattered along the western coast of Luzon, especially in its mountainous in terior, and found on some Visayan islands, are the Negritos (whom the Spanish also referred to as Negrillos ). Also known as Agta, Aeta, Ita, Ati, they are shorter than the average Filipino, of dark pigmentation and curly hair, and are related to the Australian Aborigines. There is an on going debate as to when they established the mselves in the archipelago, but their presence is believed to be older than that of the Austronesian migrations. They are thought to have used land bridges 30,000 years ago, most likely through the isthmus that once connected Palawan Island and Borneo. In the highlands of northern Luzon—the Cordilleras—live the previously ment ioned Igorot tribes, Igorot meaning “peoples of the mountain.” Among these are the Kalinga, the Bontoc, the Kankanay, the Ibaloi, and the Ifugao—the last named the builders of the magnificent rice terraces. Famed for their martial skills, bravery, and codes of honor and retribution (in cluding headhunting), the Igorots were too high up, too fierce, and the Spanish too sparse in number, for the few at tempts at spreading the Gospel to succeed. Only under United States colonial rule in the early twentieth century would Christianity gain a foothold in the mountains."
+    },
+    "evaluation_time": 25.884835481643677,
+    "model_used": "gemma2:9b"
+  }
+]

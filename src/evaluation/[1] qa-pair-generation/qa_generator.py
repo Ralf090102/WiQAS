@@ -161,19 +161,25 @@ LANGUAGE REQUIREMENT:
 
         prompt = f"""You are an expert in Filipino culture and language. Given the following text passage, generate {self.questions_per_chunk} high-quality question-answer pairs that focus on Filipino cultural context.
 
-TEXT PASSAGE:
+TEXT PASSAGE (for your reference only):
 {chunk}
 {language_instruction}
 
 INSTRUCTIONS:
-1. Generate exactly {self.questions_per_chunk} question-answer pairs
+1. Generate exactly {self.questions_per_chunk} question-answer pairs this will be quiz questions that test knowledge about the text passage
 2. Questions should be:
    - Factoid (what, who, when, where)
 {question_guidance}
-3. For each question, provide:
+3. Do NOT use pronouns or vague references such as: "this", "it", "they", "the passage", "the text", "the list"
+4. Must EXPLICITLY name: the subject (person, place, event, concept, dish, tradition, or object)
+5. Every question and answer must be FULLY SELF-CONTAINED
+6. A reader must understand BOTH the question and the answer WITHOUT seeing the text passage
+7. Do NOT use pronouns without an explicit noun reference
+8. Must NOT mention the existence of a text, recipe, page, passage, or list instead of a real-world entity
+9. For each question, provide:
    - A factoid "answer" based on the text
    - A "cultural_golden_answer" that emphasizes Filipino cultural relevance
-4. The cultural golden answer should:
+10. The cultural golden answer should:
    - Start with the same factoid answer if culturally relevant
    - Add specific Filipino cultural context, significance, or connections when applicable
    - If the fact has no special cultural significance, the cultural_golden_answer can be THE SAME as the answer
@@ -184,8 +190,8 @@ INSTRUCTIONS:
      * Q: "What year did the event occur?"
        Answer: "1986"
        Cultural Golden: "1986" (same, unless the year has cultural significance like EDSA Revolution)
-5. Focus on making the cultural connection explicit rather than treating facts as generic information
-6. All answers must be directly supported by the text
+11. Focus on making the cultural connection explicit rather than treating facts as generic information
+12. All answers must be directly supported by the text
 
 OUTPUT FORMAT (strict JSON only, no other text):
 {{
@@ -199,6 +205,8 @@ OUTPUT FORMAT (strict JSON only, no other text):
     }}
   ]
 }}
+
+
 
 Generate the QA pairs in JSON format now:"""
 
@@ -341,8 +349,8 @@ def main():
     pipeline = OllamaQAGenerator(
         model_name="llama3.1",
         ollama_url="http://localhost:11434",
-        chunk_size=500,  # 1500, 2500, 4000
-        chunk_overlap=100,  #  15-20%
+        chunk_size=4000,  # 1500, 2500, 4000
+        chunk_overlap=400,  #  15-20%
         questions_per_chunk=1,
         question_level="high",  # "high" for overview, "detailed" for specific
         bilingual=True,  # Alternate between Filipino and English

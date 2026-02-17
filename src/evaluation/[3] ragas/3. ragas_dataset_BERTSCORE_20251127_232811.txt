@@ -1,0 +1,24 @@
+======================================================================
+Q&A SYSTEM EDUCATIONAL SUITABILITY (SEMANTIC EVALUATION)
+======================================================================
+Total Questions Evaluated: 2037
+
+----------------------------------------------------------------------
+SEMANTIC ACCURACY (BERTScore)
+----------------------------------------------------------------------
+Average BERTScore:       0.7477
+(Legacy Lexical F1):     0.2247
+
+Semantic Quality Distribution:
+  Excellent (>0.93):     0.59% (12)
+  Good (>0.90):          2.45% (50)
+  Acceptable (>0.88):    3.44% (70)
+  Poor (<=0.88):         93.52% (1905)
+
+Overall Semantic Pass Rate: 6.48%
+
+----------------------------------------------------------------------
+RELIABILITY (Grounding)
+----------------------------------------------------------------------
+Grounding Rate:          37.21%
+Context Availability:    72.75%

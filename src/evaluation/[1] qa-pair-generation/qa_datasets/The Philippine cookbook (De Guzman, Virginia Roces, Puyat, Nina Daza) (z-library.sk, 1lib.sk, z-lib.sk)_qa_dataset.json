@@ -1,0 +1,419 @@
+{
+  "metadata": {
+    "source_file": "to_ingest\\The Philippine cookbook (De Guzman, Virginia Roces, Puyat, Nina Daza) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "total_chunks": 45,
+    "total_qa_pairs": 45,
+    "chunk_size": 4000,
+    "chunk_overlap": 400,
+    "question_level": "high",
+    "bilingual": true,
+    "model": "llama3.1"
+  },
+  "qa_pairs": [
+    {
+      "question": "Ang unang tao sa isang pamilya na may karapatan at kapangyarihan ay ano?",
+      "answer": "Matriarka",
+      "cultural_golden_answer": "Ang matriarka, kung saan ang pinakamatanda na babae sa isang pamilya o mga pamayanan ay may higit na kapangyarihan at respeto, at karaniwang siya ang nakabubuklod ng mga pagdiriwang ng pamilya. Ito ay isang mahalagang bahagi ng Filipino culture, kung saan ang mga babae ay nasa sentro ng pakikibaka ng pamilya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 0,
+      "context": "the chili pniiippme cookbook h h o o 1 \nVirginia roces de guzman nina daza puyat\n\n\n\nT \ntne phili pninppme coordoor ktooi\n\n\n\nme cool? \nSecond Edition \nVirginia roces uzman \nnina daza puyat \n00 \nBookmark\n\nCopyright © 1990, 2000 hy Bookmark, Inc. and Virginia Roces de Guzman \nSecond e dition 2000 \nIntroductions and side notes hy Nina Daza Puyat \nBook design and illustrations hy May M. Tohias \nCover artwork hy Katti Sta. Ana \nAll rights reserved. \nNo part of this work covered by the copyright hereon"
+    },
+    {
+      "question": "What is a common practice among Filipinos when eating?",
+      "answer": "Filipinos usually start a meal with a hot bowl of soup.",
+      "cultural_golden_answer": "Starting with a steaming hot bowl of Filipino-style soup, known as 'lumpia' or 'sinigang,' which typically contains pieces of meat, fish, and vegetables, is an integral part of Filipino dining culture. This tradition not only warms the palate but also provides a refreshing way to cool down in the tropical climate.",
+      "language": "english",
+      "cultural_relevance": 1,
+      "chunk_index": 1,
+      "context": "fisli & seofccJs \npp. 69—85 \nrice 8 nee Jl cs \npp. 87—96 \nArroz con Colifl or 87 \nSpagketti Edgardo 88 \nPancit Bilion 89 \nPaella de Pata 90 \nBringke 91 \nCkamporado sa Gata 92 \nMarinated Kesong Puti 92 \nPancit Lomi 93 \nPancit Malakon 94 \nPancit Luglug 95 \nJcsscrls \nPp. 97-117 \nRellenong Alimasag sa Gata \n69 \nSinaing na Tulingan 70 \nPako Salad 70 \nAdok ong Hito 71 \nSinanglay 72 \nKinilaw 73 \nBagoong Alamang 74 \nRellenong Bangus 75 \nBaked Fisk witk Clam Sauce \n76 \nCurried Cra ks 77 \nSugpo sa Gata 78"
+    },
+    {
+      "question": "Saang resep ay ang sotanghon at taingang daga ginamit?",
+      "answer": "sa Ckickaro",
+      "cultural_golden_answer": "Ang Ckickaro, na kilala rin bilang sweet pea pods, ay isang delikado ng vegetable sa Filipino cuisine. Nasa resep na Ckickaro ang sotanghon at taingang daga na ginamit upang lumuto sa pagkakaibayo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 2,
+      "context": "long-long \nMarina Reyes Antonio \n1 small chicken \n2 stalks celery \n1 hunch spring onion \nV2 teaspoon peppercorns \nV2 kilo ground pork \n1h kilo shrimp, shelled and chopped \n2 eggs, beaten \n200 grams sotangkon, soaked in water \n10 grams taingang daga (wood ear mushroom), \nsoaked in water \n1 cup ckickaro \npatis \n1 head garlic, sliced thinly and fried till golden h rown \nspring onion, chopped \n1. In a casserole, put togetker ckicken, celery, V2 kunck \nspring onion and peppercorns. Add akout 12 cups "
+    },
+    {
+      "question": "What type of sausage is commonly used in Filipino cookery?",
+      "answer": "chorizo Bilbao",
+      "cultural_golden_answer": "Chorizo Bilbao, a dried Spanish-style pork sausage packed in paprika-tinged lard, which has become an integral part of Filipino cuisine and is often used in traditional dishes such as paella and adobo.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 3,
+      "context": "IJ II to goiiego \nPil ar Araneta \nV-2 kilo b eef kencki (boneless shank), cut in cubes \n1 meaty ham bone \n1 pack w bite b eans (225 grams) \nV2 chicken, cut in serving pieces \n1 piece ckorizo Bilbao, sliced \n5 medium potatoes, diced \n2 radishes, diced (optional) \n1 V2 cups cooked garkanzos \nl/4 kilo cabbage, shre dded \n1 cup olive oil \n1. Soak tke Leans in water overnigkt. \n2. In a large casserole, put in meat, kamkone and keans. \nAdd water to cover ky akout 2 inckes. Bring to a koil, \nlower keat"
+    },
+    {
+      "question": "Paano ang pagkakaroon ng kulay ng olive oil ay nagsasabi sa kung gaano ito katimbang?",
+      "answer": "'Extra virgin olive oil' ay kulay dilaw-berde.",
+      "cultural_golden_answer": "'Extra virgin olive oil' na may kulay dilaw-berde ay tandaan ng pagiging mabuting olives at kapansin-pansin ang intensidad ng lasa nito, na kung saan ay isinasauli ng mga Pilipino bilang mahalaga para sa kanilang pagluluto.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 4,
+      "context": "sin palran \nCarmen Garcia Caro \n1 kilo beef kenchi (boneless shank) \n4 strips bacon \n1 piece chorizo Bilbao \n1 sma 11 bunch green onion \n1 teaspoon peppercorns \n10 cups water \nV2 cup olive oil \n2 h ea ds garlic, crushed \n4 medium potatoes, cubed \n2 cups cooked garbanzos \n12 pieces crushed soda crackers \n1U cup butter \n1. In a pot, put kenchi, bacon, chorizo, green onion, \npeppercorns. Cover witb water and simmer till tender, \nabout 3 hours. \nvirgin is les/ \nOlive oil is pressed from \nripe, green"
+    },
+    {
+      "question": "What types of meat are commercially available in almost all areas of the Philippines?",
+      "answer": "Pork, chicken, and beef",
+      "cultural_golden_answer": "In the Filipino context, pork, chicken, and beef are staples in Philippine cuisine, often used as primary ingredients in various dishes due to their widespread availability and affordability.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 5,
+      "context": "sun Jay chicken \nNenita Matute \n1 V2 kilos chicken, deb oned leaving wings and legs \nStuffing: \nlh kilo lean ground pork \nA kilo Chinese ham, minced \n1 cup water chestnuts, chopped coarsely \n1h cup onion, chopped \n1U cup green onion, chopped \n1 teaspoon freshly ground black pepper \n1 teaspoon salt \n2 egg yolks \n1 Chinese peckay \n1 small cabbage, quartered \n2 pieces carrots, peeled \n4 medium potatoes, peeled \n1. Have tke ckicken dekoned in tke market. Rinse \ntkorougkly and dry witk paper towels. "
+    },
+    {
+      "question": "Anong pangalan ng lutuin na kinasasamaan ang pagpapahusay ng tiwala?",
+      "answer": "pu lulai",
+      "cultural_golden_answer": "Ang pulutan ay isang uri ng lutuin sa Pilipinas na karaniwang kinakain habang may inumin, na nagpapahiram ng tiwala at kaalaman sa mga mapagsamantalahang pagkain.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 6,
+      "context": "calJcrela Je polio \nPilar Caraball o Marquez \n1 big chicken, cut into serving pieces \nseme good \ntreasons why \nyou should \nleawn host) \nlo cooh \nFor marinade: \n3U cup native vinegar \n4 cloves garlic \n1 teaspoon freshly ground pepper \n1 teaspoon salt \nV2 cup olive oil \n4 cloves garlic \n2 medium onions, chopped \nV-2 cup tomato sauce \ncup liver spread \n1 small can red pimientos, sliced \n1 /2 cup olives \nsalt \npepper \n1. Combine chicken and marinade and stand 2 hours \nor overni ght. \n2. Drain chicke"
+    },
+    {
+      "question": "What is one favorite Filipino beverage made with ginger?",
+      "answer": "Salakat",
+      "cultural_golden_answer": "Salakat, a traditional Filipino ginger tea that is often served on Christmas morning after Simbang Gabi.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 7,
+      "context": "gtnger \nely*s <-t-3 ckick cn \nEligfio Teekankee \n10 pieces chicken wings \n1/2 cup ginger, cut in thin strips \n1 tablespoon sugar \n1 tablespoon rice wine \n2 tablespoons vinegar \n3 tablespoons soy sauce \n1. Fry ck icken wings till golden krown. Remove from \npan. Saute ginger, and add tke rest o ftke ingredients. \nCover and simmer 20 minutes till wings are tender. \n4 — 5 portions \nGinger is one of the world’s \noldest spices. It was \nconsidered very precious by the \nancient Romans that it was \ntaxed"
+    },
+    {
+      "question": "Ano ang pangalan ng luto na pinanlamhanan ng chicken at papaya?",
+      "answer": "Iaionglialang Juditk E scano Daez",
+      "cultural_golden_answer": "Ang Iaionglialang ay isang kain ng Filipino na karaniwang inihahalo ang manok at papa. Karaniwang niluluto sa mga pagdiriwang tulad ng fiesta at reunions.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 8,
+      "context": "chicken encekclIaJc \nKatky Velayo Yulo \n1 kilo chicken, cut into hite-sized pieces \nV-2 cup native vinegar \n1 cup water \n6 cloves garlic, crushed \n1 medium onion, chopped \nchicken giblets, chopped \n1f2 cup stuffed green olives \n1U cup breadcrumbs \nsalt \npepper \n1. Simmer ckicken in vinegar and water for 10 \nminutes. Drain and reserve cooking liquid. \n2. Saute garlic and onion, add ckicken and giklets. Add \ncooking liquid and olives. Simmer till ckicken is tender. \nAdd k readcrumks to tkicken sau"
+    },
+    {
+      "question": "What is a traditional Filipino concept mentioned in the text?",
+      "answer": "It is the duty of the host to make his guests feel at home.",
+      "cultural_golden_answer": "In Filipino culture, hospitality and respect for one's hosts are deeply ingrained. This concept, 'bayanihan' or community spirit, emphasizes the importance of making guests feel welcome and comfortable in their homes.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 9,
+      "context": "3. In a large bowl, combine stuffing ingredients except \ntbe whole pickles, sausage strips and eggs. Taste for \nseasoning by making a small patty and frying it. Divide \nstuffing into three. Lay out tbe deboned chicken and cut \nthrough the center. Spread one third of the stuffing and \nlay out one third of the strips and eggs, alternating them \nto layers, ending with the stuffing. Shape the chicken \ninto a roll and sew up the opening. Wrap tightly in \ncheesecloth or aluminum foil. Gently 1 ower in"
+    },
+    {
+      "question": "Anong pangalan ng recipe na may Peckay Tagalog?",
+      "answer": "Guisado",
+      "cultural_golden_answer": "Ang guisado ay isang tradisyonal na pagluluto sa Pilipinas, at ang paggamit ng Peckay Tagalog bilang pangunahing sangkap ay tumutugon sa paniniwala na ang mga halamang ito ay may malusog at makabagong katutubong balensya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 10,
+      "context": "netting s chicken \nNeningf Pedrosa Manak an \n1 large chicken, ahout \nl1/2 kilos \n1 thumb-shed piece of ginger \nsalt \nfreshly ground pepper \n10 pieces Chinese black \nmushrooms or dried skital \n1 head peckay Tagalog \n1 cup cream \n2 tablespoons butter \nchicken stock or mushroom \nwater \ntee \nFor the stuffing: \n2 tablespoons butter \n2 medium onions, chopped \n1 sma 11 bunch leeks, \nchopped (white parts only) \n1 /2 cup mala gkit rice \n72 cup rice \n2 cups chicken stock \n1. Ruk ckicken witk ginger includ"
+    },
+    {
+      "question": "What is a traditional Filipino dish mentioned in the text as being served with a sweet scented evening?",
+      "answer": "Rellenong Manok",
+      "cultural_golden_answer": "Rellenong Manok, a classic Filipino stuffed chicken dish that is often served at special occasions and gatherings, symbolizing warmth and hospitality.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 11,
+      "context": "SIT DOWN DINNER \npet roast \nT Barcelc essie JDarcelon \n1 V2 kilos sirloin beef \n2 tablespoons soy sauce \n2 tablespoons Worcestershire sauce \n1 head garlic, crushed \n1 teaspoon peppercorns, crushed \n1/3 cup flour \n1U cup olive oil \n4 large onions, chopped \n4 cups water \n1 bay leaf \nV4 cup white wine or sherry \n2 tablespoons flour \n1 cup mushrooms \n2 tablespoons butter \n1. In a bowl put together tbe meat, garlic, pepper, soy \nsauce and Worcestershire sauce. Marinate for about \n2 hours, preferably "
+    },
+    {
+      "question": "Paano nililinis ang pork pata bago ilagay sa marinade?",
+      "answer": "Sa paglagay ng soda at tubig para masira ang asin at mabawasan ang asim",
+      "cultural_golden_answer": "Sinusugatan ang pork pata sa soda at tubig upang maalis ang asin at makainom ang asim, isang tradisyonal na pamamaraan sa pagluluto ng mga Filipinong lalaki",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 12,
+      "context": "pctla willi caslanas \nMarietta Adriano Roces \n1 pork pata from the front leg \n1U kilo Jean pork, cubed \n2 teaspoons soda \nFor the marinade: \n1 /2 cup soy sauce \nVs cup brown sugar \n1 bay leaf \n1 teaspoon cracked peppercorns \n250 grams castanas, cooked and peeled \n1. Clean pata well and put in a bowl wi tb tbe soda and \nenough water to cover. Let to stand for a few minutes, \nrinse well to remove soda an dd rain. \n2. Return to tbe bowl and add tbe marinade. Let to \nstand for at least 2 hours. \n3. "
+    },
+    {
+      "question": "What is a popular dish that uses goat meat in certain regions of the Philippines?",
+      "answer": "Spicy balderetang Kambing",
+      "cultural_golden_answer": "Balderetang Kambing, which reflects Filipino culinary creativity and resourcefulness in utilizing locally sourced ingredients such as goat meat to create a unique flavor profile.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 13,
+      "context": "alderelang kamking \nAnnie Nakpil T an acla \n2 kilos goat meat \n1 cup vinegar \n1 cup soy sauce \n2 teaspoons freshly ground pepper \n1 large head garlic \n1 /2 cup cooking oil \n6 large onions, chopped \nl1/2 cups tomato sauce \nV.2 cup tomato catsup \n1 /d cup sweet pickle juice \n1 cup water \n2 hay leaves \n1 hunch dried oregano \n3/4 cup whisky \nl/4 cup liver spread \n2 pieces green pepper, sliced \n3 pieces red pepper, sliced \ncup olives \nV-2 cup sweet mixed pickles \n3 or 4 pieces siling labuyo \nV4 cup q"
+    },
+    {
+      "question": "Paano inihahanda ang lengua para sa pagkain?",
+      "answer": "Ina-boil ng tubig at pinaputol ang puti nito bago binrobo",
+      "cultural_golden_answer": "Ina-boil ng tubig at pinaputol ang puti nito bago binrobo, isang tradisyonal na paghahanda sa Pilipinas na nakabatay sa kultura ng kusina",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 14,
+      "context": "Ion Jo-fen Jo \nInocencia Reyes Roces \nl/l kilo chicken thighs, deboned \nJ/4 kilo chicken liver \n1U kilo chicken gizzards \n112 kilo lean pork \nFor marina de: \n1 /2 cup soy sauce \nV2 cup kalamansi juice \n2 tablespoons Worcestershire sauce \n1 sma llh ead garlic, crushed \n1 teaspoon freshly ground pepper \n• S \nLeaving tips for waiters and \nbellboys is the best way \nTo Insure Prompt Service. \n1. Cut the chicken, liver, gizzards and pork into \nuniform cubes about 3/4 inch. Put in a howl and add \nmarin"
+    },
+    {
+      "question": "What is a typical Filipino breakfast meal?",
+      "answer": "sinangag (garlic fried rice) using kakaw or left over rice from the night before, scrambled or fried egg and a meat or fish viand",
+      "cultural_golden_answer": "A traditional Filipino breakfast typically consists of sinangag (garlic fried rice), often made with leftover rice from the previous night, accompanied by a protein source such as tapa, tocino, longganiza, daing na bangus, or canned goods like corned beef and sardines. This meal is often served with a side of dipping sauce made from native vinegar and crushed garlic.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 15,
+      "context": "qucki iam \nAdel ina Reyes Cruz \nJ/< kilo shelled shrimp \n1U kilo pork fat, minced \nV2 cup flour \n2 eggs \n2 teaspoons salt \n1 teaspoon pepper \n1 teaspoon sugar \natsuete (optional) \n1. Shell shrimps and. chop coarsely. Put in a howl with \nthe pork fat. Add flour, eggs, salt, pepper, sugar. Mix \nthoroughly and make a small patty and fry to check the \nseasoning. \n2. Form small patties and fry in hot oil. Drain we 11 and \nput over paper napkins to ahsorh the oil. Serve hot with \nsauce on the side. \nF"
+    },
+    {
+      "question": "Ano ang pangalan ng instrumentong ginagamit para sa pagluluto ng mga Filipino?",
+      "answer": "kawali",
+      "cultural_golden_answer": "Ang kawali ay isang tradisyonal na instrumentong panggawaing Pilipino, katumbas ng shallow wok na ginagamit ng mga Pilipinong bahay upang magluto ng sinangag, sauteng vegetables, at iba pang mga lutuin.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 16,
+      "context": "fapaa*s meal t>alls \nMartin Tinio \n1 /4 kilo ground pork \n1 /4 kilo shrimp, shelled and chopped fine \n2 medium tomatoes, seeded and chopped \n1 medium onion, minced \n1 small singkamas, minced \n1 teaspoon salt \negg \nFor the sauce: \n•]/2 cup native vinegar \n1 small onion, thinly slice> \n7 teaspoons sugar \n1 teaspoon salt \n1 li teaspoon pepper \n1. Mix all ingredients togetker and form into 3A inck \nkails. Deep fry in kot oil and drain in paper towels or \nnapkins. \n2. Mix all sauce ingredients togetk"
+    },
+    {
+      "question": "What is a traditional Filipino dish often served on New Year's Day?",
+      "answer": "Wawa's Red Beans",
+      "cultural_golden_answer": "Wawa's Red Beans, which are believed to bring good luck according to Filipino tradition.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 17,
+      "context": "aclol>oti«j cstificjo \nMartin Tinio \n1 kilo chicken or pork, cut in serving pieces \n1U cup vino bianco or 5-year-old rum \n4 teaspoons soy sauce \n5 cloves garlic, crushed \n2 teaspoons salt \n1 teaspoon freshly ground pepper \n1 cup vinegar \n1 cup bubo juice \n1 small head garlic, crushed \n1. Marinate tbe meat in tbe vino bianco or rum, soy \nsauce, garlic, salt, pepper and vinegar, for at least \n2 hours. Drain. \nBEACH PICNIC \nAdohong antigo \nSteamed shrimps \nBurong manga \n2. Fry meat till golden, pou"
+    },
+    {
+      "question": "Anong mga lutuin na nakapahayag ng pagmamahal at pakikitungo sa pamilya ay binibigyang-diin sa mga recipe?",
+      "answer": "Mga adobo, siomais at tortilla",
+      "cultural_golden_answer": "Nakasentro ang mga lutuin sa pagtitipon ng pamilya at pagpapahayag ng pagmamahal sa iba; katulad ng sinabi ni George Bernard Shaw, 'Walang mahusay na pag-ibig kundi ang pag-ibig sa pagkain'.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 18,
+      "context": "i ucvc$ al pi ale \nTeresita Morato Laziatin \n2 tablespoons olive oil \n4 cloves garlic, crushed \n1 medium onion, chopped \n1 small can tomato sauce \n1 hay leaf \n2 pieces chorizo Bilbao, sliced and fried \n1 cup green peas \nsalt \nfreshly ground pepper \n6 eggs \n1. Saute garlic and onion in olive oil. Add tomato sauce \nand bay leaf. Simmer 15 minutes. Discard bay leaf and \nseason witb salt and pepper. Add tbe fried chorizos and \ntbe peas. \n2. Spread tomato sauce mixture on 9-incb pie plate or \nbaking "
+    },
+    {
+      "question": "Who is credited with bringing culinary expertise to the Philippines?",
+      "answer": "Sor Geronima de la Asuncion",
+      "cultural_golden_answer": "Sor Geronima de la Asuncion, a Spanish-born nun of the Sta. Clara order who came to the Philippines in 1621 and shared her culinary knowledge with the local community, highlighting the cultural exchange that occurred between Spain and the Philippines during this period.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 19,
+      "context": "- \nvcgclooles \nSt \nitt &-*... y^ji \nX& yi^g^dc/. J?J&£k,\n\nvegetables \nVegetables kave always keen a part of tke Filipino diet, being \ninexpensive, nutritious readily available and a good source of fiber. An \nextensive variety of greens, fruits, and tubers are available in city \nmarkets, supermarkets and even in neighborhood sari-sari stores. In \nthe provinces, most families grow their favorite vegetables \nright in their own backyards. \nFor everyday cooking, vegetables are usually cooked guisado,"
+    },
+    {
+      "question": "Paano naglalaman ang mga lumpia ng isang katutubong Filipino?",
+      "answer": "Naglalaman sila ng isda, karne, o mga ulam",
+      "cultural_golden_answer": "Maraming tawo ang nakikinabang sa lumpia bilang pangunahing pagkain sa Pilipinas. Isa itong makasaysayang dish na nagmula sa mga dating Kastilang kolonyal at ngayon ay kinakain ng pamilya kung saan tumutugma ang masarap na laman, uri ng patis, at bawasan ng tabako",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 20,
+      "context": "pinangaf \nAsuncion Vera Pere^ \nFor filling: \n5 gabi leaves, chopped \n1U kilo cooked shrimp, shelled \ny2 FI l iempo (pork help), hoi led and cut into strips \nbagoong \n8 cloves garlic, crushed \n2 medium onions, chopped \n1 tablespoon ginger, cut into strips \n1 teaspoon siling labuyo, chopped \nl V cups thick coconut milk \n12-15 gabi leaves \ngabi stalks \nthin coconut milk \n1. In a bowl combine all tbe fill i mg mere clients. \n2. Cbc ibi k ikii ies. loose gabi leaves making sure tbey bave no bole \nPut"
+    },
+    {
+      "question": "What is langka, also known as jackfruit?",
+      "answer": "one of the largest fruits in the world",
+      "cultural_golden_answer": "a significant fruit in Filipino culture, often used in various dishes and desserts, and its unripe form is commonly cooked with coconut milk",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 21,
+      "context": "I angna salad \nJu clitil E scniio Daez \n1 unripe langka, about 5 cups, peeled and cut \nVh-2 cups thick coconut milk \n1 red bell pepper, cut into strips \n11/2 tablespoons onion, chopped \n2 medium tomatoes, chopped \n1 V-2 tablespoons vinegar \n1 teaspoon salt \n1. Boil langka in water and salt. When tend- \nfrom fire and drain. \ner remove \n2. Put langka in a serving howl, combine with the rest of \nthe ingredients. Refrigerate and serve cold. \n8 — 10 portions \nenjoying \njnchfwuii \nThe langka, nangka o"
+    },
+    {
+      "question": "Ano ang tawag sa disyente na hinimok ni Cely Kalaw at kanyang kapatid na si Demitrio?",
+      "answer": "'Bicol Express'",
+      "cultural_golden_answer": "'Bicol Express', na karaniwang kilala bilang isang lutuing katutubo ng rehiyon ng Bicol, ay pinakaluklok sa menu ng The Grove - Luto ng Inay ni Cely Kalaw at kanyang kapatid na si Demitrio",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 22,
+      "context": "ampalaya salad \nJulia Daez \n1 large ampalaya \nFor marinade: \n1 /2 cup vinegar \ncup sugar \nFor dressing: \n1/2 cup mayonnaise \n2 tablespoons pickle \nrelish \n2 tablespoons white \nonion, minced \nV-2 teaspoon salt \npinch pepper \n3 hard-b oi led eggs, chopped \n3U cup small shrimp, \ncooked an d shelled \nsalt \npepper \n1. Slice ampalaya in kalf lengtkwise, witk a melon \nkaller scrape off all tke wkite memkrane. Wask and dry \nampalaya and keep in tke refrigerator overnigkt. \n2. Slice ampalaya tkinly. Put "
+    },
+    {
+      "question": "What is a popular way to enjoy green mangoes in Filipino cuisine?",
+      "answer": "Munching on them between meals or as a complement to a meal",
+      "cultural_golden_answer": "Munching on them between meals or as a complement to a meal, which reflects the Filipino preference for balancing sweet and sour flavors, reflecting the country's love for complex and nuanced flavor profiles.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 23,
+      "context": "slat* salad \nRacky Curia \nV4 kilo sigarilyas \n1 cup small shrimp coo ked an d shelled \n1 hunch watercress \n2 tablespoons red pepper, chopped \nFor dressing: \n3 tablespoons vinegar \n1 tablespoon soy sauce \n2 tablespoons sugar \n1h teaspoon ground pepper \nJA cup corn oil \n1. Slice sigarilyas crosswise into stars. Blanck and drain \ntkorougkly. \n2. In a serving kowl, arrange tke sigarilyas, watercress \nand skrimps. Comkine dressing ingredients and pour over \nsa lad. Sp rinkle red pepper. \nsigart/yas \n"
+    },
+    {
+      "question": "Saang bansa matatagpuan ang mahigit sa 7,000 mga isla na nagpaprotekta sa mga wet market at supermarket ng malawak na hanay ng mga isda at seafood?",
+      "answer": "Filipinas",
+      "cultural_golden_answer": "Ang Pilipinas, na mayroong mahigit sa 7,000 mga isla, ay ang bansang tahanan ng maraming uri ng isda at seafood. Ang pagiging maralay ng mga wet market at supermarket nito ay patunay ng kakaibang karagdagang kasiguruhan na natikman ng Filipino sa pagkain ng masarap na mga ulam.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 24,
+      "context": "gistng-gising \nPricilla Carpio Castillo \n1 large bundle kangkong \nV2 cup pork belly sliced thin and cut into strips \n1 large onion chopped \n1 large garlic cloves minced \n1 cup coconut milk \n3—4 siling makaka or green chili cut into matchsticks \npatis or kagoong \n1. Using a tkin skarp knife cut kangkong lengtkwise into \n4 pieces. \n2. Put pork and. water to cover in a saucepan. Simmer \nuntil pork is tender. Pour off water and continue cooking \nuntil pork gives off oi 1. Add a little cooking oil if"
+    },
+    {
+      "question": "What is described as a delicious but cholesterol-laden component found in female alimasag crabs?",
+      "answer": "aligi or crab coral",
+      "cultural_golden_answer": "In Filipino cuisine, the prized aligi or crab coral found in female alimasag crabs holds significant cultural importance due to its rich flavor and high demand.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 25,
+      "context": "rellencmg alimasag \ngala \nDivi Guytingfco \n1 kilo alimasag (4 — 5 pieces) \n1 onion, chopped \n4 cloves garlic, chopped \nV* kilo ground pork \n1 cup bubo, scraped with a spoon and chopped coarsely \n1 egg \nsalt \nfreshly ground pepper \n1 thumh-sized piece of ginger \n1 teaspoon labuyo, chopped (optional) \n2 — 3 cups coconut milk \n1. Steam tbe crabs. Care fully remove tbe shell and \nflake tbe meat. Do not remove tbe claws and tbe legs. \n2. In a bowl, combine tbe crabmeat, onion, garlic, \nground pork, h"
+    },
+    {
+      "question": "Ano ang pangalan ng isang uri ng isda na naglalaman sa recipe?",
+      "answer": "kito",
+      "cultural_golden_answer": "Ang kito ay isang katutubong isda sa Pilipinas, na karaniwang kinakain bilang piniritong o pinaprito.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 26,
+      "context": "i del> ®ng \nc armen Roces \ncatch a \ncattish \n3 medium-sized kito \n1 small head gadic, crushed \n1U cup yellow ginger juice \n3U cup native vinegar \nlh cup pork lard \nsalt \npepper \n1. In tke market, kave tke kead and gills of tke fisk \nremoved. Also remove tke internal organs of tke fisk and \nwask it well. Let stand in vinegar for 30 minutes, drain \nand ruk witk coarse salt till slimy coating is removed. \nRinse in vinegar again tken wask fisk in water. \n2. In a kowl marinate tke fisk in garlic, gin"
+    },
+    {
+      "question": "What type of cooking method is described in the text as 'non-cooking'?",
+      "answer": "Marinating in acids such as vinegar and kalamansi juice",
+      "cultural_golden_answer": "This traditional Filipino method of marinating seafood, known as 'kilawin', involves combining raw fish or shellfish with acidic ingredients like vinegar and kalamansi juice to cook the delicate flesh without heat. It's a staple in many Filipino households and is often served as an appetizer.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 27,
+      "context": "Oil) \nEdith Fahella Pelaez; \nsmshS mi \nFr • rilfpinc tyli \ny2 Lio very fresh, espada or tanguige, cut in 1/2-inch \ncubes \nV3 cup native vinegar \n1/3 dayap juice \ndayap peel, cut in strips \n1 small onion, chopped fine \n2 teaspoons ginger, sliced into fine strips \nsalt \nfreshly ground pepper \nsiling labuyo chopped \n1 cup thick coconut milk \n1. Cl ean the fish under running water very well. \nCombine all ingredients in a non-metallic howl and chill. \nServe on a bed of lettuce as an appetizer. \nif go"
+    },
+    {
+      "question": "Paano nililuto ang sugpo sa Filipino cuisine?",
+      "answer": "Sa pamamagitan ng paggisa ng prawns sa coconut milk at mga sangkap na karaniwan sa Filipino lutuin",
+      "cultural_golden_answer": "Sa pamamagitan ng paggisa ng prawns sa gata ng niyog at iba pang mga sangkap na karaniwan sa lutuing Pilipino, katulad ng kamias at siling labuyo.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 28,
+      "context": "folic frivio \nL f: abeJ Vasli dam \nC arnien Cuyuo’an von Kauf niann \n1 red snapper or Apahap about 1 kilo \n2 teaspoons rock salt \n1 teaspoon freshly ground pepper \nV* cup kalamansi juice \nV2 cup c/am broth \n4 tablespoons butter, softened \n1 medium onion, chopped \n1 small carrot, cut in fine strips \n1 green pepper, chopped \n2 cups shrimp, cooked and peeled \n2 cups clams, cooked and shucked \n1 cup white wine \n1. Clean fish. Ruh with salt, pepper, kalamansi juice and \n2 tablespoons hutter. Put in a"
+    },
+    {
+      "question": "What type of fish is used in Ditas Verzosa Chuidi's salad recipe?",
+      "answer": "Lapu-lapu",
+      "cultural_golden_answer": "Lapu-lapu, a popular seafood dish in Filipino cuisine, is often served fresh and is considered a delicacy.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 29,
+      "context": "i eacliccfftiLcr salad \nDitas Verzosa Chuidi lan \n1 kilo Lapu-lapu, filleted \n3 stalks celery with leaves \n1 carrot, quartered \nDressing: \n3U cup mayonnaise \nlu cup olive oil \n2 teaspoons mustard \n1 tablespoon sugar \n1 /2 teaspoon salt \nV2 teaspoon white \npepper \n4 medium tomatoes, \nquartered \n1 sma 11b unch green onion \nsalt and \n1 tabh \npepper \nkale espoon kalamansi \njuice \n2 tablespoons chopped \ngreen onion \ncup chopped celery \nV* cup pineapple tidbits \n2 medium apples, peeled \nand cu bed \nTh"
+    },
+    {
+      "question": "Ano ang iba pang mga pagkain na naging sanhi ng pagpaparamdam ng gana sa kaluluwa?",
+      "answer": "Beefy steaks, lamb, duck, at organ foods",
+      "cultural_golden_answer": "Meron pa ngang ibang klase ng pagkain na nagiging sanhi ng pagpaparamdam ng gana sa kaluluwa sa Pilipinas, gaya ng balut, oysters, at karne ng baboy. Sa kulturang Pilipino, ang pagkain ay hindi lang isang pangungulay pero maging isang paraan upang makilahok sa mga aktibidad na may kinalaman sa pag-ibig at pamilya.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 30,
+      "context": "I akeJ oysfers \nAurora Reyes Narciso \n2 tablespoons olive oil \n2 medium onions, chopped \n2 cloves garlic, minced \n4 cups oysters, shucked \n3 tablespoons butter \n1 cup mushrooms, chopped \n2 tablespoons flour \ncup evaporated milk \n1 bunch green onions, \nchopped \nParmesan cheese or Edam \ncheese, grated \nbreadcrumbs \n1. To clean, scrub the oysters witb a brush. Put tbem in \na large bowl and pour boiling water over tbem. When tbe \nshells have opened, remove tbe oysters, and set aside. \n2. In a casser"
+    },
+    {
+      "question": "What is a traditional Filipino dish that uses squid ink as an ingredient?",
+      "answer": "Squid ink is used in spicy luyin olives and other dishes like the one described, but a key example is spicy luyin olives",
+      "cultural_golden_answer": "A classic Filipino dish using squid ink is Lomi, but in this context, it's likely referring to a variation of Spicy Tuyo that incorporates squid ink for added flavor and color. This showcases the resourcefulness and creativity of Filipino cooking, often making do with readily available ingredients.",
+      "language": "english",
+      "cultural_relevance": 0.95,
+      "chunk_index": 31,
+      "context": "aacltcng pusil \nMarietta Adriano Roces \nVhk ilos medium-sized squid \n11h teaspoons baking soda \n1 cup vinegar \nV.2 kilo ripe tomatoes, chopped \n3U cup olive oil \n1 head garlic, crushed \n2 medium onions, chopped \n1/z cup vinegar \nsalt \nfreshly ground pepper \n4 pieces long green chili \n1. Clean squid and separate ink. Cut into V2-inck rings. \nPut in a kowl witk enougk water to cover and add soda. \nLet stand 15 minutes. Wask out soda ky rinsing in water \nan dd rain. \n2. Boil vinegar and drop squid."
+    },
+    {
+      "question": "Anong pagkain ang pinakapopular sa Pilipinas?",
+      "answer": "Ang bigas",
+      "cultural_golden_answer": "Ang bigas, na may mahalagang papel sa kultura ng pagkain ng mga Pilipino at kinikilala bilang isang pangunahing sangkap ng maraming mga lutuin.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 32,
+      "context": "uz' Z^zZjl^ sZLeff*-'- Jl \ny^^&??uz- Z6Z?~ \n<y\n\nA noo ji Rice to Filipinos is a staple. It is an indispensable compani \nto all viands. AT don t coob witb rice. Rather, we eat witb \nWei ibe our rice plain, boiled and white. \nion \nrice. \nMost of our Filipino delicacies and desserts are \nrice-based, but tbe few rice disbes we coob are not indigenous \nto our cuisine. They are tbe Spanish Paella and Arroz Valenciana, or \ntbe Chinese Congee, Arroz Caldo or lugao. Rice disbes \nwitb meat are considered "
+    },
+    {
+      "question": "What type of dish is often served during Filipino birthdays to ensure long life?",
+      "answer": "noodles",
+      "cultural_golden_answer": "Filipino-style noodles, such as pancit canton or kikon, which are believed to bring good luck and prosperity to the celebrant.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 33,
+      "context": "panel! \nMargaret Yu \nL lOftl /. €>ng I tve \nc ncc dies \nl/z kilo kik on (rice noodle) \n2 cloves garlic, crushed \n1/2 h ilo cabbage, cut in strips \n1 carrot, cut in strips \nA kilo small shrimps, shelled \nV2 can pork leg with mushrooms \nsoy sauce \nsalt \nfreshly ground pepper \n1 tablespoon green onion, chopped \nfew drops sesame oil \n1. Soften noodles in water, drain and set aside. \n2. In a casserole, saute garlic, cakkage and carrots till \nvegetakles are cooked. Add tke skrimps, tken tke pork \nleg."
+    },
+    {
+      "question": "Paano kinakain ang champorado sa Pilipinas?",
+      "answer": "Kapag natunaw na ang kanin, sinasama ang tsokolate at asukal.",
+      "cultural_golden_answer": "Ang champorado ay isang tradisyonal na pagkain ng mga Filipino lalo na noong panahon ng kapayapaan ng buhay sa bahay. Karaniwang kinakain ito kasama ang tsokolate at inihaw o piniritang manok.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 34,
+      "context": "cliamporaJc sa gala \nBebe Marque? Cuyugfan \n112 kilo malagkit rice, about 2 cups \n8 cups water \n2 cups thin coconut milk \n8 pieces native chocolates or 100 grams \nunsweetened chocolate \n1 cup brown sugar \n1 V-2 cups thick coconut milk \n1. Wash rice. Cook in a pot with the water and the th in \ncoconut milk, stirring constantly. When cooked add \nchocolate and sugar and continue cooking till some of \nthe liquid is reduced and the champorado is thickened. \nAdd the thick coconut milk or serve on the "
+    },
+    {
+      "question": "What is a common practice after a full meal in Filipino culture?",
+      "answer": "Asking for a 'pampaalis ng sawa o suya' to cleanse lingering flavors",
+      "cultural_golden_answer": "A common practice after a full meal in Filipino culture is asking for a 'pampaalis ng sawa o suya', which refers to a dish or condiment that helps cleanse the palate from dominant salty, spicy, or sour flavors.",
+      "language": "english",
+      "cultural_relevance": 1.0,
+      "chunk_index": 35,
+      "context": ";t L pancil Iwglug \nRebecca Mafeapugfay Oliveira \nV2 cup ackuete seeks \n2 cups hot water \n1 cup chicken breast, deboned, skinned an d chopped \nlh cup fresh shrimps peeled \n1 tablespoon light olive oil \n4 large garlic cloves minced \n1 large onion minced \n1 can cream of mushroom soup \nThe recipe for this sauce is \nunusual but the outcome is \nthe traditional Luglug taste \nbut using less fat. \n1. Soak ackuete seeks m kot water for 30 minutes. Work \ntke ackuete witk your fingers to get maximum color."
+    },
+    {
+      "question": "Anong pangalan ng pagkain na binuo ng Amelita Adriano Daez?",
+      "answer": "Maja Blanca",
+      "cultural_golden_answer": "Ang Maja Blanca, na binuo ni Amelita Adriano Daez, ay isang popular na Filipino dessert na kinasasamahan ng kalamansi at gulaman.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 36,
+      "context": "plalanallos \nPilar del Castillo \n3 cups sugar \n3 cups water \n20 eggyolks \nFor filling: \n1 tall can evaporated milk \n1 /s cup sugar \n1 /3 cup cornstarch \n2 tablespoons butter \n1 teaspoon vanilla \n6-8 marachino cherries, chopped \n1. Combine sugar and water in a casserole and mabe a \nlight syrup. \njok/ {iffelia- \nJgrm a Co*e. \ntA/ife a cherry \nOilJtjaX-Cfaa- \n£uie_. \n2. Beat eg gyolks till light and lemon colored. Drop a \ntablespoon at a time in the syrup forming a circle about \n3 inches in diamete"
+    },
+    {
+      "question": "What is a common and widely available local fruit in the Philippines?",
+      "answer": "Bananas",
+      "cultural_golden_answer": "Bananas, which are considered an integral part of Filipino cuisine and culture, with various varieties like Lacatan and Senorita being favorite dessert or snack fruits.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 37,
+      "context": "I willi Lai \nConnie Pascal \ndumpling \numunsi juice \nFor pastry: \n1 1/l cups flour \nV2 teaspoon salt \nV2 cup shortening or margarine \nice water \nFor filling: \nLacatan banana \n2 tablespoons kalamansi juice \nV2 cup brown sugar \nV2 teaspoon cinnamon \nFor kalamansi sauce : \ncup sugar \n1 tablespoon cornstarch \n1 cup kalamansi juice \n1 tablespoon butter \n1. Make the pastry ky combining tke flour and tke salt \nin a kowl. With a pastry blender or two knives cut in tbe \nshortening or margarine until pea-s"
+    },
+    {
+      "question": "Ano ang pangalan ng dessert na ginawa mula sa galapong at karabao?",
+      "answer": "Bibingka",
+      "cultural_golden_answer": "Ang Bibingka ay isang tradisyonal na Filipino dessert na binubuo ng mga natatanging luto na galing sa mga kagandahang-loob ng katutubong Pilipino. Ito ay isang paghahanga ng bawat Pilipinong may pangalaga at mahusay na kusina.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 38,
+      "context": "1; Lingltang cassava \nMariquita Vill anueva Ad riano \n3 eggs \n2 cups sugar \n3 cups thick coconut milk \n1 cup evaporated milk \n7 cups raw cassava, grated \n74 cup hutter, melted \nbanana leaves \nFor the topping: \n1 cup thick coconut milk \n2 tablespoons flour \n1 can condensed milk \n2 egg yolks \n2 tablespoons grated cheese \n1. Beat eggs and sugar till lemon colored. Add tke rest \nof tke ingredients. Pour into a greased 9><9 pan lined \nwitk kanana leaves. Bake at 350°F or for 40 minutes. \n2. Mix cocon"
+    },
+    {
+      "question": "What is a popular banana variety used in Filipino desserts?",
+      "answer": "Saba",
+      "cultural_golden_answer": "Saba, which is a type of starchy plantain, holds cultural significance in the Philippines as it's a staple ingredient in traditional desserts and meals.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 39,
+      "context": "al panel \nMarina Reyes Antonio \n5 pieces yellow camote \n5 pieces saying na saba \n3 cups water \n1 /2 cup water \n2 cups thick coconut milk \nl ancancm-c§ \nj \ncompany \nThe saba is one banana \nvariety which must be \ncoo bed to be enjoyed. Simply \nboiled till tender in a sugar \nsyrup then served with \nshaved ice, it is a delicious \ndrain and set aside. meal-ender. In cooking, it is \nincorporated in some \nar till deep golden Spanish dishes such as \nboil, simmer till syrupy. puckero, estofado and \nAda s"
+    },
+    {
+      "question": "Ano ang tradisyon ng mga matatanda sa ilang probinsiya tungkol sa pag-aayuno ng mabuti?",
+      "answer": "Ang pag-iwas sa pagpapaalam ng mesa habang may nakakaantok pa sa loob ng bahay, lalo na kung siya ay single.",
+      "cultural_golden_answer": "Sa ilang probinsiya, isinasaalang-alang ang tradisyon ng mga matatanda para hindi mawala ang pagkakataon sa pakasalan nang pilit na tanggalin ang mesa habang may nakakaantok pa sa loob.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 40,
+      "context": "nafilla \nLily de As is \n2 cups heavy cream \n1h cup granulated sugar \n6 egg yolks \n2 teaspoons vanilla \nV-2 cup light brown sugar \n1. In Mh a medium-sized saucepan, heat cream over a low \nflame and stir in sugar gradually. \n2. In a howl, heat egg yolks with a whisk or eggheater \nuntil thick and lemon colored. Remove cream from fire \nand pour half of it into the egg yolks stirring constantly, \npour hack into the saucepan. \n3. Return saucepan to the fire and cook cream stirring \nall the while until"
+    },
+    {
+      "question": "What is a common Filipino practice that involves taking a break from work or daily activities?",
+      "answer": "The siesta",
+      "cultural_golden_answer": "A cultural tradition in the Philippines that dates back to Spanish colonial times, the siesta allows Filipinos to recharge their energies and take a break from the heat of the day.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 41,
+      "context": "coconut s \nMariquita Vill anueva Adriano \n3 cups bubo, grated \n1 V-2 cups white sugar \n1U cup evaporated milk \n1 strip lime peel \n2 tablespoons hutter \n3 egg yolks \n1. In a large casserole, put a buko, sugar, mill? and lime \npeel. Cool? over medium beat, stirring constantly until \ntbici?. Remove from fire and add butter and egg yolks. \nReturn to fire and cook 5 minutes more. \n2. Cool coconut mixture and shape into balls. Roll in \nsugar and wrap in cellophane. \n113 \nmewien «fo \n#;« \nAmong a 11 th"
+    },
+    {
+      "question": "Anong uri ng butter ang ginamit sa recipe para sa cake?",
+      "answer": "Bruun butter",
+      "cultural_golden_answer": "Ang Bruun butter ay isang tanyag na marka ng pagkain sa Pilipinas, kilala dahil sa matapang at may kaunting asin na lasa.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 42,
+      "context": "I i uller cane \nAdela Vardas Locsin \n1 3U cups cake flour \n2 teaspoons baking powder \n3U cup Bruun butter \n3U cup sugar \n4 egg yolks \n2 tablespoons milk \n1h teaspoon vanilla \n4 egg whites \nA cup sugar \n1. Sift dry ingredients togetker. \n2. Beat kutter, add sugar gradually, beating until ligkt \nand fluffy. Add egg yolks one at a time, add milk and \nvanilla \n3. In a separate kowl, using clean beaters, beat egg wkites \nuntil ligkt witk fine bubkles. Add sugar gradually until \negg wkites are skiny a"
+    },
+    {
+      "question": "What is considered an important ingredient in many traditional Filipino dishes?",
+      "answer": "Patis (fish sauce)",
+      "cultural_golden_answer": "Patis, a fish sauce made from fermented fish and salt, plays a vital role in many traditional Filipino dishes and is a testament to the country's maritime history and cultural exchange with other Southeast Asian nations.",
+      "language": "english",
+      "cultural_relevance": 0.9,
+      "chunk_index": 43,
+      "context": "index \nChinese proverb 26, 79 \nChinoisserie 93 \nChorizo Bilbao 5 \nChuidian, Ditas Verzosa 79 \nCoconut Balls 113 \nCoconut Milk, thick or thin 58 \nCrabs 69 \nCruz, Adelina Reyes 40, 56, 115 \nCuna, Racby 62 \nCurried Cra bs 77 \nCurry 77 \nDaez, Amelita Adriano 99 \nDaez, Judith Escano 20 \nDaez, Julia 15, 60 \nDabon ng sili 9 \nDapb ne 6 \nDaza, Patricia 43DD \nDe Asis, Pacita 3, 32 \nDe Guzman, Ida Caro 51 \nDe Guzman, Soledad 17 \nDe Guzman, Virginia Roces 66, \n106 \nDe Rivera, Aquiles Diaz 6, 54 \nDe los Reye"
+    },
+    {
+      "question": "Saan nagsimula ang karamihan ng mga recipe sa aklat?",
+      "answer": "Tagalog at Filipino",
+      "cultural_golden_answer": "Ang mga resep na nakalista ay mula sa iba't ibang bahagi ng Pilipinas, ipinapakita ang magandang pagmumulat ng kultura natin sa pagluluto.",
+      "language": "filipino",
+      "cultural_relevance": 0.9,
+      "chunk_index": 44,
+      "context": "d index \nPot Roast 28 Singkamas 52 \nPun, Matilde 87, 90 Sinigang na Bakoy 8 \nPunta y pecko 3 Siomai 52 \nQuekiam 40 \nSimpson, Helen 115 \nSitsaro 2 \nRed Leans 4 \nSpagketti Edgardo 88 \nSpanisk Style Stuffing 4 \nRellenong Alimasag sa Gata 69 Spice kag 6 \nRellenong Manok 29 Spicy ‘Tuyo’ in Olive Oil \nRellenong Bangus 75 Squid, How to Clean 83 \nReyes, Jose “Ckitong” 27 Star Salad 62 \nRice Stuffing 46 Sugpo sa Gata 78 \nRice Wasking 8 Suki 72 \nRoast Turkey 46 Sunday Ckicken 10 \nRoces, Carmen 12, 71 Sund"
+    }
+  ]
+}
