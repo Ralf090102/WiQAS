@@ -363,7 +363,6 @@ class RetrievalEvaluator:
                 search_type=self.eval_config.search_type,
                 enable_reranking=self.eval_config.enable_reranking,
                 enable_mmr=self.eval_config.enable_mmr,
-                llm_analysis=not self.eval_config.disable_cultural_llm_analysis,
                 formatted=False,  # Get raw results, not formatted string
             )
 
@@ -520,7 +519,6 @@ class RetrievalEvaluator:
                 "k_results": self.eval_config.k_results,
                 "enable_reranking": self.eval_config.enable_reranking,
                 "enable_mmr": self.eval_config.enable_mmr,
-                "cultural_llm_disabled": self.eval_config.disable_cultural_llm_analysis,
                 "randomized": self.eval_config.randomize,
                 "limit": self.eval_config.limit,
             },

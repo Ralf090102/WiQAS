@@ -163,7 +163,7 @@ class WiQASGenerator:
         self.retriever._initialize_components()
         if include_timing:
             # Get retrieval timing by calling with timing enabled
-            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=True, formatted=False, include_timing=True)
+            retrieval_result = self.retriever.query(query, k=k, enable_mmr=True, llm_analysis=False, formatted=False, include_timing=True)
 
             if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
                 # Extract retrieval timing
@@ -213,7 +213,13 @@ class WiQASGenerator:
         # generate answer with timing
         if include_timing:
             llm_start = time.time()
-        answer = self._call_model(prompt)
+        raw_answer = self._call_model(prompt)
+        
+        # Remove prompt from answer if it was echoed by the model
+        answer = raw_answer
+        if raw_answer.startswith(prompt):
+            answer = raw_answer[len(prompt):].lstrip()
+        
         if include_timing:
             timing.llm_generation_time = time.time() - llm_start
             # Calculate total time
