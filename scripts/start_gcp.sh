@@ -89,25 +89,24 @@ VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
     http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip \
     2>/dev/null || echo "")
 
-if [ -n "$VERIFY_IP" ] && [ "$VERIFY_IP" != "$EXTERNAL_IP" ]; then
-    print_warning "External IP changed from $EXTERNAL_IP to $VERIFY_IP"
-    print_warning "Update .env CORS_ORIGINS and frontend/.env PUBLIC_BACKEND_URL"
-    EXTERNAL_IP="$VERIFY_IP"
+if [ -n "$VERIFY_IP" ]; then
+    if [ "$VERIFY_IP" != "$EXTERNAL_IP" ]; then
+        print_warning "External IP changed from $EXTERNAL_IP to $VERIFY_IP"
+        print_warning "Update .env CORS_ORIGINS and frontend/.env PUBLIC_BACKEND_URL"
+        EXTERNAL_IP="$VERIFY_IP"
+    fi
+    print_success "External IP: $EXTERNAL_IP"
+else
+    print_warning "Could not verify external IP from metadata server (using pre-configured)"
+    print_success "Using pre-configured IP: $EXTERNAL_IP"
 fi
 
-print_success "External IP: $EXTERNAL_IP"
-    echo ""
-    print_info "Access URLs:"
-    echo "  Backend API: http://$EXTERNAL_IP:$BACKEND_PORT"
-    echo "  API Docs:    http://$EXTERNAL_IP:$BACKEND_PORT/docs"
-    echo "  Frontend:    http://$EXTERNAL_IP:$FRONTEND_PORT"
-    echo ""
-else
-    print_warning "Could not verify external IP from metadata server"
-    echo "  Backend API: http://34.142.151.130:$BACKEND_PORT"
-    echo "  API Docs:    http://34.142.151.130:$BACKEND_PORT/docs"
-    echo "  Frontend:    http://34.142.151.130:$FRONTEND_PORT"
-fi
+echo ""
+print_info "Access URLs:"
+echo "  Backend API: http://$EXTERNAL_IP:$BACKEND_PORT"
+echo "  API Docs:    http://$EXTERNAL_IP:$BACKEND_PORT/docs"
+echo "  Frontend:    http://$EXTERNAL_IP:$FRONTEND_PORT"
+echo ""
 
 # Start backend API
 print_info "Starting WiQAS Backend API on port $BACKEND_PORT..."
