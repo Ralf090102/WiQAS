@@ -46,7 +46,6 @@
 	const sections = [
 		{ id: 'ingest', label: 'Ingest Documents' },
 		{ id: 'tasks', label: 'Task Management' },
-		{ id: 'watchdog', label: 'Auto-Ingestion' },
 		{ id: 'clear', label: 'Clear Knowledge Base' }
 	];
 
@@ -682,90 +681,6 @@
             <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">
                 <strong>Note:</strong> Very small files (less than ~50 characters) may be skipped during ingestion if they don't meet minimum chunk size requirements.
             </p>
-		</section>
-		{/if}
-
-		<!-- Auto-Ingestion (Watchdog) Section -->
-		{#if activeSection === 'watchdog'}
-		<section class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-			<h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Auto-Ingestion (Watchdog)</h2>
-			
-			<div class="flex flex-col gap-4">
-				<div class="rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-900/20">
-					<p class="text-xs text-blue-800 dark:text-blue-300">
-						The watchdog monitors directories and automatically ingests new or modified files into the knowledge base.
-					</p>
-				</div>
-
-				<div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
-					<div class="flex items-center gap-2">
-						<div class="size-3 rounded-full {watchdogRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}"></div>
-						<span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-							Status: {watchdogRunning ? 'Running' : 'Stopped'}
-						</span>
-					</div>
-					<button
-						type="button"
-						onclick={watchdogRunning ? handleStopWatchdog : handleStartWatchdog}
-						disabled={loading}
-						class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium {
-							watchdogRunning 
-								? 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600' 
-								: 'bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600'
-						} disabled:opacity-50"
-					>
-						{#if watchdogRunning}
-							<CarbonStop class="size-4" />
-							Stop Watchdog
-						{:else}
-							<CarbonPlay class="size-4" />
-							Start Watchdog
-						{/if}
-					</button>
-				</div>
-
-				<div>
-					<label for="watchdog-paths" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-						Watch Paths (one per line)
-					</label>
-					<textarea
-						id="watchdog-paths"
-						bind:value={watchdogPaths}
-						rows="4"
-						placeholder="D:/Documents/Books&#10;./data/incoming&#10;C:/Projects/docs"
-						class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
-					></textarea>
-					<p class="mt-1 text-xs text-gray-500">Enter one directory path per line to watch for changes</p>
-				</div>
-
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					<div>
-						<label for="watchdog-debounce" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-							Debounce (seconds)
-						</label>
-						<input
-							type="number"
-							id="watchdog-debounce"
-							bind:value={watchdogDebounce}
-							min="1"
-							max="60"
-							class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
-						/>
-						<p class="mt-1 text-xs text-gray-500">Wait time before ingesting after file change</p>
-					</div>
-
-					<div class="flex items-center pt-6">
-						<label class="flex items-center gap-2 cursor-pointer">
-							<input
-								type="checkbox"
-								bind:checked={watchdogRecursive}
-								class="size-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500/20"
-							/>
-							<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Watch Subdirectories</span>
-						</label>
-					</div>
-				</div>
-			</div>
 		</section>
 		{/if}
 
