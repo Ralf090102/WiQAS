@@ -118,6 +118,9 @@ nohup uvicorn backend.app:app \
 BACKEND_PID=$!
 echo $BACKEND_PID > "$LOG_DIR/backend.pid"
 
+# Disown the process so it doesn't get killed when script exits
+disown $BACKEND_PID
+
 sleep 3
 
 # Check if backend started
@@ -150,8 +153,11 @@ echo "  npm run dev -- --host 0.0.0.0 --port $FRONTEND_PORT"
 echo ""
 print_warning "Remember to configure firewall rules for ports $BACKEND_PORT and $FRONTEND_PORT"
 
+# Trap Ctrl+C to only stop log viewing, not the backend
+trap 'echo ""; print_info "Stopped viewing logs. Backend is still running (PID: $BACKEND_PID)"; exit 0' INT
+
 # Keep script running to show status
 echo ""
-print_info "Press Ctrl+C to stop showing logs (services will continue running)"
+print_info "Press Ctrl+C to stop showing logs (backend will continue running)"
 echo ""
 tail -f "$LOG_DIR/backend.log"
