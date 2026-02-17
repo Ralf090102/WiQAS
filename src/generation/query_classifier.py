@@ -1,6 +1,7 @@
 import re
 from dataclasses import dataclass
 
+
 @dataclass
 class QueryClassification:
     query_type: str
@@ -95,10 +96,7 @@ class QueryClassifier:
     ]
 
     def __init__(self):
-        self.type_patterns = {
-            qtype: [re.compile(pattern, re.IGNORECASE) for pattern in patterns]
-            for qtype, patterns in self.QUERY_TYPE_KEYWORDS.items()
-        }
+        self.type_patterns = {qtype: [re.compile(pattern, re.IGNORECASE) for pattern in patterns] for qtype, patterns in self.QUERY_TYPE_KEYWORDS.items()}
         self.fil_patterns = [re.compile(p, re.IGNORECASE) for p in self.FILIPINO_PATTERNS]
         self.en_patterns = [re.compile(p, re.IGNORECASE) for p in self.ENGLISH_PATTERNS]
 
@@ -155,19 +153,15 @@ class QueryClassifier:
 
         overall_confidence = (type_confidence + lang_confidence) / 2
 
-        return QueryClassification(
-            query_type=query_type,
-            language=language,
-            confidence=overall_confidence
-        )
+        return QueryClassification(query_type=query_type, language=language, confidence=overall_confidence)
 
     # === Language Detection Tests ===
-    
+
     def test_detect_language_mixed_code_switching(self, classifier):
         """Test language detection with code-switching."""
         query = "Ano ba ang meaning ng jeepney?"
         result = classifier.classify(query)
-        
+
         # Should detect Filipino as primary language
         assert result.language == "fil"
 
@@ -175,32 +169,32 @@ class QueryClassifier:
         """Test language detection with pure Filipino."""
         query = "Isang tradisyonal na pagkain ba ang Sinigang?"
         result = classifier.classify(query)
-        
+
         assert result.language == "fil"
 
     def test_detect_language_pure_english(self, classifier):
         """Test language detection with pure English."""
         query = "Why is the jeepney an iconic vehicle in the Philippines?"
         result = classifier.classify(query)
-        
+
         assert result.language == "en"
 
     def test_detect_language_no_markers(self, classifier):
         """Test language detection with minimal language markers."""
         query = "Festival celebration."
         language, confidence = classifier.detect_language(query)
-        
+
         # Should default to Filipino with low confidence
         assert language in ["fil", "en"]
         assert 0.0 <= confidence <= 1.0
 
     # === Edge Cases and Special Scenarios ===
-    
+
     def test_classify_ambiguous_defaults_to_factual(self, classifier):
         """Test that ambiguous queries default to Factual."""
         query = "Fiesta."
         result = classifier.classify(query)
-        
+
         assert result.query_type == "Factual"
         assert result.confidence >= 0.0
 
@@ -208,7 +202,7 @@ class QueryClassifier:
         """Test classification with empty query."""
         query = ""
         result = classifier.classify(query)
-        
+
         assert result.query_type == "Factual"
         assert result.language in ["fil", "en"]
 
@@ -216,14 +210,14 @@ class QueryClassifier:
         """Test classification with very short query."""
         query = "Adobo?"
         result = classifier.classify(query)
-        
+
         assert result.query_type == "Factual"
 
     def test_classify_query_type_confidence(self, classifier):
         """Test that confidence scores are calculated correctly."""
         query = "Bakit bakit bakit mahalaga ang kultura?"
         query_type, confidence = classifier.classify_query_type(query)
-        
+
         assert query_type == "Analytical"
         assert 0.0 <= confidence <= 1.0
 
@@ -231,5 +225,5 @@ class QueryClassifier:
         """Test query with indicators for multiple types."""
         query = "Why and how to make adobo?"
         result = classifier.classify(query)
-        
+
         assert result.query_type in ["Procedural", "Analytical"]

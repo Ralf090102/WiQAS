@@ -18,6 +18,8 @@ import time
 from deep_translator import GoogleTranslator
 
 from src.retrieval.embeddings import EmbeddingManager
+from src.retrieval.fusion import reciprocal_rank_fusion
+from src.retrieval.query_decomposer import QueryDecomposer
 from src.retrieval.reranker import Document, RerankerManager
 from src.retrieval.search import HybridSearcher, KeywordSearcher, MMRSearcher, SearchResult, SemanticSearcher
 from src.retrieval.vector_store import ChromaVectorStore
@@ -49,7 +51,9 @@ class WiQASRetriever:
         self._reranker = None
         self._mmr_searcher = None
         self._translator = None
+        self._query_decomposer = None
         self._translation_cache = {}
+        self._fusion_k = 60  # RRF constant for fusion
         self._initialized = False
 
     def _initialize_components(self):
@@ -74,6 +78,12 @@ class WiQASRetriever:
             if self.config.rag.multilingual.enable_cross_lingual:
                 self._translator = GoogleTranslator()
                 log_info("Cross-lingual functionality enabled")
+
+            # Initialize query decomposer if enabled
+            if self.config.rag.query_decomposition.enabled:
+                self._query_decomposer = QueryDecomposer(self.config)
+                self._fusion_k = self.config.rag.query_decomposition.fusion_k
+                log_info("Query decomposition enabled")
 
             self._initialized = True
             log_info("WiQAS retriever components initialized successfully")
@@ -434,6 +444,7 @@ class WiQASRetriever:
         formatted: bool = True,
         include_timing: bool = False,
         enable_cross_lingual: bool = None,
+        enable_query_decomposition: bool = False,
     ) -> str:
         """
         Query the knowledge base and return formatted results.
@@ -447,6 +458,7 @@ class WiQASRetriever:
             formatted: Whether to return formatted string or raw results (default: True)
             include_timing: Whether to include timing breakdown in results (default: False)
             enable_cross_lingual: Whether to enable cross-lingual retrieval (default: None, uses config)
+            enable_query_decomposition: Whether to decompose complex queries (default: False)
 
         Returns:
             Formatted string containing search results and optionally timing breakdown
@@ -486,12 +498,44 @@ class WiQASRetriever:
 
             log_info(f"Using {len(multi_queries)} queries for retrieval")
 
+            # QUERY DECOMPOSITION: Break complex queries into sub-queries if enabled
+            decomposition_queries = []
+            
+            if enable_query_decomposition:
+                # Initialize decomposer if not already initialized and needed
+                if self._query_decomposer is None:
+                    log_info("Initializing query decomposer for this query")
+                    self._query_decomposer = QueryDecomposer(self.config)
+                    self._fusion_k = self.config.rag.query_decomposition.fusion_k
+                
+                decompose_start = time.time()
+                
+                # Decompose each query variant (including translated queries)
+                for query, weight in multi_queries:
+                    sub_queries, _ = self._query_decomposer.decompose(query)
+                    
+                    if len(sub_queries) > 1:
+                        # Query was decomposed - use sub-queries with adjusted weights
+                        sub_weight = weight / len(sub_queries)
+                        for sub_query in sub_queries:
+                            decomposition_queries.append((sub_query, sub_weight))
+                        log_info(f"Decomposed '{query}' into {len(sub_queries)} sub-queries")
+                    else:
+                        # Simple query - use as-is
+                        decomposition_queries.append((query, weight))
+                
+                timing.query_decomposition_time = time.time() - decompose_start
+                log_info(f"Query decomposition completed: {len(multi_queries)} → {len(decomposition_queries)} queries")
+            else:
+                # No decomposition - use original queries
+                decomposition_queries = multi_queries
+
             # Perform multi-query search
             all_multi_results = []
             total_embedding_time = 0
             total_search_time = 0
 
-            for query, weight in multi_queries:
+            for query, weight in decomposition_queries:
                 log_info(f"Searching with query: '{query}' (weight: {weight})")
 
                 # Track embedding time for this query
@@ -519,8 +563,60 @@ class WiQASRetriever:
                 log_warning("No results found for any query variant")
                 return "No results found for your query."
 
-            results = self._merge_and_deduplicate_results(all_multi_results)
-            log_info(f"Merged search returned {len(results)} unique results")
+            # Use fusion if we have multiple query results, otherwise simple merge
+            merge_start = time.time()
+            if len(all_multi_results) > 1 and self.config.rag.query_decomposition.enabled:
+                # Use RRF fusion for better result merging
+                log_info(f"Applying RRF fusion to {len(all_multi_results)} result sets")
+                
+                # Prepare results for fusion - convert SearchResult to dict format
+                fusion_input = []
+                doc_id_to_result = {}  # Keep mapping for reconstruction
+                
+                for query_results, weight in all_multi_results:
+                    query_docs = []
+                    for r in query_results:
+                        # Store mapping
+                        if r.document_id not in doc_id_to_result:
+                            doc_id_to_result[r.document_id] = r
+                        
+                        # Convert to dict format for fusion
+                        doc_dict = {
+                            "page_content": r.document_id,  # Use doc_id as identifier
+                            "metadata": {
+                                "original_score": r.score * weight,
+                                "document_id": r.document_id,
+                                "source": r.metadata.get("source", "unknown"),
+                            }
+                        }
+                        query_docs.append(doc_dict)
+                    fusion_input.append(query_docs)
+                
+                # Apply reciprocal rank fusion
+                fused_docs = reciprocal_rank_fusion(
+                    fusion_input,
+                    k=self._fusion_k,
+                    deduplicate=True
+                )
+                
+                # Reconstruct SearchResults from fused documents
+                results = []
+                for fused_doc in fused_docs[:k * 2]:  # Get extra for reranking
+                    doc_id = fused_doc["metadata"]["document_id"]
+                    if doc_id in doc_id_to_result:
+                        result = doc_id_to_result[doc_id]
+                        # Update score with RRF score
+                        result.score = fused_doc["metadata"]["rrf_score"]
+                        result.search_type = f"{result.search_type}_fused"
+                        results.append(result)
+                
+                log_info(f"RRF fusion produced {len(results)} results")
+            else:
+                # Simple merge and deduplicate
+                results = self._merge_and_deduplicate_results(all_multi_results)
+            
+            timing.fusion_time = time.time() - merge_start
+            log_info(f"Result merging returned {len(results)} unique results")
 
             # Apply reranking if enabled
             if enable_reranking and results:
@@ -539,7 +635,16 @@ class WiQASRetriever:
                 log_info(f"MMR returned {len(results)} diverse results")
 
             # Total time
-            timing.total_time = timing.embedding_time + timing.search_time + timing.reranking_time + timing.mmr_time + timing.translation_time + timing.language_detection_time
+            timing.total_time = (
+                timing.embedding_time
+                + timing.search_time
+                + timing.reranking_time
+                + timing.mmr_time
+                + timing.translation_time
+                + timing.language_detection_time
+                + timing.query_decomposition_time
+                + timing.fusion_time
+            )
 
             if formatted:
                 # Format and return results
@@ -591,6 +696,8 @@ class WiQASRetriever:
                     "cross_lingual_enabled": self.config.rag.multilingual.enable_cross_lingual,
                     "supported_languages": self.config.rag.multilingual.supported_languages,
                     "auto_translate_queries": self.config.rag.multilingual.auto_translate_queries,
+                    "query_decomposition_enabled": self.config.rag.query_decomposition.enabled,
+                    "query_decomposition_strategy": self.config.rag.query_decomposition.strategy,
                 },
             }
         except Exception as e:
