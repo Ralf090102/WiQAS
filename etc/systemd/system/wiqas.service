@@ -1,0 +1,55 @@
+# WiQAS Systemd Service File
+# This allows WiQAS to automatically start on boot and be managed by systemd
+#
+# Installation:
+# 1. Copy this file: sudo cp wiqas.service /etc/systemd/system/
+# 2. Reload systemd: sudo systemctl daemon-reload
+# 3. Enable on boot: sudo systemctl enable wiqas
+# 4. Start service: sudo systemctl start wiqas
+# 5. Check status: sudo systemctl status wiqas
+#
+# Management:
+# - Start:   sudo systemctl start wiqas
+# - Stop:    sudo systemctl stop wiqas
+# - Restart: sudo systemctl restart wiqas
+# - Logs:    sudo journalctl -u wiqas -f
+
+[Unit]
+Description=WiQAS RAG Assistant Backend API
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=simple
+User=ralf_hernandez
+Group=ralf_hernandez
+WorkingDirectory=/home/ralf_hernandez/WiQAS
+
+# Environment
+Environment="PATH=/home/ralf_hernandez/wiqas-venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="CUDA_VISIBLE_DEVICES=0"
+EnvironmentFile=/home/ralf_hernandez/WiQAS/.env
+
+# Start command
+ExecStart=/home/ralf_hernandez/wiqas-venv/bin/uvicorn backend.app:app \
+    --host 0.0.0.0 \
+    --port 8000 \
+    --log-level info
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitInterval=5min
+StartLimitBurst=5
+
+# Resource limits
+# Adjust based on your needs
+MemoryLimit=32G
+CPUQuota=800%
+
+# Logging
+StandardOutput=append:/home/ralf_hernandez/WiQAS/logs/wiqas-service.log
+StandardError=append:/home/ralf_hernandez/WiQAS/logs/wiqas-service-error.log
+
+[Install]
+WantedBy=multi-user.target

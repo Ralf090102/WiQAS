@@ -1,0 +1,50 @@
+# Ollama Systemd Service File
+# Ollama must be running before WiQAS can start
+#
+# Installation:
+# 1. Copy this file: sudo cp ollama.service /etc/systemd/system/
+# 2. Reload systemd: sudo systemctl daemon-reload
+# 3. Enable on boot: sudo systemctl enable ollama
+# 4. Start service: sudo systemctl start ollama
+# 5. Check status: sudo systemctl status ollama
+#
+# Management:
+# - Start:   sudo systemctl start ollama
+# - Stop:    sudo systemctl stop ollama
+# - Restart: sudo systemctl restart ollama
+# - Logs:    sudo journalctl -u ollama -f
+
+[Unit]
+Description=Ollama Service
+After=network.target
+
+[Service]
+Type=simple
+User=ralf_hernandez
+Group=ralf_hernandez
+WorkingDirectory=/home/ralf_hernandez
+
+# Environment
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+Environment="CUDA_VISIBLE_DEVICES=0"
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+
+# Start command
+ExecStart=/usr/local/bin/ollama serve
+
+# Restart policy
+Restart=always
+RestartSec=5
+StartLimitInterval=5min
+StartLimitBurst=5
+
+# Resource limits
+MemoryLimit=40G
+CPUQuota=400%
+
+# Logging
+StandardOutput=append:/home/ralf_hernandez/WiQAS/logs/ollama.log
+StandardError=append:/home/ralf_hernandez/WiQAS/logs/ollama-error.log
+
+[Install]
+WantedBy=multi-user.target
