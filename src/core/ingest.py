@@ -212,7 +212,8 @@ class DocumentMetadata:
     file_size: int
     file_hash: str
     chunk_count: int
-    ingestion_timestamp: str
+    total_documents: int = 0
+    ingestion_timestamp: str = ""
     source_directory: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -224,6 +225,7 @@ class DocumentMetadata:
             "file_size": self.file_size,
             "file_hash": self.file_hash,
             "chunk_count": self.chunk_count,
+            "total_documents": self.total_documents,
             "ingestion_timestamp": self.ingestion_timestamp,
             "source_directory": self.source_directory,
         }
@@ -272,13 +274,17 @@ class DocumentProcessor:
             loader = loader_class(str(file_path))
             documents = loader.load()
 
+            # Calculate file hash once for all documents from this file
+            file_hash = self.get_file_hash(file_path)
+            
             # Add file metadata to each document
             for doc in documents:
                 metadata_update = {
-                    "source_file": str(file_path),
+                    "source_file": str(file_path.resolve()),  # Use absolute path for consistency
                     "file_name": file_path.name,
                     "file_type": SUPPORTED_EXTENSIONS[file_ext],
                     "file_extension": file_ext,
+                    "file_hash": file_hash,  # Add file hash for reliable deduplication
                 }
 
                 if file_ext == ".pdf" and "title" not in doc.metadata:
@@ -834,6 +840,42 @@ class VectorStoreManager:
             log_error(f"Failed to get collection stats: {e}", self.config)
             return {"error": str(e)}
 
+    def get_existing_file_identifiers(self) -> dict[str, set]:
+        """
+        Get file hashes and paths of all files already in the vector store.
+        
+        Returns:
+            Dictionary with 'hashes' and 'paths' sets for quick lookup
+        """
+        try:
+            # Get all unique file hashes and paths from metadata
+            all_data = self.collection.get(include=["metadatas"])
+            
+            hashes = set()
+            paths = set()
+            
+            if all_data and all_data.get("metadatas"):
+                for metadata in all_data["metadatas"]:
+                    if not metadata:
+                        continue
+                    
+                    # Collect file hashes
+                    file_hash = metadata.get("file_hash")
+                    if file_hash:
+                        hashes.add(file_hash)
+                    
+                    # Collect resolved paths
+                    source_file = metadata.get("source_file")
+                    if source_file:
+                        paths.add(source_file)
+            
+            log_debug(f"Found {len(hashes)} unique file hashes, {len(paths)} unique paths", self.config)
+            return {"hashes": hashes, "paths": paths}
+            
+        except Exception as e:
+            log_error(f"Failed to get existing file identifiers: {e}", self.config)
+            return {"hashes": set(), "paths": set()}
+
     def clear_collection(self) -> bool:
         """Clear all documents from the collection"""
         try:
@@ -928,7 +970,7 @@ class DocumentIngestor:
             log_error(error_msg, self.config)
             return False, None, errors
 
-    def ingest_directory(self, directory_path: str | Path, recursive: bool = True, max_workers: int = 4, clear_existing: bool = False) -> IngestionStats:
+    def ingest_directory(self, directory_path: str | Path, recursive: bool = True, max_workers: int = 4, clear_existing: bool = False, skip_existing: bool = False, dry_run: bool = False) -> IngestionStats:
         """
         Ingest all supported files from a directory.
 
@@ -976,6 +1018,40 @@ class DocumentIngestor:
                     txt_like_files.append(file_path)
 
         all_files.extend(txt_like_files)
+
+        skipped_files = []
+        if skip_existing:
+            try:
+                # Get existing file hashes and paths from vector store
+                existing_sources = self.vector_store.get_existing_file_identifiers()
+                existing_hashes = existing_sources.get("hashes", set())
+                existing_paths = existing_sources.get("paths", set())
+                
+                log_debug(f"Found {len(existing_hashes)} existing file hashes in vector store", self.config)
+
+                filtered_files = []
+                for f in all_files:
+                    try:
+                        # Calculate hash and resolved path for comparison
+                        file_hash = self.processor.get_file_hash(f)
+                        f_resolved = str(Path(f).resolve())
+                        
+                        # Skip if file hash matches (most reliable) or path matches
+                        if file_hash in existing_hashes or f_resolved in existing_paths:
+                            skipped_files.append(f)
+                            log_debug(f"Skipping already ingested file: {f.name}", self.config)
+                            continue
+                        
+                        filtered_files.append(f)
+                    except Exception as e:
+                        # If we can't determine, include the file to be safe
+                        log_warning(f"Could not check if {f} exists, including it: {e}", self.config)
+                        filtered_files.append(f)
+
+                log_info(f"Skipping {len(skipped_files)} files already present in vector store", self.config)
+                all_files = filtered_files
+            except Exception as e:
+                log_warning(f"Failed to determine existing sources for skip logic: {e}. Will process all files.", self.config)
 
         stats.total_files = len(all_files)
 
