@@ -417,7 +417,7 @@ class QueryDecompositionConfig(BaseConfig):
     """Query decomposition configuration"""
 
     enabled: bool = True
-    model: str = "TeeZee/gemma-2-9b-it-abliterated"
+    model: str = "mistral:latest"
     temperature: float = 0.3  # Lower temperature for more focused decomposition
     context_window: int = 2048
     
@@ -435,7 +435,7 @@ class QueryDecompositionConfig(BaseConfig):
         """Load query decomposition configuration from environment variables"""
         return cls(
             enabled=get_env_bool("WIQAS_QUERY_DECOMPOSITION_ENABLED", True),
-            model=get_env_str("WIQAS_QUERY_DECOMPOSITION_MODEL", "TeeZee/gemma-2-9b-it-abliterated"),
+            model=get_env_str("WIQAS_QUERY_DECOMPOSITION_MODEL", "mistral:latest"),
             temperature=get_env_float("WIQAS_QUERY_DECOMPOSITION_TEMPERATURE", 0.3),
             context_window=get_env_int("WIQAS_QUERY_DECOMPOSITION_CONTEXT_WINDOW", 2048),
             min_query_length=get_env_int("WIQAS_QUERY_DECOMPOSITION_MIN_QUERY_LENGTH", 5),
@@ -461,7 +461,7 @@ class QueryDecompositionConfig(BaseConfig):
 class LLMConfig(BaseConfig):
     """Large Language Model configuration"""
 
-    model: str = "TeeZee/gemma-2-9b-it-abliterated"
+    model: str = "mistral:latest"
     base_url: str = "http://localhost:11434"
     timeout: int = 90
 
@@ -480,7 +480,7 @@ class LLMConfig(BaseConfig):
         max_tokens = int(max_tokens_str) if max_tokens_str.isdigit() else None
 
         return cls(
-            model=get_env_str("WIQAS_LLM_MODEL", "TeeZee/gemma-2-9b-it-abliterated"),
+            model=get_env_str("WIQAS_LLM_MODEL", "mistral:latest"),
             base_url=get_env_str("WIQAS_LLM_BASE_URL", "http://localhost:11434"),
             timeout=get_env_int("WIQAS_LLM_TIMEOUT", 90),
             temperature=get_env_float("WIQAS_LLM_TEMPERATURE", 0.7),
@@ -523,7 +523,7 @@ class VectorStoreConfig(BaseConfig):
 class AnswerGeneratorConfig(BaseConfig):
     """Answer generation configuration"""
 
-    model: str = "TeeZee/gemma-2-9b-it-abliterated"
+    model: str = "mistral:latest"
     base_url: str = "http://localhost:11434"
     timeout: int = 120
     backend: str = "ollama"  # ollama | hf
@@ -543,7 +543,7 @@ class AnswerGeneratorConfig(BaseConfig):
     def from_env(cls) -> "AnswerGeneratorConfig":
         """Load answer generator configuration from environment variables"""
         return cls(
-            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "TeeZee/gemma-2-9b-it-abliterated"),
+            model=get_env_str("WIQAS_ANSWER_GENERATOR_MODEL", "mistral:latest"),
             base_url=get_env_str("WIQAS_ANSWER_GENERATOR_BASE_URL", "http://localhost:11434"),
             timeout=get_env_int("WIQAS_ANSWER_GENERATOR_TIMEOUT", 120),
             backend=get_env_str("WIQAS_BACKEND", "ollama"),  # ollama | hf
@@ -872,7 +872,7 @@ def get_config(from_env: bool = False) -> WiQASConfig:
             WIQAS_CHUNK_SIZE=128
             WIQAS_CHUNK_OVERLAP=0
             WIQAS_CHUNKING_STRATEGY="recursive"
-            WIQAS_LLM_MODEL="TeeZee/gemma-2-9b-it-abliterated"
+            WIQAS_LLM_MODEL="mistral:latest"
             WIQAS_LLM_BASE_URL="http://localhost:11434"
             WIQAS_LLM_TEMPERATURE=0.7
             WIQAS_VECTORSTORE_COLLECTION_NAME="wiqas_knowledge_base"

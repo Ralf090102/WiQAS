@@ -95,3 +95,16 @@ profiling_results/
 .idea/
 *.sublime-*
 *.code-workspace
+
+# Environment files (sensitive config)
+# NOTE: .env and frontend/.env are tracked for GCP deployment (no secrets, only IP config)
+# DO NOT add secrets to these files!
+.env.local
+.env.production
+.env.*.local
+*.pid
+
+# GCP specific
+*.log
+gcloud-config/
+service-account-key*.json

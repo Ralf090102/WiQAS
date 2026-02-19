@@ -313,48 +313,50 @@ def sources(
 
     try:
         vector_store = ChromaVectorStore(config)
-        results = vector_store.get_all_documents()
-
-        if not results:
-            print_warning("No documents found in knowledge base")
-            return
 
         if source_file:
-            # Filter by specific source file
-            filtered = [r for r in results if r.metadata.get("source_file") == source_file]
+            # Show chunks for a specific source file
+            chunks = vector_store.get_chunks_by_source(source_file)
 
-            if not filtered:
+            if not chunks:
                 print_warning(f"No chunks found for source: {source_file}")
                 return
 
             if json_output:
-                output = [{"content": r.content, "metadata": r.metadata} for r in filtered]
-                console.print(json.dumps(output, indent=2, ensure_ascii=False))
+                console.print(json.dumps(chunks, indent=2, ensure_ascii=False))
             else:
-                print_success(f"Found {len(filtered)} chunks from {source_file}")
-                for i, result in enumerate(filtered, 1):
+                print_success(f"Found {len(chunks)} chunks from {source_file}")
+                for i, chunk in enumerate(chunks, 1):
                     console.print(f"\n[bold cyan]Chunk {i}:[/bold cyan]")
-                    console.print(f"Content: {result.content[:200]}..." if len(result.content) > 200 else result.content)
-                    console.print(f"Metadata: {result.metadata}")
+                    content = chunk.get("content", "")
+                    console.print(content[:200] + "..." if len(content) > 200 else content)
+                    console.print(f"Metadata: {chunk.get('metadata', {})}")
+
         else:
             # List all unique sources
-            sources = {}
-            for r in results:
-                src = r.metadata.get("source_file", "Unknown")
-                sources[src] = sources.get(src, 0) + 1
+            sources = vector_store.list_all_sources()
+
+            if not sources:
+                print_warning("No documents found in knowledge base")
+                return
 
             if json_output:
                 console.print(json.dumps(sources, indent=2, ensure_ascii=False))
             else:
-                table = Table(title=f"Knowledge Base Sources ({len(sources)} files)", show_header=True, header_style="bold magenta")
+                total_files = len(sources)
+                total_chunks = sum(s.get("chunk_count", 0) for s in sources)
+
+                table = Table(title=f"Knowledge Base Sources ({total_files} files)", show_header=True, header_style="bold magenta")
                 table.add_column("Source File", style="cyan")
+                table.add_column("File Name", style="white")
+                table.add_column("Type", style="green")
                 table.add_column("Chunks", style="green", justify="right")
 
-                for src, count in sorted(sources.items()):
-                    table.add_row(src, str(count))
+                for s in sorted(sources, key=lambda x: x.get("file_name", "")):
+                    table.add_row(s.get("source_file", ""), s.get("file_name", ""), s.get("file_type", ""), str(s.get("chunk_count", 0)))
 
                 console.print(table)
-                print_success(f"Total: {len(sources)} source files, {len(results)} chunks")
+                print_success(f"Total: {total_files} source files, {total_chunks} chunks")
 
     except Exception as e:
         print_error(f"Failed to retrieve sources: {e}")

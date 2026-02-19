@@ -129,17 +129,27 @@ See [Configuration Guide](docs/configuration.md) for detailed options.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Cloud Deployment
+### GCP Quick Start
 
-WiQAS can be deployed on cloud platforms with GPU support for better performance:
+```bash
+# On your GCP VM (Ubuntu 22.04, A100 GPU)
+cd ~/WiQAS
 
-- **[GCP Deployment Guide](docs/GCP_DEPLOYMENT.md)** - Complete guide for Google Cloud Platform with GPU
-- **[Setup Scripts](scripts/)** - Automated setup scripts for cloud deployment
+# Environment files (.env and frontend/.env) are pre-configured!
+# External IP: 34.142.151.130
 
-See the [GCP Deployment Guide](docs/GCP_DEPLOYMENT.md) for detailed instructions on:
-- Setting up VM with CUDA-enabled GPU
-- Transferring your knowledge base
-- Configuring the system for production use
+# Validate environment
+chmod +x validate_gcp.sh
+./validate_gcp.sh
+
+# Start WiQAS
+./start_gcp.sh
+
+# Access at:
+# - API: http://34.142.151.130:8000
+# - Docs: http://34.142.151.130:8000/docs
+# - Frontend: http://34.142.151.130:3000
+```
 
 ## Acknowledgments
 

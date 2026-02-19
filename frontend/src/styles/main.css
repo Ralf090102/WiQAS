@@ -1,0 +1,260 @@
+@import "./highlight-js.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+	overscroll-behavior: none;
+	touch-action: pan-x pan-y;
+}
+
+/* Smooth scrolling for better UX */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Modern focus styles */
+*:focus-visible {
+	outline: 2px solid rgb(59, 130, 246);
+	outline-offset: 2px;
+	border-radius: 0.375rem;
+}
+
+.dark *:focus-visible {
+	outline-color: rgb(96, 165, 250);
+}
+
+@layer components {
+	.btn {
+		@apply inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap outline-none transition-all focus:ring disabled:cursor-default;
+	}
+
+	.active-model {
+		/* Ensure active border wins over defaults/utilities in both themes */
+		border-color: rgb(37, 99, 235) !important; /* blue-600 */
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	}
+
+	.dark .active-model {
+		border-color: rgba(96, 165, 250, 0.8) !important; /* blue-400 */
+		box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+	}
+
+	.file-hoverable:hover {
+		background-color: rgba(107, 114, 128, 0.1);
+	}
+
+	.base-tool {
+		@apply flex items-center gap-1 whitespace-nowrap border border-transparent text-xs outline-none transition-all focus:outline-none active:outline-none;
+		height: 1.6rem;
+	}
+
+	.base-tool:hover {
+		color: rgb(37, 99, 235); /* blue-600 */
+	}
+
+	.dark .base-tool:hover {
+		color: rgb(96, 165, 250); /* blue-400 */
+	}
+
+	.active-tool {
+		@apply rounded-full pl-1 pr-2;
+		border-color: rgb(191, 219, 254) !important; /* blue-200 */
+		background-color: rgb(219, 234, 254); /* blue-100 */
+		color: rgb(37, 99, 235); /* blue-600 */
+	}
+
+	.active-tool:hover {
+		color: rgb(29, 78, 216); /* blue-700 */
+	}
+
+	.dark .active-tool {
+		border-color: rgb(30, 58, 138) !important; /* blue-900 */
+		background-color: rgba(37, 99, 235, 0.3); /* blue-600/30 */
+		color: rgb(147, 197, 253); /* blue-300 */
+	}
+}
+
+@layer utilities {
+	/* Custom scrollbar styling */
+	.scrollbar-custom {
+		scrollbar-width: thin;
+		scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+	}
+
+	.scrollbar-custom:hover {
+		scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+	}
+
+	.dark .scrollbar-custom {
+		scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+	}
+
+	.dark .scrollbar-custom:hover {
+		scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar {
+		background-color: transparent;
+		width: 8px;
+		height: 8px;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 9999px;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.dark .scrollbar-custom::-webkit-scrollbar {
+		background-color: rgba(17, 17, 17, 0.85);
+	}
+
+	.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+
+	/* Rounded top/bottom caps for vertical scrollbars (Chrome/Edge/Safari) */
+	.scrollbar-custom::-webkit-scrollbar-track {
+		@apply rounded-full;
+		background-clip: padding-box;
+		border-top: 0.5rem solid transparent;
+		border-bottom: 0.5rem solid transparent;
+	}
+
+	/* Rounded left/right caps for horizontal scrollbars */
+	.scrollbar-custom::-webkit-scrollbar-track:horizontal {
+		@apply rounded-full;
+		background-clip: padding-box;
+		border-left: 0.5rem solid transparent;
+		border-right: 0.5rem solid transparent;
+		border-top-width: 0;
+		border-bottom-width: 0;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar::-ms-scrollbar {
+		display: none;
+	}
+
+	.prose table {
+		@apply block max-w-full overflow-x-auto;
+		scrollbar-width: thin;
+		scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+	}
+
+	.prose table:hover {
+		scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+	}
+
+	.dark .prose table {
+		scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+	}
+
+	.dark .prose table:hover {
+		scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+	}
+
+	.prose hr {
+		@apply my-4;
+	}
+
+	.prose strong {
+		@apply font-medium;
+	}
+
+	.prose pre {
+		@apply bg-white;
+		border: 0.5px solid;
+		border-color: currentColor;
+		color: rgb(75, 85, 99); /* gray-600 */
+	}
+
+	.dark .prose pre {
+		border-color: rgb(55, 65, 81); /* gray-700 */
+		background-color: rgb(17, 24, 39) !important; /* gray-900 */
+		background: inherit;
+		color: inherit;
+	}
+
+	/* Override prose-sm title sizes - 75% of original */
+	.prose-sm :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 1.6em; /* 75% */
+		@apply font-semibold;
+	}
+
+	.prose-sm :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 1.07em; /* 75% */
+		@apply font-semibold;
+	}
+
+	.prose-sm :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 0.96em; /* 75% */
+		@apply font-semibold;
+	}
+
+	.prose-sm :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 0.8em; /* 75% */
+		@apply font-semibold;
+	}
+
+	.prose-sm :where(h5):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 0.75em; /* 75% */
+		@apply font-semibold;
+	}
+
+	.prose-sm :where(h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: 0.7em; /* 75% */
+		@apply font-semibold;
+	}
+
+	/* Smooth transitions for interactive elements */
+	button, a {
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 200ms;
+	}
+
+	/* Enhanced hover effects with scale */
+	.hover\:scale-105:hover {
+		transform: scale(1.05);
+	}
+
+	.hover\:scale-110:hover {
+		transform: scale(1.10);
+	}
+
+	.hover\:scale-\[1\.02\]:hover {
+		transform: scale(1.02);
+	}
+
+	/* Gradient text utilities */
+	.gradient-text-blue {
+		@apply bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent;
+	}
+
+	.dark .gradient-text-blue {
+		@apply from-blue-400 to-indigo-400;
+	}
+}
+
+.katex-display {
+	overflow: auto hidden;
+}

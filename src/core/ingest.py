@@ -928,7 +928,7 @@ class DocumentIngestor:
             log_error(error_msg, self.config)
             return False, None, errors
 
-    def ingest_directory(self, directory_path: str | Path, recursive: bool = True, max_workers: int = 4) -> IngestionStats:
+    def ingest_directory(self, directory_path: str | Path, recursive: bool = True, max_workers: int = 4, clear_existing: bool = False) -> IngestionStats:
         """
         Ingest all supported files from a directory.
 
@@ -936,6 +936,7 @@ class DocumentIngestor:
             directory_path: Path to directory containing files
             recursive: Whether to search subdirectories
             max_workers: Number of parallel workers for processing
+            clear_existing: Whether to clear existing vector store before ingestion
 
         Returns:
             IngestionStats object with processing statistics
@@ -953,6 +954,11 @@ class DocumentIngestor:
         if not directory_path.exists():
             stats.add_error(f"Directory not found: {directory_path}")
             return stats
+
+        # Clear existing vector store if requested
+        if clear_existing:
+            log_info("Clearing existing vector store", self.config)
+            self.vector_store.clear_collection()
 
         # Find all supported files
         pattern = "**/*" if recursive else "*"
@@ -1021,59 +1027,6 @@ class DocumentIngestor:
         log_info(f"Ingestion complete: {stats.successful_files}/{stats.total_files} files processed", self.config)
         return stats
 
-    def ingest_knowledge_base(self, source_path: str | Path, clear_existing: bool = False) -> IngestionStats:
-        """
-        Ingest documents into the default knowledge base location.
-
-        Args:
-            source_path: Path to source files or directory
-            clear_existing: Whether to clear existing data first
-
-        Returns:
-            IngestionStats object with processing statistics
-        """
-        source_path = Path(source_path)
-
-        if clear_existing:
-            log_info("Clearing existing vector store", self.config)
-            self.vector_store.clear_collection()
-
-        # Copy files to knowledge base directory if needed
-        if source_path != self.knowledge_base_path:
-            log_info(f"Copying files from {source_path} to {self.knowledge_base_path}", self.config)
-
-            if source_path.is_file():
-                # Single file
-                dest_file = self.knowledge_base_path / source_path.name
-                shutil.copy2(source_path, dest_file)
-                source_path = dest_file
-            else:
-                # Copy entire directory recursively
-                for file in source_path.rglob("*"):
-                    if file.is_file():
-                        dest = self.knowledge_base_path / file.relative_to(source_path)
-                        dest.parent.mkdir(parents=True, exist_ok=True)
-                        shutil.copy(file, dest)
-
-        # Ingest from knowledge base directory
-        if source_path.is_file():
-            # Single file ingestion
-            stats = IngestionStats()
-            stats.total_files = 1
-
-            success, metadata, errors = self.ingest_file(source_path)
-            if success:
-                stats.successful_files = 1
-                stats.total_chunks = metadata.chunk_count
-                stats.total_embeddings = metadata.chunk_count
-            else:
-                stats.failed_files = 1
-                stats.errors.extend(errors)
-        else:
-            stats = self.ingest_directory(source_path, recursive=True)
-
-        return stats
-
     def get_ingestion_summary(self) -> dict[str, Any]:
         """Get summary of current ingestion state"""
         vector_stats = self.vector_store.get_collection_stats()
@@ -1130,7 +1083,29 @@ def ingest_documents(source_path: str | Path, config: WiQASConfig | None = None,
         IngestionStats with processing results
     """
     ingestor = DocumentIngestor(config)
-    return ingestor.ingest_knowledge_base(source_path, clear_existing)
+    source_path = Path(source_path)
+    
+    if source_path.is_file():
+        # Single file ingestion
+        if clear_existing:
+            ingestor.vector_store.clear_collection()
+        
+        stats = IngestionStats()
+        stats.total_files = 1
+        success, metadata, errors = ingestor.ingest_file(source_path)
+        
+        if success:
+            stats.successful_files = 1
+            stats.total_chunks = metadata.chunk_count
+            stats.total_embeddings = metadata.chunk_count
+        else:
+            stats.failed_files = 1
+            stats.errors.extend(errors)
+        
+        return stats
+    else:
+        # Directory ingestion
+        return ingestor.ingest_directory(source_path, recursive=True, clear_existing=clear_existing)
 
 
 def get_supported_formats() -> dict[str, str]:
