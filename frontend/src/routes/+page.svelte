@@ -175,34 +175,32 @@
 						</h3>
 						<div class="space-y-3">
 							{#each response.sources as source, idx}
+								{@const rawPath = source.metadata?.source_file || source.metadata?.source || ''}
+								{@const sourceName = source.metadata?.title || rawPath.split('/').pop()?.split('\\').pop() || `Source ${idx + 1}`}
 								<div class="group rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-slate-50 p-4 transition-all hover:border-blue-200 hover:shadow-md dark:border-gray-700 dark:from-gray-900 dark:to-gray-800 dark:hover:border-blue-800">
 									<div class="mb-3 flex items-start justify-between">
 										<div class="flex items-center gap-2">
 											<div class="rounded-lg bg-blue-100 p-1.5 dark:bg-blue-900/50">
 												<CarbonDocument class="size-3.5 text-blue-600 dark:text-blue-400" />
 											</div>
-											<span class="text-xs font-semibold text-gray-700 dark:text-gray-300">
-												Source {idx + 1}
+											<span class="text-xs font-semibold text-gray-700 dark:text-gray-300" title={rawPath}>
+												{sourceName}
 											</span>
 										</div>
-										<span class="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-400">
-											{source.score.toFixed(4)}
-										</span>
+										<div class="flex items-center gap-2">
+											{#if source.metadata?.page}
+												<span class="text-xs text-gray-500 dark:text-gray-400">p. {source.metadata.page}</span>
+											{/if}
+											<span class="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-400">
+												{source.score.toFixed(4)}
+											</span>
+										</div>
 									</div>
 									<p class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
 										{source.content}
 									</p>
-									{#if source.metadata.source}
-										<p class="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-											<span class="rounded bg-gray-200 px-1.5 py-0.5 font-medium dark:bg-gray-700">{source.metadata.source}</span>
-											{#if source.metadata.page}
-												<span>·</span>
-												<span>Page {source.metadata.page}</span>
-											{/if}
-										</p>
-									{/if}
-									</div>
-								{/each}
+								</div>
+							{/each}
 							</div>
 						</div>
 					{/if}

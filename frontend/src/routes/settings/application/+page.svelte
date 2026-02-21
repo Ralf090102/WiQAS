@@ -13,23 +13,6 @@
 			path: '/settings/rag',
 			enabled: true
 		},
-		{
-			id: 'ingestion',
-			title: 'Document Ingestion',
-			description: 'Ingest documents, manage knowledge base, and configure auto-ingestion',
-			icon: CarbonUpload,
-			path: '/settings/ingestion',
-			enabled: true
-		},
-		// Future settings categories will be added here
-		// {
-		//   id: 'backend',
-		//   title: 'Backend Configuration',
-		//   description: 'Configure backend endpoints and connections',
-		//   icon: CarbonServer,
-		//   path: '/settings/backend',
-		//   enabled: false
-		// }
 	];
 </script>
 
