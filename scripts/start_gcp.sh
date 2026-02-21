@@ -187,35 +187,66 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
     fi
 
     # Install ALL dependencies (devDependencies needed for build: vite, svelte-kit, etc.)
+    INSTALL_SUCCESS=false
     if [ -f package-lock.json ]; then
         print_info "Installing frontend dependencies (npm ci)..."
-        npm ci > "$LOG_DIR/frontend_install.log" 2>&1 || {
-            print_warning "npm ci failed, trying npm install"
-            npm install > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
-        }
+        if npm ci > "$LOG_DIR/frontend_install.log" 2>&1; then
+            INSTALL_SUCCESS=true
+        else
+            print_warning "npm ci failed, cleaning and trying fresh install..."
+            rm -rf node_modules package-lock.json
+            if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
+                INSTALL_SUCCESS=true
+            fi
+        fi
     else
-        print_info "No lockfile found, running npm install"
-        npm install > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
+        print_info "No lockfile found, running npm install..."
+        if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
+            INSTALL_SUCCESS=true
+        fi
     fi
 
-    # Build frontend
-    print_info "Building frontend..."
-    npm run build > "$LOG_DIR/frontend_build.log" 2>&1 || print_warning "Frontend build failed (check $LOG_DIR/frontend_build.log)"
-
-    # Start Vite preview in background
-    nohup npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
-    FRONTEND_PID=$!
-    echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
-    disown $FRONTEND_PID
-
-    # Return to repo root
-    cd "$WIQAS_DIR" || true
-
-    sleep 2
-    if curl -sS http://localhost:$FRONTEND_PORT/ > /dev/null 2>&1; then
-        print_success "Frontend started successfully (PID: $FRONTEND_PID)"
+    if [ "$INSTALL_SUCCESS" = false ]; then
+        print_error "Frontend install failed completely — check $LOG_DIR/frontend_install.log"
+        cd "$WIQAS_DIR" || true
+        # Continue anyway, backend is running
     else
-        print_warning "Frontend may not be responding yet — check $LOG_DIR/frontend.log"
+        # Build frontend
+        print_info "Building frontend..."
+        if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+            print_warning "Build failed, trying clean install + rebuild..."
+            rm -rf node_modules package-lock.json .svelte-kit
+            npm install > "$LOG_DIR/frontend_install.log" 2>&1
+            if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+                print_success "Frontend built successfully after retry"
+            else
+                print_error "Frontend build failed after retry — check $LOG_DIR/frontend_build.log"
+                cd "$WIQAS_DIR" || true
+                # Continue, backend is still running
+            fi
+        fi
+    fi
+
+    # Only start preview if build directory exists
+    if [ -d "build" ] || [ -d ".svelte-kit" ]; then
+        # Start Vite preview in background
+        nohup npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
+        FRONTEND_PID=$!
+        echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
+        disown $FRONTEND_PID
+
+        # Return to repo root
+        cd "$WIQAS_DIR" || true
+
+        sleep 2
+        if curl -sS http://localhost:$FRONTEND_PORT/ > /dev/null 2>&1; then
+            print_success "Frontend started successfully (PID: $FRONTEND_PID)"
+        else
+            print_warning "Frontend may not be responding yet — check $LOG_DIR/frontend.log"
+        fi
+    else
+        print_error "No build output found — frontend cannot start"
+        cd "$WIQAS_DIR" || true
     fi
 else
     print_warning "Node.js/npm not found. Skipping frontend startup. Install Node.js to run the frontend on this VM."
