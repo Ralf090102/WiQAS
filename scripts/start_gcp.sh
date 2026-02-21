@@ -110,6 +110,43 @@ echo ""
 
 # Start backend API
 print_info "Starting WiQAS Backend API on port $BACKEND_PORT..."
+# If another process is listening on the backend port, warn and try to stop it
+is_port_in_use() {
+    if command -v ss >/dev/null 2>&1; then
+        ss -ltn "sport = :$1" | grep -q LISTEN
+        return $?
+    elif command -v lsof >/dev/null 2>&1; then
+        lsof -iTCP:$1 -sTCP:LISTEN -t >/dev/null 2>&1
+        return $?
+    else
+        return 1
+    fi
+}
+
+kill_process_on_port() {
+    if command -v lsof >/dev/null 2>&1; then
+        PIDS=$(lsof -iTCP:$1 -sTCP:LISTEN -t || true)
+    elif command -v ss >/dev/null 2>&1; then
+        PIDS=$(ss -ltnp "sport = :$1" 2>/dev/null | awk -F"pid=|," '/users:/{print $2}' | tr '\n' ' ')
+    else
+        PIDS=""
+    fi
+    if [ -n "$PIDS" ]; then
+        print_warning "Port $1 is in use by PIDs: $PIDS — attempting to kill"
+        for p in $PIDS; do
+            kill -TERM $p 2>/dev/null || kill -9 $p 2>/dev/null || true
+        done
+        sleep 1
+    fi
+}
+
+# Ensure port is free before starting
+if is_port_in_use $BACKEND_PORT; then
+    print_warning "Port $BACKEND_PORT appears in use — attempting to free it"
+    kill_process_on_port $BACKEND_PORT
+    sleep 1
+fi
+
 nohup uvicorn backend.app:app \
     --host 0.0.0.0 \
     --port $BACKEND_PORT \
@@ -117,19 +154,22 @@ nohup uvicorn backend.app:app \
     > "$LOG_DIR/backend.log" 2>&1 &
 BACKEND_PID=$!
 echo $BACKEND_PID > "$LOG_DIR/backend.pid"
-
-# Disown the process so it doesn't get killed when script exits
 disown $BACKEND_PID
 
-sleep 3
-
-# Check if backend started
-if curl -s http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
-    print_success "Backend API started successfully (PID: $BACKEND_PID)"
-else
-    print_error "Backend API failed to start. Check $LOG_DIR/backend.log"
-    exit 1
-fi
+# Wait for healthy /health endpoint with timeout
+MAX_WAIT=15
+WAITED=0
+until curl -s http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; do
+    if [ $WAITED -ge $MAX_WAIT ]; then
+        print_error "Backend API failed to start within ${MAX_WAIT}s. Check $LOG_DIR/backend.log"
+        # show last lines to help debugging
+        tail -n 200 "$LOG_DIR/backend.log"
+        exit 1
+    fi
+    sleep 1
+    WAITED=$((WAITED+1))
+done
+print_success "Backend API started successfully (PID: $BACKEND_PID)"
 
 # Start frontend (build + preview) so the app is fully accessible
 print_info "Starting Frontend (build + preview) on port $FRONTEND_PORT..."
