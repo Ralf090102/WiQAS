@@ -84,7 +84,7 @@ fi
 
 # Get external IP
 print_info "Getting VM external IP..."
-EXTERNAL_IP="34.142.151.130"  # Pre-configured
+EXTERNAL_IP="34.124.143.216"  # Pre-configured
 VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
     http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip \
     2>/dev/null || echo "")
@@ -129,6 +129,46 @@ if curl -s http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
 else
     print_error "Backend API failed to start. Check $LOG_DIR/backend.log"
     exit 1
+fi
+
+# Start frontend (build + preview) so the app is fully accessible
+print_info "Starting Frontend (build + preview) on port $FRONTEND_PORT..."
+if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+    cd "$WIQAS_DIR/frontend" || { print_error "Failed to cd to frontend"; exit 1; }
+
+    # Install production deps if needed
+    if [ -f package-lock.json ] || [ -f pnpm-lock.yaml ]; then
+        print_info "Installing frontend dependencies (prefer lockfile)..."
+        npm ci --omit=dev > "$LOG_DIR/frontend_install.log" 2>&1 || {
+            print_warning "npm ci failed, trying npm install --production"
+            npm install --production > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
+        }
+    else
+        print_info "No lockfile found, running npm install --production"
+        npm install --production > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
+    fi
+
+    # Build frontend
+    print_info "Building frontend..."
+    npm run build > "$LOG_DIR/frontend_build.log" 2>&1 || print_warning "Frontend build failed (check $LOG_DIR/frontend_build.log)"
+
+    # Start Vite preview in background
+    nohup npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
+    FRONTEND_PID=$!
+    echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
+    disown $FRONTEND_PID
+
+    # Return to repo root
+    cd "$WIQAS_DIR" || true
+
+    sleep 2
+    if curl -sS http://localhost:$FRONTEND_PORT/ > /dev/null 2>&1; then
+        print_success "Frontend started successfully (PID: $FRONTEND_PID)"
+    else
+        print_warning "Frontend may not be responding yet — check $LOG_DIR/frontend.log"
+    fi
+else
+    print_warning "Node.js/npm not found. Skipping frontend startup. Install Node.js to run the frontend on this VM."
 fi
 
 echo ""
