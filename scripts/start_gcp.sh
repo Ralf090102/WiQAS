@@ -235,15 +235,15 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
 
         # Always rebuild (picks up latest code + env vars baked into bundle)
         # Pass PUBLIC_* vars explicitly so import.meta.env is correct in the built JS
-        print_info "Building frontend (PUBLIC_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT)..."
-        export PUBLIC_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
-        export PUBLIC_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
+        print_info "Building frontend (VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT)..."
+        export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+        export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
         if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
             print_warning "Build failed, trying clean install + rebuild..."
             rm -rf node_modules package-lock.json .svelte-kit build
             npm install > "$LOG_DIR/frontend_install.log" 2>&1
-            export PUBLIC_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
-            export PUBLIC_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
+            export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+            export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
             if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
                 print_success "Frontend built successfully after retry"
             else
@@ -258,7 +258,7 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
     # Only start preview if build directory exists
     if [ -d "build" ] || [ -d ".svelte-kit" ]; then
         # Pass PUBLIC_* env vars to the preview process so $env/dynamic/public works at runtime
-        FRONTEND_ENV="PUBLIC_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT PUBLIC_BACKEND_WS=ws://$EXTERNAL_IP:$BACKEND_PORT"
+        FRONTEND_ENV="VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT VITE_BACKEND_WS=ws://$EXTERNAL_IP:$BACKEND_PORT"
         nohup env $FRONTEND_ENV npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
         FRONTEND_PID=$!
         echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"

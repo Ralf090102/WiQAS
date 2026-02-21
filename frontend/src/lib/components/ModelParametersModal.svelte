@@ -13,7 +13,7 @@
 
 	let { open = $bindable(false), onClose, modelName }: Props = $props();
 
-	const BACKEND_URL = publicEnv.PUBLIC_BACKEND_URL || "http://localhost:8000";
+	const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 	// Default values
 	const DEFAULT_TEMPERATURE = 0.7;

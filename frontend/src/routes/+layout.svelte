@@ -26,7 +26,7 @@
 	setContext("publicConfig", data.publicConfig);
 
 	const publicConfig = data.publicConfig;
-	const BACKEND_URL = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8000';
+	const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 	let conversations = $state(data.conversations);
 	$effect(() => {
