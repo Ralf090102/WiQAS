@@ -200,76 +200,61 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         sleep 1
     fi
 
-    # Check if frontend is already built (skip install/build if working)
+    # Always rebuild to pick up latest code and env var changes
     SKIP_BUILD=false
-    if [ -d "node_modules" ] && [ -d "build" ]; then
-        print_success "Frontend already built (node_modules and build exist) — skipping install/build"
-        SKIP_BUILD=true
-    fi
 
     if [ "$SKIP_BUILD" = false ]; then
-        # Install ALL dependencies (devDependencies needed for build: vite, svelte-kit, etc.)
-        INSTALL_SUCCESS=false
-        if [ -f package-lock.json ]; then
-            print_info "Installing frontend dependencies (npm ci)..."
-            if npm ci > "$LOG_DIR/frontend_install.log" 2>&1; then
-                INSTALL_SUCCESS=true
+        # Install dependencies only if node_modules is missing
+        if [ ! -d "node_modules" ]; then
+            INSTALL_SUCCESS=false
+            if [ -f package-lock.json ]; then
+                print_info "Installing frontend dependencies (npm ci)..."
+                if npm ci > "$LOG_DIR/frontend_install.log" 2>&1; then
+                    INSTALL_SUCCESS=true
+                else
+                    print_warning "npm ci failed, cleaning and trying fresh install..."
+                    rm -rf node_modules package-lock.json
+                    if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
+                        INSTALL_SUCCESS=true
+                    fi
+                fi
             else
-                print_warning "npm ci failed, cleaning and trying fresh install..."
-                rm -rf node_modules package-lock.json
+                print_info "No lockfile found, running npm install..."
                 if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
                     INSTALL_SUCCESS=true
                 fi
             fi
-        else
-            print_info "No lockfile found, running npm install..."
-            if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
-                INSTALL_SUCCESS=true
+
+            if [ "$INSTALL_SUCCESS" = false ]; then
+                print_error "Frontend install failed completely — check $LOG_DIR/frontend_install.log"
+                cd "$WIQAS_DIR" || true
             fi
+        else
+            print_success "node_modules exists — skipping install"
         fi
 
-        if [ "$INSTALL_SUCCESS" = false ]; then
-            print_error "Frontend install failed completely — check $LOG_DIR/frontend_install.log"
-            print_info "Hint: Try manually: cd $WIQAS_DIR/frontend && npm install"
-            cd "$WIQAS_DIR" || true
-            # Continue anyway, backend is running
+        # Always rebuild (picks up latest code + env vars baked into bundle)
+        print_info "Building frontend..."
+        if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+            print_warning "Build failed, trying clean install + rebuild..."
+            rm -rf node_modules package-lock.json .svelte-kit build
+            npm install > "$LOG_DIR/frontend_install.log" 2>&1
+            if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+                print_success "Frontend built successfully after retry"
+            else
+                print_error "Frontend build failed after retry — check $LOG_DIR/frontend_build.log"
+                cd "$WIQAS_DIR" || true
+            fi
         else
-            # Verify critical packages are installed
-            print_info "Verifying critical packages..."
-            MISSING_PACKAGES=""
-            for pkg in "vite" "@sveltejs/kit" "unplugin-icons" "svelte"; do
-                if [ ! -d "node_modules/$pkg" ]; then
-                    MISSING_PACKAGES="$MISSING_PACKAGES $pkg"
-                fi
-            done
-            
-            if [ -n "$MISSING_PACKAGES" ]; then
-                print_warning "Missing packages:$MISSING_PACKAGES — installing explicitly..."
-                npm install $MISSING_PACKAGES --save-dev >> "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Explicit install failed"
-            fi
-
-            # Build frontend
-            print_info "Building frontend..."
-            if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
-                print_warning "Build failed, trying clean install + rebuild..."
-                rm -rf node_modules package-lock.json .svelte-kit
-                npm install > "$LOG_DIR/frontend_install.log" 2>&1
-                if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
-                    print_success "Frontend built successfully after retry"
-                else
-                    print_error "Frontend build failed after retry — check $LOG_DIR/frontend_build.log"
-                    print_info "Hint: Try manually: cd $WIQAS_DIR/frontend && npm install && npm run build"
-                    cd "$WIQAS_DIR" || true
-                    # Continue, backend is still running
-                fi
-            fi
+            print_success "Frontend built successfully"
         fi
     fi
 
     # Only start preview if build directory exists
     if [ -d "build" ] || [ -d ".svelte-kit" ]; then
-        # Start Vite preview in background
-        nohup npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
+        # Pass PUBLIC_* env vars to the preview process so $env/dynamic/public works at runtime
+        FRONTEND_ENV="PUBLIC_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT PUBLIC_BACKEND_WS=ws://$EXTERNAL_IP:$BACKEND_PORT"
+        nohup env $FRONTEND_ENV npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
         FRONTEND_PID=$!
         echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
         disown $FRONTEND_PID
