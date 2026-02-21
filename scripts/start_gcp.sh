@@ -147,6 +147,9 @@ if is_port_in_use $BACKEND_PORT; then
     sleep 1
 fi
 
+# Truncate backend log so old shutdown messages don't appear
+> "$LOG_DIR/backend.log"
+
 nohup uvicorn backend.app:app \
     --host 0.0.0.0 \
     --port $BACKEND_PORT \
@@ -176,16 +179,23 @@ print_info "Starting Frontend (build + preview) on port $FRONTEND_PORT..."
 if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
     cd "$WIQAS_DIR/frontend" || { print_error "Failed to cd to frontend"; exit 1; }
 
-    # Install production deps if needed
-    if [ -f package-lock.json ] || [ -f pnpm-lock.yaml ]; then
-        print_info "Installing frontend dependencies (prefer lockfile)..."
-        npm ci --omit=dev > "$LOG_DIR/frontend_install.log" 2>&1 || {
-            print_warning "npm ci failed, trying npm install --production"
-            npm install --production > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
+    # Ensure port is free
+    if is_port_in_use $FRONTEND_PORT; then
+        print_warning "Port $FRONTEND_PORT appears in use — attempting to free it"
+        kill_process_on_port $FRONTEND_PORT
+        sleep 1
+    fi
+
+    # Install ALL dependencies (devDependencies needed for build: vite, svelte-kit, etc.)
+    if [ -f package-lock.json ]; then
+        print_info "Installing frontend dependencies (npm ci)..."
+        npm ci > "$LOG_DIR/frontend_install.log" 2>&1 || {
+            print_warning "npm ci failed, trying npm install"
+            npm install > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
         }
     else
-        print_info "No lockfile found, running npm install --production"
-        npm install --production > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
+        print_info "No lockfile found, running npm install"
+        npm install > "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Frontend install failed"
     fi
 
     # Build frontend
@@ -227,17 +237,19 @@ echo "  Stop backend: kill $BACKEND_PID"
 echo "  Monitor GPU: nvidia-smi -l 1"
 echo "  Test API: python run.py ask 'What is Filipino culture?'"
 echo ""
-print_info "To start frontend (in new terminal):"
-echo "  cd $WIQAS_DIR/frontend"
-echo "  npm run dev -- --host 0.0.0.0 --port $FRONTEND_PORT"
-echo ""
 print_warning "Remember to configure firewall rules for ports $BACKEND_PORT and $FRONTEND_PORT"
 
-# Trap Ctrl+C to only stop log viewing, not the backend
-trap 'echo ""; print_info "Stopped viewing logs. Backend is still running (PID: $BACKEND_PID)"; exit 0' INT
+# Trap Ctrl+C to only stop log viewing, not the services
+trap 'echo ""; print_info "Stopped viewing logs. Services still running (Backend PID: $BACKEND_PID, Frontend PID: ${FRONTEND_PID:-N/A})"; exit 0' INT
 
 # Keep script running to show status
 echo ""
-print_info "Press Ctrl+C to stop showing logs (backend will continue running)"
+print_info "Press Ctrl+C to stop showing logs (services will continue running)"
 echo ""
-tail -f "$LOG_DIR/backend.log"
+
+# Show both backend and frontend logs
+if [ -f "$LOG_DIR/frontend.log" ]; then
+    tail -f "$LOG_DIR/backend.log" "$LOG_DIR/frontend.log"
+else
+    tail -f "$LOG_DIR/backend.log"
+fi
