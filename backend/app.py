@@ -8,6 +8,10 @@ import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+# Load .env file FIRST before any other imports read environment variables
+from dotenv import load_dotenv
+load_dotenv(override=False)  # Don't override vars already set in OS environment
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
