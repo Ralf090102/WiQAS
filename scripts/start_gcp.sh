@@ -7,8 +7,8 @@
 set -e
 
 # Configuration
-WIQAS_DIR="/home/ralf_hernandez/WiQAS"
-VENV_PATH="/home/ralf_hernandez/wiqas-venv"
+WIQAS_DIR="/shared/WiQAS"
+VENV_PATH="/shared/wiqas-venv"
 LOG_DIR="$WIQAS_DIR/logs"
 BACKEND_PORT=8000
 FRONTEND_PORT=3000
