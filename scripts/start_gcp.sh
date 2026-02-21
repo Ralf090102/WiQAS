@@ -211,6 +211,20 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         cd "$WIQAS_DIR" || true
         # Continue anyway, backend is running
     else
+        # Verify critical packages are installed
+        print_info "Verifying critical packages..."
+        MISSING_PACKAGES=""
+        for pkg in "vite" "@sveltejs/kit" "unplugin-icons" "svelte"; do
+            if [ ! -d "node_modules/$pkg" ]; then
+                MISSING_PACKAGES="$MISSING_PACKAGES $pkg"
+            fi
+        done
+        
+        if [ -n "$MISSING_PACKAGES" ]; then
+            print_warning "Missing packages:$MISSING_PACKAGES — installing explicitly..."
+            npm install $MISSING_PACKAGES --save-dev >> "$LOG_DIR/frontend_install.log" 2>&1 || print_warning "Explicit install failed"
+        fi
+
         # Build frontend
         print_info "Building frontend..."
         if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
