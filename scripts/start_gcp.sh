@@ -234,11 +234,16 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         fi
 
         # Always rebuild (picks up latest code + env vars baked into bundle)
-        print_info "Building frontend..."
+        # Pass PUBLIC_* vars explicitly so import.meta.env is correct in the built JS
+        print_info "Building frontend (PUBLIC_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT)..."
+        export PUBLIC_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+        export PUBLIC_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
         if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
             print_warning "Build failed, trying clean install + rebuild..."
             rm -rf node_modules package-lock.json .svelte-kit build
             npm install > "$LOG_DIR/frontend_install.log" 2>&1
+            export PUBLIC_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+            export PUBLIC_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
             if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
                 print_success "Frontend built successfully after retry"
             else
