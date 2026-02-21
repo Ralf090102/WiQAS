@@ -108,6 +108,20 @@ echo "  API Docs:    http://$EXTERNAL_IP:$BACKEND_PORT/docs"
 echo "  Frontend:    http://$EXTERNAL_IP:$FRONTEND_PORT"
 echo ""
 
+# Stop any existing backend processes first (ensures fresh start with updated code/config)
+print_info "Checking for existing backend processes..."
+if pgrep -f "uvicorn backend.app" > /dev/null 2>&1; then
+    print_warning "Found existing backend process — stopping it first"
+    pkill -f "uvicorn backend.app" || true
+    sleep 2
+    print_success "Existing backend stopped"
+else
+    print_info "No existing backend process found"
+fi
+
+# Clean up old PID file
+rm -f "$LOG_DIR/backend.pid"
+
 # Start backend API
 print_info "Starting WiQAS Backend API on port $BACKEND_PORT..."
 # If another process is listening on the backend port, warn and try to stop it
