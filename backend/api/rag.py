@@ -254,9 +254,20 @@ async def ask_question(
             for i, ctx in enumerate(contexts):
                 # Handle both dict and SearchResult objects
                 if isinstance(ctx, dict):
-                    content = ctx.get("content", "")
-                    metadata = ctx.get("metadata", {})
+                    # After context_preparer, content is under "text" and metadata fields
+                    # are spread at the top level (source_file, page, title, date, url)
+                    content = ctx.get("text", ctx.get("content", ""))
                     score = ctx.get("final_score", 0.0)
+                    metadata = {
+                        "source_file": ctx.get("source_file"),
+                        "title": ctx.get("title"),
+                        "page": ctx.get("page"),
+                        "date": ctx.get("date"),
+                        "url": ctx.get("url"),
+                    }
+                    # Fall back to a nested "metadata" key if present (raw SearchResult path)
+                    if not any(metadata.values()):
+                        metadata = ctx.get("metadata", {})
                 else:
                     content = getattr(ctx, "content", "")
                     metadata = getattr(ctx, "metadata", {}) if hasattr(ctx, "metadata") else {}
