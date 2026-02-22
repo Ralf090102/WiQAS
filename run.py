@@ -189,10 +189,11 @@ def check_system_health(config: WiQASConfig) -> dict[str, Any]:
 # ========== DOCUMENT MANAGEMENT COMMANDS ==========
 @app.command()
 def ingest(
-    path: str = typer.Argument(..., help="Path to file or directory to ingest"),
+    path: str = typer.Argument("./data/knowledge_base", help="Path to file or directory to ingest"),
     clear: bool = typer.Option(False, "--clear", "-c", help="Clear existing data before ingesting"),
     recursive: bool = typer.Option(True, "--recursive/--no-recursive", "-r", help="Search subdirectories recursively (default: True)"),
     workers: int = typer.Option(4, "--workers", "-w", help="Number of parallel workers for processing (default: 4, recommended: 4-8)"),
+    skip_existing: bool = typer.Option(True, "--skip-existing", help="Skip files already present in the vector store"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ):
     """
@@ -236,7 +237,7 @@ def ingest(
         if source_path.is_file():
             stats = ingestor.ingest_knowledge_base(source_path, clear_existing=False)
         else:
-            stats = ingestor.ingest_directory(source_path, recursive=recursive, max_workers=workers)
+            stats = ingestor.ingest_directory(source_path, recursive=recursive, max_workers=workers, skip_existing=skip_existing)
 
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("Metric", style="cyan")

@@ -7,8 +7,8 @@
 set -e
 
 # Configuration
-WIQAS_DIR="/home/ralf_hernandez/WiQAS"
-VENV_PATH="/home/ralf_hernandez/wiqas-venv"
+WIQAS_DIR="/shared/WiQAS"
+VENV_PATH="/shared/wiqas-venv"
 LOG_DIR="$WIQAS_DIR/logs"
 BACKEND_PORT=8000
 FRONTEND_PORT=3000
@@ -84,7 +84,7 @@ fi
 
 # Get external IP
 print_info "Getting VM external IP..."
-EXTERNAL_IP="34.142.151.130"  # Pre-configured
+EXTERNAL_IP="34.124.143.216"  # Pre-configured
 VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
     http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip \
     2>/dev/null || echo "")
@@ -108,8 +108,62 @@ echo "  API Docs:    http://$EXTERNAL_IP:$BACKEND_PORT/docs"
 echo "  Frontend:    http://$EXTERNAL_IP:$FRONTEND_PORT"
 echo ""
 
+# Stop any existing backend processes first (ensures fresh start with updated code/config)
+print_info "Checking for existing backend processes..."
+if pgrep -f "uvicorn backend.app" > /dev/null 2>&1; then
+    print_warning "Found existing backend process — stopping it first"
+    pkill -f "uvicorn backend.app" || true
+    sleep 2
+    print_success "Existing backend stopped"
+else
+    print_info "No existing backend process found"
+fi
+
+# Clean up old PID file
+rm -f "$LOG_DIR/backend.pid"
+
 # Start backend API
 print_info "Starting WiQAS Backend API on port $BACKEND_PORT..."
+# If another process is listening on the backend port, warn and try to stop it
+is_port_in_use() {
+    if command -v ss >/dev/null 2>&1; then
+        ss -ltn "sport = :$1" | grep -q LISTEN
+        return $?
+    elif command -v lsof >/dev/null 2>&1; then
+        lsof -iTCP:$1 -sTCP:LISTEN -t >/dev/null 2>&1
+        return $?
+    else
+        return 1
+    fi
+}
+
+kill_process_on_port() {
+    if command -v lsof >/dev/null 2>&1; then
+        PIDS=$(lsof -iTCP:$1 -sTCP:LISTEN -t || true)
+    elif command -v ss >/dev/null 2>&1; then
+        PIDS=$(ss -ltnp "sport = :$1" 2>/dev/null | awk -F"pid=|," '/users:/{print $2}' | tr '\n' ' ')
+    else
+        PIDS=""
+    fi
+    if [ -n "$PIDS" ]; then
+        print_warning "Port $1 is in use by PIDs: $PIDS — attempting to kill"
+        for p in $PIDS; do
+            kill -TERM $p 2>/dev/null || kill -9 $p 2>/dev/null || true
+        done
+        sleep 1
+    fi
+}
+
+# Ensure port is free before starting
+if is_port_in_use $BACKEND_PORT; then
+    print_warning "Port $BACKEND_PORT appears in use — attempting to free it"
+    kill_process_on_port $BACKEND_PORT
+    sleep 1
+fi
+
+# Truncate backend log so old shutdown messages don't appear
+> "$LOG_DIR/backend.log"
+
 nohup uvicorn backend.app:app \
     --host 0.0.0.0 \
     --port $BACKEND_PORT \
@@ -117,18 +171,114 @@ nohup uvicorn backend.app:app \
     > "$LOG_DIR/backend.log" 2>&1 &
 BACKEND_PID=$!
 echo $BACKEND_PID > "$LOG_DIR/backend.pid"
-
-# Disown the process so it doesn't get killed when script exits
 disown $BACKEND_PID
 
-sleep 3
+# Wait for healthy /health endpoint with timeout
+MAX_WAIT=15
+WAITED=0
+until curl -s http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; do
+    if [ $WAITED -ge $MAX_WAIT ]; then
+        print_error "Backend API failed to start within ${MAX_WAIT}s. Check $LOG_DIR/backend.log"
+        # show last lines to help debugging
+        tail -n 200 "$LOG_DIR/backend.log"
+        exit 1
+    fi
+    sleep 1
+    WAITED=$((WAITED+1))
+done
+print_success "Backend API started successfully (PID: $BACKEND_PID)"
 
-# Check if backend started
-if curl -s http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
-    print_success "Backend API started successfully (PID: $BACKEND_PID)"
+# Start frontend (build + preview) so the app is fully accessible
+print_info "Starting Frontend (build + preview) on port $FRONTEND_PORT..."
+if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+    cd "$WIQAS_DIR/frontend" || { print_error "Failed to cd to frontend"; exit 1; }
+
+    # Ensure port is free
+    if is_port_in_use $FRONTEND_PORT; then
+        print_warning "Port $FRONTEND_PORT appears in use — attempting to free it"
+        kill_process_on_port $FRONTEND_PORT
+        sleep 1
+    fi
+
+    # Always rebuild to pick up latest code and env var changes
+    SKIP_BUILD=false
+
+    if [ "$SKIP_BUILD" = false ]; then
+        # Install dependencies only if node_modules is missing
+        if [ ! -d "node_modules" ]; then
+            INSTALL_SUCCESS=false
+            if [ -f package-lock.json ]; then
+                print_info "Installing frontend dependencies (npm ci)..."
+                if npm ci > "$LOG_DIR/frontend_install.log" 2>&1; then
+                    INSTALL_SUCCESS=true
+                else
+                    print_warning "npm ci failed, cleaning and trying fresh install..."
+                    rm -rf node_modules package-lock.json
+                    if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
+                        INSTALL_SUCCESS=true
+                    fi
+                fi
+            else
+                print_info "No lockfile found, running npm install..."
+                if npm install > "$LOG_DIR/frontend_install.log" 2>&1; then
+                    INSTALL_SUCCESS=true
+                fi
+            fi
+
+            if [ "$INSTALL_SUCCESS" = false ]; then
+                print_error "Frontend install failed completely — check $LOG_DIR/frontend_install.log"
+                cd "$WIQAS_DIR" || true
+            fi
+        else
+            print_success "node_modules exists — skipping install"
+        fi
+
+        # Always rebuild (picks up latest code + env vars baked into bundle)
+        # Pass PUBLIC_* vars explicitly so import.meta.env is correct in the built JS
+        print_info "Building frontend (VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT)..."
+        export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+        export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
+        if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+            print_warning "Build failed, trying clean install + rebuild..."
+            rm -rf node_modules package-lock.json .svelte-kit build
+            npm install > "$LOG_DIR/frontend_install.log" 2>&1
+            export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
+            export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
+            if npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
+                print_success "Frontend built successfully after retry"
+            else
+                print_error "Frontend build failed after retry — check $LOG_DIR/frontend_build.log"
+                cd "$WIQAS_DIR" || true
+            fi
+        else
+            print_success "Frontend built successfully"
+        fi
+    fi
+
+    # Only start preview if build directory exists
+    if [ -d "build" ] || [ -d ".svelte-kit" ]; then
+        # Pass PUBLIC_* env vars to the preview process so $env/dynamic/public works at runtime
+        FRONTEND_ENV="VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT VITE_BACKEND_WS=ws://$EXTERNAL_IP:$BACKEND_PORT"
+        nohup env $FRONTEND_ENV npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
+        FRONTEND_PID=$!
+        echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
+        disown $FRONTEND_PID
+
+        # Return to repo root
+        cd "$WIQAS_DIR" || true
+
+        sleep 2
+        if curl -sS http://localhost:$FRONTEND_PORT/ > /dev/null 2>&1; then
+            print_success "Frontend started successfully (PID: $FRONTEND_PID)"
+        else
+            print_warning "Frontend may not be responding yet — check $LOG_DIR/frontend.log"
+        fi
+    else
+        print_error "No build output found — frontend cannot start"
+        cd "$WIQAS_DIR" || true
+    fi
 else
-    print_error "Backend API failed to start. Check $LOG_DIR/backend.log"
-    exit 1
+    print_warning "Node.js/npm not found. Skipping frontend startup. Install Node.js to run the frontend on this VM."
 fi
 
 echo ""
@@ -147,17 +297,19 @@ echo "  Stop backend: kill $BACKEND_PID"
 echo "  Monitor GPU: nvidia-smi -l 1"
 echo "  Test API: python run.py ask 'What is Filipino culture?'"
 echo ""
-print_info "To start frontend (in new terminal):"
-echo "  cd $WIQAS_DIR/frontend"
-echo "  npm run dev -- --host 0.0.0.0 --port $FRONTEND_PORT"
-echo ""
 print_warning "Remember to configure firewall rules for ports $BACKEND_PORT and $FRONTEND_PORT"
 
-# Trap Ctrl+C to only stop log viewing, not the backend
-trap 'echo ""; print_info "Stopped viewing logs. Backend is still running (PID: $BACKEND_PID)"; exit 0' INT
+# Trap Ctrl+C to only stop log viewing, not the services
+trap 'echo ""; print_info "Stopped viewing logs. Services still running (Backend PID: $BACKEND_PID, Frontend PID: ${FRONTEND_PID:-N/A})"; exit 0' INT
 
 # Keep script running to show status
 echo ""
-print_info "Press Ctrl+C to stop showing logs (backend will continue running)"
+print_info "Press Ctrl+C to stop showing logs (services will continue running)"
 echo ""
-tail -f "$LOG_DIR/backend.log"
+
+# Show both backend and frontend logs
+if [ -f "$LOG_DIR/frontend.log" ]; then
+    tail -f "$LOG_DIR/backend.log" "$LOG_DIR/frontend.log"
+else
+    tail -f "$LOG_DIR/backend.log"
+fi

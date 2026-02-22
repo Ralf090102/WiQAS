@@ -1,28 +1,13 @@
 import { UrlDependency } from "$lib/types/UrlDependency";
 import type { ConvSidebar } from "$lib/types/ConvSidebar";
 
-const BACKEND_URL = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 export const load = async ({ depends, fetch }) => {
 	depends(UrlDependency.ConversationList);
 
-	// Load conversations from FastAPI backend
-	let conversations: ConvSidebar[] = [];
-	try {
-		const response = await fetch(`${BACKEND_URL}/api/chat/sessions`);
-		if (response.ok) {
-			const data = await response.json();
-			conversations = data.sessions?.map((session: any) => ({
-				id: session.session_id,
-				title: session.metadata?.title || session.metadata?.topic || 'New Chat',
-				model: session.metadata?.model || 'default',
-				updatedAt: new Date(session.updated_at),
-				createdAt: new Date(session.created_at),
-			})) || [];
-		}
-	} catch (err) {
-		console.error('Failed to load conversations:', err);
-	}
+	// Chat sessions are out of scope - WiQAS is a pure QA system with no conversation history
+	const conversations: ConvSidebar[] = [];
 
 	// Fetch actual active model from backend
 	let activeModelName = 'mistral:latest';
@@ -61,7 +46,7 @@ export const load = async ({ depends, fetch }) => {
 	const publicConfig = {
 		PUBLIC_APP_NAME: import.meta.env.PUBLIC_APP_NAME || 'WiQAS',
 		PUBLIC_APP_DESCRIPTION: import.meta.env.PUBLIC_APP_DESCRIPTION || 'Local RAG Chat',
-		PUBLIC_ORIGIN: import.meta.env.PUBLIC_ORIGIN || 'http://localhost:5173',
+		PUBLIC_ORIGIN: import.meta.env.PUBLIC_ORIGIN || 'http://34.124.143.216:3000',
 		isHuggingChat: false,
 		assetPath: '/chatui',
 		PUBLIC_PLAUSIBLE_SCRIPT_URL: undefined,

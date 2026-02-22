@@ -40,15 +40,44 @@ else
     print_warning "Backend PID file not found"
 fi
 
-# Stop any uvicorn processes
+# Stop any uvicorn processes (more thorough)
 print_info "Checking for stray uvicorn processes..."
-UVICORN_PIDS=$(pgrep -f "uvicorn backend.app:app")
+UVICORN_PIDS=$(pgrep -f "uvicorn backend.app")
 if [ ! -z "$UVICORN_PIDS" ]; then
     print_warning "Found running uvicorn processes: $UVICORN_PIDS"
-    echo "$UVICORN_PIDS" | xargs kill
+    pkill -f "uvicorn backend.app"
+    sleep 1
+    # Force kill if still running
+    UVICORN_PIDS=$(pgrep -f "uvicorn backend.app")
+    if [ ! -z "$UVICORN_PIDS" ]; then
+        print_warning "Force killing remaining processes..."
+        pkill -9 -f "uvicorn backend.app"
+    fi
     print_success "Stopped uvicorn processes"
 else
     print_info "No stray uvicorn processes found"
+fi
+
+# Stop frontend if running
+if [ -f "$LOG_DIR/frontend.pid" ]; then
+    FRONTEND_PID=$(cat "$LOG_DIR/frontend.pid")
+    if ps -p $FRONTEND_PID > /dev/null 2>&1; then
+        print_info "Stopping frontend (PID: $FRONTEND_PID)..."
+        kill $FRONTEND_PID 2>/dev/null || true
+        sleep 1
+        rm "$LOG_DIR/frontend.pid"
+        print_success "Frontend stopped"
+    else
+        rm "$LOG_DIR/frontend.pid"
+    fi
+fi
+
+# Also check for npm preview processes
+print_info "Checking for npm preview processes..."
+if pgrep -f "vite preview" > /dev/null 2>&1; then
+    print_warning "Found npm preview processes — stopping..."
+    pkill -f "vite preview" || true
+    print_success "Stopped npm preview processes"
 fi
 
 # Optionally stop Ollama
