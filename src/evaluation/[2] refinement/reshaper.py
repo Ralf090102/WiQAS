@@ -412,13 +412,8 @@ def main():
     extract_p = subparsers.add_parser("extract-questions", help="Extract all questions to a text file delimited by '?'")
     extract_p.add_argument("json_path", help="Path to dataset JSON")
     extract_p.add_argument("--out", help="Output text file path")
-<<<<<<< HEAD
     
     # Merge CSV with JSON (add the ground truth and model answer)
-=======
-
-    # Merge CSV with JSON
->>>>>>> main
     merge_csv = subparsers.add_parser("merge-csv", help="Merge CSV with JSON via question")
     merge_csv.add_argument("--csv", required=True, help="Path to CSV file")
     merge_csv.add_argument("--json", required=True, help="Path to JSON file")
