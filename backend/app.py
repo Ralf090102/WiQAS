@@ -107,8 +107,8 @@ if vm_ip:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
     expose_headers=["X-Total-Count", "X-Page-Size"],  # Custom headers for pagination
