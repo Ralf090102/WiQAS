@@ -42,7 +42,7 @@ Usage:
         --timing/--no-timing                                 # Show/hide timing breakdown (default: show)
         --classification/--no-classification                 # Show/hide query classification (default: show)
 
-    python run.py batch-ask <input_file>                     # Batch question answering
+    python run.py  <input_file>                     # Batch question answering
         --output <file>                                      # Output JSON file (default: batch_output.json)
         --delimiter <char>                                   # Question delimiter (default: '?')
         --timing/--classification                            # Include timing/classification info
@@ -729,6 +729,7 @@ def batch_ask(
                 show_contexts=True,
                 include_timing=include_timing,
                 include_classification=include_classification,
+		enable_query_decomposition=False
             )
 
             contexts = result.get("contexts", [])
