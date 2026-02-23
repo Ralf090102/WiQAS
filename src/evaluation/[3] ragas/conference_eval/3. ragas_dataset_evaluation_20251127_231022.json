@@ -1,0 +1,32 @@
+{
+  "total_questions": 2037,
+  "accuracy_metrics": {
+    "average_f1_score": 0.2247,
+    "quality_distribution": {
+      "excellent_rate": 0.0157,
+      "excellent_count": 32,
+      "good_rate": 0.081,
+      "good_count": 165,
+      "acceptable_rate": 0.1983,
+      "acceptable_count": 404,
+      "poor_rate": 0.705,
+      "poor_count": 1436
+    },
+    "overall_quality_rate": 0.295
+  },
+  "reliability_metrics": {
+    "grounding_rate": 0.3677,
+    "grounded_count": 749,
+    "context_availability_rate": 0.7275,
+    "questions_with_context": 1482
+  },
+  "cultural_metrics": {
+    "average_cultural_relevance": 0.8966
+  },
+  "educational_suitability": {
+    "overall_rating": "LOW",
+    "quality_rating": "LOW",
+    "f1_rating": "LOW",
+    "reliability_rating": "LOW"
+  }
+}

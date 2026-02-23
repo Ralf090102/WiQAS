@@ -729,7 +729,8 @@ def batch_ask(
                 show_contexts=True,
                 include_timing=include_timing,
                 include_classification=include_classification,
-                enable_query_decomposition=False
+                enable_query_decomposition=True,
+                enable_multilingual=False
             )
 
             contexts = result.get("contexts", [])

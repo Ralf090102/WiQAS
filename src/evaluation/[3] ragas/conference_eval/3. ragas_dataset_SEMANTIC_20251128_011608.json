@@ -1,0 +1,7 @@
+{
+  "metrics": {
+    "avg_bert_score": 0.7477212824479704,
+    "grounding_rate": 0.03829160530191458,
+    "context_availability": 0.727540500736377
+  }
+}

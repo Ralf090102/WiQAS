@@ -1,0 +1,55 @@
+======================================================================
+Q&A SYSTEM EDUCATIONAL SUITABILITY ASSESSMENT
+======================================================================
+
+Total Questions Evaluated: 2037
+
+----------------------------------------------------------------------
+ACCURACY METRICS (Semantic Answer Quality)
+----------------------------------------------------------------------
+Average F1 Score:          0.2247 (22.5%)
+  → Mean semantic similarity (token overlap) across all answers
+
+Answer Quality Distribution:
+  Excellent (F1 > 0.75):   1.57% (32/2037)
+    → Very high semantic similarity to ground truth
+  Good (F1 > 0.50):        8.10% (165/2037)
+    → Substantial semantic overlap
+  Acceptable (F1 > 0.30):  19.83% (404/2037)
+    → Moderate semantic overlap
+  Poor (F1 ≤ 0.30):        70.50% (1436/2037)
+    → Low semantic overlap
+
+Overall Quality Rate (F1 > 0.30): 29.50%
+  → Answers with at least acceptable semantic similarity
+
+Note: For sentence-level Q&A, F1 score measures semantic similarity
+      via token overlap. Exact Match is not applicable for full sentences.
+
+----------------------------------------------------------------------
+RELIABILITY/VERIFIABILITY METRICS (Answer Trustworthiness)
+----------------------------------------------------------------------
+Grounding Rate:            36.77% (749/2037)
+Context Availability:      72.75% (1482/2037)
+
+Interpretation:
+  - 36.8% of answers are grounded in retrieved context
+  - 72.8% of questions had available context
+
+----------------------------------------------------------------------
+CULTURAL RELEVANCE
+----------------------------------------------------------------------
+Average Cultural Relevance: 0.8966
+
+----------------------------------------------------------------------
+EDUCATIONAL SUITABILITY ASSESSMENT
+----------------------------------------------------------------------
+✗ NEEDS IMPROVEMENT for educational purposes
+
+Overall Quality (F1 > 0.30):      29.5% - LOW
+Average Semantic Similarity:      22.5% - LOW
+Reliability (Grounding):          36.8% - LOW
+
+✗ System needs significant improvement in answer quality or grounding.
+  Additional training or retrieval optimization recommended.
+======================================================================
