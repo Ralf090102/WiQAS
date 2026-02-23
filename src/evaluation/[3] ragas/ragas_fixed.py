@@ -177,7 +177,7 @@ def load_evaluation_data(input_path: str, max_items: int | None = None) -> list[
             raise ValueError("No valid evaluation data found")
 
         logger.info(f"✓ Loaded {len(data_items)} valid items")
-        return data_items[12:13]
+        return data_items
         
     except Exception as e:
         logger.error(f"Error loading data: {e}")
