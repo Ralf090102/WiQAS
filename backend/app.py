@@ -79,6 +79,8 @@ app = FastAPI(
 import os
 
 cors_origins_env = os.getenv("CORS_ORIGINS", "")
+vm_ip = os.getenv("VM_IP", "").strip()
+
 if cors_origins_env:
     # Parse comma-separated origins from environment variable
     cors_origins = [origin.strip() for origin in cors_origins_env.split(",")]
@@ -93,6 +95,15 @@ else:
         "http://127.0.0.1:8080",
     ]
     logger.info("Using default CORS origins for local development")
+
+# Always include VM_IP origins if VM_IP is set, so changing the IP in .env
+# is sufficient even if CORS_ORIGINS isn't manually updated.
+if vm_ip:
+    for port in ["3000", "5173", "8080"]:
+        origin = f"http://{vm_ip}:{port}"
+        if origin not in cors_origins:
+            cors_origins.append(origin)
+    logger.info(f"Added VM_IP origins for {vm_ip}")
 
 app.add_middleware(
     CORSMiddleware,
