@@ -84,7 +84,7 @@ fi
 
 # Get external IP
 print_info "Getting VM external IP..."
-EXTERNAL_IP="34.124.143.216"  # Pre-configured
+EXTERNAL_IP="34.126.109.35"  # Pre-configured — update this when the VM IP changes
 VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
     http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip \
     2>/dev/null || echo "")

@@ -46,7 +46,7 @@ export const load = async ({ depends, fetch }) => {
 	const publicConfig = {
 		PUBLIC_APP_NAME: import.meta.env.PUBLIC_APP_NAME || 'WiQAS',
 		PUBLIC_APP_DESCRIPTION: import.meta.env.PUBLIC_APP_DESCRIPTION || 'Local RAG Chat',
-		PUBLIC_ORIGIN: import.meta.env.PUBLIC_ORIGIN || 'http://34.124.143.216:3000',
+		PUBLIC_ORIGIN: import.meta.env.PUBLIC_ORIGIN || import.meta.env.VITE_BACKEND_URL?.replace(':8000', ':3000') || 'http://localhost:3000',
 		isHuggingChat: false,
 		assetPath: '/chatui',
 		PUBLIC_PLAUSIBLE_SCRIPT_URL: undefined,
