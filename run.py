@@ -373,6 +373,7 @@ def search(
     rerank: bool = typer.Option(True, "--rerank/--no-rerank", help="Enable cross-encoder reranking for better relevance (default: enabled)"),
     mmr: bool = typer.Option(True, "--mmr/--no-mmr", help="Enable MMR (Maximal Marginal Relevance) for diverse results (default: enabled)"),
     decompose: bool = typer.Option(False, "--decompose/--no-decompose", help="Enable query decomposition for complex queries (default: disabled)"),
+    multilingual: bool = typer.Option(True, "--multilingual/--no-multilingual", help="Enable cross-lingual retrieval and translation via deep-translator (default: enabled)"),
     config_env: bool = typer.Option(False, "--env", help="Load configuration from environment variables"),
 ):
     """
@@ -394,6 +395,7 @@ def search(
     print_info(f"Reranking: {rerank}")
     print_info(f"MMR diversity: {mmr}")
     print_info(f"Query decomposition: {decompose}")
+    print_info(f"Multilingual: {multilingual}")
 
     try:
         from src.retrieval.retriever import query_knowledge_base
@@ -408,6 +410,7 @@ def search(
                 enable_reranking=rerank,
                 enable_mmr=mmr,
                 enable_query_decomposition=decompose,
+                enable_cross_lingual=multilingual,
                 formatted=True,
             )
 
@@ -542,6 +545,7 @@ def ask(
     show_timing: bool = typer.Option(True, "--timing/--no-timing", help="Show performance timing breakdown (default: show)"),
     show_classification: bool = typer.Option(True, "--classification/--no-classification", help="Show query classification details (default: show)"),
     decompose: bool = typer.Option(False, "--decompose/--no-decompose", help="Enable query decomposition for complex questions (default: disabled)"),
+    multilingual: bool = typer.Option(True, "--multilingual/--no-multilingual", help="Enable cross-lingual retrieval and translation (default: enabled)"),
 ):
     """
     Ask a question and get an AI-generated answer using retrieval + LLM.
@@ -572,6 +576,7 @@ def ask(
         include_timing=show_timing,
         include_classification=show_classification,
         enable_query_decomposition=decompose,
+        enable_multilingual=multilingual,
     )
 
     answer = result["answer"]

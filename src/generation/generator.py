@@ -108,6 +108,7 @@ class WiQASGenerator:
         include_timing: bool = False,
         include_classification: bool = False,
         enable_query_decomposition: bool = False,
+        enable_multilingual: bool = True,
     ) -> dict[str, Any]:
         """
         Run the full WiQAS RAG pipeline and return a structured result.
@@ -180,6 +181,7 @@ class WiQASGenerator:
                 formatted=False, 
                 include_timing=True,
                 enable_query_decomposition=enable_query_decomposition,
+                enable_cross_lingual=enable_multilingual,
             )
 
             if isinstance(retrieval_result, dict) and "timing" in retrieval_result:
@@ -204,6 +206,7 @@ class WiQASGenerator:
                 enable_mmr=True, 
                 formatted=False,
                 enable_query_decomposition=enable_query_decomposition,
+                enable_cross_lingual=enable_multilingual,
             )
 
         def get_meta(r, key):
