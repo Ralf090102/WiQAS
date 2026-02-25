@@ -43,7 +43,7 @@ DEFAULT_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-os.environ["RAGAS_PARALLEL"] = "false"
+os.environ["RAGAS_PARALLEL"] = "true"
 os.environ["RAGAS_DO_NOT_TRACK"] = "true"
 
 import logging
@@ -97,7 +97,7 @@ def setup_ollama_for_ragas(model_name: str = DEFAULT_MODEL):
             api_key="ollama",  # Dummy key required by OpenAI client
             temperature=0.1,
             max_tokens=512,
-            timeout=120,
+            timeout=180,
         )
 
         # Use OpenAI embeddings pointed at Ollama
@@ -230,8 +230,14 @@ def evaluate_with_ragas(items: list[EvaluationInput], llm, embeddings, model_nam
     start_time = time.time()
 
     # More generous timeout settings
-    run_config = RunConfig(timeout=300, max_retries=1, max_wait=60, log_tenacity=False)  # 5 minutes per metric evaluation
-
+    run_config = RunConfig(
+        timeout=300, 
+        max_retries=2, 
+        max_wait=60, 
+        log_tenacity=False,
+        max_workers=4  
+    )
+    
     try:
         evaluation_result = evaluate(dataset=dataset, metrics=metrics, llm=llm, embeddings=embeddings, run_config=run_config, raise_exceptions=False)
 
