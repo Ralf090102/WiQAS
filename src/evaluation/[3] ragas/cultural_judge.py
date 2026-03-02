@@ -24,7 +24,7 @@ Input JSON Format:
     [
         {
             "question": "What is the significance of...",
-            "cultural_golden_answer": "The cultural significance is...",
+            "cultural_gold_answer": "The cultural significance is...",
             "model_answer": "According to tradition...",
             "metadata": {
                 "culture": "Filipino",
@@ -48,11 +48,13 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from tqdm import tqdm
 
 import numpy as np
 import pandas as pd
 from scipy import stats
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ============================================================================
 # Configuration
@@ -76,7 +78,7 @@ class CulturalQuestion:
     """Input data structure for cultural evaluation"""
 
     question: str
-    cultural_golden_answer: str
+    cultural_gold_answer: str
     model_answer: str
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -99,7 +101,7 @@ class EvaluationResult:
     """Complete evaluation result with outlier detection"""
 
     question: str
-    cultural_golden_answer: str
+    cultural_gold_answer: str
     model_answer: str
     judge_scores: list[JudgeScore]
     mean_score: float
@@ -137,7 +139,7 @@ class LLMJudge(ABC):
 
     @abstractmethod
     def evaluate(
-        self, question: str, cultural_golden_answer: str, model_answer: str
+        self, question: str, cultural_gold_answer: str, model_answer: str
     ) -> JudgeScore:
         """Evaluate a cultural answer and return scores"""
         pass
@@ -150,7 +152,7 @@ class OllamaJudge(LLMJudge):
 
 Question: {question}
 
-Golden Answer (Reference): {cultural_golden_answer}
+Golden Answer (Reference): {cultural_gold_answer}
 
 Model Answer (To Evaluate): {model_answer}
 
@@ -234,13 +236,13 @@ IMPORTANT:
             )
 
     def evaluate(
-        self, question: str, cultural_golden_answer: str, model_answer: str
+        self, question: str, cultural_gold_answer: str, model_answer: str
     ) -> JudgeScore:
         """Evaluate using Ollama LLM"""
         start_time = time.time()
 
         prompt = self.EVALUATION_PROMPT.format(
-            question=question, cultural_golden_answer=cultural_golden_answer, model_answer=model_answer
+            question=question, cultural_gold_answer=cultural_gold_answer, model_answer=model_answer
         )
 
         try:
@@ -376,22 +378,22 @@ class CulturalEvaluator:
         judge_scores = []
 
         # Collect scores from all judges
-        for judge in self.judges:
-            try:
-                score = judge.evaluate(
+        with ThreadPoolExecutor(max_workers=len(self.judges)) as executor:
+            futures = [
+                executor.submit(
+                    judge.evaluate,
                     question_data.question,
-                    question_data.cultural_golden_answer,
-                    question_data.model_answer,
+                    question_data.cultural_gold_answer,
+                    question_data.model_answer
                 )
-                judge_scores.append(score)
-                self.logger.info(
-                    f"  {judge.model_name}: {score.overall_score:.2f}/5 "
-                    f"(Acc: {score.accuracy_score:.1f}, Cult: {score.cultural_sensitivity_score:.1f}, Comp: {score.completeness_score:.1f})"
-                )
-                self.logger.debug(f"  Reasoning: {score.reasoning}")
-            except Exception as e:
-                self.logger.error(f"  {judge.model_name} failed: {e}")
-                continue
+                for judge in self.judges
+            ]
+
+            for future in as_completed(futures):
+                try:
+                    judge_scores.append(future.result())
+                except Exception as e:
+                    self.logger.error(f"Judge failed: {e}")
 
         if not judge_scores:
             raise RuntimeError("All judges failed to evaluate")
@@ -413,7 +415,7 @@ class CulturalEvaluator:
 
         return EvaluationResult(
             question=question_data.question,
-            cultural_golden_answer=question_data.cultural_golden_answer,
+            cultural_gold_answer=question_data.cultural_gold_answer,
             model_answer=question_data.model_answer,
             judge_scores=judge_scores,
             mean_score=mean,
@@ -424,25 +426,39 @@ class CulturalEvaluator:
             metadata=question_data.metadata,
         )
 
-    def evaluate_batch(
-        self, questions: list[CulturalQuestion]
-    ) -> list[EvaluationResult]:
-        """Evaluate multiple questions"""
+    def evaluate_batch(self, questions):
         results = []
+        total = len(questions)
 
-        for i, question in enumerate(questions, 1):
-            self.logger.info(f"\n{'='*80}")
-            self.logger.info(f"Question {i}/{len(questions)}")
-            self.logger.info(f"{'='*80}")
-
-            try:
-                result = self.evaluate_single(question)
-                results.append(result)
-            except Exception as e:
-                self.logger.error(f"Failed to evaluate question {i}: {e}")
-                continue
-
+        with tqdm(total=total, desc="Evaluating questions", unit="q") as pbar:
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                future_to_index = {}
+                
+                # Submit all tasks
+                for i, question in enumerate(questions, 1):
+                    future = executor.submit(self.evaluate_single, question)
+                    future_to_index[future] = i
+                
+                # Collect results as they complete
+                for future in as_completed(future_to_index):
+                    i = future_to_index[future]
+                    
+                    try:
+                        result = future.result()
+                        results.append(result)
+                        
+                        # Update progress bar with success
+                        pbar.set_description(f"Completed Q{i}/{total}")
+                        pbar.update(1)
+                        
+                    except Exception as e:
+                        self.logger.error(f"✗ Failed Question {i}/{total}: {e}")
+                        pbar.set_description(f"Failed Q{i}/{total}")
+                        pbar.update(1)  # Still count failed attempts
+        
         return results
+    
+    
 
 
 # ============================================================================
@@ -521,8 +537,8 @@ class DataLoader:
         """Load cultural questions from JSON file.
 
         Accepts multiple input shapes:
-          - { "question", "cultural_golden_answer", "model_answer", "metadata": {...} }
-          - { "question", "ground_truth", "model_answer", "metadata": {"cultural_golden_answer": ...} }
+          - { "question", "cultural_gold_answer", "model_answer", "metadata": {...} }
+          - { "question", "ground_truth", "model_answer", "metadata": {"cultural_gold_answer": ...} }
           - Top-level or metadata can contain the golden answer.
         """
         path = Path(filepath)
@@ -540,15 +556,15 @@ class DataLoader:
         for i, item in enumerate(data):
             metadata = item.get("metadata") if isinstance(item.get("metadata"), dict) else {}
 
-            cultural_golden_answer = metadata.get("cultural_golden_answer")
+            cultural_gold_answer = metadata.get("cultural_gold_answer")
 
             model_answer = item.get("model_answer") 
 
             missing = []
             if not item.get("question"):
                 missing.append("question")
-            if not cultural_golden_answer:
-                missing.append("cultural_golden_answer (or ground_truth / metadata.cultural_golden_answer)")
+            if not cultural_gold_answer:
+                missing.append("cultural_gold_answer (or ground_truth / metadata.cultural_gold_answer)")
             if not model_answer:
                 missing.append("model_answer")
 
@@ -559,7 +575,7 @@ class DataLoader:
             questions.append(
                 CulturalQuestion(
                     question=item["question"],
-                    cultural_golden_answer=cultural_golden_answer,
+                    cultural_gold_answer=cultural_gold_answer,
                     model_answer=model_answer,
                     metadata=metadata,
                 )
@@ -600,7 +616,7 @@ class ResultsExporter:
         for result in results:
             base_row = {
                 "question": result.question,
-                "cultural_golden_answer": result.cultural_golden_answer,
+                "cultural_gold_answer": result.cultural_gold_answer,
                 "model_answer": result.model_answer,
                 "mean_score": result.mean_score,
                 "median_score": result.median_score,
@@ -645,7 +661,7 @@ class ResultsExporter:
                 f.write(f"{'='*80}\n\n")
 
                 f.write(f"QUESTION:\n{result.question}\n\n")
-                f.write(f"GOLDEN ANSWER:\n{result.cultural_golden_answer}\n\n")
+                f.write(f"GOLDEN ANSWER:\n{result.cultural_gold_answer}\n\n")
                 f.write(f"MODEL ANSWER:\n{result.model_answer}\n\n")
 
                 f.write(f"{'─'*80}\n")
@@ -750,7 +766,7 @@ Examples:
 Input Format:
   JSON file with array of objects containing:
   - question: The cultural question
-  - cultural_golden_answer: The ideal/reference answer
+  - cultural_gold_answer: The ideal/reference answer
   - model_answer: The answer to evaluate
 
 Output Files:
