@@ -213,7 +213,7 @@ IMPORTANT:
             from langchain_community.chat_models import ChatOllama
 
             self.llm = ChatOllama(
-                model=model_name, base_url=base_url, temperature=0.3, format="json"
+                model=model_name, base_url=base_url, temperature=0.3, format="json", timeout=180
             )
             self._test_connection()
         except ImportError:
