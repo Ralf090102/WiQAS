@@ -1,7 +1,7 @@
 #!/bin/bash
 # WiQAS GCP Startup Script
-# VM: wiqas-generation-evaluation-20260120-061404
-# Location: asia-southeast1-c
+# VM: wiqas2
+# Location: asia-northeast1-c
 # GPU: 1x NVIDIA A100 40GB
 
 set -e
@@ -27,7 +27,7 @@ print_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 
 echo "=========================================="
 echo "   WiQAS GCP Startup"
-echo "   VM: wiqas-generation-evaluation"
+echo "   VM: wiqas2"
 echo "   GPU: NVIDIA A100 40GB"
 echo "=========================================="
 echo ""
@@ -84,7 +84,7 @@ fi
 
 # Get external IP
 print_info "Getting VM external IP..."
-EXTERNAL_IP="34.126.109.35"  # Pre-configured — update this when the VM IP changes
+EXTERNAL_IP="10.146.0.3"  # Pre-configured — update this when the VM IP changes
 VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
     http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip \
     2>/dev/null || echo "")
@@ -92,7 +92,7 @@ VERIFY_IP=$(curl -s -H "Metadata-Flavor: Google" \
 if [ -n "$VERIFY_IP" ]; then
     if [ "$VERIFY_IP" != "$EXTERNAL_IP" ]; then
         print_warning "External IP changed from $EXTERNAL_IP to $VERIFY_IP"
-        print_warning "Update .env CORS_ORIGINS and frontend/.env PUBLIC_BACKEND_URL"
+        print_warning "Update .env CORS_ORIGINS and frontend/.env VITE_BACKEND_URL/VITE_BACKEND_WS"
         EXTERNAL_IP="$VERIFY_IP"
     fi
     print_success "External IP: $EXTERNAL_IP"
