@@ -3,6 +3,7 @@
 	import CarbonCheckmark from "~icons/carbon/checkmark";
 	import CarbonClose from "~icons/carbon/close";
 	import CarbonOverflowMenuVertical from "~icons/carbon/overflow-menu-vertical";
+	import { env as publicEnv } from "$env/dynamic/public";
 	import { useSettingsStore } from "$lib/stores/settings.js";
 	import ModelParametersModal from "$lib/components/ModelParametersModal.svelte";
 
@@ -28,19 +29,6 @@
 	let showParametersModal = $state(false);
 	let selectedModelForSettings = $state<string>("");
 
-	type BackendModelItem = {
-		id: string;
-		name: string;
-		size: string;
-		size_bytes: number;
-		modified: string;
-		details?: {
-			format?: string;
-			family?: string;
-			parameter_size?: string;
-		};
-	};
-
 	// Models to hide (embedding models, not for generation)
 	const HIDDEN_MODELS = ["nomic-embed-text", "nomic-embed"];
 
@@ -63,8 +51,8 @@
 			const data = await response.json();
 			
 			// Filter out embedding models and map to UI format
-			const allModels: BackendModelItem[] = data.models || [];
-			const filteredModels = allModels.filter((model) => {
+			const allModels = data.models || [];
+			const filteredModels = allModels.filter((model: any) => {
 				const modelName = model.name.toLowerCase();
 				return !HIDDEN_MODELS.some(hidden => modelName.includes(hidden));
 			});
@@ -72,7 +60,7 @@
 			// Get current active model from backend
 			const activeModelName = data.current_model;
 
-			models = filteredModels.map((model) => ({
+			models = filteredModels.map((model: any) => ({
 				id: model.id,
 				name: model.name,
 				size: model.size,
@@ -122,7 +110,7 @@
 			}
 
 			// Also update settings store for consistency
-			await settings.instantSet({ activeModel: modelName });
+			settings.set({ activeModel: modelName });
 			
 			console.log(`✅ Active model updated to: ${modelName}`);
 		} catch (err) {
