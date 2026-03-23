@@ -2,7 +2,7 @@
 # WiQAS GCP Startup Script
 # VM: wiqas2
 # Location: asia-northeast1-c
-# GPU: 1x NVIDIA A100 40GB
+# GPU: 1x NVIDIA L4
 
 set -e
 
@@ -24,6 +24,31 @@ print_success() { echo -e "${GREEN}✅ $1${NC}"; }
 print_error() { echo -e "${RED}❌ $1${NC}"; }
 print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
 print_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
+
+safe_remove_path() {
+    local target="$1"
+    if [ ! -e "$target" ]; then
+        return 0
+    fi
+
+    if rm -rf "$target" 2>/dev/null; then
+        return 0
+    fi
+
+    print_warning "Could not remove $target (likely permission issue)."
+
+    # Try non-interactive sudo if available/configured (won't block for password).
+    if command -v sudo >/dev/null 2>&1; then
+        if sudo -n rm -rf "$target" 2>/dev/null; then
+            print_success "Removed $target using sudo"
+            return 0
+        fi
+    fi
+
+    print_error "Failed to remove $target due to permissions."
+    print_info "Run once: sudo chown -R $USER:$USER $WIQAS_DIR/frontend"
+    return 1
+}
 
 echo "=========================================="
 echo "   WiQAS GCP Startup"
@@ -240,7 +265,13 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
         if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
             print_warning "Build failed, trying clean install + rebuild..."
-            rm -rf node_modules package-lock.json .svelte-kit build
+
+            # Clean artifacts carefully; avoid abrupt exit from `set -e` on permission-denied files.
+            safe_remove_path "node_modules" || { cd "$WIQAS_DIR" || true; exit 1; }
+            safe_remove_path "package-lock.json" || { cd "$WIQAS_DIR" || true; exit 1; }
+            safe_remove_path ".svelte-kit" || { cd "$WIQAS_DIR" || true; exit 1; }
+            safe_remove_path "build" || { cd "$WIQAS_DIR" || true; exit 1; }
+
             npm install > "$LOG_DIR/frontend_install.log" 2>&1
             export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
             export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
