@@ -53,7 +53,7 @@ safe_remove_path() {
 echo "=========================================="
 echo "   WiQAS GCP Startup"
 echo "   VM: wiqas2"
-echo "   GPU: NVIDIA A100 40GB"
+echo "   GPU: NVIDIA L4"
 echo "=========================================="
 echo ""
 
