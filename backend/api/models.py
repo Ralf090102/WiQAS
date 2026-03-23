@@ -13,12 +13,86 @@ from backend.models.models import (
     ModelsListResponse,
     OllamaModelInfo,
 )
-from backend.dependencies import get_config_dependency
+from backend.dependencies import get_config_dependency, reset_generator
 from src.utilities.config import WiQASConfig
 from src.core.llm import check_ollama_connection
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+
+def _get_active_model(config: WiQASConfig) -> str:
+    """Return the model actually used by generation, with llm fallback."""
+    return config.rag.generator.model or config.rag.llm.model
+
+
+def _set_active_model_on_config(config: WiQASConfig, model_name: str) -> None:
+    """Keep both config branches in sync for backward compatibility."""
+    config.rag.generator.model = model_name
+    config.rag.llm.model = model_name
+
+
+def _list_ollama_model_names() -> list[str]:
+    """List installed Ollama model names, handling both dict and object responses."""
+    models_response = ollama.list()
+    models = getattr(models_response, "models", None)
+    if models is None and isinstance(models_response, dict):
+        models = models_response.get("models", [])
+    if models is None:
+        return []
+
+    names: list[str] = []
+    for model in models:
+        if isinstance(model, dict):
+            name = model.get("name") or model.get("model")
+        else:
+            name = getattr(model, "name", None) or getattr(model, "model", None)
+        if name:
+            names.append(name)
+    return names
+
+
+def _switch_active_model(config: WiQASConfig, new_model: str) -> None:
+    """Safely switch Ollama generation model and sync app config."""
+    current_model = _get_active_model(config)
+
+    if not check_ollama_connection():
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Ollama service is not running. Please start Ollama first.",
+        )
+
+    try:
+        available_models = _list_ollama_model_names()
+    except Exception as e:
+        logger.error(f"Failed to list Ollama models: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Failed to communicate with Ollama: {str(e)}",
+        )
+
+    if new_model not in available_models:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Model '{new_model}' not found in Ollama.",
+        )
+
+    if new_model == current_model:
+        _set_active_model_on_config(config, new_model)
+        return
+
+    client = ollama.Client(host=config.rag.llm.base_url)
+
+    if current_model:
+        try:
+            client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
+            logger.info(f"Unloaded previous model: {current_model}")
+        except Exception as unload_error:
+            logger.warning(f"Could not explicitly unload model {current_model}: {unload_error}")
+
+    client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
+    _set_active_model_on_config(config, new_model)
+    reset_generator()
 
 
 # ========== GET CURRENT MODEL CONFIGURATION ==========
@@ -44,7 +118,7 @@ async def get_model_config(config: WiQASConfig = Depends(get_config_dependency))
     """
     try:
         return ModelConfig(
-            model=config.rag.llm.model,
+            model=_get_active_model(config),
             base_url=config.rag.llm.base_url,
             temperature=config.rag.llm.temperature,
             top_p=config.rag.llm.top_p,
@@ -87,37 +161,13 @@ async def update_model_config(
         HTTPException: If update fails or Ollama is not available
     """
     try:
-        # Check if Ollama is running
-        if not check_ollama_connection():
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Ollama service is not running. Please start Ollama first.",
-            )
+        # Backward-compatible endpoint: perform safe switch and sync config.
+        _switch_active_model(config, request.model)
         
-        # Verify the model exists in Ollama
-        try:
-            models_response = ollama.list()
-            available_models = [m["name"] for m in models_response.get("models", [])]
-            if request.model not in available_models:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Model '{request.model}' not found in Ollama.",
-                )
-        except Exception as e:
-            logger.error(f"Failed to list Ollama models: {e}", exc_info=True)
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail=f"Failed to communicate with Ollama: {str(e)}",
-            )
-
-        # Update the config
-        config.rag.llm.model = request.model
-        config.save()
-        
-        logger.info(f"Active LLM model updated to: {request.model}")
+        logger.info(f"✅ Updated active LLM model to: {request.model}")
         
         return ModelConfig(
-            model=config.rag.llm.model,
+            model=_get_active_model(config),
             base_url=config.rag.llm.base_url,
             temperature=config.rag.llm.temperature,
             top_p=config.rag.llm.top_p,
@@ -164,38 +214,15 @@ async def set_active_model(
         request: Request containing the name of the model to activate.
         config: Singleton config instance (injected).
     """
-    new_model = request.model
-    current_model = config.rag.llm.model
-    
-    if new_model == current_model:
-        logger.info(f"Model '{new_model}' is already active. No change needed.")
-        return
-
     try:
-        client = ollama.Client(host=config.rag.llm.base_url)
-        
-        # 1. Unload the current model if it's different from the new one
-        if current_model and new_model != current_model:
-            logger.info(f"Unloading current model: {current_model}")
-            try:
-                # Setting keep_alive to 0 unloads the model after the request
-                client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
-            except Exception as e:
-                # This might fail if the model wasn't loaded, which is fine.
-                logger.warning(f"Could not explicitly unload model {current_model}: {e}")
+        _switch_active_model(config, request.model)
+        logger.info(f"Successfully activated new model: {request.model}")
 
-        # 2. Load the new model and keep it in memory
-        logger.info(f"Loading and activating new model: {new_model}")
-        client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
-
-        # 3. Update the configuration
-        config.rag.llm.model = new_model
-        config.save()
-        
-        logger.info(f"Successfully activated new model: {new_model}")
+    except HTTPException:
+        raise
 
     except Exception as e:
-        logger.error(f"Failed to set active model to '{new_model}': {e}", exc_info=True)
+        logger.error(f"Failed to set active model to '{request.model}': {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to switch model in Ollama: {str(e)}",
@@ -247,6 +274,7 @@ async def update_llm_parameters(
                     detail="Temperature must be between 0.0 and 2.0"
                 )
             config.rag.llm.temperature = request.temperature
+            config.rag.generator.temperature = request.temperature
             logger.info(f"Updated temperature to: {request.temperature}")
         
         if request.top_p is not None:
@@ -265,6 +293,7 @@ async def update_llm_parameters(
                     detail="max_tokens must be at least 1 (or null for unlimited)"
                 )
             config.rag.llm.max_tokens = request.max_tokens
+            config.rag.generator.max_tokens = request.max_tokens
             logger.info(f"Updated max_tokens to: {request.max_tokens}")
         
         if request.timeout is not None:
@@ -274,6 +303,7 @@ async def update_llm_parameters(
                     detail="timeout must be at least 1 second"
                 )
             config.rag.llm.timeout = request.timeout
+            config.rag.generator.timeout = request.timeout
             logger.info(f"Updated timeout to: {request.timeout}")
         
         if request.system_prompt is not None:
@@ -286,10 +316,11 @@ async def update_llm_parameters(
             logger.info(f"Updated system_prompt")
         
         logger.info("✅ LLM configuration parameters updated successfully")
+        reset_generator()
         
         # Return complete updated configuration
         return ModelConfig(
-            model=config.rag.llm.model,
+            model=_get_active_model(config),
             base_url=config.rag.llm.base_url,
             temperature=config.rag.llm.temperature,
             top_p=config.rag.llm.top_p,
@@ -345,7 +376,7 @@ async def list_models(config: WiQASConfig = Depends(get_config_dependency)):
             )
         
         # Get current active model from singleton config
-        current_model = config.rag.llm.model
+        current_model = _get_active_model(config)
         
         # Get models from Ollama
         models_response = ollama.list()

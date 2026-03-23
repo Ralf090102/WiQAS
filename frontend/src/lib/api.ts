@@ -380,8 +380,8 @@ export const api = {
 
 		// Update active model
 		updateModel: (model: string) =>
-			fetchAPI<ModelConfig>('/api/models/config', {
-				method: 'PATCH',
+			fetchAPI<void>('/api/models/set-active', {
+				method: 'POST',
 				body: JSON.stringify({ model }),
 			}),
 
