@@ -2,7 +2,7 @@
 # WiQAS GCP Startup Script
 # VM: wiqas2
 # Location: asia-northeast1-c
-# GPU: 1x NVIDIA L4
+# GPU: 1x NVIDIA L4 40GB
 
 set -e
 
@@ -53,7 +53,7 @@ safe_remove_path() {
 echo "=========================================="
 echo "   WiQAS GCP Startup"
 echo "   VM: wiqas2"
-echo "   GPU: NVIDIA L4"
+echo "   GPU: NVIDIA L4 40GB"
 echo "=========================================="
 echo ""
 
