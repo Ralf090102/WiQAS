@@ -2,7 +2,7 @@
 # WiQAS GCP Startup Script
 # VM: wiqas2
 # Location: asia-northeast1-c
-# GPU: 1x NVIDIA A100 40GB
+# GPU: 1x NVIDIA L4 40GB
 
 set -e
 
@@ -28,7 +28,7 @@ print_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 echo "=========================================="
 echo "   WiQAS GCP Startup"
 echo "   VM: wiqas2"
-echo "   GPU: NVIDIA A100 40GB"
+echo "   GPU: NVIDIA L4 40GB"
 echo "=========================================="
 echo ""
 
