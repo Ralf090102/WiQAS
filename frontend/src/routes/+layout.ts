@@ -2,9 +2,7 @@ import { UrlDependency } from "$lib/types/UrlDependency";
 import type { ConvSidebar } from "$lib/types/ConvSidebar";
 import { browser } from "$app/environment";
 
-const BACKEND_URL = browser
-	? (import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000')
-	: (import.meta.env.VITE_BACKEND_URL_SSR || 'http://127.0.0.1:8000');
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 export const load = async ({ depends, fetch }) => {
 	depends(UrlDependency.ConversationList);
@@ -14,14 +12,16 @@ export const load = async ({ depends, fetch }) => {
 
 	// Fetch actual active model from backend
 	let activeModelName = 'mistral:latest';
-	try {
-		const response = await fetch(`${BACKEND_URL}/api/models/config`);
-		if (response.ok) {
-			const config = await response.json();
-			activeModelName = config.model;
+	if (browser) {
+		try {
+			const response = await fetch(`${BACKEND_URL}/api/models/config`);
+			if (response.ok) {
+				const config = await response.json();
+				activeModelName = config.model;
+			}
+		} catch (err) {
+			console.error('Failed to load model config:', err);
 		}
-	} catch (err) {
-		console.error('Failed to load model config:', err);
 	}
 
 	// Create model entry based on active model

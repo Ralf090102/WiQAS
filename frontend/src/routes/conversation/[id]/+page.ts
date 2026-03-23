@@ -1,12 +1,9 @@
 import { UrlDependency } from "$lib/types/UrlDependency";
 import { redirect } from "@sveltejs/kit";
 import { base } from "$app/paths";
-import { browser } from "$app/environment";
 import type { PageLoad } from "./$types";
 
-const BACKEND_URL = browser
-	? (import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000')
-	: (import.meta.env.VITE_BACKEND_URL_SSR || 'http://127.0.0.1:8000');
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 export const load: PageLoad = async ({ params, depends, fetch, parent }) => {
 	depends(UrlDependency.Conversation);
