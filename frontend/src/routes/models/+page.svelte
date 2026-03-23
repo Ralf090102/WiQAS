@@ -85,9 +85,9 @@
 
 	async function setActiveModel(modelName: string) {
 		try {
-			// Update backend configuration
-			const response = await fetch(`${BACKEND_URL}/api/models/config`, {
-				method: 'PATCH',
+			// Use the new endpoint to safely swap models
+			const response = await fetch(`${BACKEND_URL}/api/models/set-active`, {
+				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -96,13 +96,13 @@
 
 			if (!response.ok) {
 				const errorData = await response.json();
-				throw new Error(errorData.detail || "Failed to update model");
+				throw new Error(errorData.detail || "Failed to set active model");
 			}
 
-			// Deactivate all models
+			// Deactivate all models in the UI
 			models = models.map(m => ({ ...m, active: false }));
 			
-			// Activate the selected model
+			// Activate the selected model in the UI
 			const selectedModel = models.find(m => m.name === modelName);
 			if (selectedModel) {
 				selectedModel.active = true;

@@ -97,6 +97,27 @@ fi
 print_info "Available Ollama models:"
 ollama list | grep -E "(NAME|gemma|mistral|llama)" || print_warning "No models found"
 
+# Pre-load and keep the embedding model in memory to prevent OOM errors on requests
+print_info "Pre-loading embedding model (BAAI/bge-m3) into GPU memory..."
+# The 'keep_alive: -1' parameter tells Ollama to keep this model loaded indefinitely.
+# This is critical for preventing out-of-memory errors when the API requests
+# both an embedding model and a generation model simultaneously.
+curl -s http://localhost:11434/api/generate -d '{
+  "model": "BAAI/bge-m3",
+  "prompt": "pre-load",
+  "stream": false,
+  "keep_alive": -1
+}' > /dev/null 2>&1 &
+# Give it a moment to start loading
+sleep 5 
+
+# Verify it's loading/loaded
+if ollama ps | grep -q "BAAI/bge-m3"; then
+    print_success "Embedding model is loaded and kept in memory."
+else
+    print_warning "Embedding model is loading in the background or failed. Check 'ollama ps'."
+fi
+
 # Check .env file
 if [ ! -f ".env" ]; then
     print_error ".env file not found!"

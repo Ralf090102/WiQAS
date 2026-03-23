@@ -97,29 +97,24 @@ async def update_model_config(
         # Verify the model exists in Ollama
         try:
             models_response = ollama.list()
-            available_models = []
-            
-            if hasattr(models_response, 'models'):
-                available_models = [
-                    getattr(model, 'model', getattr(model, 'name', ''))
-                    for model in models_response.models
-                ]
-            
+            available_models = [m["name"] for m in models_response.get("models", [])]
             if request.model not in available_models:
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Model '{request.model}' not found in Ollama. Available models: {', '.join(available_models)}",
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"Model '{request.model}' not found in Ollama.",
                 )
-        except HTTPException:
-            raise
         except Exception as e:
-            logger.warning(f"Could not verify model existence: {e}")
-            # Continue anyway - user might know better
-        
-        # Update the singleton config instance
+            logger.error(f"Failed to list Ollama models: {e}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Failed to communicate with Ollama: {str(e)}",
+            )
+
+        # Update the config
         config.rag.llm.model = request.model
+        config.save()
         
-        logger.info(f"✅ Updated active LLM model to: {request.model}")
+        logger.info(f"Active LLM model updated to: {request.model}")
         
         return ModelConfig(
             model=config.rag.llm.model,
@@ -130,14 +125,80 @@ async def update_model_config(
             timeout=config.rag.llm.timeout,
             system_prompt=config.rag.llm.system_prompt,
         )
-        
+
     except HTTPException:
-        raise
+        raise  # Re-raise HTTPException to preserve status code and detail
     except Exception as e:
         logger.error(f"Failed to update model configuration: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to update model configuration: {str(e)}",
+            detail=f"An unexpected error occurred: {str(e)}",
+        )
+
+
+# ========== SET ACTIVE MODEL (UNLOAD/LOAD) ==========
+class SetActiveModelRequest(UpdateModelRequest):
+    pass
+
+@router.post(
+    "/api/models/set-active",
+    summary="Set the active generation model",
+    description="Safely switches the active LLM by unloading the current model before loading the new one to prevent memory overload.",
+    tags=["Models"],
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def set_active_model(
+    request: SetActiveModelRequest,
+    config: WiQASConfig = Depends(get_config_dependency)
+):
+    """
+    Sets the active generation model, ensuring only one is loaded at a time.
+    
+    This endpoint prevents GPU out-of-memory errors by:
+    1. Identifying the currently loaded generation model.
+    2. Sending a request to Ollama to unload it (`keep_alive`: 0).
+    3. Sending a request to load the new model and keep it in memory (`keep_alive`: -1).
+    4. Updating the application's configuration to reflect the change.
+    
+    Args:
+        request: Request containing the name of the model to activate.
+        config: Singleton config instance (injected).
+    """
+    new_model = request.model
+    current_model = config.rag.llm.model
+    
+    if new_model == current_model:
+        logger.info(f"Model '{new_model}' is already active. No change needed.")
+        return
+
+    try:
+        client = ollama.Client(host=config.rag.llm.base_url)
+        
+        # 1. Unload the current model if it's different from the new one
+        if current_model and new_model != current_model:
+            logger.info(f"Unloading current model: {current_model}")
+            try:
+                # Setting keep_alive to 0 unloads the model after the request
+                client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
+            except Exception as e:
+                # This might fail if the model wasn't loaded, which is fine.
+                logger.warning(f"Could not explicitly unload model {current_model}: {e}")
+
+        # 2. Load the new model and keep it in memory
+        logger.info(f"Loading and activating new model: {new_model}")
+        client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
+
+        # 3. Update the configuration
+        config.rag.llm.model = new_model
+        config.save()
+        
+        logger.info(f"Successfully activated new model: {new_model}")
+
+    except Exception as e:
+        logger.error(f"Failed to set active model to '{new_model}': {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to switch model in Ollama: {str(e)}",
         )
 
 
