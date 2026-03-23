@@ -228,6 +228,11 @@ async def ask_question(
         logger.info(
             f"Ask request: '{query}' (k={k}, sources={include_sources}, verbose={verbose})"
         )
+        logger.info(
+            "Ask runtime model state: llm.model=%s, generator.model=%s",
+            config.rag.llm.model,
+            config.rag.generator.model,
+        )
         
         # Generate RAG response using WiQAS generator.generate()
         result = generator.generate(

@@ -34,8 +34,8 @@ def initialize_resources():
     
     logger.info("Initializing shared resources...")
     
-    # 1. Load configuration
-    _config = get_config()
+    # 1. Load configuration from environment (.env values)
+    _config = get_config(from_env=True)
     logger.info(f"✓ Configuration loaded (version: {_config.version})")
     
     # 2. Pre-warm retriever (optional - can be lazy loaded)
@@ -90,7 +90,7 @@ def get_config_dependency() -> WiQASConfig:
     
     if _config is None:
         # Lazy initialization
-        _config = get_config()
+        _config = get_config(from_env=True)
     
     return _config
 

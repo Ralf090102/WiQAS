@@ -41,6 +41,15 @@ class GPUManager:
     def _detect_gpu(self) -> None:
         """Detect available GPU and determine if it's NVIDIA."""
         try:
+            # Respect explicit config switch: allow keeping GPU for Ollama only.
+            if self.config and hasattr(self.config, "gpu"):
+                if not bool(getattr(self.config.gpu, "enabled", True)):
+                    log_info("GPU disabled by configuration (WIQAS_GPU_ENABLED=false), using CPU", config=self.config)
+                    self.device = torch.device("cpu")
+                    self.cuda_available = False
+                    self.is_nvidia_gpu = False
+                    return
+
             # Check if CUDA is available
             self.cuda_available = torch.cuda.is_available()
 
