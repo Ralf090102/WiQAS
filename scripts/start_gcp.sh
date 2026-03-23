@@ -65,6 +65,21 @@ print_success "Changed to $WIQAS_DIR"
 source "$VENV_PATH/bin/activate" || { print_error "Failed to activate venv"; exit 1; }
 print_success "Activated virtual environment"
 
+# Resolve Python executable from venv explicitly (avoid PATH ambiguity / PEP 668 issues)
+VENV_PYTHON="$VENV_PATH/bin/python"
+if [ ! -x "$VENV_PYTHON" ]; then
+    print_error "Virtualenv python not found at $VENV_PYTHON"
+    print_info "Recreate venv: python3 -m venv $VENV_PATH"
+    exit 1
+fi
+
+# Validate uvicorn is installed in the active virtualenv
+if ! "$VENV_PYTHON" -c "import uvicorn" >/dev/null 2>&1; then
+    print_error "uvicorn is not installed in $VENV_PATH"
+    print_info "Install deps with: $VENV_PYTHON -m pip install -r $WIQAS_DIR/requirements.txt"
+    exit 1
+fi
+
 # Create log directory
 mkdir -p "$LOG_DIR"
 
@@ -210,7 +225,7 @@ fi
 # Truncate backend log so old shutdown messages don't appear
 > "$LOG_DIR/backend.log"
 
-nohup uvicorn backend.app:app \
+nohup "$VENV_PYTHON" -m uvicorn backend.app:app \
     --host 0.0.0.0 \
     --port $BACKEND_PORT \
     --log-level info \
