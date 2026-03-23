@@ -72,7 +72,6 @@
 
 			// If no model is active but we have models, activate the first one
 			if (models.length > 0 && !models.some(m => m.active)) {
-				models[0].active = true;
 				await setActiveModel(models[0].name);
 			}
 		} catch (err) {
