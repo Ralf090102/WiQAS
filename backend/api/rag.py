@@ -249,7 +249,7 @@ async def ask_question(
             query_type=None,  # Auto-detected
             language=None,  # Auto-detected
             show_contexts=include_sources,
-            include_timing=verbose,
+            include_timing=True,  # Always compute timing for frontend display
             include_classification=False,
             enable_query_decomposition=enable_query_decomposition,
             enable_multilingual=enable_multilingual,
@@ -303,9 +303,9 @@ async def ask_question(
                     )
                 )
         
-        # Extract timing breakdown if verbose mode (matches run.py --verbose)
+        # Extract timing breakdown (always includes timing for better UX)
         timing_breakdown = None
-        if verbose and result.get("timing"):
+        if result.get("timing"):
             timing_obj = result["timing"]
             timing_breakdown = TimingBreakdown(
                 embedding_time=getattr(timing_obj, "embedding_time", 0.0),
