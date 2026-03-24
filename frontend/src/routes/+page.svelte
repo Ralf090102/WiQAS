@@ -54,6 +54,7 @@
 				enable_reranking: enableReranking,
 				enable_multilingual: enableMultilingual,
 				enable_query_decomposition: enableQueryDecomposition,
+				verbose: true,
 			});
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Failed to get answer';

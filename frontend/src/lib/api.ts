@@ -239,6 +239,7 @@ export interface RAGRequest {
 	enable_cross_lingual_retrieval?: boolean;
 	enable_multilingual?: boolean;
 	enable_query_decomposition?: boolean;
+	verbose?: boolean;
 }
 
 export interface RAGResponse {

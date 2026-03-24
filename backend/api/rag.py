@@ -249,7 +249,7 @@ async def ask_question(
             query_type=None,  # Auto-detected
             language=None,  # Auto-detected
             show_contexts=include_sources,
-            include_timing=True,  # Always compute timing for frontend display
+            include_timing=verbose,
             include_classification=False,
             enable_query_decomposition=enable_query_decomposition,
             enable_multilingual=enable_multilingual,
