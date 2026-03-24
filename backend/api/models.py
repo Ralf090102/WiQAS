@@ -14,7 +14,7 @@ from backend.models.models import (
     OllamaModelInfo,
     SwitchActiveModelResponse,
 )
-from backend.dependencies import get_config_dependency
+from backend.dependencies import get_config_dependency, reset_generator
 from src.utilities.config import WiQASConfig
 from src.core.llm import check_ollama_connection, switch_active_ollama_model
 
@@ -111,9 +111,10 @@ async def update_model_config(
                 detail=f"Failed to communicate with Ollama: {str(e)}",
             )
 
-        # Update the config
+        # Update in-memory runtime config
         config.rag.llm.model = request.model
-        config.save()
+        config.rag.generator.model = request.model
+        reset_generator()
         
         logger.info(f"Active LLM model updated to: {request.model}")
         
@@ -164,10 +165,11 @@ async def switch_active_model_endpoint(
             config=config,
         )
 
-        # Persist active model for future requests/process restarts
+        # Update in-memory runtime config and refresh generator singleton
         if not result["already_active"]:
             config.rag.llm.model = request.model
-            config.save()
+            config.rag.generator.model = request.model
+            reset_generator()
 
         logger.info(f"Active model switch completed: {result['message']}")
 
