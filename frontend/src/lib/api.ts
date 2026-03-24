@@ -207,9 +207,13 @@ export interface TimingBreakdown {
 	language_detection_time?: number;
 	translation_time?: number;
 	query_decomposition_time?: number;
-	retrieval_time: number;
+	embedding_time?: number;
+	search_time?: number;
 	reranking_time?: number;
-	generation_time: number;
+	mmr_time?: number;
+	context_preparation_time?: number;
+	prompt_building_time?: number;
+	llm_generation_time?: number;
 	total_time: number;
 }
 

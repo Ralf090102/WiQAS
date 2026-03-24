@@ -97,7 +97,7 @@
 		};
 
 		const t = timing as ExtendedTiming;
-		const candidate = t.total_time ?? t.llm_generation_time ?? t.generation_time;
+		const candidate = t.total_time ?? t.llm_generation_time;
 
 		return typeof candidate === 'number' && Number.isFinite(candidate) ? candidate : null;
 	}
@@ -273,7 +273,7 @@
 								Detailed Timing
 							</h3>
 							<div class="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
-								{#if response.timing.query_decomposition_time}
+								{#if response.timing.query_decomposition_time && response.timing.query_decomposition_time > 0}
 									<div>
 										<div class="text-gray-500">Decomposition</div>
 										<div class="font-mono font-semibold text-gray-900 dark:text-white">
@@ -281,13 +281,31 @@
 										</div>
 									</div>
 								{/if}
-								<div>
-									<div class="text-gray-500">Retrieval</div>
-									<div class="font-mono font-semibold text-gray-900 dark:text-white">
-										{response.timing.retrieval_time.toFixed(3)}s
+								{#if response.timing.language_detection_time && response.timing.language_detection_time > 0}
+									<div>
+										<div class="text-gray-500">Language Detection</div>
+										<div class="font-mono font-semibold text-gray-900 dark:text-white">
+											{response.timing.language_detection_time.toFixed(3)}s
+										</div>
 									</div>
-								</div>
-								{#if response.timing.reranking_time}
+								{/if}
+								{#if response.timing.embedding_time && response.timing.embedding_time > 0}
+									<div>
+										<div class="text-gray-500">Embedding</div>
+										<div class="font-mono font-semibold text-gray-900 dark:text-white">
+											{response.timing.embedding_time.toFixed(3)}s
+										</div>
+									</div>
+								{/if}
+								{#if response.timing.search_time && response.timing.search_time > 0}
+									<div>
+										<div class="text-gray-500">Search</div>
+										<div class="font-mono font-semibold text-gray-900 dark:text-white">
+											{response.timing.search_time.toFixed(3)}s
+										</div>
+									</div>
+								{/if}
+								{#if response.timing.reranking_time && response.timing.reranking_time > 0}
 									<div>
 										<div class="text-gray-500">Reranking</div>
 										<div class="font-mono font-semibold text-gray-900 dark:text-white">
@@ -295,12 +313,14 @@
 										</div>
 									</div>
 								{/if}
-								<div>
-									<div class="text-gray-500">Generation</div>
-									<div class="font-mono font-semibold text-gray-900 dark:text-white">
-										{response.timing.generation_time.toFixed(3)}s
+								{#if response.timing.llm_generation_time && response.timing.llm_generation_time > 0}
+									<div>
+										<div class="text-gray-500">Generation</div>
+										<div class="font-mono font-semibold text-gray-900 dark:text-white">
+											{response.timing.llm_generation_time.toFixed(3)}s
+										</div>
 									</div>
-								</div>
+								{/if}
 								<div class="font-semibold">
 									<div class="text-gray-500">Total</div>
 									<div class="font-mono text-blue-600 dark:text-blue-400">
