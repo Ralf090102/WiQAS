@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { api, type RAGResponse, type RetrievalResult } from '$lib/api';
+	import { api, type RAGResponse } from '$lib/api';
 	import CarbonSend from '~icons/carbon/send-alt';
 	import CarbonReset from '~icons/carbon/reset';
 	import CarbonDocument from '~icons/carbon/document';
@@ -63,6 +62,24 @@
 		query = example;
 		handleSubmit();
 	}
+
+	function getInferenceTimeSeconds(timing: RAGResponse['timing'] | undefined): number | null {
+		if (!timing) return null;
+
+		type ExtendedTiming = RAGResponse['timing'] & {
+			llm_generation_time?: number;
+		};
+
+		const t = timing as ExtendedTiming;
+		const candidate = t.total_time ?? t.llm_generation_time ?? t.generation_time;
+
+		return typeof candidate === 'number' && Number.isFinite(candidate) ? candidate : null;
+	}
+
+	function getInferenceTimeLabel(timing: RAGResponse['timing'] | undefined): string | null {
+		const seconds = getInferenceTimeSeconds(timing);
+		return seconds === null ? null : `${seconds.toFixed(3)}s`;
+	}
 </script>
 
 <svelte:head>
@@ -107,9 +124,9 @@
 							Try these examples:
 						</h3>
 						<div class="flex flex-wrap justify-center gap-3">
-							{#each examples as example}
+							{#each examples as example (example)}
 								<button
-									on:click={() => useExample(example)}
+									onclick={() => useExample(example)}
 									class="group rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 								>
 									{example}
@@ -166,6 +183,20 @@
 						</div>
 					</div>
 
+					<!-- Inference Time -->
+					{#if getInferenceTimeLabel(response.timing)}
+						<div class="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 shadow-sm dark:border-blue-800 dark:from-blue-950/30 dark:to-indigo-950/30">
+							<div class="flex items-center justify-between">
+								<div class="text-sm font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">
+									Inference Time
+								</div>
+								<div class="rounded-full bg-blue-100 px-3 py-1 font-mono text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+									{getInferenceTimeLabel(response.timing)}
+								</div>
+							</div>
+						</div>
+					{/if}
+
 					<!-- Sources -->
 					{#if response.sources && response.sources.length > 0}
 					<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
@@ -174,9 +205,10 @@
 							Sources ({response.total_sources})
 						</h3>
 						<div class="space-y-3">
-							{#each response.sources as source, idx}
-								{@const rawPath = source.metadata?.source_file || source.metadata?.source || ''}
-								{@const sourceName = source.metadata?.title || rawPath.split('/').pop()?.split('\\').pop() || `Source ${idx + 1}`}
+							{#each response.sources as source, idx (`${source.metadata?.source ?? source.metadata?.source_file ?? 'source'}-${idx}`)}
+								{@const rawPath = String(source.metadata?.source_file ?? source.metadata?.source ?? '')}
+								{@const sourceTitle = source.metadata?.title ? String(source.metadata.title) : ''}
+								{@const sourceName = sourceTitle || rawPath.split('/').pop()?.split('\\').pop() || `Source ${idx + 1}`}
 								<div class="group rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-slate-50 p-4 transition-all hover:border-blue-200 hover:shadow-md dark:border-gray-700 dark:from-gray-900 dark:to-gray-800 dark:hover:border-blue-800">
 									<div class="mb-3 flex items-start justify-between">
 										<div class="flex items-center gap-2">
@@ -212,7 +244,7 @@
 							<svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
 							</svg>
-								Performance
+								Detailed Timing
 							</h3>
 							<div class="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
 								{#if response.timing.query_decomposition_time}
@@ -256,7 +288,7 @@
 					<!-- Reset Button -->
 					<div class="flex justify-center">
 						<button
-							on:click={handleReset}
+							onclick={handleReset}
 							class="flex items-center gap-2 rounded-xl border border-blue-200 bg-gradient-to-r from-white to-blue-50 px-6 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:shadow-md dark:border-gray-700 dark:from-gray-800 dark:to-gray-700 dark:text-gray-300 dark:hover:border-blue-700"
 						>
 							<CarbonReset class="size-4" />
@@ -292,14 +324,14 @@
 			<div class="relative">
 				<textarea
 					bind:value={query}
-					on:keydown={handleKeydown}
+					onkeydown={handleKeydown}
 					placeholder="Ask a question in English or Filipino..."
 					rows="1"
 					disabled={loading}
 					class="w-full resize-none rounded-xl border-2 border-gray-200 bg-white px-5 py-3 pr-14 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-blue-600"
 				></textarea>
 				<button
-					on:click={handleSubmit}
+					onclick={handleSubmit}
 					disabled={loading || !query.trim()}
 					aria-label="Send"
 					class="absolute right-1 top-1 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/30 transition-transform hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
