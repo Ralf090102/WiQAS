@@ -237,6 +237,7 @@ export interface RAGRequest {
 	include_sources?: boolean;
 	enable_reranking?: boolean;
 	enable_cross_lingual_retrieval?: boolean;
+	enable_multilingual?: boolean;
 	enable_query_decomposition?: boolean;
 }
 

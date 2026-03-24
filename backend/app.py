@@ -146,7 +146,7 @@ async def root():
             "health": "/health",
             "status": "/api/status",
             "config": "/api/config",
-            "rag": "/api/ask, /api/query",
+            "rag": "/api/ask, /api/ask/configurable, /api/query",
             "ingestion": "/api/ingest/*",
         },
     }

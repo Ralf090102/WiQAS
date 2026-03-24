@@ -200,6 +200,14 @@ class AskRequest(BaseModel):
         default=False,
         description="Include detailed timing breakdown (matches run.py --verbose flag)",
     )
+    enable_query_decomposition: Optional[bool] = Field(
+        default=None,
+        description="Enable query decomposition during retrieval (uses API default behavior if None)",
+    )
+    enable_multilingual: Optional[bool] = Field(
+        default=None,
+        description="Enable multilingual/cross-lingual retrieval and translation (uses API default behavior if None)",
+    )
 
     @field_validator("query")
     @classmethod
@@ -219,6 +227,33 @@ class AskRequest(BaseModel):
                 "temperature": None,  # Uses config default
                 "max_tokens": None,  # Uses config default
                 "verbose": False,
+                "enable_query_decomposition": None,
+                "enable_multilingual": None,
+            }
+        }
+
+
+class AskWithPipelineRequest(AskRequest):
+    """Request model for configurable RAG ask with explicit pipeline controls."""
+
+    enable_query_decomposition: bool = Field(
+        default=False,
+        description="Enable query decomposition during retrieval",
+    )
+    enable_multilingual: bool = Field(
+        default=True,
+        description="Enable multilingual/cross-lingual retrieval and translation",
+    )
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "query": "Explain machine learning in simple terms",
+                "k": 5,
+                "include_sources": True,
+                "verbose": True,
+                "enable_query_decomposition": False,
+                "enable_multilingual": False,
             }
         }
 

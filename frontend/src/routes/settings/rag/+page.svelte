@@ -25,6 +25,8 @@
 			default_k: 5,
 			max_k: 20,
 			similarity_threshold: 0.2,
+			enable_query_decomposition: false,
+			enable_cross_lingual_retrieval: true,
 			enable_reranking: true,
 			enable_hybrid_search: true,
 			semantic_weight: 0.8,
@@ -475,6 +477,24 @@
 				</div>
 
 				<div class="flex flex-wrap gap-4">
+					<label class="flex items-center gap-2 cursor-pointer">
+						<input
+							type="checkbox"
+							bind:checked={settings.retrieval.enable_query_decomposition}
+							class="size-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500/20"
+						/>
+						<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Query Decomposition</span>
+					</label>
+
+					<label class="flex items-center gap-2 cursor-pointer">
+						<input
+							type="checkbox"
+							bind:checked={settings.retrieval.enable_cross_lingual_retrieval}
+							class="size-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500/20"
+						/>
+						<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Multilingual Retrieval</span>
+					</label>
+
 					<label class="flex items-center gap-2 cursor-pointer">
 						<input
 							type="checkbox"

@@ -86,6 +86,8 @@ class RetrievalSettings(BaseModel):
     default_k: int = Field(..., description="Default number of documents to retrieve")
     max_k: int = Field(..., description="Maximum allowed k value")
     similarity_threshold: float = Field(..., description="Minimum similarity score")
+    enable_query_decomposition: bool = Field(..., description="Enable query decomposition")
+    enable_cross_lingual_retrieval: bool = Field(..., description="Enable multilingual/cross-lingual retrieval")
     enable_reranking: bool = Field(..., description="Enable cross-encoder reranking")
     enable_hybrid_search: bool = Field(..., description="Enable hybrid search (semantic + keyword)")
     semantic_weight: float = Field(..., description="Weight for semantic search (0-1)")
@@ -101,6 +103,8 @@ class RetrievalSettings(BaseModel):
                 "default_k": 5,
                 "max_k": 20,
                 "similarity_threshold": 0.2,
+                "enable_query_decomposition": True,
+                "enable_cross_lingual_retrieval": True,
                 "enable_reranking": True,
                 "enable_hybrid_search": True,
                 "semantic_weight": 0.8,
@@ -119,6 +123,8 @@ class RetrievalSettingsUpdate(BaseModel):
     default_k: Optional[int] = Field(None, ge=1, le=50, description="Default k (1-50)")
     max_k: Optional[int] = Field(None, ge=1, le=100, description="Max k (1-100)")
     similarity_threshold: Optional[float] = Field(None, ge=0.0, le=1.0, description="Similarity threshold")
+    enable_query_decomposition: Optional[bool] = Field(None, description="Enable query decomposition")
+    enable_cross_lingual_retrieval: Optional[bool] = Field(None, description="Enable multilingual/cross-lingual retrieval")
     enable_reranking: Optional[bool] = Field(None, description="Enable reranking")
     enable_hybrid_search: Optional[bool] = Field(None, description="Enable hybrid search")
     semantic_weight: Optional[float] = Field(None, ge=0.0, le=1.0, description="Semantic weight (0-1)")

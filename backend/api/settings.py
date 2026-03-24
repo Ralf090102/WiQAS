@@ -75,6 +75,8 @@ def _config_to_settings_response(config: WiQASConfig) -> SettingsResponse:
             default_k=config.rag.retrieval.default_k,
             max_k=config.rag.retrieval.max_k,
             similarity_threshold=config.rag.retrieval.similarity_threshold,
+            enable_query_decomposition=config.rag.query_decomposition.enabled,
+            enable_cross_lingual_retrieval=config.rag.multilingual.enable_cross_lingual,
             enable_reranking=config.rag.retrieval.enable_reranking,
             enable_hybrid_search=config.rag.retrieval.enable_hybrid_search,
             semantic_weight=config.rag.retrieval.semantic_weight,
@@ -173,6 +175,18 @@ def _apply_settings_updates(
             config.rag.retrieval.max_k = updates.retrieval.max_k
         if updates.retrieval.similarity_threshold is not None:
             config.rag.retrieval.similarity_threshold = updates.retrieval.similarity_threshold
+        if updates.retrieval.enable_query_decomposition is not None:
+            config.rag.query_decomposition.enabled = updates.retrieval.enable_query_decomposition
+            logger.info(
+                "Query decomposition %s",
+                "enabled" if updates.retrieval.enable_query_decomposition else "disabled",
+            )
+        if updates.retrieval.enable_cross_lingual_retrieval is not None:
+            config.rag.multilingual.enable_cross_lingual = updates.retrieval.enable_cross_lingual_retrieval
+            logger.info(
+                "Cross-lingual retrieval %s",
+                "enabled" if updates.retrieval.enable_cross_lingual_retrieval else "disabled",
+            )
         if updates.retrieval.enable_reranking is not None:
             config.rag.retrieval.enable_reranking = updates.retrieval.enable_reranking
             logger.info(f"Reranking {'enabled' if updates.retrieval.enable_reranking else 'disabled'}")

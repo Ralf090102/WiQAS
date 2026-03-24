@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { api, type RAGResponse } from '$lib/api';
+	import { onMount } from 'svelte';
 	import CarbonSend from '~icons/carbon/send-alt';
 	import CarbonReset from '~icons/carbon/reset';
 	import CarbonDocument from '~icons/carbon/document';
@@ -14,6 +15,29 @@
 	let includeSourcesOption = $state(true);
 	let enableReranking = $state(true);
 	let enableQueryDecomposition = $state(false);
+	let enableMultilingual = $state(true);
+
+	onMount(async () => {
+		try {
+			const retrieval = await api.settings.getCategory('retrieval');
+			if ('default_k' in retrieval) {
+				if (typeof retrieval.default_k === 'number') {
+					k = retrieval.default_k;
+				}
+				if (typeof retrieval.enable_reranking === 'boolean') {
+					enableReranking = retrieval.enable_reranking;
+				}
+				if (typeof retrieval.enable_query_decomposition === 'boolean') {
+					enableQueryDecomposition = retrieval.enable_query_decomposition;
+				}
+				if (typeof retrieval.enable_cross_lingual_retrieval === 'boolean') {
+					enableMultilingual = retrieval.enable_cross_lingual_retrieval;
+				}
+			}
+		} catch (err) {
+			console.warn('Failed to load retrieval settings for ask defaults:', err);
+		}
+	});
 
 	async function handleSubmit() {
 		if (!query.trim() || loading) return;
@@ -28,6 +52,7 @@
 				k,
 				include_sources: includeSourcesOption,
 				enable_reranking: enableReranking,
+				enable_multilingual: enableMultilingual,
 				enable_query_decomposition: enableQueryDecomposition,
 			});
 		} catch (err) {

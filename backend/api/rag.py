@@ -23,6 +23,7 @@ from backend.dependencies import (
 from backend.models.rag import (
     AskRequest,
     AskResponse,
+    AskWithPipelineRequest,
     QueryRequest,
     QueryResponse,
     SearchResult,
@@ -197,9 +198,10 @@ async def ask_question(
     Answer a question using RAG pipeline.
     
     Separates required argument (query) from optional settings.
-    Matches run.py ask command pattern:
+        Matches run.py ask command pattern:
     - Required: query string
-    - Optional: k, include_sources, temperature, max_tokens, verbose
+        - Optional: k, include_sources, temperature, max_tokens, verbose,
+            enable_query_decomposition, enable_multilingual
     
     When verbose=True, includes detailed timing breakdown (matches run.py --verbose flag).
     
@@ -224,9 +226,20 @@ async def ask_question(
         k = request.k if request.k is not None else config.rag.retrieval.default_k
         include_sources = request.include_sources
         verbose = request.verbose
+        enable_query_decomposition = (
+            request.enable_query_decomposition
+            if request.enable_query_decomposition is not None
+            else False
+        )
+        enable_multilingual = (
+            request.enable_multilingual
+            if request.enable_multilingual is not None
+            else True
+        )
         
         logger.info(
-            f"Ask request: '{query}' (k={k}, sources={include_sources}, verbose={verbose})"
+            f"Ask request: '{query}' (k={k}, sources={include_sources}, verbose={verbose}, "
+            f"decompose={enable_query_decomposition}, multilingual={enable_multilingual})"
         )
         
         # Generate RAG response using WiQAS generator.generate()
@@ -238,7 +251,8 @@ async def ask_question(
             show_contexts=include_sources,
             include_timing=verbose,
             include_classification=False,
-            enable_query_decomposition=False,
+            enable_query_decomposition=enable_query_decomposition,
+            enable_multilingual=enable_multilingual,
         )
         
         processing_time = time.time() - start_time
@@ -323,6 +337,8 @@ async def ask_question(
                 "temperature": request.temperature or config.rag.llm.temperature,
                 "k": k,
                 "num_contexts_used": len(contexts),
+                "enable_query_decomposition": enable_query_decomposition,
+                "enable_multilingual": enable_multilingual,
             },
             timing=timing_breakdown,  # Only included when verbose=True
         )
@@ -339,6 +355,31 @@ async def ask_question(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Ask failed: {str(e)}",
         )
+
+
+@router.post(
+    "/api/ask/configurable",
+    response_model=AskResponse,
+    summary="RAG question answering with pipeline controls",
+    description="Answer questions using RAG with explicit multilingual and query decomposition toggles",
+    tags=["RAG"],
+)
+async def ask_question_configurable(
+    request: AskWithPipelineRequest,
+    generator: WiQASGenerator = Depends(get_generator_dependency),
+    config: WiQASConfig = Depends(get_config_dependency),
+):
+    """Configurable ask endpoint with explicit pipeline toggles.
+
+    This endpoint preserves `/api/ask` behavior while providing a dedicated route
+    where `enable_query_decomposition` and `enable_multilingual` are first-class
+    request parameters.
+    """
+    return await ask_question(
+        request=request,
+        generator=generator,
+        config=config,
+    )
 
 
 
