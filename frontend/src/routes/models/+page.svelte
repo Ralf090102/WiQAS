@@ -124,7 +124,7 @@
 	/>
 {/if}
 
-<div class="flex h-full flex-col gap-y-6 overflow-y-auto px-5 py-8 sm:px-8">
+<div class="scrollbar-custom flex h-full flex-col gap-y-6 overflow-y-auto px-5 py-8 sm:px-8">
 	<div>
 		<h1 class="text-2xl font-bold">Ollama Models</h1>
 		<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">

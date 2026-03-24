@@ -10,6 +10,50 @@ body {
 	touch-action: pan-x pan-y;
 }
 
+/* Global scrollbar fallback to match WiQAS dark-blue aesthetic */
+html,
+body {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(96, 165, 250, 0.55) rgba(30, 41, 59, 0.2);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+	background: linear-gradient(
+		180deg,
+		rgba(30, 58, 138, 0.12) 0%,
+		rgba(67, 56, 202, 0.18) 100%
+	);
+	border-radius: 9999px;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+	background: linear-gradient(
+		180deg,
+		rgba(96, 165, 250, 0.75) 0%,
+		rgba(129, 140, 248, 0.78) 100%
+	);
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	border-radius: 9999px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(
+		180deg,
+		rgba(147, 197, 253, 0.9) 0%,
+		rgba(165, 180, 252, 0.92) 100%
+	);
+}
+
 /* Smooth scrolling for better UX */
 html {
 	scroll-behavior: smooth;

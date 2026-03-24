@@ -105,7 +105,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div class="flex-1 overflow-y-auto px-6 py-8">
+	<div class="scrollbar-custom flex-1 overflow-y-auto px-6 py-8">
 		<div class="mx-auto max-w-4xl space-y-6">
 			<!-- Welcome / Examples (shown when no response) -->
 			{#if !response && !loading}
@@ -204,7 +204,7 @@
 							<CarbonDocument class="size-4" />
 							Sources ({response.total_sources})
 						</h3>
-						<div class="space-y-3">
+						<div class="scrollbar-custom max-h-[24rem] space-y-3 overflow-y-auto pr-1.5">
 							{#each response.sources as source, idx (`${source.metadata?.source ?? source.metadata?.source_file ?? 'source'}-${idx}`)}
 								{@const rawPath = String(source.metadata?.source_file ?? source.metadata?.source ?? '')}
 								{@const sourceTitle = source.metadata?.title ? String(source.metadata.title) : ''}

@@ -5,13 +5,11 @@
 		month: "This month",
 		older: "Older",
 	} as const;
-	import { base } from "$app/paths";
+	import { resolve } from "$app/paths";
 
-	import Logo from "$lib/components/icons/Logo.svelte";
 	import IconSun from "$lib/components/icons/IconSun.svelte";
 	import IconMoon from "$lib/components/icons/IconMoon.svelte";
 	import { switchTheme, subscribeToTheme } from "$lib/switchTheme";
-	import { isAborted } from "$lib/stores/isAborted";
 	import { onDestroy } from "svelte";
 
 	import NavConversationItem from "./NavConversationItem.svelte";
@@ -23,13 +21,9 @@
 	import { CONV_NUM_PER_PAGE } from "$lib/constants/pagination";
 	import { browser } from "$app/environment";
 	import { usePublicConfig } from "$lib/utils/PublicConfig.svelte";
-	import { enabledServersCount } from "$lib/stores/mcpServers";
-	import { isPro } from "$lib/stores/isPro";
-	import IconPro from "$lib/components/icons/IconPro.svelte";
 	import MCPServerManager from "./mcp/MCPServerManager.svelte";
 
 	const publicConfig = usePublicConfig();
-	const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 	interface Props {
 		conversations: ConvSidebar[];
@@ -41,26 +35,26 @@
 
 	let {
 		conversations = $bindable(),
-		user,
+		user: _user,
 		p = $bindable(0),
 		ondeleteConversation,
 		oneditConversationTitle,
 	}: Props = $props();
+	$effect(() => {
+		void _user;
+	});
 
 	let hasMore = $state(false); // No session history - pure QA system
 
-	function handleNewChatClick(e: MouseEvent) {
-		isAborted.set(true);
-	}
-
-	function handleNavItemClick(e: MouseEvent) {
+	function handleNavItemClick() {
 		// Navigation click handler
 	}
 
+	const now = Date.now();
 	const dateRanges = [
-		new Date().setDate(new Date().getDate() - 1),
-		new Date().setDate(new Date().getDate() - 7),
-		new Date().setMonth(new Date().getMonth() - 1),
+		now - 24 * 60 * 60 * 1000,
+		now - 7 * 24 * 60 * 60 * 1000,
+		now - 30 * 24 * 60 * 60 * 1000,
 	];
 
 	let groupedConversations = $derived({
@@ -110,7 +104,7 @@
 >
 	<a
 		class="flex select-none items-center ga-p2 rounded-xl text-lg font-semibold transition-opacity hover:opacity-80"
-		href="{publicConfig.PUBLIC_ORIGIN}{base}/"
+		href={resolve('/')}
 	>
 		<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/30">
 			<span class="text-lg font-bold text-white">W</span>
@@ -126,14 +120,14 @@
 	class="scrollbar-custom flex flex-1 touch-pan-y flex-col gap-1 overflow-y-auto border-r border-blue-100/50 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 px-3 pb-3 pt-3 text-[.9rem] dark:border-gray-800/50 dark:from-gray-950 dark:via-blue-950/10 dark:to-gray-950"
 >
 	<div class="flex flex-col gap-0.5">
-		{#each Object.entries(groupedConversations) as [group, convs]}
+		{#each Object.entries(groupedConversations) as [group, convs] (group)}
 			{#if convs.length}
 				<div class="mb-2 mt-3 first:mt-0">
 					<h4 class="mb-2 pl-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
 						{titles[group]}
 					</h4>
 					<div class="flex flex-col gap-0.5">
-						{#each convs as conv}
+						{#each convs as conv (conv.id)}
 							<NavConversationItem {conv} {oneditConversationTitle} {ondeleteConversation} />
 						{/each}
 					</div>
@@ -152,7 +146,7 @@
 >
 	<!-- Models Link -->
 	<a
-		href="{base}/models"
+		href={resolve('/models')}
 		class="group flex h-10 flex-none items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 		onclick={handleNavItemClick}
 	>
@@ -166,7 +160,7 @@
 	<!-- Settings and Theme Row -->
 	<div class="flex gap-2">
 		<a
-			href="{base}/settings/application"
+			href={resolve('/settings/application')}
 			class="flex h-10 flex-1 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 font-medium text-gray-700 shadow-sm transition-all hover:scale-105 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-700 dark:hover:bg-gray-700"
 			onclick={handleNavItemClick}
 		>
