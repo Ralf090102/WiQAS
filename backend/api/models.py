@@ -12,10 +12,11 @@ from backend.models.models import (
     UpdateLLMConfigRequest,
     ModelsListResponse,
     OllamaModelInfo,
+    SwitchActiveModelResponse,
 )
 from backend.dependencies import get_config_dependency
 from src.utilities.config import WiQASConfig
-from src.core.llm import check_ollama_connection
+from src.core.llm import check_ollama_connection, switch_active_ollama_model
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -136,70 +137,75 @@ async def update_model_config(
         )
 
 
-# ========== SET ACTIVE MODEL (UNLOAD/LOAD) ==========
-class SetActiveModelRequest(UpdateModelRequest):
-    pass
+# ========== SWITCH ACTIVE MODEL (UNLOAD/LOAD) ==========
+@router.post(
+    "/api/models/switch-active",
+    summary="Switch active generation model",
+    description="Safely switch active Ollama model by unloading current model and pre-loading the new one.",
+    tags=["Models"],
+    response_model=SwitchActiveModelResponse,
+)
+async def switch_active_model_endpoint(
+    request: UpdateModelRequest,
+    config: WiQASConfig = Depends(get_config_dependency)
+):
+    """Switch active generation model through core LLM service and persist config."""
+    try:
+        if not check_ollama_connection(config):
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="Ollama service is not running. Please start Ollama first.",
+            )
+
+        result = switch_active_ollama_model(
+            new_model=request.model,
+            current_model=config.rag.llm.model,
+            base_url=config.rag.llm.base_url,
+            config=config,
+        )
+
+        # Persist active model for future requests/process restarts
+        if not result["already_active"]:
+            config.rag.llm.model = request.model
+            config.save()
+
+        logger.info(f"Active model switch completed: {result['message']}")
+
+        return SwitchActiveModelResponse(
+            status=str(result["status"]),
+            message=str(result["message"]),
+            previous_model=result["previous_model"] if isinstance(result["previous_model"], str) else None,
+            active_model=str(result["active_model"]),
+            already_active=bool(result["already_active"]),
+        )
+
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to switch active model to '{request.model}': {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to switch active model: {str(e)}",
+        )
+
 
 @router.post(
     "/api/models/set-active",
-    summary="Set the active generation model",
-    description="Safely switches the active LLM by unloading the current model before loading the new one to prevent memory overload.",
+    summary="Set the active generation model (deprecated)",
+    description="Compatibility alias. Prefer POST /api/models/switch-active.",
     tags=["Models"],
-    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=SwitchActiveModelResponse,
 )
 async def set_active_model(
-    request: SetActiveModelRequest,
+    request: UpdateModelRequest,
     config: WiQASConfig = Depends(get_config_dependency)
 ):
-    """
-    Sets the active generation model, ensuring only one is loaded at a time.
-    
-    This endpoint prevents GPU out-of-memory errors by:
-    1. Identifying the currently loaded generation model.
-    2. Sending a request to Ollama to unload it (`keep_alive`: 0).
-    3. Sending a request to load the new model and keep it in memory (`keep_alive`: -1).
-    4. Updating the application's configuration to reflect the change.
-    
-    Args:
-        request: Request containing the name of the model to activate.
-        config: Singleton config instance (injected).
-    """
-    new_model = request.model
-    current_model = config.rag.llm.model
-    
-    if new_model == current_model:
-        logger.info(f"Model '{new_model}' is already active. No change needed.")
-        return
-
-    try:
-        client = ollama.Client(host=config.rag.llm.base_url)
-        
-        # 1. Unload the current model if it's different from the new one
-        if current_model and new_model != current_model:
-            logger.info(f"Unloading current model: {current_model}")
-            try:
-                # Setting keep_alive to 0 unloads the model after the request
-                client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
-            except Exception as e:
-                # This might fail if the model wasn't loaded, which is fine.
-                logger.warning(f"Could not explicitly unload model {current_model}: {e}")
-
-        # 2. Load the new model and keep it in memory
-        logger.info(f"Loading and activating new model: {new_model}")
-        client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
-
-        # 3. Update the configuration
-        config.rag.llm.model = new_model
-        config.save()
-        
-        logger.info(f"Successfully activated new model: {new_model}")
-
-    except Exception as e:
-        logger.error(f"Failed to set active model to '{new_model}': {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to switch model in Ollama: {str(e)}",
-        )
+    """Backward-compatible alias for older clients."""
+    return await switch_active_model_endpoint(request, config)
 
 
 # ========== UPDATE LLM CONFIGURATION PARAMETERS ==========

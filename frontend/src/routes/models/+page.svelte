@@ -3,12 +3,11 @@
 	import CarbonCheckmark from "~icons/carbon/checkmark";
 	import CarbonClose from "~icons/carbon/close";
 	import CarbonOverflowMenuVertical from "~icons/carbon/overflow-menu-vertical";
-	import { env as publicEnv } from "$env/dynamic/public";
+	import { api, type OllamaModelInfo } from "$lib/api";
 	import { useSettingsStore } from "$lib/stores/settings.js";
 	import ModelParametersModal from "$lib/components/ModelParametersModal.svelte";
 
 	const settings = useSettingsStore();
-	const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 	let models = $state<Array<{
 		id: string;
@@ -26,6 +25,7 @@
 
 	let loading = $state(true);
 	let error = $state<string | null>(null);
+	let switchingModel = $state<string | null>(null);
 	let showParametersModal = $state(false);
 	let selectedModelForSettings = $state<string>("");
 
@@ -41,18 +41,11 @@
 		error = null;
 		
 		try {
-			const response = await fetch(`${BACKEND_URL}/api/models`);
-			
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.detail || "Failed to fetch models");
-			}
-
-			const data = await response.json();
+			const data = await api.models.list();
 			
 			// Filter out embedding models and map to UI format
-			const allModels = data.models || [];
-			const filteredModels = allModels.filter((model: any) => {
+			const allModels: OllamaModelInfo[] = data.models || [];
+			const filteredModels = allModels.filter((model) => {
 				const modelName = model.name.toLowerCase();
 				return !HIDDEN_MODELS.some(hidden => modelName.includes(hidden));
 			});
@@ -60,7 +53,7 @@
 			// Get current active model from backend
 			const activeModelName = data.current_model;
 
-			models = filteredModels.map((model: any) => ({
+			models = filteredModels.map((model) => ({
 				id: model.id,
 				name: model.name,
 				size: model.size,
@@ -85,19 +78,8 @@
 
 	async function setActiveModel(modelName: string) {
 		try {
-			// Use the new endpoint to safely swap models
-			const response = await fetch(`${BACKEND_URL}/api/models/set-active`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ model: modelName }),
-			});
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.detail || "Failed to set active model");
-			}
+			switchingModel = modelName;
+			await api.models.switchActive(modelName);
 
 			// Deactivate all models in the UI
 			models = models.map(m => ({ ...m, active: false }));
@@ -110,7 +92,7 @@
 			}
 
 			// Also update settings store for consistency
-			settings.set({ activeModel: modelName });
+			await settings.instantSet({ activeModel: modelName });
 			
 			console.log(`✅ Active model updated to: ${modelName}`);
 		} catch (err) {
@@ -119,6 +101,8 @@
 			
 			// Revert UI changes on error
 			await fetchModels();
+		} finally {
+			switchingModel = null;
 		}
 	}
 
@@ -206,13 +190,15 @@
 					<div class="flex items-center gap-2">
 						<button
 							onclick={() => setActiveModel(model.name)}
-							disabled={model.active}
+							disabled={model.active || switchingModel !== null}
 							class="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors
 								{model.active
 									? 'border-green-200 bg-green-50 text-green-700 cursor-default dark:border-green-800 dark:bg-green-900/20 dark:text-green-400'
 									: 'border-gray-300 bg-gray-50 text-gray-600 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 cursor-pointer'}"
 						>
-							{#if model.active}
+							{#if switchingModel === model.name}
+								Switching...
+							{:else if model.active}
 								<CarbonCheckmark class="size-4" />
 								Active
 							{:else}

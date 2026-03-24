@@ -53,3 +53,13 @@ class ModelsListResponse(BaseModel):
     total_models: int
     models: list[OllamaModelInfo]
 
+
+class SwitchActiveModelResponse(BaseModel):
+    """Response for active-model switch operation."""
+
+    status: str
+    message: str
+    previous_model: Optional[str] = None
+    active_model: str
+    already_active: bool = False
+

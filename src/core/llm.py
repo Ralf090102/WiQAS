@@ -19,6 +19,31 @@ _connection_cache = {"last_check_time": 0, "last_check_result": False, "cache_du
 _model_existence_cache = {}
 
 
+def _extract_model_names(models_response) -> list[str]:
+    """Extract model names from Ollama list response (object or dict format)."""
+    model_names: list[str] = []
+
+    models = []
+    if hasattr(models_response, "models"):
+        models = models_response.models
+    elif isinstance(models_response, dict):
+        models = models_response.get("models", [])
+
+    for model in models:
+        name = None
+        if hasattr(model, "model"):
+            name = model.model
+        elif hasattr(model, "name"):
+            name = model.name
+        elif isinstance(model, dict):
+            name = model.get("name") or model.get("model")
+
+        if name:
+            model_names.append(name)
+
+    return model_names
+
+
 def clear_caches():
     """Clear all internal caches."""
     with _cache_lock:
@@ -170,6 +195,73 @@ def check_model_availability(model: str, config: Optional["WiQASConfig"] = None)
         log_error(f"Failed to list available models: {e}", config=config)
 
     return False
+
+
+def switch_active_ollama_model(
+    new_model: str,
+    current_model: str | None = None,
+    base_url: str = "http://localhost:11434",
+    config: Optional["WiQASConfig"] = None,
+) -> dict[str, str | bool | None]:
+    """
+    Switch active Ollama generation model safely.
+
+    Steps:
+    1. Verify target model exists in Ollama.
+    2. Unload current model (if any and different).
+    3. Pre-load new model and keep it alive in memory.
+    """
+    config = ensure_config(config)
+
+    if not new_model or not new_model.strip():
+        raise ValueError("Model name cannot be empty")
+
+    new_model = new_model.strip()
+    client = ollama.Client(host=base_url)
+
+    try:
+        models_response = client.list()
+        available_models = _extract_model_names(models_response)
+    except Exception as e:
+        log_error(f"Failed to list models from Ollama: {e}", config=config)
+        raise RuntimeError(f"Failed to communicate with Ollama: {e}") from e
+
+    if new_model not in available_models:
+        raise ValueError(f"Model '{new_model}' not found in Ollama")
+
+    if current_model == new_model:
+        return {
+            "status": "success",
+            "message": f"Model '{new_model}' is already active",
+            "previous_model": current_model,
+            "active_model": new_model,
+            "already_active": True,
+        }
+
+    if current_model:
+        try:
+            client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
+            log_info(f"Unloaded previous model: {current_model}", config=config)
+        except Exception as e:
+            log_warning(f"Could not explicitly unload model '{current_model}': {e}", config=config)
+
+    try:
+        client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
+        log_info(f"Loaded and activated model: {new_model}", config=config)
+    except Exception as e:
+        log_error(f"Failed to load model '{new_model}': {e}", config=config)
+        raise RuntimeError(f"Failed to load model '{new_model}' in Ollama: {e}") from e
+
+    with _cache_lock:
+        _model_existence_cache[new_model] = True
+
+    return {
+        "status": "success",
+        "message": f"Switched active model from '{current_model or 'none'}' to '{new_model}'",
+        "previous_model": current_model,
+        "active_model": new_model,
+        "already_active": False,
+    }
 
 
 def _validate_response(response: str, config: Optional["WiQASConfig"] = None) -> str:

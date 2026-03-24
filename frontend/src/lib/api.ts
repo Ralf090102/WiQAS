@@ -92,6 +92,14 @@ export interface ModelsListResponse {
 	models: OllamaModelInfo[];
 }
 
+export interface SwitchActiveModelResponse {
+	status: string;
+	message: string;
+	previous_model?: string | null;
+	active_model: string;
+	already_active: boolean;
+}
+
 /**
  * Settings API types
  */
@@ -373,6 +381,13 @@ export const api = {
 		// List all available Ollama models
 		list: () =>
 			fetchAPI<ModelsListResponse>('/api/models'),
+
+		// Switch active generation model in Ollama
+		switchActive: (model: string) =>
+			fetchAPI<SwitchActiveModelResponse>('/api/models/switch-active', {
+				method: 'POST',
+				body: JSON.stringify({ model }),
+			}),
 
 		// Get current LLM configuration
 		getConfig: () =>
