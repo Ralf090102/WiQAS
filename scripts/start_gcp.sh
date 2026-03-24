@@ -299,8 +299,10 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         # Always rebuild (picks up latest code + env vars baked into bundle)
         # Pass PUBLIC_* vars explicitly so import.meta.env is correct in the built JS
         print_info "Building frontend (VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT)..."
-        # Remove previous build output to avoid accidentally serving stale assets
+        # Remove previous build outputs to avoid accidentally serving stale assets
         safe_remove_path "build" || { cd "$WIQAS_DIR" || true; exit 1; }
+        safe_remove_path "dist" || { cd "$WIQAS_DIR" || true; exit 1; }
+        safe_remove_path ".svelte-kit/output" || { cd "$WIQAS_DIR" || true; exit 1; }
         export VITE_BACKEND_URL="http://$EXTERNAL_IP:$BACKEND_PORT"
         export VITE_BACKEND_WS="ws://$EXTERNAL_IP:$BACKEND_PORT"
         if ! npm run build > "$LOG_DIR/frontend_build.log" 2>&1; then
@@ -329,8 +331,8 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         fi
     fi
 
-    # Only start preview if build directory exists
-    if [ "$FRONTEND_BUILD_SUCCESS" = true ] && [ -d "build" ]; then
+    # Only start preview if fresh build succeeded and output artifacts exist
+    if [ "$FRONTEND_BUILD_SUCCESS" = true ] && { [ -d "build" ] || [ -d "dist" ] || [ -d ".svelte-kit/output" ]; }; then
         # Pass PUBLIC_* env vars to the preview process so $env/dynamic/public works at runtime
         FRONTEND_ENV="VITE_BACKEND_URL=http://$EXTERNAL_IP:$BACKEND_PORT VITE_BACKEND_WS=ws://$EXTERNAL_IP:$BACKEND_PORT"
         nohup env $FRONTEND_ENV npm run preview -- --host 0.0.0.0 --port $FRONTEND_PORT > "$LOG_DIR/frontend.log" 2>&1 &
@@ -350,6 +352,7 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
     else
         print_error "Frontend was not freshly built — refusing to start preview with stale assets"
         print_info "Check build log: $LOG_DIR/frontend_build.log"
+        print_info "Expected one of: frontend/build, frontend/dist, or frontend/.svelte-kit/output"
         cd "$WIQAS_DIR" || true
         exit 1
     fi
