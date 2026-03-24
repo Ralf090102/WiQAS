@@ -196,9 +196,11 @@ class WiQASGenerator:
                 # Add query decomposition timing if available
                 if hasattr(retrieval_timing, 'query_decomposition_time'):
                     timing.query_decomposition_time = retrieval_timing.query_decomposition_time
-                raw_results = retrieval_result["results"]
-            else:
+                raw_results = retrieval_result.get("results", [])
+            elif isinstance(retrieval_result, list):
                 raw_results = retrieval_result
+            else:
+                raw_results = []
         else:
             raw_results = self.retriever.query(
                 query, 
@@ -209,13 +211,16 @@ class WiQASGenerator:
                 enable_cross_lingual=enable_multilingual,
             )
 
+        if not isinstance(raw_results, list):
+            raw_results = []
+
         def get_meta(r, key):
             return r.metadata.get(key) if hasattr(r, "metadata") and isinstance(r.metadata, dict) else None
 
         contexts = [
             {
-                "content": getattr(r, "content", None),
-                "final_score": get_meta(r, "final_score"),
+                "content": getattr(r, "content", "") if getattr(r, "content", "") is not None else "",
+                "final_score": get_meta(r, "final_score") if get_meta(r, "final_score") is not None else getattr(r, "score", 0.0),
                 "source_file": get_meta(r, "source_file"),
                 "page": get_meta(r, "page"),
                 "title": get_meta(r, "title"),

@@ -46,6 +46,7 @@ class RerankerManager:
         """
         self.config = config or RerankerConfig()
         self.model: CrossEncoder | None = None
+        self._disabled = False
 
         # Initialize GPU manager for optimal device selection and memory management
         try:
@@ -68,21 +69,47 @@ class RerankerManager:
 
     def _initialize_model(self) -> None:
         """Initialize the reranker model if not already loaded"""
-        if self.model is None:
-            try:
-                logger.info(f"Loading reranker model: {self.config.model}")
-                self.model = CrossEncoder(self.config.model, device=self._device, max_length=512)
+        if self.model is not None or self._disabled:
+            return
 
-                # Enable mixed precision
-                if self.gpu_manager.is_nvidia_gpu:
-                    logger.info("Mixed precision enabled for GPU inference")
-                else:
-                    logger.info("Using CPU for reranking")
+        try:
+            logger.info(f"Loading reranker model: {self.config.model} on {self._device}")
+            self.model = CrossEncoder(self.config.model, device=self._device, max_length=512)
 
-                logger.info("Reranker model loaded successfully")
-            except Exception as e:
-                logger.error(f"Failed to load reranker model: {e}")
-                raise RuntimeError(f"Could not initialize reranker model: {e}")
+            if self.gpu_manager.is_nvidia_gpu and self._device != "cpu":
+                logger.info("Mixed precision enabled for GPU inference")
+            else:
+                logger.info("Using CPU for reranking")
+
+            logger.info("Reranker model loaded successfully")
+            return
+        except Exception as e:
+            error_text = str(e).lower()
+            is_cuda_oom = "out of memory" in error_text or "cudamalloc" in error_text or "cuda" in error_text
+            logger.error(f"Failed to load reranker model: {e}")
+
+            # Fallback to CPU when GPU memory is exhausted
+            if self._device != "cpu" and is_cuda_oom:
+                logger.warning("GPU OOM while loading reranker. Falling back to CPU reranking.")
+                try:
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                except Exception:
+                    pass
+
+                try:
+                    self._device = "cpu"
+                    self.batch_size = max(2, min(self.batch_size, 8))
+                    self.model = CrossEncoder(self.config.model, device=self._device, max_length=512)
+                    logger.warning("Reranker loaded on CPU fallback mode")
+                    return
+                except Exception as cpu_e:
+                    logger.error(f"CPU fallback reranker load failed: {cpu_e}")
+
+            # Disable reranker gracefully for this process lifetime
+            self._disabled = True
+            self.model = None
+            logger.warning("Reranker disabled due to initialization failure; continuing without reranking")
 
     def rerank_documents(self, query: str, documents: list[Document], top_k: int | None = None) -> list[Document]:
         """
@@ -106,9 +133,9 @@ class RerankerManager:
 
         self._initialize_model()
 
-        if self.model is None:
-            logger.error("Reranker model not available")
-            return documents
+        if self.model is None or self._disabled:
+            logger.warning("Reranker unavailable; returning original ranking")
+            return sorted(documents, key=lambda x: x.score, reverse=True)[: (top_k or self.config.top_k)]
 
         top_k = top_k or self.config.top_k
         logger.info(f"Reranking {len(documents)} documents for query: '{query[:50]}...'")
@@ -184,6 +211,14 @@ class RerankerManager:
 
         except Exception as e:
             logger.error(f"Error during reranking: {e}")
+            error_text = str(e).lower()
+            if "out of memory" in error_text or "cudamalloc" in error_text or "cuda" in error_text:
+                try:
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                except Exception:
+                    pass
+                logger.warning("CUDA OOM during reranking; falling back to original ranking")
             # Fallback: return original documents sorted by original score
             return sorted(documents, key=lambda x: x.score, reverse=True)[:top_k]
 

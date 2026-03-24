@@ -215,6 +215,13 @@ class ContextPreparer:
         return " ".join(out)
 
     def _normalize_whitespace(self, text: str) -> str:
+        if text is None:
+            return ""
+        if isinstance(text, bytes):
+            text = text.decode("utf-8", errors="ignore")
+        elif not isinstance(text, str):
+            text = str(text)
+
         text = re.sub(r"\s+", " ", text)
         text = re.sub(r"\s+([.,;:!?])", r"\1", text)
         return text.strip()
@@ -226,6 +233,8 @@ class ContextPreparer:
             metadata = {}
         else:
             text = context.get("content", context.get("text", ""))
+            if text is None:
+                text = ""
             final_score = context.get("final_score", 0.0)
 
             metadata = {
