@@ -163,6 +163,9 @@ async def switch_active_model_endpoint(
             current_model=config.rag.llm.model,
             base_url=config.rag.llm.base_url,
             config=config,
+            auxiliary_models_to_unload=[config.rag.embedding.model],
+            load_keep_alive_seconds=300,
+            max_retries=3,
         )
 
         # Update in-memory runtime config and refresh generator singleton

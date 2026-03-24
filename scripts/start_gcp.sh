@@ -12,6 +12,9 @@ VENV_PATH="/shared/wiqas-venv"
 LOG_DIR="$WIQAS_DIR/logs"
 BACKEND_PORT=8000
 FRONTEND_PORT=3000
+OLLAMA_MAX_LOADED_MODELS=1
+OLLAMA_NUM_PARALLEL=1
+EMBEDDING_KEEP_ALIVE_SECONDS=300
 
 # Colors
 RED='\033[0;31m'
@@ -94,11 +97,14 @@ fi
 
 # Check Ollama
 print_info "Checking Ollama status..."
+export OLLAMA_MAX_LOADED_MODELS="$OLLAMA_MAX_LOADED_MODELS"
+export OLLAMA_NUM_PARALLEL="$OLLAMA_NUM_PARALLEL"
 if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
     print_success "Ollama is running"
+    print_warning "If Ollama was started before this script, load-limit env vars may not be applied yet."
 else
     print_warning "Ollama not responding, attempting to start..."
-    nohup ollama serve > "$LOG_DIR/ollama.log" 2>&1 &
+    nohup env OLLAMA_MAX_LOADED_MODELS="$OLLAMA_MAX_LOADED_MODELS" OLLAMA_NUM_PARALLEL="$OLLAMA_NUM_PARALLEL" ollama serve > "$LOG_DIR/ollama.log" 2>&1 &
     sleep 3
     if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
         print_success "Ollama started successfully"
@@ -111,24 +117,19 @@ fi
 # List available models
 print_info "Available Ollama models:"
 ollama list | grep -E "(NAME|gemma|mistral|llama)" || print_warning "No models found"
+print_info "Ollama limits: OLLAMA_MAX_LOADED_MODELS=$OLLAMA_MAX_LOADED_MODELS, OLLAMA_NUM_PARALLEL=$OLLAMA_NUM_PARALLEL"
 
-# Pre-load and keep the embedding model in memory to prevent OOM errors on requests
+# Pre-load embedding model with finite keep-alive to reduce cold-start latency
+# without permanently pinning VRAM (which can block generation model switches).
 print_info "Pre-loading embedding model (BAAI/bge-m3) into GPU memory..."
-# The 'keep_alive: -1' parameter tells Ollama to keep this model loaded indefinitely.
-# This is critical for preventing out-of-memory errors when the API requests
-# both an embedding model and a generation model simultaneously.
-curl -s http://localhost:11434/api/generate -d '{
-  "model": "BAAI/bge-m3",
-  "prompt": "pre-load",
-  "stream": false,
-  "keep_alive": -1
-}' > /dev/null 2>&1 &
+# Use finite keep-alive instead of -1 to avoid long-term VRAM pressure.
+curl -s http://localhost:11434/api/generate -d "{\"model\":\"BAAI/bge-m3\",\"prompt\":\"pre-load\",\"stream\":false,\"keep_alive\":$EMBEDDING_KEEP_ALIVE_SECONDS}" > /dev/null 2>&1 &
 # Give it a moment to start loading
 sleep 5 
 
 # Verify it's loading/loaded
 if ollama ps | grep -q "BAAI/bge-m3"; then
-    print_success "Embedding model is loaded and kept in memory."
+    print_success "Embedding model is loaded (finite keep_alive=${EMBEDDING_KEEP_ALIVE_SECONDS}s)."
 else
     print_warning "Embedding model is loading in the background or failed. Check 'ollama ps'."
 fi

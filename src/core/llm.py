@@ -202,6 +202,9 @@ def switch_active_ollama_model(
     current_model: str | None = None,
     base_url: str = "http://localhost:11434",
     config: Optional["WiQASConfig"] = None,
+    auxiliary_models_to_unload: list[str] | None = None,
+    load_keep_alive_seconds: int = 300,
+    max_retries: int = 2,
 ) -> dict[str, str | bool | None]:
     """
     Switch active Ollama generation model safely.
@@ -238,19 +241,63 @@ def switch_active_ollama_model(
             "already_active": True,
         }
 
+    models_to_unload: list[str] = []
     if current_model:
-        try:
-            client.generate(model=current_model, prompt=".", keep_alive=0, stream=False)
-            log_info(f"Unloaded previous model: {current_model}", config=config)
-        except Exception as e:
-            log_warning(f"Could not explicitly unload model '{current_model}': {e}", config=config)
+        models_to_unload.append(current_model)
+    if auxiliary_models_to_unload:
+        models_to_unload.extend(auxiliary_models_to_unload)
 
-    try:
-        client.generate(model=new_model, prompt="pre-load", keep_alive=-1, stream=False)
-        log_info(f"Loaded and activated model: {new_model}", config=config)
-    except Exception as e:
-        log_error(f"Failed to load model '{new_model}': {e}", config=config)
-        raise RuntimeError(f"Failed to load model '{new_model}' in Ollama: {e}") from e
+    # Deduplicate and never unload the target model itself
+    models_to_unload = list(dict.fromkeys([m for m in models_to_unload if m and m != new_model]))
+
+    for model_name in models_to_unload:
+        try:
+            client.generate(model=model_name, prompt=".", keep_alive=0, stream=False)
+            if model_name == current_model:
+                log_info(f"Unloaded previous model: {model_name}", config=config)
+            else:
+                log_info(f"Unloaded auxiliary model: {model_name}", config=config)
+        except Exception as e:
+            log_warning(f"Could not explicitly unload model '{model_name}': {e}", config=config)
+
+    load_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            client.generate(
+                model=new_model,
+                prompt="pre-load",
+                keep_alive=load_keep_alive_seconds,
+                stream=False,
+            )
+            log_info(
+                f"Loaded and activated model: {new_model} (keep_alive={load_keep_alive_seconds}s)",
+                config=config,
+            )
+            load_error = None
+            break
+        except Exception as e:
+            load_error = e
+            error_text = str(e).lower()
+            is_oom = "out of memory" in error_text or "cudamalloc" in error_text or "cuda" in error_text
+
+            if attempt < max_retries and is_oom:
+                log_warning(
+                    f"OOM while loading '{new_model}' (attempt {attempt}/{max_retries}). Retrying after cleanup...",
+                    config=config,
+                )
+                for model_name in models_to_unload:
+                    try:
+                        client.generate(model=model_name, prompt=".", keep_alive=0, stream=False)
+                    except Exception:
+                        pass
+                time.sleep(2 * attempt)
+                continue
+
+            break
+
+    if load_error is not None:
+        log_error(f"Failed to load model '{new_model}': {load_error}", config=config)
+        raise RuntimeError(f"Failed to load model '{new_model}' in Ollama: {load_error}") from load_error
 
     with _cache_lock:
         _model_existence_cache[new_model] = True
