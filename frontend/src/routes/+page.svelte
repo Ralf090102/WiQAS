@@ -176,19 +176,19 @@
 			{#if response}
 				<div class="space-y-6">
 					<!-- Query Info -->
-				<div class="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 shadow-sm dark:border-blue-800 dark:from-blue-950/40 dark:to-indigo-950/40">
-					<div class="flex items-start gap-4">
+					<div class="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 shadow-sm dark:border-blue-800 dark:from-blue-950/40 dark:to-indigo-950/40">
+					<div class="flex flex-col items-center gap-3 text-center">
 						<div class="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 p-2.5 shadow-md">
 							<svg class="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 							</svg>
 						</div>
-						<div class="flex-1">
-							<p class="font-semibold text-blue-900 dark:text-blue-100">
+						<div class="w-full">
+							<p class="text-lg font-semibold text-blue-900 dark:text-blue-100 sm:text-xl">
 								{response.query}
 							</p>
 							{#if response.detected_language}
-								<p class="mt-2 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
+								<p class="mt-3 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
 									{response.detected_language === 'fil' ? '🇵🇭 Filipino' : '🇬🇧 English'}
 								</p>
 							{/if}
@@ -228,8 +228,11 @@
 					<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
 						<h3 class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
 							<CarbonDocument class="size-4" />
-							Sources ({response.total_sources})
+							Sources ({response.sources.length})
 						</h3>
+						<p class="mb-4 text-xs text-gray-500 dark:text-gray-400">
+							Scores range from 0 to 1, where higher means the source is more relevant to your query.
+						</p>
 						<div class="scrollbar-custom max-h-[24rem] space-y-3 overflow-y-auto pr-1.5">
 							{#each response.sources as source, idx (`${source.metadata?.source ?? source.metadata?.source_file ?? 'source'}-${idx}`)}
 								{@const rawPath = String(source.metadata?.source_file ?? source.metadata?.source ?? '')}
@@ -249,8 +252,8 @@
 											{#if source.metadata?.page}
 												<span class="text-xs text-gray-500 dark:text-gray-400">p. {source.metadata.page}</span>
 											{/if}
-											<span class="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-400">
-												{source.score.toFixed(4)}
+											<span class="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-400" title="Relevance score from 0 to 1 (higher is better)">
+												Score {source.score.toFixed(4)}
 											</span>
 										</div>
 									</div>
