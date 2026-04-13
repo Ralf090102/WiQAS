@@ -5,6 +5,57 @@
 
 WiQAS is a Retrieval-Augmented Generation (RAG) system for Filipino cultural question answering. It supports English and Filipino queries, retrieves grounded context from a curated knowledge base, and generates citation-aware responses.
 
+### Proponents
+
+- Hernandez, Ralf Wadee — ralf_hernandez@dlsu.edu.ph
+- Ortiz, China — ma_china_ortiz@dlsu.edu.ph
+- Santos, Andrea Li — andrea_li_santos@dlsu.edu.ph
+
+### Adviser
+
+- Charibeth, Cheng — charibeth.cheng@dlsu.edu.ph
+
+### Thesis Overview
+
+WiQAS addresses a common problem in Filipino heritage learning: students can easily access information online, but often cannot verify whether the content is culturally accurate and trustworthy. To solve this, this thesis develops a RAG-based factoid QA system based on Filipino Culture, that grounds answers on retrieved evidence instead of free-form generation alone. The system uses hybrid retrieval (BM25 + BGE-M3) and LLM generation (Gemma and SEA-LION) via [Ollama](https://ollama.com/), then evaluates quality using RAGAS metrics and a Cultural LLM Judge. Overall, the work contributes a practical architecture and evaluation method for building reliable educational AI in low-resource cultural and linguistic settings.
+
+## Deliverables
+
+- [Main Paper](https://drive.google.com/drive/u/1/folders/1btx3nz_49lIntRbTULd09wASKN5xTX3a)
+- [Technical Manual](https://drive.google.com/drive/u/1/folders/1qfEWCVOiLHva0i1ozhamsOEYEwMghbIO)
+- [Conference Paper](https://drive.google.com/drive/u/1/folders/1PAHlwUCgjcm_izDoNWuGzwQMJHLbVOHt)
+- [Others](https://drive.google.com/drive/u/1/folders/1NkJsG4_7uIxJF2QNyJDhAd43v_7S34U9)
+- [Presentations](https://drive.google.com/drive/u/1/folders/1RfnelrI6ZMNiH6jdMdjWfAT9DedJExwp)
+- [Brochure](https://drive.google.com/drive/u/1/folders/1yeJBLTQkM84M18HpEC6uD9HVOE8h__Jf)
+- [Video Presentation](https://drive.google.com/drive/u/1/folders/12AvgE6jh7SYGT3gh0UfVGzzO8ZMnqpxx)
+
+## File Structure
+
+```text
+WiQAS/
+├── backend/
+│   ├── api/
+│   ├── models/
+│   ├── websockets/
+│   ├── app.py
+│   └── dependencies.py
+├── data/
+├── frontend/
+│   └── src/
+├── scripts/
+├── src/
+│   ├── core/
+│   ├── evaluation/
+│   ├── generation/
+│   ├── retrieval/
+│   └── utilities/
+├── test/
+├── pyproject.toml
+├── requirements.txt
+├── run.py
+└── set_dependencies.py
+```
+
 ## What WiQAS Provides
 
 - End-to-end RAG pipeline: ingestion, retrieval, reranking, and generation
@@ -77,20 +128,6 @@ npm run dev
 ```
 
 Frontend: `http://localhost:5173` (or the port shown by Vite)
-
-## Project Layout
-
-```text
-WiQAS/
-├── backend/            # FastAPI app, routers, websocket handlers
-├── frontend/           # SvelteKit UI
-├── src/                # Core RAG logic (ingest, retrieval, generation, utilities)
-├── data/               # Knowledge base files and vector storage
-├── test/               # Unit and integration tests
-├── WiQAS_Eval/         # Evaluation notebooks and analysis assets
-├── run.py              # Main CLI entry point
-└── set_dependencies.py # Environment/setup checks
-```
 
 ## Common Commands
 
