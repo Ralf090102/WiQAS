@@ -1,159 +1,119 @@
-# WiQAS - Filipino Cultural Question Answering System
+# WiQAS
 
-[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-work--in--progress-yellow.svg)](https://github.com/Ralf090102/WiQAS)
 
-> A Retrieval-Augmented Generation (RAG) system designed to provide culturally relevant and contextually accurate answers about Filipino culture, traditions, and practices.
+WiQAS is a Retrieval-Augmented Generation (RAG) system for Filipino cultural question answering. It supports English and Filipino queries, retrieves grounded context from a curated knowledge base, and generates citation-aware responses.
 
-## Overview
+## What WiQAS Provides
 
-WiQAS is an intelligent Question Answering system specifically designed to address the gap in culturally grounded Filipino content. Traditional search engines and general-purpose chatbots often struggle to provide accurate, culturally relevant answers about Filipino traditions, values, and practices due to their reliance on English-language or non-contextual data.
+- End-to-end RAG pipeline: ingestion, retrieval, reranking, and generation
+- Hybrid retrieval: semantic + keyword search with optional MMR diversification
+- Multilingual support: Filipino/English query handling with translation options
+- API and frontend: FastAPI backend and Svelte-based web interface
+- Evaluation tooling: RAGAS and analysis notebooks under `WiQAS_Eval/`
 
-## Problem Statement
+## Tech Stack
 
-Filipino users face significant challenges when seeking culturally relevant information:
-
-- **Limited Cultural Context**: General-purpose tools frequently miss important cultural nuances
-- **Language Barriers**: Reduced performance in low-resource languages like Filipino
-- **Inaccurate Interpretations**: Responses often lack proper sociocultural understanding
-- **Scattered Resources**: Limited availability of centralized, culturally grounded Filipino content
-
-## Solution
-
-WiQAS implements a **Retrieval-Augmented Generation (RAG) architecture** that:
-
-- **Understands Cultural Context**: Specialized in Filipino cultural topics and traditions
-- **Provides Accurate Answers**: Delivers concise, factoid responses grounded in reliable sources
-- **Handles Linguistic Nuances**: Processes both English and Filipino language queries
-- **Maintains Cultural Sensitivity**: Ensures responses respect Filipino values and practices
-
-## Features
-
-- **Document Ingestion**: Process and index Filipino cultural documents
-- **Intelligent Retrieval**: Find relevant cultural information using advanced search
-- **Contextual Responses**: Generate culturally aware answers
-- **Semantic Search**: Understand meaning beyond keyword matching
-- **Multilingual Support**: Handle queries in English and Filipino
-- **Configurable Pipeline**: Customize chunking, retrieval, and generation parameters
+- Backend: Python, FastAPI, Ollama
+- Retrieval: ChromaDB, sentence-transformers, reranking
+- Frontend: SvelteKit, TypeScript, Tailwind
+- Evaluation: RAGAS, notebook workflows
 
 ## Quick Start
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip package manager
+- Python 3.12+
+- Node.js 18+
+- Ollama running locally or on a reachable host
 
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Ralf090102/WiQAS.git
-   cd WiQAS
-   ```
-
-2. **Create virtual environment:**
-   ```bash
-   python -m venv .venv
-   # Windows
-   .venv\Scripts\activate
-   # Linux/Mac
-   source .venv/bin/activate
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run WiQAS:**
-   ```bash
-   python set_dependencies.py --install base docs --test-imports --test-models --health-check
-   python run_retrieval.py ingest data/knowledge_base/
-   python run_retrieval.py search "<query>"
-
-   python run_generation.py ask "<query>"
-   python run_generation.py batch-ask <question text file directory> -o <output json directory>
-   ```
-
-## Project Structure
-
-```
-WiQAS/
-├── src/
-│   ├── core/           # Core RAG components
-│   │   ├── ingest.py   # Document ingestion
-│   │   ├── llm.py      # Language model integration
-│   │   └── query.py    # Query processing
-│   ├── generation/     # Response generation
-│   ├── retrieval/      # Information retrieval
-│   └── utilities/      # Helper functions and config
-├── data/               # Document storage
-├── test/               # Unit tests
-├── requirements.txt    # Python dependencies
-├── pyproject.toml     # Project configuration
-└── run.py             # Main application entry point
-```
-
-## Configuration
-
-WiQAS supports flexible configuration through environment variables:
+### 1) Install Python dependencies
 
 ```bash
-# LLM Configuration
-export WIQAS_LLM_MODEL="mistral:latest"
-export WIQAS_LLM_TEMPERATURE=0.7
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# Linux/macOS
+# source .venv/bin/activate
 
-# Chunking Configuration
-export WIQAS_CHUNK_SIZE=128
-export WIQAS_CHUNKING_STRATEGY="recursive"
-
-# Vector Store Configuration
-export WIQAS_VECTORSTORE_PERSIST_DIRECTORY="./chroma-data"
-
-# Retrieval Configuration
-export WIQAS_RETRIEVAL_DEFAULT_K=5
+pip install -r requirements.txt
 ```
 
-See [Configuration Guide](docs/configuration.md) for detailed options.
+### 2) Validate environment
 
-## Use Cases
+```bash
+python set_dependencies.py --install base docs --test-imports --test-models --health-check
+```
 
-- **Cultural Education**: Learn about Filipino traditions and customs
-- **Research Support**: Academic research on Filipino culture
-- **Content Creation**: Generate culturally accurate content
-- **Language Learning**: Understand cultural context behind language usage
-- **Tourism**: Cultural insights for visitors to the Philippines
+### 3) Ingest documents
+
+```bash
+python run.py ingest data/knowledge_base/
+```
+
+### 4) Ask questions from CLI
+
+```bash
+python run.py ask "What is bayanihan?"
+python run.py search "Filipino hospitality"
+python run.py status
+```
+
+### 5) Run backend API
+
+```bash
+python -m backend.app
+```
+
+API docs: `http://localhost:8000/docs`
+
+### 6) Run frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend: `http://localhost:5173` (or the port shown by Vite)
+
+## Project Layout
+
+```text
+WiQAS/
+├── backend/            # FastAPI app, routers, websocket handlers
+├── frontend/           # SvelteKit UI
+├── src/                # Core RAG logic (ingest, retrieval, generation, utilities)
+├── data/               # Knowledge base files and vector storage
+├── test/               # Unit and integration tests
+├── WiQAS_Eval/         # Evaluation notebooks and analysis assets
+├── run.py              # Main CLI entry point
+└── set_dependencies.py # Environment/setup checks
+```
+
+## Common Commands
+
+```bash
+# Ingestion
+python run.py ingest <path>
+
+# Retrieval only
+python run.py search "<query>"
+
+# Full RAG answer
+python run.py ask "<query>"
+
+# System checks
+python run.py status
+python run.py config
+```
+
+## Notes
+
+- Configuration is environment-driven (`.env` supported in backend startup).
+- For GPU or cloud deployment workflows, see scripts under `scripts/` and environment-specific docs in the repository.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### GCP Quick Start
-
-```bash
-# On your GCP VM (Ubuntu 22.04, A100 GPU)
-cd ~/WiQAS
-
-# Environment files (.env and frontend/.env) are pre-configured!
-# External IP: 34.142.151.130
-
-# Validate environment
-chmod +x validate_gcp.sh
-./validate_gcp.sh
-
-# Start WiQAS
-./start_gcp.sh
-
-# Access at:
-# - API: http://34.142.151.130:8000
-# - Docs: http://34.142.151.130:8000/docs
-# - Frontend: http://34.142.151.130:3000
-```
-
-## Acknowledgments
-
-- Filipino cultural experts and educators
-- Open-source NLP community
-- RAG research community
-- Contributors and testers
+MIT License. See [LICENSE](LICENSE).
