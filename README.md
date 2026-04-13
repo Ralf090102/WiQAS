@@ -21,13 +21,15 @@ WiQAS addresses a common problem in Filipino heritage learning: students can eas
 
 ## Deliverables
 
-- [Main Paper](https://drive.google.com/drive/u/1/folders/1btx3nz_49lIntRbTULd09wASKN5xTX3a)
-- [Technical Manual](https://drive.google.com/drive/u/1/folders/1qfEWCVOiLHva0i1ozhamsOEYEwMghbIO)
-- [Conference Paper](https://drive.google.com/drive/u/1/folders/1PAHlwUCgjcm_izDoNWuGzwQMJHLbVOHt)
-- [Others](https://drive.google.com/drive/u/1/folders/1NkJsG4_7uIxJF2QNyJDhAd43v_7S34U9)
-- [Presentations](https://drive.google.com/drive/u/1/folders/1RfnelrI6ZMNiH6jdMdjWfAT9DedJExwp)
-- [Brochure](https://drive.google.com/drive/u/1/folders/1yeJBLTQkM84M18HpEC6uD9HVOE8h__Jf)
-- [Video Presentation](https://drive.google.com/drive/u/1/folders/12AvgE6jh7SYGT3gh0UfVGzzO8ZMnqpxx)
+- [Main Paper](https://drive.google.com/drive/u/1/folders/13pxBXb8EgTOhCReKitAauYT4eTVu4HNV)
+- [Technical Manual](https://drive.google.com/drive/u/1/folders/1R39qGq1logO4AEQT8Z4e-tHpV3eIkynE)
+- [Conference Paper](https://drive.google.com/drive/u/1/folders/1CkiMJQ4-uBzapH98DaARAsxB9ZWh8G7o)
+- [Others](https://drive.google.com/drive/u/1/folders/1qRhxj1TJBSu5rDmO1PtWC-8ZDgZEUUnu)
+- [Presentations](https://drive.google.com/drive/u/1/folders/1qVNg6SfjfW6SVT2KmpOw0nghxhlPuXnl)
+- [Source](https://drive.google.com/drive/u/1/folders/1zq-yszArNX_MO19JnelaKCQWgOXVVEGc)
+- [Brochure](https://drive.google.com/drive/u/1/folders/1vEtSKaHRBrxlllkTtCTf8U2v-7JcOXjv)
+- [Video Presentation](https://drive.google.com/drive/u/1/folders/1fFLjg2olhIvxy5gx0v3vepi7rgbqN5fV)
+- [Endorsements](https://drive.google.com/drive/u/1/folders/1oUxf337b6np8vpIlihfoIUXHVsyrprrS)
 
 ## File Structure
 
